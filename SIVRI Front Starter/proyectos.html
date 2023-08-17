@@ -219,7 +219,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <!-- /.card-header -->
 
             <!-- form start -->
-            <form>
               <div class="card-body">
                 <div class="row">
                   <div class="col-lg-2 col-md-12">
@@ -294,25 +293,33 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <!-- /.form-group -->
                   </div>
                 </div>
+                <div class="row">
+                  <div class="col-lg-2 col-md-6">
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">ID Proyecto:</label>
+                      <input type="text" class="form-control" id="idProyectoInput" placeholder="ID del Proyecto">
+                    </div>
+                    <!-- /.form-group -->
+                  </div>
+                </div>
+                <div >
+                    <button type="submit" id="btnBuscarProyectos" class="btn btn-primary">Buscar</button>
+                    <button type="" class="btn btn-secondary" id="btnLimpiarProyectos">Limpiar</button>
+                </div>
               </div>
               <!-- /.card-body -->
-            </form>
-            <div class="card-body">
-                <button type="submit" id="btnBuscarProyectos" class="btn btn-primary">Buscar</button>
-                <button type="" class="btn btn-secondary" id="btnLimpiarProyectos">Limpiar</button>
-            </div>
-            
-            <!-- ./form  -->
 
             <div class="card-body">
               <table id="proyectosDatatable" class="table table-bordered table-striped">
                 <thead>
                   <tr>
-                    <th>Rendering engine</th>
-                    <th>Browser</th>
-                    <th>Platform(s)</th>
-                    <th>Engine version</th>
-                    <th>CSS grade</th>
+                    <th>Acciones</th>
+                    <th>Id</th>
+                    <th>Titulo</th>
+                    <th>Estado</th>
+                    <th>FechaInicio</th>
+                    <th>FechaFin</th>
+                    <th>Director</th>
                   </tr>
                 </thead>
                 <tbody id="proyectosDatatableBody">
