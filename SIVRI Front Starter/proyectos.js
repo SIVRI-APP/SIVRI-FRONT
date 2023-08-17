@@ -1,3 +1,5 @@
+// Proyectos Data
+
 var datosProyectoJSON = [
   {
     "Rendering engine": "WebKit",
@@ -71,33 +73,77 @@ var datosProyectoJSON = [
   },
 ];
 
-// Obtén la referencia al elemento <tbody>
-var tbody = document.getElementById("proyectosDatatable");
+// Popular la tabla cuando se da click sobre el boton Buscar
+// Obtener una referencia al botón por su ID
+var btnBuscarProyectos = document.getElementById("btnBuscarProyectos");
 
-// Itera sobre los datos del JSON y agrega filas y celdas a la tabla
-for (var i = 0; i < datosProyectoJSON.length; i++) {
-  var fila = tbody.insertRow();
+// Agregar un evento click al botón
+btnBuscarProyectos.addEventListener("click", function () {
+  buscarProyectos();
+});
 
-  var datos = datosProyectoJSON[i];
-  var columnas = [
-    "Rendering engine",
-    "Browser",
-    "Platform(s)",
-    "Engine version",
-    "CSS grade",
-  ];
+// Definir la función buscarProyectos
+function buscarProyectos() {
+  limpiarProyectos();
+  
+  // Obtener una referencia a la tabla por su ID
+  var tablaProyectos = $("#proyectosDatatable");
+  // Obtén la referencia al elemento <tbody> de la tabla Proyectos
+  var tbody = document.getElementById("proyectosDatatableBody");
 
-  for (var j = 0; j < columnas.length; j++) {
-    var celda = fila.insertCell(j);
-    celda.innerHTML = datos[columnas[j]];
+  // Destruir la instancia actual de DataTables
+  if ($.fn.DataTable.isDataTable(tablaProyectos)) {
+    tablaProyectos.DataTable().destroy();
   }
+
+
+  // Itera sobre los datos del JSON y agrega filas y celdas a la tabla
+  for (var i = 0; i < datosProyectoJSON.length; i++) {
+    var fila = tbody.insertRow();
+
+    var datos = datosProyectoJSON[i];
+    var columnas = [
+      "Rendering engine",
+      "Browser",
+      "Platform(s)",
+      "Engine version",
+      "CSS grade",
+    ];
+
+    for (var j = 0; j < columnas.length; j++) {
+      var celda = fila.insertCell(j);
+      celda.innerHTML = datos[columnas[j]];
+    }
+  }
+
+  // Reinicializar la tabla con la nueva configuración
+  $("#proyectosDatatable").DataTable({
+    "responsive": true, "lengthChange": false, "autoWidth": false,
+    "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+  }).buttons().container().appendTo('#proyectosDatatable_wrapper .col-md-6:eq(0)');
 }
 
-// Espera a que la página se cargue completamente
-document.addEventListener("DOMContentLoaded", function () {
-  // Obtén el elemento select por su ID
-  var estadoSelect = document.getElementById("estadoSelect");
 
-  // Establece el valor seleccionado en una opción vacía (null)
-  estadoSelect.value = null;
+// Limpiar la tabla y los campos cuando se da click sobre el boton Limpiar
+// Obtener una referencia al botón por su ID
+var btnLimpiarProyectos = document.getElementById("btnLimpiarProyectos");
+
+// Agregar un evento click al botón
+btnLimpiarProyectos.addEventListener("click", function () {
+  limpiarProyectos();
 });
+
+// Definir la función buscarProyectos
+function limpiarProyectos() {
+
+  // Obtener una referencia al botón por su ID
+  var inputFechaIncio = document.getElementById("fechaInicioInput").value = "";
+  var inputFechaFin= document.getElementById("fechaFinInput").value = "";;
+  var selectEstado = document.getElementById("estadoSelect").value = "";;
+  var inputTitutloProyecto = document.getElementById("tituloProyectoInput").value = "";;
+  var inputDirectorPoryecto = document.getElementById("ditectorProyectoInput").value = "";;
+
+  // Reinicializar la tabla con la nueva configuración
+  $("#proyectosDatatable").DataTable().clear().draw();
+
+}

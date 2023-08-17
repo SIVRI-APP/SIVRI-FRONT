@@ -166,7 +166,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </a>
             </li>
             <li class="nav-item">
-              <a href="dataTable.html" class="nav-link active">
+              <a href="proyectos.html" class="nav-link active">
                 <i class="nav-icon fas fa-tachometer-alt"></i>
                 <p>
                   Proyectos
@@ -225,7 +225,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <div class="col-lg-2 col-md-12">
                     <!-- Date range -->
                     <div class="form-group">
-                      <label>Fecha Inicio:</label>
+                      <label>Rango Fecha Inicio:</label>
 
                       <div class="input-group">
                         <div class="input-group-prepend">
@@ -233,7 +233,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <i class="far fa-calendar-alt"></i>
                           </span>
                         </div>
-                        <input type="text" class="form-control float-right" id="fechaInicio"  autocomplete="off">
+                        <input type="text" class="form-control float-right" id="fechaInicioInput"  autocomplete="off" placeholder="Fecha Inicio">
                       </div>
                       <!-- /.input group -->
                     </div>
@@ -243,7 +243,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <div class="col-lg-2 col-md-6">
                     <!-- Date range -->
                     <div class="form-group">
-                      <label>Fecha Fin:</label>
+                      <label>Rango Fecha Fin:</label>
 
                       <div class="input-group">
                         <div class="input-group-prepend">
@@ -251,7 +251,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <i class="far fa-calendar-alt"></i>
                           </span>
                         </div>
-                        <input type="text" class="form-control float-right" id="fechaFin"  autocomplete="off">
+                        <input type="text" class="form-control float-right" id="fechaFinInput"  autocomplete="off" placeholder="Fecha Inicio">
                       </div>
                       <!-- /.input group -->
                     </div>
@@ -263,13 +263,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <label>Estado</label>
                       <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger"
                         style="width: 100%;" id="estadoSelect">
-                        <option>Alabama</option>
-                        <option>Alaska</option>
-                        <option>California</option>
-                        <option>Delaware</option>
-                        <option>Tennessee</option>
-                        <option>Texas</option>
-                        <option>Washington</option>
+                        <option value="" disabled selected hidden></option>
+                        <option value="aprobado">Aprobado</option>
+                        <option value="ejecucion">Ejecucion</option>
+                        <option value="ejecucionProrroga">Ejecucion Prorroga</option>
+                        <option value="eliminado">Eliminado</option>
+                        <option value="formulado">Formulado</option>
+                        <option value="formuladoConObservaciones">Formulado con Observaciones</option>
+                        <option value="revisionComiteEtica">Revision Comite Etica</option>
+                        <option value="RevisionVri">Revision VRI</option>
+                        <option value="suspendido">Suspendido</option>
+                        <option value="terminado">Terminado</option>
+                        <option value="terminadoConPendientes">Terminado con Pendientes</option>
                       </select>
                     </div>
                     <!-- /.form-group -->
@@ -277,30 +282,30 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <div class="col-lg-3 col-md-6">
                     <div class="form-group">
                       <label for="exampleInputEmail1">Titulo Proyecto</label>
-                      <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                      <input type="text" class="form-control" id="tituloProyectoInput" placeholder="Digite el Titulo del Proyecto">
                     </div>
                     <!-- /.form-group -->
                   </div>
                   <div class="col-lg-3 col-md-6">
                     <div class="form-group">
                       <label for="exampleInputEmail1">Director Proyecto</label>
-                      <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                      <input type="text" class="form-control" id="ditectorProyectoInput" placeholder="Digite el Nombre del Director">
                     </div>
                     <!-- /.form-group -->
                   </div>
                 </div>
-
-                <div>
-                  <button type="submit" class="btn btn-primary">Submit</button>
-                  <button type="" class="btn btn-secondary" id="btnLimpiarCampos">Limpiar</button>
-                </div>
               </div>
               <!-- /.card-body -->
             </form>
+            <div class="card-body">
+                <button type="submit" id="btnBuscarProyectos" class="btn btn-primary">Buscar</button>
+                <button type="" class="btn btn-secondary" id="btnLimpiarProyectos">Limpiar</button>
+            </div>
+            
             <!-- ./form  -->
 
             <div class="card-body">
-              <table id="example1" class="table table-bordered table-striped">
+              <table id="proyectosDatatable" class="table table-bordered table-striped">
                 <thead>
                   <tr>
                     <th>Rendering engine</th>
@@ -310,7 +315,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <th>CSS grade</th>
                   </tr>
                 </thead>
-                <tbody id="proyectosDatatable">
+                <tbody id="proyectosDatatableBody">
 
                 </tbody>
               </table>
@@ -367,19 +372,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Page specific script -->
   <script>
     $(function () {
-      $("#example1").DataTable({
+      $("#proyectosDatatable").DataTable({
         "responsive": true, "lengthChange": false, "autoWidth": false,
         "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-      }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-      $('#example2').DataTable({
-        "paging": true,
-        "lengthChange": false,
-        "searching": false,
-        "ordering": true,
-        "info": true,
-        "autoWidth": false,
-        "responsive": true,
-      });
+      }).buttons().container().appendTo('#proyectosDatatable_wrapper .col-md-6:eq(0)');
     });
   </script>
 
@@ -393,9 +389,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
     $(function () {
 
       //Date range picker
-      $('#fechaInicio').daterangepicker()
+      $('#fechaInicioInput').daterangepicker()
       //Date range picker
-      $('#fechaFin').daterangepicker()
+      $('#fechaFinInput').daterangepicker()
 
     })
 

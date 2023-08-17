@@ -11626,7 +11626,7 @@
 			 *      } );
 			 *    } );
 			 */
-			"sEmptyTable": "No data available in table",
+			"sEmptyTable": "No hay Datos para mostrar",
 	
 	
 			/**
