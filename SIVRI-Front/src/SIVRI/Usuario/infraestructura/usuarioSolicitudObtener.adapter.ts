@@ -28,7 +28,7 @@ export class UsuarioSolicitudObtenerAdapter extends usuarioSolicitudObtenerCU {
         apellidos?: string | undefined, 
         tipoUsuario?: TipoUsuario | undefined): Observable<UsuarioSolicitudListarConFiltroProyección[]> {
 
-        return this.http.get<UsuarioSolicitudListarConFiltroProyección[]>(this.apiUrl+'listarTodoConFiltro')
+        return this.http.get<UsuarioSolicitudListarConFiltroProyección[]>(this.apiUrl+'listarTodoConFiltro?pageNo=0&pageSize=10')
     }
 
 }
