@@ -1,0 +1,31 @@
+<div class="contenedorCentral">
+
+    <div class="container" id="container">
+
+        <div class="form-container sign-in-container">
+
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" method="get">
+                <h1>SIVRI</h1>
+
+                <input formControlName="email" id="email" type="email" placeholder="Correo" required />                
+                <input formControlName="password" id="password" type="password" placeholder="Clave" required />
+
+
+                <a href="#">Olvidaste la contraseña?</a>
+
+                <button type="submit">Iniciar Sesion</button>
+            </form>
+
+        </div>
+
+        <div class="overlay-container">
+            <div class="overlay">
+                <div class="overlay-panel overlay-right">
+                    <h1>Hola!</h1>
+                    <p>Bienvenidos al Sistema de Información de la Vicerrectoria de Investigaciones de la Universidad
+                        del Cauca</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
