@@ -1,0 +1,8 @@
+export enum TipoUsuario {
+    ADMINISTRATIVO = 'ADMINISTRATIVO',
+    DOCENTE = 'DOCENTE',
+    PREGRADO = 'PREGRADO',
+    POSGRADO = 'POSGRADO',
+    EGRESADO = 'EGRESADO',
+    EXTERNO = 'EXTERNO'
+  }

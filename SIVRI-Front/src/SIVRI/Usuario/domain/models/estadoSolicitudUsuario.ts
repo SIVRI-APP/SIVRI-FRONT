@@ -1,0 +1,4 @@
+export enum EstadoSolicitudUsuario {
+    REVISION_VRI = 'REVISION_VRI',
+    FORMULADO_OBSERVACIONES = 'FORMULADO_OBSERVACIONES'
+  }

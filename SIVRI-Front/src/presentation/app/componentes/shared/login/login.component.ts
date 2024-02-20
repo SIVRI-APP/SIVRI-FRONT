@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LoginService } from '../../../servicios/shared/login/login.service';
-import { LoginRequest } from '../../../servicios/shared/login/loginRequest';
+// import { LoginService } from '../../../servicios/shared/login/login.service';
+import { CredencialAdapter } from '../../../../../SIVRI/Credenciales/infraestructura/credencial.adapter';
+import { LoginRequest } from '../../../../../SIVRI/Credenciales/domain/models/loginRequest';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,7 @@ import { LoginRequest } from '../../../servicios/shared/login/loginRequest';
 })
 export class LoginComponent {
 
-  constructor(private router:Router, private loginService:LoginService){}
+  constructor(private router:Router, private credencialAdapter:CredencialAdapter){}
 
   protected loginForm = new FormGroup({
     email: new FormControl(''),
@@ -22,9 +23,8 @@ export class LoginComponent {
 
   onSubmit() {
     if(this.loginForm.valid){
-      this.loginService.login(this.loginForm.value as LoginRequest).subscribe({
+      this.credencialAdapter.autenticar(this.loginForm.value as LoginRequest).subscribe({
         next: (token) => {
-          sessionStorage.setItem('token', token.access_token);
           console.log(token); 
         },
         error: (errorData) => {
@@ -35,8 +35,6 @@ export class LoginComponent {
           this.loginForm.reset();
         },
       });
-
-      
     }else{
       this.loginForm.markAllAsTouched();
       throw new Error('Formulario no valido');
