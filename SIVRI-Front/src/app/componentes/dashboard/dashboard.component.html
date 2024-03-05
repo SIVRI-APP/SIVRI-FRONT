@@ -1,0 +1,24 @@
+@if (loggedOn) {
+    <div id="wrapper">
+        <app-sidebar></app-sidebar>
+        <div class="d-flex flex-column" id="content-wrapper">
+            <div id="content">
+                <app-header></app-header>
+
+
+
+                <div class="container-fluid">
+                    <app-content>
+                        
+                    </app-content>
+                </div>
+
+
+
+            </div>
+            <app-footer></app-footer>
+        </div>
+    </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+} @else {
+<app-login></app-login>
+}
