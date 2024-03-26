@@ -1,0 +1,17 @@
+footer {
+    position: relative;
+    /* Posición relativa para el footer */
+}
+
+.line {
+    position: absolute;
+    /* Posición absoluta para la línea superior */
+    top: 0;
+    /* Se coloca en la parte superior del footer */
+    left: 35%;
+    /* Ajusta este valor según el ancho deseado */
+    width: 30%;
+    /* Ancho deseado para la línea */
+    border-top: 1px solid #ccc;
+    /* Línea superior gris */
+}

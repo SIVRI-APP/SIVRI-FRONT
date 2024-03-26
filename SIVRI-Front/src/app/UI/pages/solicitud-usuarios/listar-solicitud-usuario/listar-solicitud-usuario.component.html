@@ -47,7 +47,8 @@
                                 <div class="mb-3">
                                     <label for="tipo_documento" class="form-label"><strong>Tipo de
                                             Documento</strong></label>
-                                    <select id="tipo_documento" name="tipo_documento" class="form-select" formControlName="tipoDocumento">
+                                    <select id="tipo_documento" name="tipo_documento" class="form-select"
+                                        formControlName="tipoDocumento">
                                         <option value="" disabled selected hidden>Seleccione un tipo de documento
                                         </option>
                                         <option value="CEDULA_CIUDADANIA">Cedula</option>
@@ -62,14 +63,16 @@
                                     <label for="numero_documento" class="form-label"><strong>Número de
                                             Documento</strong></label>
                                     <input id="numero_documento" name="numero_documento" class="form-control"
-                                        type="text" placeholder="# de Documento del Usuario" formControlName="numeroDocumento">
+                                        type="text" placeholder="# de Documento del Usuario"
+                                        formControlName="numeroDocumento">
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="mb-3">
                                     <label for="tipo_usuario" class="form-label"><strong>Tipo de
                                             Usuario</strong></label>
-                                    <select id="tipo_usuario" name="tipo_usuario" class="form-select" formControlName="tipoUsuario">
+                                    <select id="tipo_usuario" name="tipo_usuario" class="form-select"
+                                        formControlName="tipoUsuario">
                                         <option value="" disabled selected hidden>Seleccione un tipo de usuario</option>
                                         <option value="DOCENTE">Docente</option>
                                         <option value="EGRESADO">Egresado</option>
@@ -102,11 +105,11 @@
                                     <option value="50">50</option>
                                     <option value="100">100</option>
                                 </select>
-                            &nbsp;</label>
+                                &nbsp;</label>
                         </div>
                     </div>
                 </div>
-                
+
 
                 <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
                     <table class="table my-0" id="dataTable">
@@ -158,14 +161,15 @@
                     <div class="col-md-6">
                         <nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
                             <ul class="pagination">
-                                <li class="page-item disabled"><a class="page-link" aria-label="Previous" (click)="movePage('atras')"><span aria-hidden="true">«</span></a></li>
+                                <li class="page-item disabled"><a class="page-link" aria-label="Previous"
+                                        (click)="movePage('atras')"><span aria-hidden="true">«</span></a></li>
                                 <li class="page-item active"><a class="page-link" (click)="changePage(1)">1</a></li>
                                 <li class="page-item"><a class="page-link" (click)="changePage(2)">2</a></li>
                                 <li class="page-item"><a class="page-link" (click)="changePage(3)">3</a></li>
-                                <li class="page-item"><a class="page-link" aria-label="Next" (click)="movePage('adelante')"><span aria-hidden="true">»</span></a></li>
+                                <li class="page-item"><a class="page-link" aria-label="Next"
+                                        (click)="movePage('adelante')"><span aria-hidden="true">»</span></a></li>
                             </ul>
                         </nav>
->
                     </div>
                 </div>
             </form>

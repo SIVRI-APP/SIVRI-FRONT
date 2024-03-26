@@ -16,10 +16,6 @@ const adminRoutes: Routes = [
             loadChildren: () => import('../../pages/usuarios/usuarios.module').then((c) => c.UsuarioModule),
           },
           {
-            path: 'solicitud-usuarios',
-            loadChildren: () => import('../../pages/solicitud-usuarios/solicitud-usuarios.module').then((c) => c.SolicitudUsuarioModule),
-          },
-          {
             path: 'convocatorias',
             loadChildren: () => import('../../pages/convocatorias/convocatorias.module').then((c) => c.ConvocatoriasModule),
           },

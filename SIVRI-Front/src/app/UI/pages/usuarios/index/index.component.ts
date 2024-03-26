@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-index',
@@ -9,5 +9,10 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './index.component.css'
 })
 export class IndexComponent {
+  constructor(private router: Router, private route: ActivatedRoute){}
 
+  ngOnInit(): void {
+    // Navegar a otro componente inmediatamente
+    this.router.navigate(['listar'], { relativeTo: this.route });
+  }
 }

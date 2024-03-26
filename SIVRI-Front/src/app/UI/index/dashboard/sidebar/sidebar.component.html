@@ -1,33 +1,54 @@
-<nav class="navbar align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0 navbar-dark">
-    <div class="container-fluid d-flex flex-column p-0"><a
-            class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="#">
-            <div class="sidebar-brand-icon rotate-n-15"><i class="fas fa-laugh-wink"></i></div>
-            <div class="sidebar-brand-text mx-3"><span>SIVRI</span></div>
-        </a>
-        <hr class="sidebar-divider my-0">
-        <ul class="navbar-nav text-light" id="accordionSidebar">
+<nav class="sidebar p-0">
 
-            <li routerLink="/dashboard" class="nav-item"><a class="nav-link"><i
-                        class="fas fa-tachometer-alt"></i><span>Inicio</span></a></li>
+  <a href="https://www.unicauca.edu.co/" target="_blank" class="d-block text-white text-decoration-none">
+    <img src="../../../../../assets/img/SIVRI/logo.png" alt="" class="mx-auto d-block">
+  </a>
 
-            <li routerLink="convocatorias" class="nav-item"><a class="nav-link"><i
-                        class="fas fa-user-circle"></i><span>Convocatorias</span></a></li>
 
-            <li routerLink="proyectos" class="nav-item"><a class="nav-link"><i
-                        class="fas fa-user-circle"></i><span>Proyectos</span></a></li>
+  <hr class="line">
+  <ul class="nav nav-pills flex-column ">
 
-            <li routerLink="grupos" class="nav-item"><a class="nav-link"><i class="fas fa-table"></i><span>Grupos</span></a></li>
+    <li class="nav-item" >
+      <a class="nav-link" routerLink="/" routerLinkActive="active">
+        <i class="bi bi-house-door"></i>
+        <span>Inicio</span>
+      </a>
+    </li>
 
-            <li routerLink="semilleros" class="nav-item"><a class="nav-link"><i class="far fa-user-circle"></i><span>Semilleros</span></a></li>
+    <li class="nav-item" >
+      <a class="nav-link" routerLink="grupos" routerLinkActive="active">
+        <i class="bi bi-bank"></i>
+        <span>Grupos</span>
+      </a>
+    </li>
 
-            <li routerLink="solicitud-usuarios" class="nav-item"><a class="nav-link"><i class="fas fa-user"></i><span>Solicitud
-                        Usuarios</span></a></li>
+    <li routerLink="semilleros" class="nav-item">
+      <a class="nav-link">
+        <i class="bi bi-binoculars"></i>
+        <span>Smilleros</span>
+      </a>
+    </li>
 
-            <li routerLink="usuarios" class="nav-item"><a class="nav-link"><i
-                        class="fas fa-user"></i><span>Usuarios</span></a></li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="convocatorias" routerLinkActive="active">
+        <i class="bi bi-megaphone"></i>
+        <span>Convocatorias</span>
+      </a>
+    </li>
 
-        </ul>
-        <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle"
-                type="button"></button></div>
-    </div>
+    <li routerLink="proyectos" class="nav-item">
+      <a class="nav-link">
+        <i class="bi bi-rocket"></i>
+        <span>Proyectos</span>
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" routerLink="usuarios" routerLinkActive="active">
+        <i class="bi bi-people-fill"></i>
+        <span>Usuarios</span>
+      </a>
+    </li>
+
+  </ul>
 </nav>

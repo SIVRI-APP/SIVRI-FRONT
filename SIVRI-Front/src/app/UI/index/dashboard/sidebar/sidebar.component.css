@@ -1,0 +1,76 @@
+.sidebar {
+    background: #006;
+}
+
+.line {
+    margin-top: 4px;
+    margin-bottom: 58px;
+}
+
+.sidebar img {
+    padding-top: 8px;
+    /* max-width: 100%; */
+    /* height: auto; */
+    /* height: 90px; */
+}
+
+.nav-item {
+    height: 50px;
+    /* Ajusta la altura de los elementos <li> según sea necesario */
+}
+
+.nav-link i {
+    font-size: 16px;
+    margin-left: 10px;
+    margin-right: 8px;
+    color: #FFF;
+}
+
+.nav-link span {
+    color: #FFF;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+
+
+
+/* .nav-pills {
+    --bs-nav-pills-border-radius: 0;
+    --bs-nav-pills-link-active-bg: #828AE3;
+} */
+
+.nav-pills .nav-item {
+    height: 50px;
+    /* Ajusta la altura de los elementos <li> según sea necesario */
+}
+
+.nav-pills .nav-link {
+    height: 50px;
+    /* Ajusta la altura de los enlaces <a> según sea necesario */
+}
+
+/* .nav-pills .nav-link:hover {
+    background-color: #5056AC;
+} */
+
+
+.nav-pills .nav-link.active,
+.nav-pills .nav-item:hover .nav-link {
+    --bs-nav-pills-border-radius: 0;
+    --bs-nav-pills-link-active-bg: #828AE3;
+}
+
+.nav-pills .nav-item:hover .nav-link:not(.active) {
+  background-color: #5056AC; /* Cambia el color de fondo cuando el mouse está sobre el enlace, excepto cuando está activo */
+}
+
+.nav-pills .nav-link i {
+  color: white; /* Cambia el color del ícono cuando el enlace no está activo */
+}
+
+.nav-pills .nav-link.active i {
+  color: white; /* Cambia el color del ícono cuando el enlace está activo */
+}
