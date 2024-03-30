@@ -5,11 +5,11 @@ import { NotFoundComponent } from '../UI/shared/not-found/not-found.component';
 
 export const routes: Routes = [
   {
-    path: 'dashboard',
-    // canActivate: [authGuard],
+    path: '',
+    canActivate: [authGuard],
     loadChildren: () => import('../UI/index/dashboard/dashboard.module').then(c => c.DashboardModule),
   },
   { path: 'login', component: LoginComponent },
-  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+  { path: '', redirectTo: '', pathMatch: 'full' },
   { path: '**', component: NotFoundComponent },
 ];

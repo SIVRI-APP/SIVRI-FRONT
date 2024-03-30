@@ -28,7 +28,7 @@ export class LoginComponent {
           if (redirectUrl && redirectUrl !== '/login') {
             this.router.navigateByUrl(redirectUrl);
           } else {
-            this.router.navigateByUrl('/dashboard'); // Redirigir al usuario al tablero si no hay ninguna URL almacenada
+            this.router.navigateByUrl('inicio'); // Redirigir al usuario al tablero si no hay ninguna URL almacenada
           }
         },
         error: (errorData) => {
@@ -44,21 +44,6 @@ export class LoginComponent {
       throw new Error('Formulario no valido');
     }
   }
-
-  // login() {
-  //   this.authService.login().subscribe(() => {
-  //     if (this.authService.isLoggedIn) {
-  //       const redirectUrl = this.authService.redirectUrl;
-
-  //       if (redirectUrl && redirectUrl !== '/login') {
-  //         this.router.navigateByUrl(redirectUrl);
-  //       } else {
-  //         this.router.navigateByUrl('/dashboard'); // Redirigir al usuario al tablero si no hay ninguna URL almacenada
-  //       }
-  //       this.clearRedirectUrl(); // Limpiar la URL almacenada después de la redirección
-  //     }
-  //   });
-  // }
 
   logout() {
     this.clearRedirectUrl();

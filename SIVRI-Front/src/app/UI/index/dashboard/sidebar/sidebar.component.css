@@ -57,8 +57,7 @@
 } */
 
 
-.nav-pills .nav-link.active,
-.nav-pills .nav-item:hover .nav-link {
+.nav-pills .nav-link.active{
     --bs-nav-pills-border-radius: 0;
     --bs-nav-pills-link-active-bg: #828AE3;
 }
