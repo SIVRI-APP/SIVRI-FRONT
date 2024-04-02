@@ -1,179 +1,193 @@
-<div class="tab-pane" role="tabpanel" id="tab-2">
-    <div class="card shadow">
-        <div class="card-header py-3">
-            <p class="text-primary m-0 fw-bold">Este apartado muestra todas las solicitudes para la creacion de un
-                Usuario dentro del Sistema</p>
+<form [formGroup]="listarForm" (ngSubmit)="onSubmit()" method="get">
+
+    <div class="filter-box">
+
+        <!-- Filtro de Busqueda -->
+        <div class="row">
+            <div class="col-sm">
+                <label for="estado" class="etiqueta-form"><strong>Estado</strong></label>
+                <select id="estado" name="estado" class="form-select" formControlName="estado">
+                    <option value="" disabled selected hidden>Estado Solicitud</option>
+                    <option value="FORMULADO_OBSERVACIONES">Formulado con Observaciones</option>
+                    <option value="REVISION_VRI">Revision VRI</option>
+                </select>
+            </div>
+
+            <div class="col-sm">
+                <label for="nombre" class="etiqueta-form"><strong>Nombre</strong></label>
+                <input id="nombre" name="nombre" class="form-control" type="text" placeholder="Nombre"
+                    formControlName="nombres">
+            </div>
+
+            <div class="col-sm">
+                <label for="apellidos" class="etiqueta-form"><strong>Apellidos</strong></label>
+                <input id="apellidos" name="apellidos" class="form-control" type="text" placeholder="Apellido"
+                    formControlName="apellidos">
+            </div>
+
+            <div class="col-sm">
+                <label for="correo" class="etiqueta-form"><strong>Correo</strong></label>
+                <input id="correo" name="correo" class="form-control" type="email" placeholder="Correo"
+                    formControlName="correo">
+            </div>
+
+
         </div>
+
+        <div class="row">
+            <div class="col-sm">
+                <label for="tipo_documento" class="etiqueta-form"><strong>Tipo de
+                        Documento</strong></label>
+                <select id="tipo_documento" name="tipo_documento" class="form-select" formControlName="tipoDocumento">
+                    <option value="" disabled selected hidden>Tipo de Documento
+                    </option>
+                    <option value="CEDULA_CIUDADANIA">Cedula</option>
+                    <option value="CEDULA_EXTRANJERIA">Cedula de Extranjeria</option>
+                    <option value="PASAPORTE">Pasaporte</option>
+                    <option value="TARJETA_IDENTIDAD">Tarjeta de Identidad</option>
+                </select>
+            </div>
+
+            <div class="col-sm">
+                <label for="numero_documento" class="etiqueta-form"><strong>Número de
+                        Documento</strong></label>
+                <input id="numero_documento" name="numero_documento" class="form-control" type="text"
+                    placeholder="# de Documento" formControlName="numeroDocumento">
+            </div>
+
+            <div class="col-sm">
+                <label for="tipo_usuario" class="etiqueta-form"><strong>Tipo de
+                        Usuario</strong></label>
+                <select id="tipo_usuario" name="tipo_usuario" class="form-select" formControlName="tipoUsuario">
+                    <option value="" disabled selected hidden>Tipo de Usuario</option>
+                    <option value="DOCENTE">Docente</option>
+                    <option value="EGRESADO">Egresado</option>
+                    <option value="EXTERNO">Externo</option>
+                    <option value="POSGRADO">Posgrado</option>
+                    <option value="PREGRADO">Pregrado</option>
+                </select>
+            </div>
+
+            <div class="col">
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="m-0 border-0">
+                <button type="button" class="limpiar" (click)="limpiarCampos()"><i
+                        class="bi bi-eraser-fill"></i>Limpiar</button>
+                <button type="submit" class="filtrar"><i class="bi bi-funnel"></i>Buscar</button>
+            </div>
+        </div>
+
+        <div class="form-guide-line"></div>
+    </div>
+
+
+
+
+    <!-- Tabla  -->
+
+    @if (listaSolicitudUsuarios.status == 200 && listaSolicitudUsuarios.data.content != null) {
+    @if (listaSolicitudUsuarios.data.content.length > 0) {
+
+
+
+    <div class="card shadow datatable">
+
         <div class="card-body">
-            <form [formGroup]="listarForm" (ngSubmit)="onSubmit()" method="get">
-                <div class="row" style="margin-bottom: 20px;">
-                    <div class="col">
 
-                        <div class="row">
-                            <div class="col">
-                                <div class="mb-3">
-                                    <label for="estado" class="form-label"><strong>Estado</strong></label>
-                                    <select id="estado" name="estado" class="form-select" formControlName="estado">
-                                        <option value="" disabled>Seleccione un estado</option>
-                                        <option value="FORMULADO_OBSERVACIONES">Formulado con observaciones</option>
-                                        <option value="REVISION_VRI">Revision VRI</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="mb-3">
-                                    <label for="nombre" class="form-label"><strong>Nombre</strong></label>
-                                    <input id="nombre" name="nombre" class="form-control" type="text"
-                                        placeholder="Nombre del Usuario" formControlName="nombres">
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="mb-3">
-                                    <label for="apellidos" class="form-label"><strong>Apellidos</strong></label>
-                                    <input id="apellidos" name="apellidos" class="form-control" type="text"
-                                        placeholder="Apellido del Usuario" formControlName="apellidos">
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="mb-3">
-                                    <label for="correo" class="form-label"><strong>Correo</strong></label>
-                                    <input id="correo" name="correo" class="form-control" type="email"
-                                        placeholder="Correo del Usuario" formControlName="correo">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <div class="mb-3">
-                                    <label for="tipo_documento" class="form-label"><strong>Tipo de
-                                            Documento</strong></label>
-                                    <select id="tipo_documento" name="tipo_documento" class="form-select"
-                                        formControlName="tipoDocumento">
-                                        <option value="" disabled selected hidden>Seleccione un tipo de documento
-                                        </option>
-                                        <option value="CEDULA_CIUDADANIA">Cedula</option>
-                                        <option value="CEDULA_EXTRANJERIA">Cedula de Extranjeria</option>
-                                        <option value="PASAPORTE">Pasaporte</option>
-                                        <option value="TARJETA_IDENTIDAD">Tarjeta de Identidad</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="mb-3">
-                                    <label for="numero_documento" class="form-label"><strong>Número de
-                                            Documento</strong></label>
-                                    <input id="numero_documento" name="numero_documento" class="form-control"
-                                        type="text" placeholder="# de Documento del Usuario"
-                                        formControlName="numeroDocumento">
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="mb-3">
-                                    <label for="tipo_usuario" class="form-label"><strong>Tipo de
-                                            Usuario</strong></label>
-                                    <select id="tipo_usuario" name="tipo_usuario" class="form-select"
-                                        formControlName="tipoUsuario">
-                                        <option value="" disabled selected hidden>Seleccione un tipo de usuario</option>
-                                        <option value="DOCENTE">Docente</option>
-                                        <option value="EGRESADO">Egresado</option>
-                                        <option value="EXTERNO">Externo</option>
-                                        <option value="POSGRADO">Posgrado</option>
-                                        <option value="PREGRADO">Pregrado</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <div>
-                                    <button class="btn btn-primary" type="submit">Filtrar</button>
-                                </div>
-                            </div>
-                        </div>
+            <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
+                <table class="table my-0" id="dataTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Estado</th>
+                            <th>Nombre</th>
+                            <th>Correo</th>
+                            <th>Tipo Doc</th>
+                            <th>Numero Doc</th>
+                            <th>Tipo Usuario</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
 
+                        @if (listaSolicitudUsuarios.status == 200) {
 
-                    </div>
+                        @for (usuarioSolicitud of listaSolicitudUsuarios.data.content; track usuarioSolicitud.id) {
+                        <tr>
+                            <td>{{usuarioSolicitud.id}}</td>
+                            <td>{{usuarioSolicitud.estado}}</td>
+                            <td>{{usuarioSolicitud.nombres}} {{usuarioSolicitud.apellidos}}</td>
+                            <td>{{usuarioSolicitud.correo}}</td>
+                            <td>{{usuarioSolicitud.tipoDocumento}}</td>
+                            <td>{{usuarioSolicitud.numeroDocumento}}</td>
+                            <td>{{usuarioSolicitud.tipoUsuario}}</td>
+                            <td class="text-center" style="text-align: center;"><a href="#"
+                                    style="color: var(--bs-table-hover-color);"
+                                    data-bs-target="#gestionProyectos-modalRevisionVri" data-bs-toggle="modal"><i
+                                        class="far fa-edit"></i></a></td>
+                        </tr>
+                        }
+                        }
+
+                    </tbody>
+
+                </table>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 align-self-center">
+                    <p id="dataTable_info" class="dataTables_info" role="status" aria-live="polite">{{visualizando}}</p>
                 </div>
+                <div class="col-md-6">
+                    <nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
+                        <ul class="pagination">
 
-                <div class="row">
-                    <div class="col-md-6 text-nowrap">
-                        <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable">
-                            <label class="form-label">Ver&nbsp;
-                                <select class="d-inline-block form-select form-select-sm" formControlName="pageSize">
-                                    <option value="10">10</option>
-                                    <option value="25">25</option>
-                                    <option value="50">50</option>
-                                    <option value="100">100</option>
-                                </select>
-                                &nbsp;</label>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
-                    <table class="table my-0" id="dataTable">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Estado</th>
-                                <th>Nombre</th>
-                                <th>Correo</th>
-                                <th>Tipo Doc</th>
-                                <th>Numero Doc</th>
-                                <th>Tipo Usuario</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                            @if (listaSolicitudUsuarios.status != 0) {
-
-                            @for (usuarioSolicitud of listaSolicitudUsuarios.data.content; track usuarioSolicitud.id) {
-                            <tr>
-                                <td>{{usuarioSolicitud.id}}</td>
-                                <td>{{usuarioSolicitud.estado}}</td>
-                                <td>{{usuarioSolicitud.nombres}} {{usuarioSolicitud.apellidos}}</td>
-                                <td>{{usuarioSolicitud.correo}}</td>
-                                <td>{{usuarioSolicitud.tipoDocumento}}</td>
-                                <td>{{usuarioSolicitud.numeroDocumento}}</td>
-                                <td>{{usuarioSolicitud.tipoUsuario}}</td>
-                                <td class="text-center" style="text-align: center;"><a href="#"
-                                        style="color: var(--bs-table-hover-color);"
-                                        data-bs-target="#gestionProyectos-modalRevisionVri" data-bs-toggle="modal"><i
-                                            class="far fa-edit"></i></a></td>
-                            </tr>
-                            }
-                            }
-
-                        </tbody>
-
-                    </table>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6 align-self-center">
-                        <p id="dataTable_info" class="dataTables_info" role="status" aria-live="polite">Visualizando 1 a
-                            10
-                            de
-                            27</p>
-                    </div>
-                    <div class="col-md-6">
-                        <nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
-                            <ul class="pagination">
+                            <!-- Atras -->
+                            @if (listaSolicitudUsuarios.data.first) {
                                 <li class="page-item disabled"><a class="page-link" aria-label="Previous"
-                                        (click)="movePage('atras')"><span aria-hidden="true">«</span></a></li>
-                                <li class="page-item active"><a class="page-link" (click)="changePage(1)">1</a></li>
-                                <li class="page-item"><a class="page-link" (click)="changePage(2)">2</a></li>
-                                <li class="page-item"><a class="page-link" (click)="changePage(3)">3</a></li>
+                                    (click)="movePage('atras')"><span aria-hidden="true">«</span></a></li>
+                            }@else {
+                                <li class="page-item"><a class="page-link" aria-label="Previous"
+                                    (click)="movePage('atras')"><span aria-hidden="true">«</span></a></li>
+                            }
+                            
+                            @for (pageNumber of getPageNumbers(); track $index) {
+                                <li class="page-item" [class.active]="pageNumber === listaSolicitudUsuarios.data.number + 1"><a class="page-link" (click)="changePage(pageNumber)">{{ pageNumber }}</a></li>
+                            }
+
+                            <!-- Adelante -->
+                            @if (listaSolicitudUsuarios.data.last) {
+                                <li class="page-item disabled"><a class="page-link" aria-label="Next"
+                                    (click)="movePage('adelante')"><span aria-hidden="true">»</span></a></li>
+                            }@else {
                                 <li class="page-item"><a class="page-link" aria-label="Next"
-                                        (click)="movePage('adelante')"><span aria-hidden="true">»</span></a></li>
-                            </ul>
-                        </nav>
-                    </div>
+                                    (click)="movePage('adelante')"><span aria-hidden="true">»</span></a></li>
+                            }
+                            
+                        </ul>
+                    </nav>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
-</div>
+    }@else {
+        <div class="icon-container">
+            <i class="bi bi-file-earmark-excel waiting-search giant-icon"></i>
+            <p class="file-description">No hay registros disponibles asociados a esta busqueda.</p>
+        </div>
+    }
+    }@else {
+    <div class="icon-container">
+        <i class="bi bi-file-earmark waiting-search giant-icon"></i>
+        <p class="file-description">Visualiza las Solicitudes de Usuario llenando los campos del formulario.</p>
+    </div>
+    }
+
+</form>
+
+
 <router-outlet></router-outlet>

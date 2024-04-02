@@ -1,3 +1,8 @@
+.container-fluid {
+    padding-left: 50px;
+    padding-right: 10%;
+}
+
 footer {
     position: relative;
     /* Posición relativa para el footer */

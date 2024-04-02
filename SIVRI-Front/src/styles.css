@@ -94,7 +94,7 @@
 .nav-underline .nav-item .nav-link {
     color: var(--azul-principal, #006);
     /* Color del texto del enlace */
-    font-size: 14px;
+    font-size: 15px;
     /* Tamaño de fuente */
     font-style: normal;
     /* Estilo de fuente */
@@ -106,7 +106,7 @@
 
 /* Estilos para el enlace activo de la navegación horizontal */
 .nav-underline .nav-item .nav-link.active {
-    font-weight: 600;
+    font-weight: 700;
     /* Peso de la fuente */
     border-bottom-color: #C00;
     /* Color del borde inferior */
@@ -142,4 +142,138 @@
     /* Color */
     z-index: 1;
     /* Índice z */
+}
+
+/* ---------------- Data Table ---------------- */
+.filter-box>.row {
+    margin-top: 15px;
+}
+
+.form-guide-line {
+    margin-top: 20px;
+    height: 1px;
+    background-color: rgba(224, 224, 255, 0.70);
+}
+
+.filtrar {
+    border-radius: 100px;
+    background: #006;
+    width: 90px;
+    height: 34px;
+    color: #FFF;
+    /* Color del texto del enlace */
+    font-size: 15px;
+    /* Tamaño de fuente */
+    font-style: normal;
+    /* Estilo de fuente */
+    font-weight: 400;
+    /* Peso de la fuente */
+    line-height: normal;
+    box-shadow: none !important;
+    outline: none !important;
+    border-color: transparent !important;
+}
+
+.filtrar:hover {
+    background: #5056AC;
+    box-shadow: none !important;
+    outline: none !important;
+    border-color: transparent !important;
+}
+
+.limpiar {
+    border-radius: 100px;
+    border: var(--2, 1px) solid #006;
+    background: #F6F6F6;
+    margin-right: 10px;
+    width: 90px;
+    height: 34px;
+
+    color: #006;
+    /* Color del texto del enlace */
+    font-size: 15px;
+    /* Tamaño de fuente */
+    font-style: normal;
+    /* Estilo de fuente */
+    font-weight: 400;
+    /* Peso de la fuente */
+}
+
+.limpiar:hover {
+    color: #006;
+    border: var(--2, 1px) solid #006;
+    background: rgba(80, 86, 172, 0.20);
+}
+
+.etiqueta-form {
+    color: var(--azul-principal, #006);
+    /* Color del texto del enlace */
+    font-size: 15px;
+    /* Tamaño de fuente */
+    font-style: normal;
+    /* Estilo de fuente */
+    font-weight: 400;
+    /* Peso de la fuente */
+    line-height: normal;
+}
+
+.form-select {
+    border-radius: 7px;
+    border: 1px solid var(--gris-deshabilitado, #E4E1EC);
+    /* Color del texto del enlace */
+    font-size: 15px;
+    /* Tamaño de fuente */
+    font-style: normal;
+    /* Estilo de fuente */
+    font-weight: 400;
+    /* Peso de la fuente */
+    line-height: normal;
+}
+
+.form-select option {
+    font-size: 15px;
+    /* Tamaño de fuente */
+    font-style: normal;
+    /* Estilo de fuente */
+    font-weight: 400;
+    /* Peso de la fuente */
+    line-height: normal;
+}
+
+.form-control {
+    border-radius: 7px;
+    border: 1px solid var(--gris-deshabilitado, #E4E1EC);
+    /* Color del texto del enlace */
+    font-size: 15px;
+    /* Tamaño de fuente */
+    font-style: normal;
+    /* Estilo de fuente */
+    font-weight: 400;
+    /* Peso de la fuente */
+    line-height: normal;
+}
+
+.icon-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    height: 300px;
+    /* ajusta la altura según sea necesario */
+    color: var(--GRIS-DE-INPUT, #ABA9B0);
+}
+
+.giant-icon {
+    font-size: 10em;
+}
+
+.file-description {
+    color: #888;
+    /* color gris */
+    margin-top: 0px;
+    /* ajusta el margen superior según sea necesario */
+}
+
+.datatable{
+    margin-top: 20px;
 }

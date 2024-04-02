@@ -8,6 +8,13 @@ const adminRoutes: Routes = [
     component: ContentComponent,
     children: [
       {
+        path: '',
+        loadChildren: () =>
+          import('../../pages/inicio/inicio.module').then(
+            (c) => c.InicioModule
+          ),
+      },
+      {
         path: 'inicio',
         loadChildren: () =>
           import('../../pages/inicio/inicio.module').then(
