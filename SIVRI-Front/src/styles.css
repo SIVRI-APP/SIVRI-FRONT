@@ -155,6 +155,41 @@
     background-color: rgba(224, 224, 255, 0.70);
 }
 
+.table th{
+    color: var(--azul-principal, #006);
+    /* Color del texto del enlace */
+    font-size: 15px;
+    /* Tamaño de fuente */
+    font-style: normal;
+    /* Estilo de fuente */
+    font-weight: 700;
+    /* Peso de la fuente */
+    line-height: normal;
+}
+
+.table td{
+    /* Color del texto del enlace */
+    font-size: 15px;
+    /* Tamaño de fuente */
+    font-style: normal;
+    /* Peso de la fuente */
+    line-height: normal;
+}
+
+.listar {
+    font-size: 15px;
+    margin-right: 10px;
+    color: var(--azul-principal, #006);
+    /* Color del texto del enlace */
+    font-size: 15px;
+    /* Tamaño de fuente */
+    font-style: normal;
+    /* Estilo de fuente */
+    font-weight: 400;
+    /* Peso de la fuente */
+    line-height: normal;
+}
+
 .filtrar {
     border-radius: 100px;
     background: #006;
@@ -274,6 +309,37 @@
     /* ajusta el margen superior según sea necesario */
 }
 
-.datatable{
+.datatable {
     margin-top: 20px;
+}
+
+.dataTables_info {
+    font-size: 15px;
+    /* Tamaño de fuente */
+    font-style: normal;
+    /* Estilo de fuente */
+    font-weight: 400;
+    /* Peso de la fuente */
+    line-height: normal;
+}
+
+.dataTableActionBtn {
+    font-size: 22px;
+    color: #006;
+    cursor: pointer;
+
+    transition: transform 0.2s ease, color 0.3s ease;
+}
+
+.dataTableActionBtn:hover {
+    transform: scale(1.2); 
+    color: #C00;
+}
+
+.active > .page-link{
+    background-color: #006;
+}
+
+.page-link:not(.active > .page-link) {
+    cursor: pointer;
 }

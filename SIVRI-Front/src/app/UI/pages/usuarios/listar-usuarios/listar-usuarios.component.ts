@@ -177,7 +177,8 @@ export class ListarUsuariosComponent {
       ' a ' +
       elementosVisualizadosHastaFinal +
       ' de ' +
-      totalElements
+      totalElements +
+      ' Registros'
     );
   }
 
