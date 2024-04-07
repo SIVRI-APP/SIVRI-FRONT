@@ -165,6 +165,7 @@
     font-weight: 700;
     /* Peso de la fuente */
     line-height: normal;
+    text-align: center;
 }
 
 .table td{
@@ -174,6 +175,8 @@
     font-style: normal;
     /* Peso de la fuente */
     line-height: normal;
+    vertical-align: middle;
+    text-align: center;
 }
 
 .listar {
