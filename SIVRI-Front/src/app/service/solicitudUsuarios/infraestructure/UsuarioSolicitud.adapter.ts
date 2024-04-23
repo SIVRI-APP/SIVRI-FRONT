@@ -11,7 +11,7 @@ import { UsuarioSolicitudListarConFiltroProyeccion } from '../domain/model/proye
 @Injectable({
   providedIn: 'root',
 })
-export class UsuarioSolicitudObtenerAdapter {
+export class UsuarioSolicitudAdapter {
   private apiUrl = environment.urlApi + 'usuarioSolicitud/';
 
   constructor(private http: HttpClient) { }
@@ -42,5 +42,24 @@ export class UsuarioSolicitudObtenerAdapter {
     if (tipoUsuario !== undefined) params = params.set('tipoUsuario', tipoUsuario);
   
     return this.http.get<Respuesta<Paginacion<UsuarioSolicitudListarConFiltroProyeccion>>>(this.apiUrl + 'listarTodoConFiltro', { params: params });
+  }
+
+  crearSolicitudUsuario(
+    body: {
+      tipoDocumento?: string,
+      numeroDocumento?: string,
+      sexo?: string,
+      tipoUsuario?: string,
+      nombre?: string,
+      apellido?: string,
+      telefono?: string,
+      cvLac?: string,
+      nota?: string,
+      programaId?: number,
+      organismoDeInvestigacionId?: number,
+      rolGrupoId?: number
+    }
+  ): Observable<Respuesta<boolean>> {
+    return this.http.post<Respuesta<boolean>>(this.apiUrl + 'crearSolicitudUsuario', body);
   }
 }

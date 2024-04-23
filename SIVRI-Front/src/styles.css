@@ -219,6 +219,10 @@
     border-color: transparent !important;
 }
 
+.filtrar i{
+    margin-right: 5px;
+}
+
 .limpiar {
     border-radius: 100px;
     border: var(--2, 1px) solid #006;
@@ -241,6 +245,10 @@
     color: #006;
     border: var(--2, 1px) solid #006;
     background: rgba(80, 86, 172, 0.20);
+}
+
+.limpiar i{
+    margin-right: 5px;
 }
 
 .etiqueta-form {

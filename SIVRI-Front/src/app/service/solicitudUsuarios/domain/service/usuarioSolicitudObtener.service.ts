@@ -5,13 +5,13 @@ import { TipoUsuario } from '../model/enum/tipoUsuario';
 import { UsuarioSolicitudListarConFiltroProyeccion } from '../model/proyecciones/usuarioSolicitudListarConFiltroProyeccion';
 import { Paginacion } from '../../../common/paginacion';
 import { Respuesta } from '../../../common/respuesta';
-import { UsuarioSolicitudObtenerAdapter } from '../../infraestructure/UsuarioSolicitudObtenerAdapter';
+import { UsuarioSolicitudAdapter } from '../../infraestructure/UsuarioSolicitud.adapter';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UsuarioSolicitudObtenerService {
-  constructor(private usuarioSolicitudObtenerAdapter: UsuarioSolicitudObtenerAdapter) {}
+  constructor(private usuarioSolicitudAdapter: UsuarioSolicitudAdapter) {}
 
   listarConFiltro(
     pageNo?: number | undefined,
@@ -24,7 +24,7 @@ export class UsuarioSolicitudObtenerService {
     apellido?: string | undefined,
     tipoUsuario?: TipoUsuario | undefined
   ): Observable<Respuesta<Paginacion<UsuarioSolicitudListarConFiltroProyeccion>>> {
-    return this.usuarioSolicitudObtenerAdapter.listarConFiltro(
+    return this.usuarioSolicitudAdapter.listarConFiltro(
       pageNo,
       pageSize,
       correo,

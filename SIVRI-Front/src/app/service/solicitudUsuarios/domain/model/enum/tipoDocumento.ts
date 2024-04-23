@@ -1,6 +1,6 @@
 export enum TipoDocumento {
-    CEDULA_CIUDADANIA = "CEDULA_CIUDADANIA",
-    TARJETA_IDENTIDAD = "TARJETA_IDENTIDAD",
-    CEDULA_EXTRANJERIA = "CEDULA_EXTRANJERIA",
-    PASAPORTE = "PASAPORTE"
-  }
+  CEDULA_CIUDADANIA = 'Cedula Ciudadania',
+  TARJETA_IDENTIDAD = 'Tarjeta de Identidad',
+  CEDULA_EXTRANJERIA = 'Cedula de Extranjeria',
+  PASAPORTE = 'Pasaporte',
+}

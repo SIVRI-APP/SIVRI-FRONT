@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { UsuarioSolicitudObtenerService } from '../../../../service/solicitudUsuarios/domain/service/UsuarioSolicitudObtenerService';
+import { UsuarioSolicitudObtenerService } from '../../../../service/solicitudUsuarios/domain/service/usuarioSolicitudObtener.service';
 import { UsuarioSolicitudListarConFiltroProyeccion } from '../../../../service/solicitudUsuarios/domain/model/proyecciones/usuarioSolicitudListarConFiltroProyeccion';
 import { Respuesta } from '../../../../service/common/respuesta';
 import { Paginacion } from '../../../../service/common/paginacion';
