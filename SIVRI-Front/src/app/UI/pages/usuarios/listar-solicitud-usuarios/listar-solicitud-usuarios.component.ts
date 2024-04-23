@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { RouterOutlet } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { UsuarioSolicitudObtenerService } from '../../../../service/solicitudUsuarios/domain/service/UsuarioSolicitudObtenerService';
-import { UsuarioSolicitudListarConFiltroProjection } from '../../../../service/solicitudUsuarios/domain/model/UsuarioSolicitudListarConFiltro.projection';
+import { UsuarioSolicitudListarConFiltroProyeccion } from '../../../../service/solicitudUsuarios/domain/model/proyecciones/usuarioSolicitudListarConFiltroProyeccion';
 import { Respuesta } from '../../../../service/common/respuesta';
 import { Paginacion } from '../../../../service/common/paginacion';
 import { TipoDocumento } from '../../../../service/solicitudUsuarios/domain/model/enum/tipoDocumento';
@@ -11,11 +11,11 @@ import { TipoUsuario } from '../../../../service/solicitudUsuarios/domain/model/
 @Component({
   selector: 'app-listar-usuarios',
   standalone: true,
-  imports: [RouterOutlet, ReactiveFormsModule],
-  templateUrl: './listar-usuarios.component.html',
-  styleUrl: './listar-usuarios.component.css',
+  imports: [RouterLink, ReactiveFormsModule],
+  templateUrl: './listar-solicitud-usuarios.component.html',
+  styleUrl: './listar-solicitud-usuarios.component.css',
 })
-export class ListarUsuariosComponent {
+export class ListarSolicitudUsuariosComponent {
   constructor(
     private usuarioSolicitudObtenerService: UsuarioSolicitudObtenerService
   ) {}
@@ -33,8 +33,8 @@ export class ListarUsuariosComponent {
   });
 
   protected listaSolicitudUsuarios: Respuesta<
-    Paginacion<UsuarioSolicitudListarConFiltroProjection>
-  > = new Respuesta<Paginacion<UsuarioSolicitudListarConFiltroProjection>>();
+    Paginacion<UsuarioSolicitudListarConFiltroProyeccion>
+  > = new Respuesta<Paginacion<UsuarioSolicitudListarConFiltroProyeccion>>();
 
   protected visualizando: string = '';
 
@@ -200,7 +200,7 @@ export class ListarUsuariosComponent {
 
     // Reiniciar la lista de usuarios solicitados
     this.listaSolicitudUsuarios = new Respuesta<
-      Paginacion<UsuarioSolicitudListarConFiltroProjection>
+      Paginacion<UsuarioSolicitudListarConFiltroProyeccion>
     >();
   }
 

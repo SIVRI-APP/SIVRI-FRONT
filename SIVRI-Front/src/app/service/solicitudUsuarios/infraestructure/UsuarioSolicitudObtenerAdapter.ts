@@ -6,30 +6,27 @@ import { TipoDocumento } from '../domain/model/enum/tipoDocumento';
 import { TipoUsuario } from '../domain/model/enum/tipoUsuario';
 import { Respuesta } from '../../common/respuesta';
 import { Paginacion } from '../../common/paginacion';
-import { UsuarioSolicitudListarConFiltroProjection } from '../domain/model/UsuarioSolicitudListarConFiltro.projection';
-import { UsuarioSolicitudObtenerCU } from '../application/UsuarioSolicitudObtenerCU';
+import { UsuarioSolicitudListarConFiltroProyeccion } from '../domain/model/proyecciones/usuarioSolicitudListarConFiltroProyeccion';
 
 @Injectable({
   providedIn: 'root',
 })
-export class UsuarioSolicitudObtenerAdapter extends UsuarioSolicitudObtenerCU {
+export class UsuarioSolicitudObtenerAdapter {
   private apiUrl = environment.urlApi + 'usuarioSolicitud/';
 
-  constructor(private http: HttpClient) {
-    super();
-  }
+  constructor(private http: HttpClient) { }
 
   listarConFiltro(
-    pageNo: number,
-    pageSize: number,
+    pageNo: number = 0,
+    pageSize: number = 10,
     correo?: string | undefined,
     estado?: string | undefined,
     tipoDocumento?: TipoDocumento | undefined,
     numeroDocumento?: string | undefined,
-    nombres?: string | undefined,
-    apellidos?: string | undefined,
+    nombre?: string | undefined,
+    apellido?: string | undefined,
     tipoUsuario?: TipoUsuario | undefined
-  ): Observable<Respuesta<Paginacion<UsuarioSolicitudListarConFiltroProjection>>> {
+  ): Observable<Respuesta<Paginacion<UsuarioSolicitudListarConFiltroProyeccion>>> {
 
     let params = new HttpParams()
     .set('pageNo', pageNo.toString())
@@ -40,10 +37,10 @@ export class UsuarioSolicitudObtenerAdapter extends UsuarioSolicitudObtenerCU {
     if (estado !== undefined) params = params.set('estado', estado);
     if (tipoDocumento !== undefined) params = params.set('tipoDocumento', tipoDocumento);
     if (numeroDocumento !== undefined) params = params.set('numeroDocumento', numeroDocumento);
-    if (nombres !== undefined) params = params.set('nombres', nombres);
-    if (apellidos !== undefined) params = params.set('apellidos', apellidos);
+    if (nombre !== undefined) params = params.set('nombre', nombre);
+    if (apellido !== undefined) params = params.set('apellido', apellido);
     if (tipoUsuario !== undefined) params = params.set('tipoUsuario', tipoUsuario);
   
-    return this.http.get<Respuesta<Paginacion<UsuarioSolicitudListarConFiltroProjection>>>(this.apiUrl + 'listarTodoConFiltro', { params: params });
+    return this.http.get<Respuesta<Paginacion<UsuarioSolicitudListarConFiltroProyeccion>>>(this.apiUrl + 'listarTodoConFiltro', { params: params });
   }
 }

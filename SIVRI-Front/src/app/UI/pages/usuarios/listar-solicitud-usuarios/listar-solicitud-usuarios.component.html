@@ -14,7 +14,7 @@
             </div>
 
             <div class="col-sm">
-                <label for="nombre" class="etiqueta-form"><strong>Nombre</strong></label>
+                <label for="nombre" class="etiqueta-form"><strong>Nombres</strong></label>
                 <input id="nombre" name="nombre" class="form-control" type="text" placeholder="Nombre"
                     formControlName="nombres">
             </div>
@@ -128,12 +128,12 @@
                         <tr>
                             <td>{{usuarioSolicitud.id}}</td>
                             <td>{{usuarioSolicitud.estado}}</td>
-                            <td>{{usuarioSolicitud.nombres}} {{usuarioSolicitud.apellidos}}</td>
+                            <td>{{usuarioSolicitud.nombre}} {{usuarioSolicitud.apellido}}</td>
                             <td>{{usuarioSolicitud.correo}}</td>
                             <td>{{usuarioSolicitud.tipoDocumento}}</td>
                             <td>{{usuarioSolicitud.numeroDocumento}}</td>
                             <td>{{usuarioSolicitud.tipoUsuario}}</td>
-                            <td><a><i class="bi bi-eye-fill dataTableActionBtn" title="Ver Detalles"></i></a></td>
+                            <td><a [routerLink]="[usuarioSolicitud.id]"><i class="bi bi-eye-fill dataTableActionBtn" title="Ver Detalles"></i></a></td>
                         </tr>
                         }
                         }
@@ -197,6 +197,3 @@
     }
 
 </form>
-
-
-<router-outlet></router-outlet>

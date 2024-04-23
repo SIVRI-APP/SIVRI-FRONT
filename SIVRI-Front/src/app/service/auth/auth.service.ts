@@ -8,31 +8,45 @@ import { TokenModel } from './domain/model/token.model';
   providedIn: 'root',
 })
 export class AuthService {
-  redirectUrl: string | null = null;
+  public redirectUrl: string | null = null;
+  public token: TokenModel;
 
-  isLoggedIn = false;
-  token = '';
-
-  constructor(private credencialService: CredencialService) {}
+  constructor(private credencialService: CredencialService) {
+    // Asignación de valores a la instancia
+    this.token = {
+      isLoggedIn: false, // Por defecto, no está logueado
+      access_token: '', // Cadena vacía
+      refresh_token: '', // Cadena vacía
+      nombreCompleto: '', // Cadena vacía
+      tipoUsuario: '',
+      authorities: new Set<string>() // Set vacío
+    };
+  }
 
   isAuth() {
-    return this.token.length > 0;
+    return this.token.isLoggedIn;
   }
 
   login(loginRequest: LoginRequest): Observable<TokenModel> {
     return this.credencialService.autenticar(loginRequest).pipe(
       tap((token: TokenModel) => {
         if (token && token.access_token) {
-          sessionStorage.setItem('access_token', token.access_token);
-          this.isLoggedIn = true;
-          this.token = token.access_token;
+          this.token = token;
+          this.token.isLoggedIn = true;
+          console.log(this.token);
         }
       })
     );
   }
 
   logout(): void {
-    this.isLoggedIn = false;
-    this.token = '';
+    this.token = {
+      isLoggedIn: false, // Por defecto, no está logueado
+      access_token: '', // Cadena vacía
+      refresh_token: '', // Cadena vacía
+      nombreCompleto: '', // Cadena vacía
+      tipoUsuario: '',
+      authorities: new Set<string>() // Set vacío
+    };
   }
 }
