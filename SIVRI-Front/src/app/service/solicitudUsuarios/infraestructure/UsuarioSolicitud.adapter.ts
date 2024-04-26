@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { environment } from '../../../config/environment/environment';
+import { environment } from '../../../config/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { TipoDocumento } from '../domain/model/enum/tipoDocumento';
 import { TipoUsuario } from '../domain/model/enum/tipoUsuario';

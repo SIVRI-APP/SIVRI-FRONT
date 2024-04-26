@@ -2,7 +2,7 @@ import { Observable, tap } from 'rxjs';
 import { HttpClient} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CredencialCU } from '../application/credencial-CU';
-import { environment } from '../../../config/environment/environment';
+import { environment } from '../../../config/environment';
 import { LoginRequest } from '../domain/model/loginRequest';
 import { TokenModel } from '../domain/model/token.model';
 
