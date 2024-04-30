@@ -1,4 +1,4 @@
-import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TipoDocumento } from '../../../../service/solicitudUsuarios/domain/model/enum/tipoDocumento';
 import { TipoUsuario } from '../../../../service/solicitudUsuarios/domain/model/enum/tipoUsuario';
@@ -16,11 +16,9 @@ import { CommonModule } from '@angular/common';
 })
 export class CrearSolicitudUsuarioComponent {
   constructor(
-    private usuarioSolicitudCrearService: UsuarioSolicitudCrearService,
-    private renderer: Renderer2
+    private usuarioSolicitudCrearService: UsuarioSolicitudCrearService
   ) {}
 
-  @ViewChild('elementoModal') elementoModal: ElementRef | undefined;
 
   protected creado: Respuesta<boolean> = new Respuesta<false>();
 
@@ -54,6 +52,7 @@ export class CrearSolicitudUsuarioComponent {
     if (this.crearForm.valid) {
       // Obtener los valores del formulario
       const formValues = this.obtenerValoresFormulario();
+      
       // Realizar solicitud para obtener los datos filtrados
       this.usuarioSolicitudCrearService
         .crearSolicitudUsuario({
@@ -77,13 +76,6 @@ export class CrearSolicitudUsuarioComponent {
             // Captura la respuesta
             this.creado = respuesta;
             console.log(this.creado);
-
-
-            if (this.elementoModal) {
-              this.renderer.setAttribute(this.elementoModal.nativeElement, 'data-bs-target', '#gestionConvocatorias-agregarDocumento');
-              // También puedes agregar el atributo data-bs-toggle si deseas activar el modal automáticamente
-              this.renderer.setAttribute(this.elementoModal.nativeElement, 'data-bs-toggle', 'modal');
-            }
           },
           // Manejar errores
           error: (errorData) => {

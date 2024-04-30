@@ -8,8 +8,9 @@
                 <label for="estado" class="etiqueta-form"><strong>Estado</strong></label>
                 <select id="estado" name="estado" class="form-select" formControlName="estado">
                     <option value="" disabled selected hidden>Estado Solicitud</option>
-                    <option value="FORMULADO_OBSERVACIONES">Formulado con Observaciones</option>
-                    <option value="REVISION_VRI">Revision VRI</option>
+                    @for (key of getKeys(estadoSolicitudUsuarioEnum); track $index) {
+                        <option [value]="key">{{getValueByKey(estadoSolicitudUsuarioEnum, key)}}</option>
+                    }
                 </select>
             </div>
 
@@ -39,12 +40,10 @@
                 <label for="tipo_documento" class="etiqueta-form"><strong>Tipo de
                         Documento</strong></label>
                 <select id="tipo_documento" name="tipo_documento" class="form-select" formControlName="tipoDocumento">
-                    <option value="" disabled selected hidden>Tipo de Documento
-                    </option>
-                    <option value="CEDULA_CIUDADANIA">Cedula</option>
-                    <option value="CEDULA_EXTRANJERIA">Cedula de Extranjeria</option>
-                    <option value="PASAPORTE">Pasaporte</option>
-                    <option value="TARJETA_IDENTIDAD">Tarjeta de Identidad</option>
+                    <option value="" disabled selected hidden>Tipo de Documento</option>
+                    @for (key of getKeys(tipoDocumentoEnum); track $index) {
+                    <option [value]="key">{{getValueByKey(tipoDocumentoEnum, key)}}</option>
+                    }
                 </select>
             </div>
 
@@ -60,11 +59,9 @@
                         Usuario</strong></label>
                 <select id="tipo_usuario" name="tipo_usuario" class="form-select" formControlName="tipoUsuario">
                     <option value="" disabled selected hidden>Tipo de Usuario</option>
-                    <option value="DOCENTE">Docente</option>
-                    <option value="EGRESADO">Egresado</option>
-                    <option value="EXTERNO">Externo</option>
-                    <option value="POSGRADO">Posgrado</option>
-                    <option value="PREGRADO">Pregrado</option>
+                    @for (key of getKeys(tipoUsuarioEnum); track $index) {
+                        <option [value]="key">{{getValueByKey(tipoUsuarioEnum, key)}}</option>
+                    }
                 </select>
             </div>
 
@@ -93,7 +90,7 @@
                     </div>
                 </button>
 
-                <button type="button" class="primaryBTN" (click)="limpiarCampos()">
+                <button type="submit" class="primaryBTN">
                     <div class="button-content">
                         <span class="material-symbols-outlined primaryBTN-icon">
                             search

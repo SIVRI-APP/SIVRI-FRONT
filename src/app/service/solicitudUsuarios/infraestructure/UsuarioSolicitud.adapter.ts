@@ -2,8 +2,6 @@ import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../config/environment/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { TipoDocumento } from '../domain/model/enum/tipoDocumento';
-import { TipoUsuario } from '../domain/model/enum/tipoUsuario';
 import { Respuesta } from '../../common/respuesta';
 import { Paginacion } from '../../common/paginacion';
 import { UsuarioSolicitudListarConFiltroProyeccion } from '../domain/model/proyecciones/usuarioSolicitudListarConFiltroProyeccion';
@@ -19,13 +17,13 @@ export class UsuarioSolicitudAdapter {
   listarConFiltro(
     pageNo: number = 0,
     pageSize: number = 10,
-    correo?: string | undefined,
-    estado?: string | undefined,
-    tipoDocumento?: TipoDocumento | undefined,
-    numeroDocumento?: string | undefined,
-    nombre?: string | undefined,
-    apellido?: string | undefined,
-    tipoUsuario?: TipoUsuario | undefined
+    correo?: string,
+    estado?: string,
+    tipoDocumento?: string,
+    numeroDocumento?: string,
+    nombre?: string,
+    apellido?: string,
+    tipoUsuario?: string
   ): Observable<Respuesta<Paginacion<UsuarioSolicitudListarConFiltroProyeccion>>> {
 
     let params = new HttpParams()

@@ -7,6 +7,7 @@ import { Respuesta } from '../../../../service/common/respuesta';
 import { Paginacion } from '../../../../service/common/paginacion';
 import { TipoDocumento } from '../../../../service/solicitudUsuarios/domain/model/enum/tipoDocumento';
 import { TipoUsuario } from '../../../../service/solicitudUsuarios/domain/model/enum/tipoUsuario';
+import { EstadoSolicitudUsuario } from '../../../../service/solicitudUsuarios/domain/model/enum/estadoSolicitudUsuario';
 
 @Component({
   selector: 'app-listar-usuarios',
@@ -23,7 +24,7 @@ export class ListarSolicitudUsuariosComponent {
   protected listarForm = new FormGroup({
     pageNo: new FormControl(0),
     pageSize: new FormControl('10'),
-    correo: new FormControl(),
+    correo: new FormControl(''),
     estado: new FormControl(''),
     tipoDocumento: new FormControl(''),
     numeroDocumento: new FormControl(''),
@@ -37,6 +38,18 @@ export class ListarSolicitudUsuariosComponent {
   > = new Respuesta<Paginacion<UsuarioSolicitudListarConFiltroProyeccion>>();
 
   protected visualizando: string = '';
+
+  tipoDocumentoEnum = TipoDocumento;
+  tipoUsuarioEnum = TipoUsuario;
+  estadoSolicitudUsuarioEnum = EstadoSolicitudUsuario;
+
+  getKeys(enumObject: any): string[] {
+    return Object.keys(enumObject);
+  }
+
+  getValueByKey(enumObject: any, key: string): string {
+    return enumObject[key];
+  }
 
   /**
    * Maneja el envío del formulario de búsqueda de solicitudes de usuario.
@@ -112,11 +125,11 @@ export class ListarSolicitudUsuariosComponent {
     pageSize: number;
     correo?: string;
     estado?: string;
-    tipoDocumento?: TipoDocumento;
+    tipoDocumento?: string;
     numeroDocumento?: string;
     nombres?: string;
     apellidos?: string;
-    tipoUsuario?: TipoUsuario;
+    tipoUsuario?: string;
   } {
     // Captura de los valores del formulario
     const pageNo = this.listarForm.get('pageNo')?.value ?? 0;
@@ -126,18 +139,11 @@ export class ListarSolicitudUsuariosComponent {
     );
     const correo = this.listarForm.get('correo')?.value ?? undefined;
     const estado = this.listarForm.get('estado')?.value ?? undefined;
-    const tipoDocumentoString = this.listarForm.get('tipoDocumento')?.value;
-    const tipoDocumento: TipoDocumento | undefined = tipoDocumentoString
-      ? TipoDocumento[tipoDocumentoString as keyof typeof TipoDocumento]
-      : undefined;
-    const numeroDocumento =
-      this.listarForm.get('numeroDocumento')?.value ?? undefined;
+    const tipoDocumento = this.listarForm.get('tipoDocumento')?.value ?? undefined;
+    const numeroDocumento = this.listarForm.get('numeroDocumento')?.value ?? undefined;
     const nombres = this.listarForm.get('nombres')?.value ?? undefined;
     const apellidos = this.listarForm.get('apellidos')?.value ?? undefined;
-    const tipoUsuarioString = this.listarForm.get('tipoUsuario')?.value;
-    const tipoUsuario: TipoUsuario | undefined = tipoUsuarioString
-      ? TipoUsuario[tipoUsuarioString as keyof typeof TipoUsuario]
-      : undefined;
+    const tipoUsuario = this.listarForm.get('tipoUsuario')?.value ?? undefined;
 
     // Devuelve un objeto con los valores capturados del formulario
     return {
