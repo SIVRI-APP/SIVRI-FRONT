@@ -1,0 +1,19 @@
+.footer {
+    height: 100%;
+    padding-left: 50px;
+    padding-right: 10%;
+}
+
+.line {
+    width: 50%;
+    border-top: 1px solid #ccc;
+}
+
+.copyright{
+    color: #777680;
+    text-align: center;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}

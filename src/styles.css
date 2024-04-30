@@ -1,0 +1,356 @@
+/* ---------------- Miga de Pan ---------------- */
+
+/* Estilos para la miga de pan */
+.breadcrumb {
+    margin-bottom: 5px;
+    /* Margen inferior de la miga de pan */
+}
+
+/* Estilos para los elementos de la miga de pan */
+.breadcrumb-item+.breadcrumb-item::before {
+    padding-right: 8px;
+    /* Espacio entre elementos */
+    color: #C00;
+    /* Color del separador */
+    content: var(--bs-breadcrumb-divider, "/");
+    /* Contenido del separador */
+    font-weight: bold;
+    /* Peso de la fuente del separador */
+}
+
+/* Estilos para los enlaces de la miga de pan */
+.breadcrumb-item a {
+    font-size: 12px;
+    /* Tamaño de fuente */
+}
+
+/* Estilos para los enlaces de la miga de pan al pasar el mouse */
+.breadcrumb-item a:hover {
+    cursor: pointer;
+    /* Cambiar el cursor */
+    color: #006;
+    /* Color del texto al pasar el mouse */
+    border-bottom: 1px solid #006;
+    /* Borde inferior al pasar el mouse */
+}
+
+/* ---------------- Titulo ---------------- */
+
+/* Estilos para el título */
+.title {
+    color: var(--azul-principal, #006);
+    /* Color del texto del título */
+    font-size: 25px;
+    /* Tamaño de fuente */
+    font-style: normal;
+    /* Estilo de fuente */
+    font-weight: 700;
+    /* Peso de la fuente */
+    line-height: normal;
+    /* Altura de línea */
+    text-transform: capitalize;
+    /* Transformación de texto */
+    position: relative;
+    /* Posición relativa */
+    display: inline;
+    /* Visualización en línea */
+}
+
+/* Estilos para el subrayado del título */
+.title::after {
+    content: "";
+    /* Contenido del pseudo-elemento */
+    position: absolute;
+    /* Posición absoluta */
+    bottom: -5px;
+    /* Posición vertical del subrayado */
+    left: 0;
+    /* Posición horizontal del subrayado */
+    width: 60%;
+    /* Ancho del subrayado */
+    border-bottom: 2px solid #C00;
+    /* Estilo del subrayado */
+}
+
+/* ---------------- Navegación Horizontal ---------------- */
+
+/* Estilos para la navegación horizontal */
+.nav-underline {
+    margin-top: 30px;
+    /* Margen superior */
+    padding-bottom: 9px;
+    /* Relleno inferior */
+    position: relative;
+    /* Posición relativa */
+}
+
+/* Estilos para los elementos de la navegación horizontal */
+.nav-underline .nav-item {
+    margin-right: 16px;
+    /* Margen derecho entre elementos */
+}
+
+/* Estilos para los enlaces de la navegación horizontal */
+.nav-underline .nav-item .nav-link {
+    color: var(--azul-principal, #006);
+    /* Color del texto del enlace */
+    font-size: 15px;
+    /* Tamaño de fuente */
+    font-style: normal;
+    /* Estilo de fuente */
+    font-weight: 400;
+    /* Peso de la fuente */
+    line-height: normal;
+    /* Altura de línea */
+}
+
+/* Estilos para el enlace activo de la navegación horizontal */
+.nav-underline .nav-item .nav-link.active {
+    font-weight: 700;
+    /* Peso de la fuente */
+    border-bottom-color: #C00;
+    /* Color del borde inferior */
+    border-bottom-width: 2px;
+    /* Ancho del borde inferior */
+}
+
+/* Estilos para los enlaces de la navegación horizontal al pasar el mouse */
+.nav-underline .nav-item:hover .nav-link:not(.active) {
+    border-bottom-width: 2px;
+    /* Ancho del borde inferior */
+}
+
+/* Estilos para el contenedor de navegación */
+.nav-container {
+    position: relative;
+    /* Posición relativa */
+}
+
+/* Estilos para la línea guía */
+.guide-line {
+    position: absolute;
+    /* Posición absoluta */
+    left: 0;
+    /* Posición horizontal */
+    bottom: 9px;
+    /* Posición vertical */
+    width: 100%;
+    /* Ancho */
+    height: 1px;
+    /* Altura */
+    background-color: rgba(224, 224, 255, 0.70);
+    /* Color */
+    z-index: 1;
+    /* Índice z */
+}
+
+/* ---------------- Data Table ---------------- */
+.filter-box>.row {
+    margin-top: 15px;
+}
+
+.form-guide-line {
+    margin-top: 20px;
+    height: 1px;
+    background-color: rgba(224, 224, 255, 0.70);
+}
+
+.table th{
+    color: var(--azul-principal, #006);
+    /* Color del texto del enlace */
+    font-size: 15px;
+    /* Tamaño de fuente */
+    font-style: normal;
+    /* Estilo de fuente */
+    font-weight: 700;
+    /* Peso de la fuente */
+    line-height: normal;
+    text-align: center;
+}
+
+.table td{
+    /* Color del texto del enlace */
+    font-size: 15px;
+    /* Tamaño de fuente */
+    font-style: normal;
+    /* Peso de la fuente */
+    line-height: normal;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.listar {
+    font-size: 15px;
+    margin-right: 10px;
+    color: var(--azul-principal, #006);
+    /* Color del texto del enlace */
+    font-size: 15px;
+    /* Tamaño de fuente */
+    font-style: normal;
+    /* Estilo de fuente */
+    font-weight: 400;
+    /* Peso de la fuente */
+    line-height: normal;
+}
+
+.filtrar {
+    border-radius: 100px;
+    background: #006;
+    width: 90px;
+    height: 34px;
+    color: #FFF;
+    /* Color del texto del enlace */
+    font-size: 15px;
+    /* Tamaño de fuente */
+    font-style: normal;
+    /* Estilo de fuente */
+    font-weight: 400;
+    /* Peso de la fuente */
+    line-height: normal;
+    box-shadow: none !important;
+    outline: none !important;
+    border-color: transparent !important;
+}
+
+.filtrar:hover {
+    background: #5056AC;
+    box-shadow: none !important;
+    outline: none !important;
+    border-color: transparent !important;
+}
+
+.filtrar i{
+    margin-right: 5px;
+}
+
+.limpiar {
+    border-radius: 100px;
+    border: var(--2, 1px) solid #006;
+    background: #F6F6F6;
+    margin-right: 10px;
+    width: 90px;
+    height: 34px;
+
+    color: #006;
+    /* Color del texto del enlace */
+    font-size: 15px;
+    /* Tamaño de fuente */
+    font-style: normal;
+    /* Estilo de fuente */
+    font-weight: 400;
+    /* Peso de la fuente */
+}
+
+.limpiar:hover {
+    color: #006;
+    border: var(--2, 1px) solid #006;
+    background: rgba(80, 86, 172, 0.20);
+}
+
+.limpiar i{
+    margin-right: 5px;
+}
+
+.etiqueta-form {
+    color: var(--azul-principal, #006);
+    /* Color del texto del enlace */
+    font-size: 15px;
+    /* Tamaño de fuente */
+    font-style: normal;
+    /* Estilo de fuente */
+    font-weight: 400;
+    /* Peso de la fuente */
+    line-height: normal;
+}
+
+.form-select {
+    border-radius: 7px;
+    border: 1px solid var(--gris-deshabilitado, #E4E1EC);
+    /* Color del texto del enlace */
+    font-size: 15px;
+    /* Tamaño de fuente */
+    font-style: normal;
+    /* Estilo de fuente */
+    font-weight: 400;
+    /* Peso de la fuente */
+    line-height: normal;
+}
+
+.form-select option {
+    font-size: 15px;
+    /* Tamaño de fuente */
+    font-style: normal;
+    /* Estilo de fuente */
+    font-weight: 400;
+    /* Peso de la fuente */
+    line-height: normal;
+}
+
+.form-control {
+    border-radius: 7px;
+    border: 1px solid var(--gris-deshabilitado, #E4E1EC);
+    /* Color del texto del enlace */
+    font-size: 15px;
+    /* Tamaño de fuente */
+    font-style: normal;
+    /* Estilo de fuente */
+    font-weight: 400;
+    /* Peso de la fuente */
+    line-height: normal;
+}
+
+.icon-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    height: 100%;
+    color: var(--GRIS-DE-INPUT, #ABA9B0);
+}
+
+.giant-icon {
+    padding-top: 30px;
+    font-size: 10em;
+}
+
+.file-description {
+    color: #888;
+    /* color gris */
+    margin-top: 0px;
+    /* ajusta el margen superior según sea necesario */
+}
+
+.datatable {
+    margin-top: 20px;
+}
+
+.dataTables_info {
+    font-size: 15px;
+    /* Tamaño de fuente */
+    font-style: normal;
+    /* Estilo de fuente */
+    font-weight: 400;
+    /* Peso de la fuente */
+    line-height: normal;
+}
+
+.dataTableActionBtn {
+    font-size: 22px;
+    color: #006;
+    cursor: pointer;
+
+    transition: transform 0.2s ease, color 0.3s ease;
+}
+
+.dataTableActionBtn:hover {
+    transform: scale(1.2); 
+    color: #C00;
+}
+
+.active > .page-link{
+    background-color: #006;
+}
+
+.page-link:not(.active > .page-link) {
+    cursor: pointer;
+}

@@ -1,0 +1,73 @@
+.navbar {
+    height: 70px;
+}
+
+.titulo-app {
+    color: #006;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.titulo-app-short{
+    display: none;
+    color: #006;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.container-fluid{
+    padding: 0;
+    margin-right: 30px;
+    margin-left: 30px;
+}
+.user-name{
+    color: #006;
+    font-weight: 500;
+    font-size: 15px;
+    margin-left: 15px;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.user-name:hover{
+    color: #C00;
+    cursor: pointer;
+}
+
+.icon-notification {
+    color: #006;
+    font-size: 28px;
+    position: relative;
+    transition: color 0.2s ease;
+}
+
+.icon-notification:hover {
+    cursor: pointer;
+    color: #C00;
+}
+
+.notification-badge {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    width: 12px;
+    height: 12px;
+    background-color: #C00;
+    border-radius: 50%;
+}
+
+
+/* Estilos específicos para dispositivos móviles */
+@media only screen and (max-width: 1080px) {
+    .titulo-app {
+        display: none;
+    }
+
+    .titulo-app-short{
+        display: block;
+    }
+}

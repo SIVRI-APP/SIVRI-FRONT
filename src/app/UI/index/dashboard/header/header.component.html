@@ -1,0 +1,72 @@
+<nav class="navbar">
+    <div class="container-fluid">
+        <!-- Parte izquierda -->
+        <div class="navbar-brand">
+            <h2 class="titulo-app">Sistema de Información Vicerrectoría de Investigaciones - SIVRI</h2>
+            <h2 class="titulo-app-short">SIVRI</h2>
+        </div>
+
+        <!-- Parte derecha -->
+        <div class="derecha d-flex justify-content-end">
+
+
+
+            @if (notifications) {
+            <span class="icon-notification material-symbols-outlined" data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+                notifications_active
+                <span class="notification-badge"></span>
+            </span>
+            }@else {
+            <span class="icon-notification material-symbols-outlined" data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+                notifications
+            </span>
+            }
+
+            <div class="dropdown ">
+                <a class="user-name dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown" href="#">
+                    <span class="d-lg-inline">
+                        Miguel Mosquera
+                    </span>
+                </a>
+                <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in">
+                    <a class="dropdown-item" href="#">
+                        &nbsp;Perfil
+                    </a>
+
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">
+                        &nbsp;Cerrar sesión
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</nav>
+
+
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasExampleLabel">Notificaciones</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div>
+            Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images, lists,
+            etc.
+        </div>
+        <div class="dropdown mt-3">
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                Dropdown button
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
