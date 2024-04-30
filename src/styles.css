@@ -179,77 +179,74 @@
     text-align: center;
 }
 
-.listar {
-    font-size: 15px;
-    margin-right: 10px;
-    color: var(--azul-principal, #006);
-    /* Color del texto del enlace */
-    font-size: 15px;
-    /* Tamaño de fuente */
-    font-style: normal;
-    /* Estilo de fuente */
-    font-weight: 400;
-    /* Peso de la fuente */
-    line-height: normal;
+/* Botones */
+.controls {
+    display: flex;
+    flex-direction: row; /* Alinea los elementos en una columna */
+    align-items: center; /* Centra verticalmente los elementos */
+    gap: 15px; /* Ajusta el valor según el espacio horizontal que desees entre los elementos */
 }
 
-.filtrar {
+.primaryBTN {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 100px;
+    border: var(--2, 2px) solid #006;
     background: #006;
+
     width: 90px;
     height: 34px;
-    color: #FFF;
-    /* Color del texto del enlace */
-    font-size: 15px;
-    /* Tamaño de fuente */
-    font-style: normal;
-    /* Estilo de fuente */
-    font-weight: 400;
-    /* Peso de la fuente */
-    line-height: normal;
-    box-shadow: none !important;
-    outline: none !important;
-    border-color: transparent !important;
+    margin-top: 12px;
 }
 
-.filtrar:hover {
+.primaryBTN .button-content {
+    display: flex;
+    align-items: center;
+    color: #fff;
+}
+
+.primaryBTN-icon {
+    font-size: 20px;
+    margin-right: 1px;
+}
+
+.primaryBTN:hover {
     background: #5056AC;
     box-shadow: none !important;
     outline: none !important;
     border-color: transparent !important;
 }
 
-.filtrar i{
-    margin-right: 5px;
-}
-
-.limpiar {
+.secondaryBTN {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 100px;
-    border: var(--2, 1px) solid #006;
+    border: var(--2, 2px) solid #006;
     background: #F6F6F6;
-    margin-right: 10px;
     width: 90px;
     height: 34px;
-
-    color: #006;
-    /* Color del texto del enlace */
-    font-size: 15px;
-    /* Tamaño de fuente */
-    font-style: normal;
-    /* Estilo de fuente */
-    font-weight: 400;
-    /* Peso de la fuente */
+    margin-top: 12px;
 }
 
-.limpiar:hover {
+.secondaryBTN .button-content {
+    display: flex;
+    align-items: center;
     color: #006;
-    border: var(--2, 1px) solid #006;
+}
+
+.secondaryBTN-icon {
+    font-size: 20px;
+    margin-right: 1px;
+}
+
+.secondaryBTN:hover {
+    color: #006;
+    border: var(--2, 2px) solid #006;
     background: rgba(80, 86, 172, 0.20);
 }
 
-.limpiar i{
-    margin-right: 5px;
-}
 
 .etiqueta-form {
     color: var(--azul-principal, #006);
