@@ -5,6 +5,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Respuesta } from '../../common/respuesta';
 import { Paginacion } from '../../common/paginacion';
 import { UsuarioSolicitudListarConFiltroProyeccion } from '../domain/model/proyecciones/usuarioSolicitudListarConFiltroProyeccion';
+import { UsuarioSolicitudInformaciónDetalladaProyección } from '../domain/model/proyecciones/usuarioSolicitudInformaciónDetalladaProyección';
 
 @Injectable({
   providedIn: 'root',
@@ -42,6 +43,16 @@ export class UsuarioSolicitudAdapter {
     return this.http.get<Respuesta<Paginacion<UsuarioSolicitudListarConFiltroProyeccion>>>(this.apiUrl + 'listarTodoConFiltro', { params: params });
   }
 
+  obtenerSolicitudUsuarioInformaciónDetallada(
+    solicitudUsuarioId: string = '0'
+  ): Observable<Respuesta<UsuarioSolicitudInformaciónDetalladaProyección>> {
+
+    let params = new HttpParams()
+    .set('solicitudUsuarioId', solicitudUsuarioId)
+  
+    return this.http.get<Respuesta<UsuarioSolicitudInformaciónDetalladaProyección>>(this.apiUrl + 'obtenerSolicitudUsuario', { params: params });
+  }
+
   crearSolicitudUsuario(
     body: {
       tipoDocumento?: string,
@@ -59,5 +70,18 @@ export class UsuarioSolicitudAdapter {
     }
   ): Observable<Respuesta<boolean>> {
     return this.http.post<Respuesta<boolean>>(this.apiUrl + 'crearSolicitudUsuario', body);
+  }
+
+  aprobarSolicitudUsuario(
+    solicitudUsuarioId: string = '0'
+  ): Observable<Respuesta<boolean>> {
+
+    console.log("adapter")
+    console.log(solicitudUsuarioId);
+
+    let params = new HttpParams()
+    .set('solicitudUsuarioId', solicitudUsuarioId)
+
+    return this.http.post<Respuesta<boolean>>(this.apiUrl + 'aprobar', null, { params: params });
   }
 }

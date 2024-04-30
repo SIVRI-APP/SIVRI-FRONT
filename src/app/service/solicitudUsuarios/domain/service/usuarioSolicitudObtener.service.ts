@@ -4,6 +4,7 @@ import { UsuarioSolicitudListarConFiltroProyeccion } from '../model/proyecciones
 import { Paginacion } from '../../../common/paginacion';
 import { Respuesta } from '../../../common/respuesta';
 import { UsuarioSolicitudAdapter } from '../../infraestructure/UsuarioSolicitud.adapter';
+import { UsuarioSolicitudInformaciónDetalladaProyección } from '../model/proyecciones/usuarioSolicitudInformaciónDetalladaProyección';
 
 @Injectable({
   providedIn: 'root',
@@ -32,6 +33,14 @@ export class UsuarioSolicitudObtenerService {
       nombre,
       apellido,
       tipoUsuario
+    );
+  }
+
+  obtenerSolicitudUsuarioInformaciónDetallada(
+    solicitudUsuarioId?: string
+  ): Observable<Respuesta<UsuarioSolicitudInformaciónDetalladaProyección>> {
+    return this.usuarioSolicitudAdapter.obtenerSolicitudUsuarioInformaciónDetallada(
+      solicitudUsuarioId
     );
   }
 }

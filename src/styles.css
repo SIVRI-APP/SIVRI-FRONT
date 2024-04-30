@@ -194,8 +194,6 @@
     border-radius: 100px;
     border: var(--2, 2px) solid #006;
     background: #006;
-
-    width: 90px;
     height: 34px;
     margin-top: 12px;
 }
@@ -204,11 +202,12 @@
     display: flex;
     align-items: center;
     color: #fff;
+    margin-right: 5px;
 }
 
 .primaryBTN-icon {
     font-size: 20px;
-    margin-right: 1px;
+    margin-right: 5px;
 }
 
 .primaryBTN:hover {
@@ -225,7 +224,6 @@
     border-radius: 100px;
     border: var(--2, 2px) solid #006;
     background: #F6F6F6;
-    width: 90px;
     height: 34px;
     margin-top: 12px;
 }
@@ -234,6 +232,7 @@
     display: flex;
     align-items: center;
     color: #006;
+    margin-right: 5px;
 }
 
 .secondaryBTN-icon {
@@ -332,7 +331,7 @@
 }
 
 .dataTableActionBtn {
-    font-size: 22px;
+    /* font-size: 22px; */
     color: #006;
     cursor: pointer;
 

@@ -28,4 +28,12 @@ export class UsuarioSolicitudCrearService {
   ): Observable<Respuesta<boolean>> {
     return this.usuarioSolicitudAdapter.crearSolicitudUsuario(body);
   }
+
+  aprobarSolicitudUsuario(
+    solicitudUsuarioId?: string
+  ): Observable<Respuesta<boolean>> {
+    console.log("Service")
+    console.log(solicitudUsuarioId)
+    return this.usuarioSolicitudAdapter.aprobarSolicitudUsuario(solicitudUsuarioId);
+  }
 }

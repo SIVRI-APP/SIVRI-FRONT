@@ -15,6 +15,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './crear-solicitud-usuario.component.css',
 })
 export class CrearSolicitudUsuarioComponent {
+  
   constructor(
     private usuarioSolicitudCrearService: UsuarioSolicitudCrearService
   ) {}
