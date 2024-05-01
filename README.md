@@ -31,6 +31,9 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ```npm install bootstrap jquery @popperjs/core```
 
+```npm install @ng-bootstrap/ng-bootstrap```
+
+
 "styles": [
   "node_modules/bootstrap/dist/css/bootstrap.min.css",
   "src/styles.scss"

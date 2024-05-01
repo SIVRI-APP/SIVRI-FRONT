@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TipoDocumento } from '../../../../service/solicitudUsuarios/domain/model/enum/tipoDocumento';
 import { TipoUsuario } from '../../../../service/solicitudUsuarios/domain/model/enum/tipoUsuario';
@@ -6,6 +6,9 @@ import { Sexo } from '../../../../service/solicitudUsuarios/domain/model/enum/se
 import { UsuarioSolicitudCrearService } from '../../../../service/solicitudUsuarios/domain/service/usuarioSolicitudCrear.service';
 import { Respuesta } from '../../../../service/common/respuesta';
 import { CommonModule } from '@angular/common';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalOkComponent } from '../../../shared/modal-ok/modal-ok.component';
+import { ModalBadComponent } from '../../../shared/modal-bad/modal-bad.component';
 
 @Component({
   selector: 'app-crear-solicitud-usuario',
@@ -15,6 +18,8 @@ import { CommonModule } from '@angular/common';
   styleUrl: './crear-solicitud-usuario.component.css',
 })
 export class CrearSolicitudUsuarioComponent {
+
+  private modalService = inject(NgbModal);
   
   constructor(
     private usuarioSolicitudCrearService: UsuarioSolicitudCrearService
@@ -77,9 +82,12 @@ export class CrearSolicitudUsuarioComponent {
             // Captura la respuesta
             this.creado = respuesta;
             console.log(this.creado);
+
+            this.openModalOk(this.creado.userMessage)
           },
           // Manejar errores
           error: (errorData) => {
+            this.openModalBad("Error")
             console.error(errorData);
           },
           // Ejecutar acciones al completar la solicitud
@@ -179,4 +187,13 @@ export class CrearSolicitudUsuarioComponent {
       }
     }
   }
+  
+  openModalOk(message: string) {
+		const modalRef = this.modalService.open(ModalOkComponent);
+		modalRef.componentInstance.name = message;
+	}
+  openModalBad(message: string) {
+		const modalRef = this.modalService.open(ModalBadComponent);
+		modalRef.componentInstance.name = message;
+	}
 }
