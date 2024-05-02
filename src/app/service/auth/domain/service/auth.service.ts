@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
-import { CredencialService } from './domain/service/credencial.service';
-import { LoginRequest } from './domain/model/loginRequest';
-import { TokenModel } from './domain/model/token.model';
+import { CredencialService } from './credencial.service';
+import { LoginRequest } from '../model/loginRequest';
+import { TokenModel } from '../model/token.model';
 
 @Injectable({
   providedIn: 'root',

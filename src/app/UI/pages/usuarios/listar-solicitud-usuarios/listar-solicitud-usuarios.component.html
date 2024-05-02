@@ -9,7 +9,7 @@
                 <select id="estado" name="estado" class="form-select" formControlName="estado">
                     <option value="" disabled selected hidden>Estado Solicitud</option>
                     @for (key of getKeys(estadoSolicitudUsuarioEnum); track $index) {
-                        <option [value]="key">{{getValueByKey(estadoSolicitudUsuarioEnum, key)}}</option>
+                    <option [value]="key">{{getValueByKey(estadoSolicitudUsuarioEnum, key)}}</option>
                     }
                 </select>
             </div>
@@ -60,7 +60,7 @@
                 <select id="tipo_usuario" name="tipo_usuario" class="form-select" formControlName="tipoUsuario">
                     <option value="" disabled selected hidden>Tipo de Usuario</option>
                     @for (key of getKeys(tipoUsuarioEnum); track $index) {
-                        <option [value]="key">{{getValueByKey(tipoUsuarioEnum, key)}}</option>
+                    <option [value]="key">{{getValueByKey(tipoUsuarioEnum, key)}}</option>
                     }
                 </select>
             </div>
@@ -74,11 +74,11 @@
             <div class="col controls">
                 <label class="form-label listar">Ver
                     <select class="form-select form-select-sm" formControlName="pageSize">
-                            <option value="10" selected>10</option>
-                            <option value="25">25</option>
-                            <option value="50">50</option>
-                            <option value="100">100</option>
-                        </select>
+                        <option value="10" selected>10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
                 </label>
 
                 <button type="button" class="secondaryBTN" (click)="limpiarCampos()">
@@ -105,113 +105,8 @@
         <div class="form-guide-line"></div>
     </div>
 
-
-
-
-    <!-- Tabla  -->
-
-    @if (listaSolicitudUsuarios.status == 200 && listaSolicitudUsuarios.data.content != null) {
-    @if (listaSolicitudUsuarios.data.content.length > 0) {
-
-
-
-    <div class="card shadow datatable">
-
-        <div class="card-body">
-
-            <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
-                <table class="table my-0 table-striped" id="dataTable">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Estado</th>
-                            <th>Nombre</th>
-                            <th>Correo</th>
-                            <th>Tipo Doc</th>
-                            <th>Numero Doc</th>
-                            <th>Tipo Usuario</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                        @if (listaSolicitudUsuarios.status == 200) {
-
-                        @for (usuarioSolicitud of listaSolicitudUsuarios.data.content; track usuarioSolicitud.id) {
-                        <tr>
-                            <td>{{usuarioSolicitud.id}}</td>
-                            <td>{{usuarioSolicitud.estado}}</td>
-                            <td>{{usuarioSolicitud.nombre}} {{usuarioSolicitud.apellido}}</td>
-                            <td>{{usuarioSolicitud.correo}}</td>
-                            <td>{{usuarioSolicitud.tipoDocumento}}</td>
-                            <td>{{usuarioSolicitud.numeroDocumento}}</td>
-                            <td>{{usuarioSolicitud.tipoUsuario}}</td>
-                            <td><a [routerLink]="[usuarioSolicitud.id]"><span class="material-symbols-outlined dataTableActionBtn">visibility</span></a></td>
-                            
-                        </tr>
-                        }
-                        }
-
-                    </tbody>
-
-                </table>
-            </div>
-
-            <div class="row">
-                <div class="col-md-6 align-self-center">
-                    <p id="dataTable_info" class="dataTables_info" role="status" aria-live="polite">{{visualizando}}</p>
-                </div>
-                <div class="col-md-6">
-                    <nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
-                        <ul class="pagination">
-
-                            <!-- Atras -->
-                            @if (listaSolicitudUsuarios.data.first) {
-                            <li class="page-item disabled"><a class="page-link" aria-label="Previous"
-                                    (click)="movePage('atras')"><span aria-hidden="true">«</span></a></li>
-                            }@else {
-                            <li class="page-item"><a class="page-link" aria-label="Previous"
-                                    (click)="movePage('atras')"><span aria-hidden="true">«</span></a></li>
-                            }
-
-                            <!-- Paginas -->
-
-                            @for (pageNumber of getPageNumbers(); track $index) {
-                            <li class="page-item pagina"
-                                [class.active]="pageNumber === listaSolicitudUsuarios.data.number + 1"><a
-                                    class="page-link" (click)="changePage(pageNumber)">{{ pageNumber }}</a></li>
-                            }
-
-                            <!-- Adelante -->
-                            @if (listaSolicitudUsuarios.data.last) {
-                            <li class="page-item disabled"><a class="page-link" aria-label="Next"
-                                    (click)="movePage('adelante')"><span aria-hidden="true">»</span></a></li>
-                            }@else {
-                            <li class="page-item"><a class="page-link" aria-label="Next"
-                                    (click)="movePage('adelante')"><span aria-hidden="true">»</span></a></li>
-                            }
-
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </div>
-    }@else {
-    <div class="icon-container">
-        <span class="material-symbols-outlined giant-icon">
-            scan_delete
-        </span>
-        <p class="file-description">No hay registros disponibles asociados a esta busqueda.</p>
-    </div>
-    }
-    }@else {
-    <div class="icon-container">
-        <span class="material-symbols-outlined giant-icon">
-            description
-        </span>
-        <p class="file-description">Visualiza las Solicitudes de Usuario llenando los campos del formulario.</p>
-    </div>
-    }
+    <!-- Tabla Paginada  -->
+    <app-datatable [datatableInputs]="datatableInputs" (changePageEmitter)="changePage($event)"
+        (movePageEmitter)="movePage($event)"></app-datatable>
 
 </form>

@@ -3,41 +3,50 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { UsuarioSolicitudObtenerService } from '../../../../service/solicitudUsuarios/domain/service/usuarioSolicitudObtener.service';
 import { UsuarioSolicitudListarConFiltroProyeccion } from '../../../../service/solicitudUsuarios/domain/model/proyecciones/usuarioSolicitudListarConFiltroProyeccion';
-import { Respuesta } from '../../../../service/common/respuesta';
-import { Paginacion } from '../../../../service/common/paginacion';
+import { Respuesta } from '../../../../service/common/model/respuesta';
+import { Paginacion } from '../../../../service/common/model/paginacion';
 import { TipoDocumento } from '../../../../service/solicitudUsuarios/domain/model/enum/tipoDocumento';
 import { TipoUsuario } from '../../../../service/solicitudUsuarios/domain/model/enum/tipoUsuario';
 import { EstadoSolicitudUsuario } from '../../../../service/solicitudUsuarios/domain/model/enum/estadoSolicitudUsuario';
+import { DatatableComponent } from '../../../shared/datatable/datatable.component';
+import { DatatableInput } from '../../../../service/common/model/datatableInput';
 
 @Component({
   selector: 'app-listar-usuarios',
   standalone: true,
-  imports: [RouterLink, ReactiveFormsModule],
+  imports: [RouterLink, ReactiveFormsModule, DatatableComponent],
   templateUrl: './listar-solicitud-usuarios.component.html',
   styleUrl: './listar-solicitud-usuarios.component.css',
 })
 export class ListarSolicitudUsuariosComponent {
-  constructor(
-    private usuarioSolicitudObtenerService: UsuarioSolicitudObtenerService
-  ) {}
 
-  protected listarForm = new FormGroup({
-    pageNo: new FormControl(0),
-    pageSize: new FormControl('10'),
-    correo: new FormControl(''),
-    estado: new FormControl(''),
-    tipoDocumento: new FormControl(''),
-    numeroDocumento: new FormControl(''),
-    nombres: new FormControl(''),
-    apellidos: new FormControl(''),
-    tipoUsuario: new FormControl(''),
-  });
+  protected listarForm: FormGroup;
+  protected listaSolicitudUsuarios: Respuesta<Paginacion<UsuarioSolicitudListarConFiltroProyeccion>>
+  protected datatableInputs: DatatableInput;
 
-  protected listaSolicitudUsuarios: Respuesta<
-    Paginacion<UsuarioSolicitudListarConFiltroProyeccion>
-  > = new Respuesta<Paginacion<UsuarioSolicitudListarConFiltroProyeccion>>();
+  constructor(private usuarioSolicitudObtenerService: UsuarioSolicitudObtenerService) {
+    this.listaSolicitudUsuarios = new Respuesta<Paginacion<UsuarioSolicitudListarConFiltroProyeccion>>();
 
-  protected visualizando: string = '';
+    this.listarForm = new FormGroup({
+      pageNo: new FormControl(0),
+      pageSize: new FormControl('10'),
+      correo: new FormControl(''),
+      estado: new FormControl(''),
+      tipoDocumento: new FormControl(''),
+      numeroDocumento: new FormControl(''),
+      nombres: new FormControl(''),
+      apellidos: new FormControl(''),
+      tipoUsuario: new FormControl(''),
+    });
+
+    this.datatableInputs = new DatatableInput(
+      false,
+      'Solicitud Usuarios',
+      [],
+      [],
+      new Paginacion<UsuarioSolicitudListarConFiltroProyeccion>()
+    );
+  }
 
   tipoDocumentoEnum = TipoDocumento;
   tipoUsuarioEnum = TipoUsuario;
@@ -83,13 +92,14 @@ export class ListarSolicitudUsuariosComponent {
           next: (respuesta) => {
             // Actualizar la lista de solicitudes de usuario con los datos obtenidos
             this.listaSolicitudUsuarios = respuesta;
-
-            // Calcular el texto de visualización
-            this.visualizando = this.calcularTextoVisualizacion(
-              formValues.pageNo + 1,
-              formValues.pageSize,
-              this.listaSolicitudUsuarios.data.totalElements
-            );
+            console.log(this.listaSolicitudUsuarios)
+            
+            // Actualiar el Input del datatable
+            this.datatableInputs.searchPerformed = true;
+            this.datatableInputs.tableHeaders = ['ID', 'Correo', 'Nombre', 'Apellido', 'Tipo Documento', 'Numero Documento', 'Tipo Usuario', 'Estado'];
+            this.datatableInputs.dataAttributes = ['id', 'correo', 'nombre', 'apellido', 'tipoDocumento', 'numeroDocumento', 'tipoUsuario', 'estado'];
+            this.datatableInputs.paginacion = this.listaSolicitudUsuarios.data;
+            console.log(this.datatableInputs)
           },
           // Manejar errores
           error: (errorData) => {
@@ -160,35 +170,6 @@ export class ListarSolicitudUsuariosComponent {
   }
 
   /**
-   * Calcula el texto que indica qué elementos se están visualizando actualmente.
-   * @param pageNumber El número de página actual.
-   * @param pageSize El tamaño de página actual.
-   * @param totalElements El número total de elementos.
-   * @returns El texto que describe qué elementos se están visualizando.
-   */
-  calcularTextoVisualizacion(
-    pageNumber: number,
-    pageSize: number,
-    totalElements: number
-  ): string {
-    const elementosVisualizadosHasta = pageNumber * pageSize - (pageSize - 1);
-    const elementosVisualizadosHastaFinal = Math.min(
-      elementosVisualizadosHasta + pageSize - 1,
-      totalElements
-    );
-
-    return (
-      'Visualizando ' +
-      elementosVisualizadosHasta +
-      ' a ' +
-      elementosVisualizadosHastaFinal +
-      ' de ' +
-      totalElements +
-      ' Registros'
-    );
-  }
-
-  /**
    * Restablece todos los campos del formulario a sus valores iniciales y reinicia la paginación.
    */
   limpiarCampos(): void {
@@ -231,24 +212,12 @@ export class ListarSolicitudUsuariosComponent {
   }
 
   /**
-   * Genera un array de números de página basado en el número total de páginas.
-   * @returns Un array de números de página.
-   */
-  getPageNumbers(): number[] {
-    const totalPages = this.listaSolicitudUsuarios.data.totalPages;
-    return Array.from({ length: totalPages }, (_, index) => index + 1);
-  }
-
-  /**
    * Cambia la página de resultados de acuerdo al número de página especificado.
    * @param pageNumber El número de página al que se debe cambiar.
    */
   changePage(pageNumber: number): void {
-    // Asegurarse de que newPage no sea menor que 0
-    const nextPage = Math.max(pageNumber - 1, 0);
-
     // Actualizar el valor de pageNo en el formulario
-    this.listarForm.get('pageNo')?.setValue(nextPage);
+    this.listarForm.get('pageNo')?.setValue(pageNumber);
 
     // Enviar el formulario para cargar los datos de la nueva página
     this.onSubmit();
@@ -258,18 +227,11 @@ export class ListarSolicitudUsuariosComponent {
    * Mueve la página de resultados hacia adelante o hacia atrás según la dirección especificada.
    * @param newPage La dirección hacia la que se debe mover la página ('adelante' o 'atras').
    */
-  movePage(newPage: string): void {
-    if (newPage === 'atras') {
-      // Disminuir el número de página en uno si se está yendo hacia atrás
-      this.listarForm
-        .get('pageNo')
-        ?.setValue((this.listarForm.get('pageNo')?.value ?? 0) - 1);
-    } else {
-      // Aumentar el número de página en uno si se está yendo hacia adelante
-      this.listarForm
-        .get('pageNo')
-        ?.setValue((this.listarForm.get('pageNo')?.value ?? 0) + 1);
-    }
+  movePage(newPage: number): void {
+    // Realizar incremento o decremento de la Pagina
+    this.listarForm
+      .get('pageNo')
+      ?.setValue((this.listarForm.get('pageNo')?.value ?? 0) + newPage);
 
     // Enviar el formulario para cargar los datos de la nueva página
     this.onSubmit();

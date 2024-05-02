@@ -2,8 +2,8 @@ import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../config/environment/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Respuesta } from '../../common/respuesta';
-import { Paginacion } from '../../common/paginacion';
+import { Respuesta } from '../../common/model/respuesta';
+import { Paginacion } from '../../common/model/paginacion';
 import { UsuarioSolicitudListarConFiltroProyeccion } from '../domain/model/proyecciones/usuarioSolicitudListarConFiltroProyeccion';
 import { UsuarioSolicitudInformaciónDetalladaProyección } from '../domain/model/proyecciones/usuarioSolicitudInformaciónDetalladaProyección';
 

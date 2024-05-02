@@ -1,8 +1,8 @@
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { UsuarioSolicitudListarConFiltroProyeccion } from '../model/proyecciones/usuarioSolicitudListarConFiltroProyeccion';
-import { Paginacion } from '../../../common/paginacion';
-import { Respuesta } from '../../../common/respuesta';
+import { Paginacion } from '../../../common/model/paginacion';
+import { Respuesta } from '../../../common/model/respuesta';
 import { UsuarioSolicitudAdapter } from '../../infraestructure/UsuarioSolicitud.adapter';
 import { UsuarioSolicitudInformaciónDetalladaProyección } from '../model/proyecciones/usuarioSolicitudInformaciónDetalladaProyección';
 

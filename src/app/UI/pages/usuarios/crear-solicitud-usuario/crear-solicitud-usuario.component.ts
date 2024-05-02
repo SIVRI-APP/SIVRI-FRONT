@@ -4,7 +4,7 @@ import { TipoDocumento } from '../../../../service/solicitudUsuarios/domain/mode
 import { TipoUsuario } from '../../../../service/solicitudUsuarios/domain/model/enum/tipoUsuario';
 import { Sexo } from '../../../../service/solicitudUsuarios/domain/model/enum/sexo';
 import { UsuarioSolicitudCrearService } from '../../../../service/solicitudUsuarios/domain/service/usuarioSolicitudCrear.service';
-import { Respuesta } from '../../../../service/common/respuesta';
+import { Respuesta } from '../../../../service/common/model/respuesta';
 import { CommonModule } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalOkComponent } from '../../../shared/modal-ok/modal-ok.component';

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { UsuarioSolicitudObtenerService } from '../../../../service/solicitudUsuarios/domain/service/usuarioSolicitudObtener.service';
 import { UsuarioSolicitudInformaciónDetalladaProyección } from '../../../../service/solicitudUsuarios/domain/model/proyecciones/usuarioSolicitudInformaciónDetalladaProyección';
-import { Respuesta } from '../../../../service/common/respuesta';
+import { Respuesta } from '../../../../service/common/model/respuesta';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TipoDocumento } from '../../../../service/solicitudUsuarios/domain/model/enum/tipoDocumento';
 import { Sexo } from '../../../../service/solicitudUsuarios/domain/model/enum/sexo';

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
-import { Menu } from './domain/model/menu';
+import { Menu } from '../model/menu';
 
 @Injectable({
   providedIn: 'root'
