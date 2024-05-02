@@ -1,1 +1,15 @@
-<p>modal-ok works!</p>
+<div class="row">
+    <div class="modal-header d-flex justify-content-center">
+        <span class="material-symbols-outlined">
+            task_alt
+        </span>
+    </div>
+    <div class="modal-body d-flex flex-column justify-content-center align-items-center">
+        <div class="modal-title">Exitoso</div>
+        <p>{{ name }}!</p>
+    </div>
+    
+    <div class="modal-footer d-flex flex-column justify-content-center align-items-center">
+        <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Ok</button>
+    </div>
+</div>

@@ -86,9 +86,18 @@ export class CrearSolicitudUsuarioComponent {
             this.openModalOk(this.creado.userMessage)
           },
           // Manejar errores
-          error: (errorData) => {
-            this.openModalBad("Error")
-            console.error(errorData);
+          error: (error) => {
+            let errorMessage = '';
+            if (error.error instanceof ErrorEvent) {
+              // Error del lado del cliente
+              errorMessage = `Error: ${error.error.message}`;
+            } else {
+              // Error del lado del servidor
+              errorMessage = error.error.userMessage || 'Ocurrió un error en el servidor';
+            }
+            // Manejar el error aquí
+            console.error(errorMessage);
+            this.openModalBad(errorMessage);
           },
           // Ejecutar acciones al completar la solicitud
           complete: () => {},
