@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { DatatableInput } from '../../../service/common/model/datatableInput';
 import { RouterLink } from '@angular/router';
+import { EnumTranslationService } from '../../../service/common/enum-translation.service';
 
 @Component({
   selector: 'app-datatable',
@@ -11,12 +12,13 @@ import { RouterLink } from '@angular/router';
 })
 export class DatatableComponent{
 
-  protected visualizando: string = '';
   @Input() datatableInputs: DatatableInput = new DatatableInput();
   @Output() changePageEmitter = new EventEmitter<number>();
   @Output() movePageEmitter = new EventEmitter<number>();
 
-  constructor(){}
+  constructor(
+    protected enumTranslationService: EnumTranslationService
+  ){}
 
   /**
    * Calcula el texto que indica qué elementos se están visualizando actualmente.
@@ -81,5 +83,4 @@ export class DatatableComponent{
       this.movePageEmitter.emit(1);
     }
   }
-
 }

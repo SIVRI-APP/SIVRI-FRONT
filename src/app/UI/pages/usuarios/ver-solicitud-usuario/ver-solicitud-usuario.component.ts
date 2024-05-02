@@ -97,7 +97,7 @@ export class VerSolicitudUsuarioComponent implements OnInit {
             this.solicitudUsuarioForm?.get('estadoSolicitud')?.setValue(this.solicitudUsuario?.data.estado);
             this.solicitudUsuarioForm?.get('estadoSolicitud')?.disable()
 
-            this.nombre = this.solicitudUsuario.data.nombre + this.solicitudUsuario.data.apellido;
+            this.nombre = this.solicitudUsuario.data.nombre + ' ' + this.solicitudUsuario.data.apellido;
           },
           // Manejar errores
           error: (errorData) => {
@@ -108,8 +108,6 @@ export class VerSolicitudUsuarioComponent implements OnInit {
   }
 
   onSubmit(): void {
-    let solicitudUsuarioId = parseInt(this.id);
-    console.log(this.id)
     this.usuarioSolicitudCrearService.aprobarSolicitudUsuario(this.id)
     .subscribe({
       // Manejar respuesta exitosa

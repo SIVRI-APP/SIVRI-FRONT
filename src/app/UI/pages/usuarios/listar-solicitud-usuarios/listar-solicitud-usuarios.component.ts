@@ -20,14 +20,14 @@ import { DatatableInput } from '../../../../service/common/model/datatableInput'
 })
 export class ListarSolicitudUsuariosComponent {
 
-  protected listarForm: FormGroup;
-  protected listaSolicitudUsuarios: Respuesta<Paginacion<UsuarioSolicitudListarConFiltroProyeccion>>
+  protected formulario: FormGroup;
+  protected datos: Respuesta<Paginacion<UsuarioSolicitudListarConFiltroProyeccion>>
   protected datatableInputs: DatatableInput;
 
   constructor(private usuarioSolicitudObtenerService: UsuarioSolicitudObtenerService) {
-    this.listaSolicitudUsuarios = new Respuesta<Paginacion<UsuarioSolicitudListarConFiltroProyeccion>>();
+    this.datos = new Respuesta<Paginacion<UsuarioSolicitudListarConFiltroProyeccion>>();
 
-    this.listarForm = new FormGroup({
+    this.formulario = new FormGroup({
       pageNo: new FormControl(0),
       pageSize: new FormControl('10'),
       correo: new FormControl(''),
@@ -40,10 +40,7 @@ export class ListarSolicitudUsuariosComponent {
     });
 
     this.datatableInputs = new DatatableInput(
-      false,
       'Solicitud Usuarios',
-      [],
-      [],
       new Paginacion<UsuarioSolicitudListarConFiltroProyeccion>()
     );
   }
@@ -70,7 +67,7 @@ export class ListarSolicitudUsuariosComponent {
    */
   onSubmit(): void {
     // Verificar si el formulario es válido
-    if (this.listarForm.valid) {
+    if (this.formulario.valid) {
       // Obtener los valores del formulario
       const formValues = this.obtenerValoresFormulario();
 
@@ -91,15 +88,22 @@ export class ListarSolicitudUsuariosComponent {
           // Manejar respuesta exitosa
           next: (respuesta) => {
             // Actualizar la lista de solicitudes de usuario con los datos obtenidos
-            this.listaSolicitudUsuarios = respuesta;
-            console.log(this.listaSolicitudUsuarios)
+            this.datos = respuesta;
             
             // Actualiar el Input del datatable
             this.datatableInputs.searchPerformed = true;
+            this.datatableInputs.paginacion = this.datos.data;
             this.datatableInputs.tableHeaders = ['ID', 'Correo', 'Nombre', 'Apellido', 'Tipo Documento', 'Numero Documento', 'Tipo Usuario', 'Estado'];
-            this.datatableInputs.dataAttributes = ['id', 'correo', 'nombre', 'apellido', 'tipoDocumento', 'numeroDocumento', 'tipoUsuario', 'estado'];
-            this.datatableInputs.paginacion = this.listaSolicitudUsuarios.data;
-            console.log(this.datatableInputs)
+            this.datatableInputs.dataAttributes = [
+              {name:'id', type:String}, 
+              {name:'correo', type:String}, 
+              {name:'nombre', type:String}, 
+              {name:'apellido', type:String}, 
+              {name:'tipoDocumento', type:TipoDocumento}, 
+              {name:'numeroDocumento', type:String}, 
+              {name:'tipoUsuario', type:TipoUsuario}, 
+              {name:'estado', type:EstadoSolicitudUsuario}
+            ]            
           },
           // Manejar errores
           error: (errorData) => {
@@ -110,7 +114,7 @@ export class ListarSolicitudUsuariosComponent {
         });
     } else {
       // Marcar todos los campos del formulario como tocados si el formulario no es válido
-      this.listarForm.markAllAsTouched();
+      this.formulario.markAllAsTouched();
       // Lanzar un error
       throw new Error('Formulario no válido');
     }
@@ -142,18 +146,18 @@ export class ListarSolicitudUsuariosComponent {
     tipoUsuario?: string;
   } {
     // Captura de los valores del formulario
-    const pageNo = this.listarForm.get('pageNo')?.value ?? 0;
+    const pageNo = this.formulario.get('pageNo')?.value ?? 0;
     const pageSize = parseInt(
-      this.listarForm.get('pageSize')?.value ?? '10',
+      this.formulario.get('pageSize')?.value ?? '10',
       10
     );
-    const correo = this.listarForm.get('correo')?.value ?? undefined;
-    const estado = this.listarForm.get('estado')?.value ?? undefined;
-    const tipoDocumento = this.listarForm.get('tipoDocumento')?.value ?? undefined;
-    const numeroDocumento = this.listarForm.get('numeroDocumento')?.value ?? undefined;
-    const nombres = this.listarForm.get('nombres')?.value ?? undefined;
-    const apellidos = this.listarForm.get('apellidos')?.value ?? undefined;
-    const tipoUsuario = this.listarForm.get('tipoUsuario')?.value ?? undefined;
+    const correo = this.formulario.get('correo')?.value ?? undefined;
+    const estado = this.formulario.get('estado')?.value ?? undefined;
+    const tipoDocumento = this.formulario.get('tipoDocumento')?.value ?? undefined;
+    const numeroDocumento = this.formulario.get('numeroDocumento')?.value ?? undefined;
+    const nombres = this.formulario.get('nombres')?.value ?? undefined;
+    const apellidos = this.formulario.get('apellidos')?.value ?? undefined;
+    const tipoUsuario = this.formulario.get('tipoUsuario')?.value ?? undefined;
 
     // Devuelve un objeto con los valores capturados del formulario
     return {
@@ -174,11 +178,11 @@ export class ListarSolicitudUsuariosComponent {
    */
   limpiarCampos(): void {
     // Restablecer los campos del formulario
-    this.listarForm.reset();
+    this.formulario.reset();
 
     // Establecer el número de página en 0 y el tamaño de página en 1
-    this.listarForm.get('pageNo')?.setValue(0);
-    this.listarForm.get('pageSize')?.setValue('10');
+    this.formulario.get('pageNo')?.setValue(0);
+    this.formulario.get('pageSize')?.setValue('10');
 
     // Restablecer el estado inicial de los selectores
     this.restaurarEstadoInicialSelect('estado', '#estado');
@@ -186,7 +190,7 @@ export class ListarSolicitudUsuariosComponent {
     this.restaurarEstadoInicialSelect('tipoUsuario', '#tipo_usuario');
 
     // Reiniciar la lista de usuarios solicitados
-    this.listaSolicitudUsuarios = new Respuesta<
+    this.datos = new Respuesta<
       Paginacion<UsuarioSolicitudListarConFiltroProyeccion>
     >();
   }
@@ -197,7 +201,7 @@ export class ListarSolicitudUsuariosComponent {
    * @param selector El selector CSS del elemento del DOM.
    */
   restaurarEstadoInicialSelect(controlName: string, selector: string): void {
-    const control = this.listarForm.get(controlName);
+    const control = this.formulario.get(controlName);
     if (control) {
       // Restablecer el valor del control a vacío
       control.setValue('');
@@ -217,7 +221,7 @@ export class ListarSolicitudUsuariosComponent {
    */
   changePage(pageNumber: number): void {
     // Actualizar el valor de pageNo en el formulario
-    this.listarForm.get('pageNo')?.setValue(pageNumber);
+    this.formulario.get('pageNo')?.setValue(pageNumber);
 
     // Enviar el formulario para cargar los datos de la nueva página
     this.onSubmit();
@@ -229,9 +233,9 @@ export class ListarSolicitudUsuariosComponent {
    */
   movePage(newPage: number): void {
     // Realizar incremento o decremento de la Pagina
-    this.listarForm
+    this.formulario
       .get('pageNo')
-      ?.setValue((this.listarForm.get('pageNo')?.value ?? 0) + newPage);
+      ?.setValue((this.formulario.get('pageNo')?.value ?? 0) + newPage);
 
     // Enviar el formulario para cargar los datos de la nueva página
     this.onSubmit();

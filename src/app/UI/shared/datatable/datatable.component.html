@@ -18,12 +18,16 @@
                         </thead>
 
                         <tbody>
-                            @for (data of datatableInputs.paginacion.content; track data[datatableInputs.dataAttributes[0]]) {
+                            @for (data of datatableInputs.paginacion.content; track data[datatableInputs.dataAttributes[0].name]) {
                                 <tr>
                                     @for (attribute of datatableInputs.dataAttributes; track $index) {
-                                        <td>{{data[attribute]}}</td>
+                                        @if (enumTranslationService.isEnumType(attribute.type)) {
+                                            <td>{{enumTranslationService.getValueByKey(attribute.type, data[attribute.name])}}</td>
+                                        }@else {
+                                            <td>{{data[attribute.name]}}</td>
+                                        }
                                     }
-                                    <td>ver</td>
+                                    <td><a [routerLink]="[data[datatableInputs.dataAttributes[0].name]]"><span class="material-symbols-outlined dataTableActionBtn">visibility</span></a></td>
                                 </tr>                                
                             }
                         </tbody>
@@ -33,7 +37,7 @@
 
                 <div class="row">
                     <div class="col-md-6 align-self-center">
-                        <p id="dataTable_info" class="dataTables_info" role="status" aria-live="polite">{{visualizando}}</p>
+                        <p id="dataTable_info" class="dataTables_info" role="status" aria-live="polite">{{calcularTextoVisualizacion()}}</p>
                     </div>
                     <div class="col-md-6">
                         <nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
@@ -84,6 +88,6 @@
         <span class="material-symbols-outlined giant-icon">
             description
         </span>
-        <p class="file-description">Visualiza {{datatableInputs.domain}} llenando los campos del formulario.</p>
+        <p class="file-description">Visualiza registros de {{datatableInputs.domain}} llenando los campos del formulario.</p>
     </div>
 }
