@@ -11,11 +11,11 @@ export class EnumTranslationService {
     return type !== String && type !== Number;
   }
 
-  getKeys(enumObject: any): string[] {
+  getEnumKeys(enumObject: any): string[] {
     return Object.keys(enumObject);
   }
 
-  getValueByKey(enumObject: any, key: string): string {
+  getEnumValueByKey(enumObject: any, key: string): string {
     return enumObject[key];
   }
 

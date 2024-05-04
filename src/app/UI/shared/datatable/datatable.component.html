@@ -22,7 +22,7 @@
                                 <tr>
                                     @for (attribute of datatableInputs.dataAttributes; track $index) {
                                         @if (enumTranslationService.isEnumType(attribute.type)) {
-                                            <td>{{enumTranslationService.getValueByKey(attribute.type, data[attribute.name])}}</td>
+                                            <td>{{enumTranslationService.getEnumValueByKey(attribute.type, data[attribute.name])}}</td>
                                         }@else {
                                             <td>{{data[attribute.name]}}</td>
                                         }

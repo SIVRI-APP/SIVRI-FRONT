@@ -70,7 +70,6 @@ export class VerSolicitudUsuarioComponent implements OnInit {
           next: (respuesta) => {
             // Captura la respuesta
             this.solicitudUsuario = respuesta;
-            console.log(this.solicitudUsuario)
 
             this.solicitudUsuarioForm?.get('id')?.setValue(this.solicitudUsuario?.data.id);
             this.solicitudUsuarioForm?.get('id')?.disable()
@@ -114,7 +113,6 @@ export class VerSolicitudUsuarioComponent implements OnInit {
       next: (respuesta) => {
         // Captura la respuesta
         this.crearUsuario = respuesta;
-        console.log(this.solicitudUsuario)
       },
       // Manejar errores
       error: (errorData) => {

@@ -76,9 +76,6 @@ export class UsuarioSolicitudAdapter {
     solicitudUsuarioId: string = '0'
   ): Observable<Respuesta<boolean>> {
 
-    console.log("adapter")
-    console.log(solicitudUsuarioId);
-
     let params = new HttpParams()
     .set('solicitudUsuarioId', solicitudUsuarioId)
 

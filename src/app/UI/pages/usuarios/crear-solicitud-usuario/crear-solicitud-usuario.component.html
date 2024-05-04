@@ -1,4 +1,4 @@
-<form [formGroup]="crearForm" (ngSubmit)="onSubmit()" method="get">
+<form [formGroup]="formulario" (ngSubmit)="onSubmit()" method="get">
 
     <div class="filter-box">
 
@@ -14,8 +14,8 @@
                 <label for="tipoDocumento" class="etiqueta-form"><strong>Tipo de Documento</strong></label>
                 <select id="tipoDocumento" name="tipoDocumento" class="form-select" formControlName="tipoDocumento">
                     <option value="" disabled selected hidden>Tipo de Documento</option>
-                    @for (key of getKeys(tipoDocumentoEnum); track $index) {
-                    <option [value]="key">{{getValueByKey(tipoDocumentoEnum, key)}}</option>
+                    @for (key of enumTranslationService.getEnumKeys(tipoDocumentoEnum); track $index) {
+                    <option [value]="key">{{enumTranslationService.getEnumValueByKey(tipoDocumentoEnum, key)}}</option>
                     }
                 </select>
             </div>
@@ -30,8 +30,8 @@
                 <label for="sexo" class="etiqueta-form"><strong>Sexo</strong></label>
                 <select id="sexo" name="sexo" class="form-select" formControlName="sexo">
                     <option value="" disabled selected hidden>Sexo</option>
-                    @for (key of getKeys(sexoEnum); track $index) {
-                    <option [value]="key">{{getValueByKey(sexoEnum, key)}}</option>
+                    @for (key of enumTranslationService.getEnumKeys(sexoEnum); track $index) {
+                    <option [value]="key">{{enumTranslationService.getEnumValueByKey(sexoEnum, key)}}</option>
                     }
                 </select>
             </div>
@@ -42,8 +42,8 @@
                 <label for="tipoUsuario" class="etiqueta-form"><strong>Tipo Usuario</strong></label>
                 <select id="tipoUsuario" name="tipoUsuario" class="form-select" formControlName="tipoUsuario">
                     <option value="" disabled selected hidden>Tipo de Usuario</option>
-                    @for (key of getKeys(tipoUsuarioEnum); track $index) {
-                    <option [value]="key">{{getValueByKey(tipoUsuarioEnum, key)}}</option>
+                    @for (key of enumTranslationService.getEnumKeys(tipoUsuarioEnum); track $index) {
+                    <option [value]="key">{{enumTranslationService.getEnumValueByKey(tipoUsuarioEnum, key)}}</option>
                     }
                 </select>
             </div>

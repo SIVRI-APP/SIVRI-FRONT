@@ -6,7 +6,12 @@
     </div>
     <div class="modal-body d-flex flex-column justify-content-center align-items-center">
         <div class="modal-title">Error</div>
-        <p>{{ name }}!</p>
+        <ul>
+            @for (fieldName of getErrorDataKeys(); track $index) {
+                <li>{{ mensaje[fieldName] }}</li>
+            }
+        </ul>
+        
     </div>
     
     <div class="modal-footer d-flex flex-column justify-content-center align-items-center">

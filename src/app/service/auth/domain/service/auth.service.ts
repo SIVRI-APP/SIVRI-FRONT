@@ -33,7 +33,6 @@ export class AuthService {
         if (token && token.access_token) {
           this.token = token;
           this.token.isLoggedIn = true;
-          console.log(this.token);
         }
       })
     );

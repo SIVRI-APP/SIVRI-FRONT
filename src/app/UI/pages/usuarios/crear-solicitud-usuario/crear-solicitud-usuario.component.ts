@@ -9,6 +9,8 @@ import { CommonModule } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalOkComponent } from '../../../shared/modal-ok/modal-ok.component';
 import { ModalBadComponent } from '../../../shared/modal-bad/modal-bad.component';
+import { ErrorData } from '../../../../service/common/model/errorData';
+import { EnumTranslationService } from '../../../../service/common/enum-translation.service';
 
 @Component({
   selector: 'app-crear-solicitud-usuario',
@@ -20,42 +22,35 @@ import { ModalBadComponent } from '../../../shared/modal-bad/modal-bad.component
 export class CrearSolicitudUsuarioComponent {
 
   private modalService = inject(NgbModal);
+  protected respuestaBack: Respuesta<boolean>;
+  protected formulario: FormGroup;
+  protected tipoDocumentoEnum = TipoDocumento;
+  protected sexoEnum = Sexo;
+  protected tipoUsuarioEnum = TipoUsuario;
   
   constructor(
-    private usuarioSolicitudCrearService: UsuarioSolicitudCrearService
-  ) {}
+    private usuarioSolicitudCrearService: UsuarioSolicitudCrearService,
+    protected enumTranslationService: EnumTranslationService
+  ) {
+    this.respuestaBack = new Respuesta<false>();
 
-
-  protected creado: Respuesta<boolean> = new Respuesta<false>();
-
-  protected crearForm = new FormGroup({
-    correo: new FormControl(''),
-    tipoDocumento: new FormControl(''),
-    numeroDocumento: new FormControl(''),
-    sexo: new FormControl(''),
-    tipoUsuario: new FormControl(''),
-    nombre: new FormControl(''),
-    apellido: new FormControl(''),
-    telefono: new FormControl(''),
-    cvLac: new FormControl(''),
-    nota: new FormControl(''),
-  });
-
-  tipoDocumentoEnum = TipoDocumento;
-  sexoEnum = Sexo;
-  tipoUsuarioEnum = TipoUsuario;
-
-  getKeys(enumObject: any): string[] {
-    return Object.keys(enumObject);
-  }
-
-  getValueByKey(enumObject: any, key: string): string {
-    return enumObject[key];
+    this.formulario = new FormGroup({
+      correo: new FormControl(''),
+      tipoDocumento: new FormControl(''),
+      numeroDocumento: new FormControl(''),
+      sexo: new FormControl(''),
+      tipoUsuario: new FormControl(''),
+      nombre: new FormControl(''),
+      apellido: new FormControl(''),
+      telefono: new FormControl(''),
+      cvLac: new FormControl(''),
+      nota: new FormControl(''),
+    });
   }
 
   onSubmit(): void {
     // Verificar si el formulario es válido
-    if (this.crearForm.valid) {
+    if (this.formulario.valid) {
       // Obtener los valores del formulario
       const formValues = this.obtenerValoresFormulario();
       
@@ -80,31 +75,25 @@ export class CrearSolicitudUsuarioComponent {
           // Manejar respuesta exitosa
           next: (respuesta) => {
             // Captura la respuesta
-            this.creado = respuesta;
-            console.log(this.creado);
+            this.respuestaBack = respuesta;
 
-            this.openModalOk(this.creado.userMessage)
+            this.openModalOk(this.respuestaBack.userMessage)
           },
           // Manejar errores
           error: (error) => {
-            let errorMessage = '';
-            if (error.error instanceof ErrorEvent) {
-              // Error del lado del cliente
-              errorMessage = `Error: ${error.error.message}`;
+            // Verificar si el error es del tipo esperado
+            if (error.error && error.error.data) {
+              let respuesta: Respuesta<ErrorData> = error.error;
+              this.openModalBad(respuesta.data);
             } else {
-              // Error del lado del servidor
-              errorMessage = error.error.userMessage || 'Ocurrió un error en el servidor';
+              // Manejar errores inesperados
+              this.openModalBad(new ErrorData({error: "Error inseperado, contactar a soporte"}));
             }
-            // Manejar el error aquí
-            console.error(errorMessage);
-            this.openModalBad(errorMessage);
-          },
-          // Ejecutar acciones al completar la solicitud
-          complete: () => {},
+          }
         });
     } else {
       // Marcar todos los campos del formulario como tocados si el formulario no es válido
-      this.crearForm.markAllAsTouched();
+      this.formulario.markAllAsTouched();
       // Lanzar un error
       throw new Error('Formulario no válido');
     }
@@ -137,17 +126,17 @@ export class CrearSolicitudUsuarioComponent {
     nota?: string;
   } {
     // Captura de los valores del formulario
-    const correo = this.crearForm.get('correo')?.value ?? undefined;
+    const correo = this.formulario.get('correo')?.value ?? undefined;
     const numeroDocumento =
-      this.crearForm.get('numeroDocumento')?.value ?? undefined;
-    const nombre = this.crearForm.get('nombre')?.value ?? undefined;
-    const apellido = this.crearForm.get('apellido')?.value ?? undefined;
-    const telefono = this.crearForm.get('telefono')?.value ?? undefined;
-    const cvLac = this.crearForm.get('cvLac')?.value ?? undefined;
-    const nota = this.crearForm.get('nota')?.value ?? undefined;
-    const tipoUsuario = this.crearForm.get('tipoUsuario')?.value ?? undefined;
-    const tipoDocumento = this.crearForm.get('tipoDocumento')?.value ?? undefined;
-    const sexo = this.crearForm.get('sexo')?.value ?? undefined;
+      this.formulario.get('numeroDocumento')?.value ?? undefined;
+    const nombre = this.formulario.get('nombre')?.value ?? undefined;
+    const apellido = this.formulario.get('apellido')?.value ?? undefined;
+    const telefono = this.formulario.get('telefono')?.value ?? undefined;
+    const cvLac = this.formulario.get('cvLac')?.value ?? undefined;
+    const nota = this.formulario.get('nota')?.value ?? undefined;
+    const tipoUsuario = this.formulario.get('tipoUsuario')?.value ?? undefined;
+    const tipoDocumento = this.formulario.get('tipoDocumento')?.value ?? undefined;
+    const sexo = this.formulario.get('sexo')?.value ?? undefined;
 
     // Devuelve un objeto con los valores capturados del formulario
     return {
@@ -169,7 +158,7 @@ export class CrearSolicitudUsuarioComponent {
    */
   limpiarCampos(): void {
     // Restablecer los campos del formulario
-    this.crearForm.reset();
+    this.formulario.reset();
 
     // Restablecer el estado inicial de los selectores
     this.restaurarEstadoInicialSelect('tipoDocumento', '#tipoDocumento');
@@ -183,7 +172,7 @@ export class CrearSolicitudUsuarioComponent {
    * @param selector El selector CSS del elemento del DOM.
    */
   restaurarEstadoInicialSelect(controlName: string, selector: string): void {
-    const control = this.crearForm.get(controlName);
+    const control = this.formulario.get(controlName);
     if (control) {
       // Restablecer el valor del control a vacío
       control.setValue('');
@@ -201,8 +190,10 @@ export class CrearSolicitudUsuarioComponent {
 		const modalRef = this.modalService.open(ModalOkComponent);
 		modalRef.componentInstance.name = message;
 	}
-  openModalBad(message: string) {
+
+  openModalBad(data: ErrorData) {
+    console.log(data);
 		const modalRef = this.modalService.open(ModalBadComponent);
-		modalRef.componentInstance.name = message;
+		modalRef.componentInstance.mensaje = data;
 	}
 }

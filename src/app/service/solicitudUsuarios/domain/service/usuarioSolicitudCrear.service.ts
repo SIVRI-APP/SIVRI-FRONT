@@ -32,8 +32,6 @@ export class UsuarioSolicitudCrearService {
   aprobarSolicitudUsuario(
     solicitudUsuarioId?: string
   ): Observable<Respuesta<boolean>> {
-    console.log("Service")
-    console.log(solicitudUsuarioId)
     return this.usuarioSolicitudAdapter.aprobarSolicitudUsuario(solicitudUsuarioId);
   }
 }
