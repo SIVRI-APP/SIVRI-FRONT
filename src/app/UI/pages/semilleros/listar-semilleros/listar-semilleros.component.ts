@@ -58,6 +58,8 @@ export class ListarSemillerosComponent {
       ).subscribe({
         // Manejar respuesta exitosa
         next: (respuesta) => {
+          console.log("Respuesta ------------------------")
+          console.log(respuesta)
           // Actualizar la lista de solicitudes de usuario con los datos obtenidos
           this.datos = respuesta;
           console.log("datos"+JSON.stringify(this.datos))
