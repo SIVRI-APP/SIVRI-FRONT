@@ -1,0 +1,64 @@
+<form [formGroup]="formularioFiltro" (ngSubmit)="onsubmit()" method="get">
+  <div class="filter-box">
+
+    <!--filtro de busqueda por id semillero, nombre semillero y estado-->
+    <div class="row">
+      <div class="col-sm-2">
+        <label for="idSemillero" class="etiqueta-form"><strong>Id</strong></label>
+        <input id="idSemillero" name="idSemillero" class="form-control" type="text" placeholder="Id Semillero"
+          formControlName="idSemillero">
+      </div>
+
+      <div class="col-sm-5">
+        <label for="nombre" class="etiqueta-form"><strong>Nombre</strong></label>
+        <input id="nombre" name="nombre" class="form-control" type="text" placeholder="Nombre" formControlName="nombre">
+      </div>
+
+      <div class="col-sm-3">
+        <label for="estado" class="etiqueta-form"><strong>Estado</strong></label>
+        <select id="estado" name="estado" class="form-select" formControlName="estado">
+          <option value="" disabled selected hidden>Estado Semillero</option>
+          @for (key of getKeys(estadoSemilleroEnum); track $index) {
+          <option [value]="key">{{getValueByKey(estadoSemilleroEnum, key)}}</option>
+          }
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col controls">
+        <label class="form-label listar">Mostrar
+          <select class="form-select form-select-sm" formControlName="pageSize">
+            @for (pag of paginas; track $index) {
+            <option [value]="pag">{{pag}}</option>
+            }
+          </select>
+        </label>
+
+        <button type="button" class="secondaryBTN" (click)="limpiarCampos()">
+          <div class="button-content">
+            <span class="material-symbols-outlined secondaryBTN-icon">
+              filter_alt
+            </span>
+            <span class="text">Limpiar</span>
+          </div>
+        </button>
+
+        <button type="submit" class="primaryBTN">
+          <div class="button-content">
+            <span class="material-symbols-outlined primaryBTN-icon">
+              search
+            </span>
+            <span class="text">Buscar</span>
+          </div>
+        </button>
+
+      </div>
+    </div>
+    <div class="form-guide-line"></div>
+  </div>
+
+  <!-- Tabla Paginada  -->
+  <app-datatable [datatableInputs]="datatableInputs" (changePageEmitter)="changePage($event)"
+  (movePageEmitter)="movePage($event)"></app-datatable>
+
+</form>
