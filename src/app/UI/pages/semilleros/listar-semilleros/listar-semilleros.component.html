@@ -3,18 +3,18 @@
 
     <!--filtro de busqueda por id semillero, nombre semillero y estado-->
     <div class="row">
-      <div class="col-sm-2">
+      <div class="col-sm">
         <label for="idSemillero" class="etiqueta-form"><strong>Id</strong></label>
         <input id="idSemillero" name="idSemillero" class="form-control" type="text" placeholder="Id Semillero"
           formControlName="idSemillero">
       </div>
 
-      <div class="col-sm-5">
+      <div class="col-sm">
         <label for="nombre" class="etiqueta-form"><strong>Nombre</strong></label>
         <input id="nombre" name="nombre" class="form-control" type="text" placeholder="Nombre" formControlName="nombre">
       </div>
 
-      <div class="col-sm-3">
+      <div class="col-sm">
         <label for="estado" class="etiqueta-form"><strong>Estado</strong></label>
         <select id="estado" name="estado" class="form-select" formControlName="estado">
           <option value="" disabled selected hidden>Estado Semillero</option>
@@ -22,6 +22,9 @@
           <option [value]="key">{{getValueByKey(estadoSemilleroEnum, key)}}</option>
           }
         </select>
+      </div>
+      <div class="col-sm">
+
       </div>
     </div>
     <div class="row">

@@ -51,9 +51,9 @@ export class ListarSemillerosComponent {
       const formValues = this.obtenerDatosFormulario();
       //realiza la peticion para obtener los datos filtrados
       this.semilleroObtenerService.listarConFiltro(
+        formValues.idSemillero,
         formValues.pageNo,
         formValues.pageSize,
-        formValues.idSemillero, formValues.idUsuario,
         formValues.nombre, formValues.estado
       ).subscribe({
         // Manejar respuesta exitosa
@@ -62,22 +62,25 @@ export class ListarSemillerosComponent {
           console.log(respuesta)
           // Actualizar la lista de solicitudes de usuario con los datos obtenidos
           this.datos = respuesta;
-          console.log("datos"+JSON.stringify(this.datos))
+
           this.datatableInputs.searchPerformed = true;
           this.datatableInputs.paginacion = this.datos.data;
           this.datatableInputs.tableHeaders = ['ID', 'Semillero', 'Estado'];
           this.datatableInputs.dataAttributes = [
-            {name:'semilleroId',type:Number},
-            {name:'nombre', type:String},
-            {name:'estado', type:String}
+            { name: 'semilleroId', type: Number },
+            { name: 'nombre', type: String },
+            { name: 'estado', type: SemilleroEstado }
+
           ]
+
+
         },
         // Manejar errores
         error: (errorData) => {
           console.error(errorData);
         },
         // Ejecutar acciones al completar la solicitud
-        complete: () => {},
+        complete: () => { },
       });
     } else {
       // Marcar todos los campos del formulario como tocados si el formulario no es válido
@@ -98,8 +101,7 @@ export class ListarSemillerosComponent {
   private obtenerDatosFormulario(): {
     pageNo: number;
     pageSize: number;
-    idSemillero: number;
-    idUsuario: number;
+    idSemillero: number | null;
     nombre: string;
     estado: string;
   } {
@@ -109,17 +111,19 @@ export class ListarSemillerosComponent {
       this.formularioFiltro.get('pageSize')?.value ?? '2', 10
     );
     // Valida y convierte el valor de idSemillero a número o null si no es un número
+    const idSemilleroValue = this.formularioFiltro.get('idSemillero')?.value;
 
-    const idSemillero = this.formularioFiltro.get('idSemillero')?.value ?? null;
-    //el idusuario lo debo obtener del login
-    const idUsuario = 3;
+    // Verifica si idSemilleroValue es una cadena no vacía y contiene solo números
+    const idSemillero = idSemilleroValue && /^\d+$/.test(idSemilleroValue)
+      ? parseInt(idSemilleroValue, 10) // Convertir a número entero si es válido
+      : null; // Asignar null si no es válido o está vacío
+
     const nombre = this.formularioFiltro.get('nombre')?.value ?? undefined;
     const estado = this.formularioFiltro.get('estado')?.value ?? undefined;
     return {
       pageNo,
       pageSize,
       idSemillero,
-      idUsuario,
       nombre,
       estado
     }

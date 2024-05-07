@@ -13,15 +13,14 @@ export class SemilleroObtenerService {
   constructor(private semilleroObtenerAdapter: SemilleroObtenerAdapter ) { }
 
   listarConFiltro(
+    idSemillero: number | null,
     pageNo?: number,
     pageSize?: number,
-    idSemillero?: number,
-    idUsuario?: number,
     nombre?: string,
     estado?:string
   ): Observable<Respuesta<Paginacion<SemilleroListarConFiltroxMentorProyeccion>>>{
      return this.semilleroObtenerAdapter.listarConFiltro(
-      pageNo,pageSize,idSemillero,idUsuario,nombre,estado
+      idSemillero,pageNo,pageSize,nombre,estado
     );
   }
 }
