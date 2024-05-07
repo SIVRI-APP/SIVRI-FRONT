@@ -1,5 +1,5 @@
-import { Component, ViewChild, inject } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TipoDocumento } from '../../../../service/solicitudUsuarios/domain/model/enum/tipoDocumento';
 import { TipoUsuario } from '../../../../service/solicitudUsuarios/domain/model/enum/tipoUsuario';
 import { Sexo } from '../../../../service/solicitudUsuarios/domain/model/enum/sexo';
@@ -11,6 +11,7 @@ import { ModalOkComponent } from '../../../shared/modal-ok/modal-ok.component';
 import { ModalBadComponent } from '../../../shared/modal-bad/modal-bad.component';
 import { ErrorData } from '../../../../service/common/model/errorData';
 import { EnumTranslationService } from '../../../../service/common/enum-translation.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-crear-solicitud-usuario',
@@ -35,6 +36,7 @@ export class CrearSolicitudUsuarioComponent {
   
   
   constructor(
+    private router: Router,
     private formBuilder: FormBuilder,
     private usuarioSolicitudCrearService: UsuarioSolicitudCrearService,
     protected enumTranslationService: EnumTranslationService
@@ -93,10 +95,10 @@ export class CrearSolicitudUsuarioComponent {
             this.openModalOk(this.respuesta.userMessage)
           },
           // Manejar errores
-          error: (error) => {
+          error: (errorData) => {
             // Verificar si el error es del tipo esperado
-            if (error.error && error.error.data) {
-              let respuesta: Respuesta<ErrorData> = error.error;
+            if (errorData.error && errorData.error.data) {
+              let respuesta: Respuesta<ErrorData> = errorData.error;
               this.openModalBad(respuesta.data);
             } else {
               // Manejar errores inesperados
