@@ -1,5 +1,5 @@
 export interface SemilleroListarConFiltroxMentorProyeccion {
-  idSemillero:number;
+  semilleroId:number;
   nombre:string,
   estado:string
 }
