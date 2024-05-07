@@ -8,15 +8,15 @@
                 <label for="estado" class="etiqueta-form"><strong>Estado</strong></label>
                 <select id="estado" name="estado" class="form-select" formControlName="estado">
                     <option value="" disabled selected hidden>Estado Solicitud</option>
-                    @for (key of getKeys(estadoSolicitudUsuarioEnum); track $index) {
-                    <option [value]="key">{{getValueByKey(estadoSolicitudUsuarioEnum, key)}}</option>
+                    @for (key of enumTranslationService.getEnumKeys(estadoSolicitudUsuarioEnum); track $index) {
+                    <option [value]="key">{{enumTranslationService.getEnumValueByKey(estadoSolicitudUsuarioEnum, key)}}</option>
                     }
                 </select>
             </div>
 
             <div class="col-sm">
-                <label for="nombre" class="etiqueta-form"><strong>Nombres</strong></label>
-                <input id="nombre" name="nombre" class="form-control" type="text" placeholder="Nombre"
+                <label for="nombres" class="etiqueta-form"><strong>Nombres</strong></label>
+                <input id="nombres" name="nombres" class="form-control" type="text" placeholder="Nombre"
                     formControlName="nombres">
             </div>
 
@@ -41,8 +41,8 @@
                         Documento</strong></label>
                 <select id="tipo_documento" name="tipo_documento" class="form-select" formControlName="tipoDocumento">
                     <option value="" disabled selected hidden>Tipo de Documento</option>
-                    @for (key of getKeys(tipoDocumentoEnum); track $index) {
-                    <option [value]="key">{{getValueByKey(tipoDocumentoEnum, key)}}</option>
+                    @for (key of enumTranslationService.getEnumKeys(tipoDocumentoEnum); track $index) {
+                    <option [value]="key">{{enumTranslationService.getEnumValueByKey(tipoDocumentoEnum, key)}}</option>
                     }
                 </select>
             </div>
@@ -59,8 +59,8 @@
                         Usuario</strong></label>
                 <select id="tipo_usuario" name="tipo_usuario" class="form-select" formControlName="tipoUsuario">
                     <option value="" disabled selected hidden>Tipo de Usuario</option>
-                    @for (key of getKeys(tipoUsuarioEnum); track $index) {
-                    <option [value]="key">{{getValueByKey(tipoUsuarioEnum, key)}}</option>
+                    @for (key of enumTranslationService.getEnumKeys(tipoUsuarioEnum); track $index) {
+                    <option [value]="key">{{enumTranslationService.getEnumValueByKey(tipoUsuarioEnum, key)}}</option>
                     }
                 </select>
             </div>
