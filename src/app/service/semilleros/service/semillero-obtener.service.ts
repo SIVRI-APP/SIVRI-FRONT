@@ -20,7 +20,7 @@ export class SemilleroObtenerService {
     nombre?: string,
     estado?:string
   ): Observable<Respuesta<Paginacion<SemilleroListarConFiltroxMentorProyeccion>>>{
-    return this.semilleroObtenerAdapter.listarConFiltro(
+     return this.semilleroObtenerAdapter.listarConFiltro(
       pageNo,pageSize,idSemillero,idUsuario,nombre,estado
     );
   }

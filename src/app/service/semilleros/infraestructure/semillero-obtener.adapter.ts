@@ -21,14 +21,16 @@ export class SemilleroObtenerAdapter {
     nombre?: string,
     estado?: string
   ):Observable<Respuesta<Paginacion<SemilleroListarConFiltroxMentorProyeccion>>>{
+    console.log("adapter "+pageNo+", "+pageSize+", "+idSemillero+", "+idUsuario+", "+nombre+", "+estado);
     let params = new HttpParams()
     .set('pageNo', pageNo.toString())
     .set('pageSize', pageSize.toString());
     // Añade condicionalmente los otros parámetros si existen.
-    if (idSemillero!= null) params = params.set('idSemillero', idSemillero);
-    if (idUsuario!= null) params = params.set('idUsuario', idUsuario);
+    if (idSemillero!= null) params = params.set('semilleroId', idSemillero);
+    if (idUsuario!= null) params = params.set('usuarioId', idUsuario);
     if (nombre !== undefined) params = params.set('nombre', nombre);
     if (estado !== undefined) params = params.set('estado', estado);
+    console.log("params "+params)
     return this.http.get<Respuesta<Paginacion<SemilleroListarConFiltroxMentorProyeccion>>>(this.apiUrl+'listarSemilleroConFiltroxmentor',{params:params});
   }
 }

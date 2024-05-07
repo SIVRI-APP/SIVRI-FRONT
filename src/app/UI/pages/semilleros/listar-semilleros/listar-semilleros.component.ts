@@ -26,7 +26,7 @@ export class ListarSemillerosComponent {
   paginas: number[] = [2, 3, 5];
   protected formularioFiltro: FormGroup;
   protected datos: Respuesta<Paginacion<SemilleroListarConFiltroxMentorProyeccion>>;
-  protected datatableInputs: DatatableInput
+  protected datatableInputs: DatatableInput;
 
   constructor(private semilleroObtenerService: SemilleroObtenerService) {
     this.datos = new Respuesta<Paginacion<SemilleroListarConFiltroxMentorProyeccion>>();
@@ -65,7 +65,7 @@ export class ListarSemillerosComponent {
           this.datatableInputs.paginacion = this.datos.data;
           this.datatableInputs.tableHeaders = ['ID', 'Semillero', 'Estado'];
           this.datatableInputs.dataAttributes = [
-            {name:'idSemillero',type:Number},
+            {name:'semilleroId',type:Number},
             {name:'nombre', type:String},
             {name:'estado', type:String}
           ]
@@ -106,6 +106,8 @@ export class ListarSemillerosComponent {
     const pageSize = parseInt(
       this.formularioFiltro.get('pageSize')?.value ?? '2', 10
     );
+    // Valida y convierte el valor de idSemillero a número o null si no es un número
+
     const idSemillero = this.formularioFiltro.get('idSemillero')?.value ?? null;
     //el idusuario lo debo obtener del login
     const idUsuario = 3;
