@@ -247,6 +247,7 @@
 }
 
 
+
 .etiqueta-form {
     color: var(--azul-principal, #006);
     /* Color del texto del enlace */
@@ -293,6 +294,20 @@
     font-weight: 400;
     /* Peso de la fuente */
     line-height: normal;
+}
+
+/* Mensaje Feedback de formulario */
+.ng-valid:not(form).ng-touched{
+	border-left: 5px solid #59A640;
+    background-color: light-dark(rgb(232, 240, 254), rgba(70, 90, 126, 0.4)) !important;
+}
+
+.ng-invalid:not(form).ng-touched{
+    border-left: 5px solid #ED7D31;
+}
+
+#badFeedback{
+    color: #ED7D31; /* Color de texto verde */
 }
 
 .icon-container {

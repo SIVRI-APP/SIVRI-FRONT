@@ -21,11 +21,15 @@ import { EnumTranslationService } from '../../../../service/common/enum-translat
 })
 export class ListarSolicitudUsuariosComponent {
 
-  tipoDocumentoEnum = TipoDocumento;
-  tipoUsuarioEnum = TipoUsuario;
-  estadoSolicitudUsuarioEnum = EstadoSolicitudUsuario;
+  // Enumeraciones que llenan los select
+  protected tipoDocumentoEnum = TipoDocumento;
+  protected tipoUsuarioEnum = TipoUsuario;
+  protected estadoSolicitudUsuarioEnum = EstadoSolicitudUsuario;
+  // Formulario reactivo
   protected formulario: FormGroup;
+  // Respuesta del Back
   protected respuesta: Respuesta<Paginacion<UsuarioSolicitudListarConFiltroProyeccion>>
+  // Informacion del Datatable
   protected datatableInputs: DatatableInput;
 
   constructor(
@@ -35,10 +39,12 @@ export class ListarSolicitudUsuariosComponent {
   ) {
     this.respuesta = new Respuesta<Paginacion<UsuarioSolicitudListarConFiltroProyeccion>>();
 
+    // Inicialización de los datos que construyen el datatable
     this.datatableInputs = new DatatableInput(
       'Solicitud Usuarios',
       new Paginacion<UsuarioSolicitudListarConFiltroProyeccion>()
     );
+
     // Inicialización del formulario reactivo
     this.formulario = this.formBuilder.group({
       pageNo: [0],
@@ -118,16 +124,16 @@ export class ListarSolicitudUsuariosComponent {
    * Restablece todos los campos del formulario a sus valores iniciales y reinicia la paginación.
    */
   limpiarCampos(): void {
-    this.formulario.setValue({
-      pageNo: 0,
-      pageSize: '10',
-      correo: '',
-      estado: '',
-      tipoDocumento: '',
-      numeroDocumento: '',
-      nombres: '',
-      apellidos: '',
-      tipoUsuario: ''
+    this.formulario = this.formBuilder.group({
+      pageNo: [0],
+      pageSize: ['10'],
+      correo: [''],
+      estado: [''],
+      tipoDocumento: [''],
+      numeroDocumento: [''],
+      nombres: [''],
+      apellidos: [''],
+      tipoUsuario: ['']
     });
 
     // Reiniciar la lista de usuarios solicitados
