@@ -39,8 +39,6 @@ export class UsuarioSolicitudAdapter {
     if (nombre !== undefined) params = params.set('nombre', nombre);
     if (apellido !== undefined) params = params.set('apellido', apellido);
     if (tipoUsuario !== undefined) params = params.set('tipoUsuario', tipoUsuario);
-
-    console.log(params)
   
     return this.http.get<Respuesta<Paginacion<UsuarioSolicitudListarConFiltroProyeccion>>>(this.apiUrl + 'listarTodoConFiltro', { params: params });
   }

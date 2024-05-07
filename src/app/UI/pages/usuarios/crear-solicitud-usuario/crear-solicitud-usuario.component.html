@@ -6,8 +6,11 @@
         <div class="row">
             <div class="col-sm">
                 <label for="correo" class="etiqueta-form"><strong>Correo</strong></label>
-                <input id="correo" name="correo" class="form-control" type="email" placeholder="Correo"
-                    formControlName="correo">
+                <input id="correo" name="correo" class="form-control" type="email" placeholder="Correo" formControlName="correo">
+                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('correo')?.valid && this.formulario.get('correo')?.touched ? 'block' : 'none'"> 
+                    Digita un Correo valido (8 - 100 caracteres)
+                </div>
+
             </div>
 
             <div class="col-sm">
@@ -18,12 +21,18 @@
                     <option [value]="key">{{enumTranslationService.getEnumValueByKey(tipoDocumentoEnum, key)}}</option>
                     }
                 </select>
+                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('tipoDocumento')?.valid && this.formulario.get('tipoDocumento')?.touched ? 'block' : 'none'"> 
+                    Debes seleccionar un Tipo de Documento de la lista
+                </div>
             </div>
 
             <div class="col-sm">
                 <label for="numeroDocumento" class="etiqueta-form"><strong>Numero de Documento</strong></label>
                 <input id="numeroDocumento" name="numeroDocumento" class="form-control" type="text"
                     placeholder="Numero de Documento" formControlName="numeroDocumento">
+                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('numeroDocumento')?.valid && this.formulario.get('numeroDocumento')?.touched ? 'block' : 'none'"> 
+                    Digita un Numero de Documento valido (5 - 100 caracteres)
+                </div>
             </div>
 
             <div class="col-sm">
@@ -34,36 +43,51 @@
                     <option [value]="key">{{enumTranslationService.getEnumValueByKey(sexoEnum, key)}}</option>
                     }
                 </select>
+                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('sexo')?.valid && this.formulario.get('sexo')?.touched ? 'block' : 'none'"> 
+                    Debes seleccionar un Sexo de la lista
+                </div>
             </div>
         </div>
 
         <div class="row">
             <div class="col-sm">
                 <label for="tipoUsuario" class="etiqueta-form"><strong>Tipo Usuario</strong></label>
-                <select id="tipoUsuario" name="tipoUsuario" class="form-select" formControlName="tipoUsuario">
+                <select id="tipoUsuario" name="tipoUsuario" class="form-select" formControlName="tipoUsuario" (change)="onTipoUsuarioSeleccionado($event)">
                     <option value="" disabled selected hidden>Tipo de Usuario</option>
                     @for (key of enumTranslationService.getEnumKeys(tipoUsuarioEnum); track $index) {
                     <option [value]="key">{{enumTranslationService.getEnumValueByKey(tipoUsuarioEnum, key)}}</option>
                     }
                 </select>
+                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('tipoUsuario')?.valid && this.formulario.get('tipoUsuario')?.touched ? 'block' : 'none'"> 
+                    Debes seleccionar un Tipo de Usuario de la lista
+                </div>
             </div>
 
             <div class="col-sm">
                 <label for="nombre" class="etiqueta-form"><strong>Nombres</strong></label>
                 <input id="nombre" name="nombre" class="form-control" type="text" placeholder="Nombres"
                     formControlName="nombre">
+                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('nombre')?.valid && this.formulario.get('nombre')?.touched ? 'block' : 'none'"> 
+                    Digita un Nombre valido (1 - 100 caracteres)
+                </div>
             </div>
 
             <div class="col-sm">
                 <label for="apellido" class="etiqueta-form"><strong>Apellidos</strong></label>
                 <input id="apellido" name="apellido" class="form-control" type="text" placeholder="Apellidos"
                     formControlName="apellido">
+                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('apellido')?.valid && this.formulario.get('apellido')?.touched ? 'block' : 'none'"> 
+                    Digita un Apellido valido (1 - 100 caracteres)
+                </div>
             </div>
 
             <div class="col-sm">
                 <label for="telefono" class="etiqueta-form"><strong>Telefono</strong></label>
                 <input id="telefono" name="telefono" class="form-control" type="text" placeholder="Telefono"
                     formControlName="telefono">
+                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('telefono')?.valid && this.formulario.get('telefono')?.touched ? 'block' : 'none'"> 
+                    Digita un Telefono valido (5 - 100 caracteres)
+                </div>
             </div>
         </div>
 
@@ -72,16 +96,32 @@
                 <label for="cvLac" class="etiqueta-form"><strong>cvLac</strong></label>
                 <input id="cvLac" name="cvLac" class="form-control" type="text" placeholder="cvLac"
                     formControlName="cvLac">
+                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('cvLac')?.valid && this.formulario.get('cvLac')?.touched ? 'block' : 'none'"> 
+                    Los usuarios de tipo Docente deben estar registrados en cvLac
+                </div>
             </div>
 
             <div class="col-sm">
-                <label for="nota" class="etiqueta-form"><strong>Nota</strong></label>
-                <input id="nota" name="nota" class="form-control" type="text" placeholder="Nota" formControlName="nota">
             </div>
 
             <!-- TODO MIGUEL Select con la lista de programas -->
             <!-- TODO MIGUEL Select con la lista de organismos de investigacion -->
             <!-- TODO MIGUEL Select con la lista de roles disponibles de ese organismo de investigacion -->
+        </div>
+
+        <div class="row">
+
+            <div class="col-sm">
+                <label for="nota" class="etiqueta-form"><strong>Nota</strong></label>
+                <textarea id="nota" name="nota" class="form-control" type="text" placeholder="Nota" formControlName="nota"></textarea>
+                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('nota')?.valid && this.formulario.get('nota')?.touched ? 'block' : 'none'"> 
+                    Digita una Nota valida (max 1000 caracteres)
+                </div>
+            </div>
+
+            <div class="col-sm">
+            </div>
+
         </div>
 
         <div class="row">

@@ -12,7 +12,7 @@ import { LoginRequest } from '../../../../service/auth/domain/model/loginRequest
   styleUrl: './login.component.css',
 })
 export class LoginComponent {
-  constructor(public authService: AuthService, public router: Router) {}
+  constructor(protected authService: AuthService, private router: Router) {}
 
   protected loginForm = new FormGroup({
     email: new FormControl(''),

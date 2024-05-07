@@ -1,5 +1,5 @@
-import { Component, ViewChild, inject } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TipoDocumento } from '../../../../service/solicitudUsuarios/domain/model/enum/tipoDocumento';
 import { TipoUsuario } from '../../../../service/solicitudUsuarios/domain/model/enum/tipoUsuario';
 import { Sexo } from '../../../../service/solicitudUsuarios/domain/model/enum/sexo';
@@ -11,6 +11,7 @@ import { ModalOkComponent } from '../../../shared/modal-ok/modal-ok.component';
 import { ModalBadComponent } from '../../../shared/modal-bad/modal-bad.component';
 import { ErrorData } from '../../../../service/common/model/errorData';
 import { EnumTranslationService } from '../../../../service/common/enum-translation.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-crear-solicitud-usuario',
@@ -21,52 +22,66 @@ import { EnumTranslationService } from '../../../../service/common/enum-translat
 })
 export class CrearSolicitudUsuarioComponent {
 
+  // Inyeccion de Modal
   private modalService = inject(NgbModal);
-  protected respuestaBack: Respuesta<boolean>;
-  protected formulario: FormGroup;
+  // Enumeraciones que llenan los select
   protected tipoDocumentoEnum = TipoDocumento;
   protected sexoEnum = Sexo;
   protected tipoUsuarioEnum = TipoUsuario;
+  // Formulario reactivo
+  protected formulario: FormGroup;
+  // Respuesta del Back
+  protected respuesta: Respuesta<boolean>;
+  
+  
   
   constructor(
+    private router: Router,
+    private formBuilder: FormBuilder,
     private usuarioSolicitudCrearService: UsuarioSolicitudCrearService,
     protected enumTranslationService: EnumTranslationService
   ) {
-    this.respuestaBack = new Respuesta<false>();
+    this.respuesta = new Respuesta<false>();
 
-    this.formulario = new FormGroup({
-      correo: new FormControl(''),
-      tipoDocumento: new FormControl(''),
-      numeroDocumento: new FormControl(''),
-      sexo: new FormControl(''),
-      tipoUsuario: new FormControl(''),
-      nombre: new FormControl(''),
-      apellido: new FormControl(''),
-      telefono: new FormControl(''),
-      cvLac: new FormControl(''),
-      nota: new FormControl(''),
+    this.formulario = this.formBuilder.group({
+      correo: ['', [Validators.required, Validators.email, Validators.minLength(8), Validators.maxLength(100)]],
+      tipoDocumento: ['', Validators.required],
+      numeroDocumento: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
+      sexo: ['', Validators.required],
+      tipoUsuario: ['', Validators.required],
+      nombre: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(100)]],
+      apellido: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(100)]],
+      telefono: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
+      cvLac: [''],
+      nota: ['', Validators.maxLength(1000)]
     });
   }
 
+  /**
+   * Maneja el envío del formulario de búsqueda de solicitudes de usuario.
+   *
+   * Si el formulario es válido, realiza una solicitud para obtener la respuesta.
+   * Actualiza la lista de solicitudes de usuario y el texto de visualización en consecuencia.
+   *
+   * Si el formulario no es válido, marca todos los campos como tocados y lanza un error.
+   */
   onSubmit(): void {
     // Verificar si el formulario es válido
     if (this.formulario.valid) {
-      // Obtener los valores del formulario
-      const formValues = this.obtenerValoresFormulario();
       
       // Realizar solicitud para obtener los datos filtrados
       this.usuarioSolicitudCrearService
         .crearSolicitudUsuario({
-          correo: formValues.correo,
-          tipoDocumento: formValues.tipoDocumento,
-          numeroDocumento: formValues.numeroDocumento,
-          sexo: formValues.sexo,
-          tipoUsuario: formValues.tipoUsuario,
-          nombre: formValues.nombre,
-          apellido: formValues.apellido,
-          telefono: formValues.telefono,
-          cvLac: formValues.cvLac,
-          nota: formValues.nota,
+          correo: this.formulario.value.correo,
+          tipoDocumento: this.formulario.value.tipoDocumento,
+          numeroDocumento: this.formulario.value.numeroDocumento,
+          sexo: this.formulario.value.sexo,
+          tipoUsuario: this.formulario.value.tipoUsuario,
+          nombre: this.formulario.value.nombre,
+          apellido: this.formulario.value.apellido,
+          telefono: this.formulario.value.telefono,
+          cvLac: this.formulario.value.cvLac,
+          nota: this.formulario.value.nota,
           programaId: 1,
           organismoDeInvestigacionId: 1,
           rolGrupoId: 1,
@@ -75,15 +90,15 @@ export class CrearSolicitudUsuarioComponent {
           // Manejar respuesta exitosa
           next: (respuesta) => {
             // Captura la respuesta
-            this.respuestaBack = respuesta;
+            this.respuesta = respuesta;
 
-            this.openModalOk(this.respuestaBack.userMessage)
+            this.openModalOk(this.respuesta.userMessage)
           },
           // Manejar errores
-          error: (error) => {
+          error: (errorData) => {
             // Verificar si el error es del tipo esperado
-            if (error.error && error.error.data) {
-              let respuesta: Respuesta<ErrorData> = error.error;
+            if (errorData.error && errorData.error.data) {
+              let respuesta: Respuesta<ErrorData> = errorData.error;
               this.openModalBad(respuesta.data);
             } else {
               // Manejar errores inesperados
@@ -94,96 +109,25 @@ export class CrearSolicitudUsuarioComponent {
     } else {
       // Marcar todos los campos del formulario como tocados si el formulario no es válido
       this.formulario.markAllAsTouched();
-      // Lanzar un error
-      throw new Error('Formulario no válido');
     }
-  }
-
-  /**
-   * Obtiene los valores del formulario de búsqueda de solicitudes de usuario.
-   *
-   * @returns Un objeto que contiene los valores de los campos del formulario.
-   *          - pageNo: El número de página.
-   *          - pageSize: El tamaño de la página.
-   *          - correo: El valor del campo "correo".
-   *          - estado: El valor del campo "estado".
-   *          - tipoDocumento: El valor del campo "tipoDocumento" como TipoDocumento enum.
-   *          - numeroDocumento: El valor del campo "numeroDocumento".
-   *          - nombres: El valor del campo "nombres".
-   *          - apellidos: El valor del campo "apellidos".
-   *          - tipoUsuario: El valor del campo "tipoUsuario" como TipoUsuario enum.
-   */
-  private obtenerValoresFormulario(): {
-    correo?: string;
-    tipoDocumento?: string;
-    numeroDocumento?: string;
-    sexo?: string;
-    tipoUsuario?: string;
-    nombre?: string;
-    apellido?: string;
-    telefono?: string;
-    cvLac?: string;
-    nota?: string;
-  } {
-    // Captura de los valores del formulario
-    const correo = this.formulario.get('correo')?.value ?? undefined;
-    const numeroDocumento =
-      this.formulario.get('numeroDocumento')?.value ?? undefined;
-    const nombre = this.formulario.get('nombre')?.value ?? undefined;
-    const apellido = this.formulario.get('apellido')?.value ?? undefined;
-    const telefono = this.formulario.get('telefono')?.value ?? undefined;
-    const cvLac = this.formulario.get('cvLac')?.value ?? undefined;
-    const nota = this.formulario.get('nota')?.value ?? undefined;
-    const tipoUsuario = this.formulario.get('tipoUsuario')?.value ?? undefined;
-    const tipoDocumento = this.formulario.get('tipoDocumento')?.value ?? undefined;
-    const sexo = this.formulario.get('sexo')?.value ?? undefined;
-
-    // Devuelve un objeto con los valores capturados del formulario
-    return {
-      correo,
-      tipoDocumento,
-      numeroDocumento,
-      sexo,
-      tipoUsuario,
-      nombre,
-      apellido,
-      telefono,
-      cvLac,
-      nota,
-    };
   }
 
   /**
    * Restablece todos los campos del formulario a sus valores iniciales y reinicia la paginación.
    */
   limpiarCampos(): void {
-    // Restablecer los campos del formulario
-    this.formulario.reset();
-
-    // Restablecer el estado inicial de los selectores
-    this.restaurarEstadoInicialSelect('tipoDocumento', '#tipoDocumento');
-    this.restaurarEstadoInicialSelect('sexo', '#sexo');
-    this.restaurarEstadoInicialSelect('tipoUsuario', '#tipoUsuario');
-  }
-
-  /**
-   * Restablece el estado inicial de un selector dado.
-   * @param controlName El nombre del control del formulario.
-   * @param selector El selector CSS del elemento del DOM.
-   */
-  restaurarEstadoInicialSelect(controlName: string, selector: string): void {
-    const control = this.formulario.get(controlName);
-    if (control) {
-      // Restablecer el valor del control a vacío
-      control.setValue('');
-      // Restablecer el estado inicial del elemento del DOM
-      const option = document.querySelector(`${selector} option[value=""]`);
-      if (option) {
-        option.setAttribute('disabled', 'true');
-        option.setAttribute('selected', 'true');
-        option.setAttribute('hidden', 'true');
-      }
-    }
+    this.formulario = this.formBuilder.group({
+      correo: ['', [Validators.required, Validators.email, Validators.minLength(8), Validators.maxLength(100)]],
+      tipoDocumento: ['', Validators.required],
+      numeroDocumento: ['', [Validators.minLength(5), Validators.maxLength(100)]],
+      sexo: ['', Validators.required],
+      tipoUsuario: ['', Validators.required],
+      nombre: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(100)]],
+      apellido: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(100)]],
+      telefono: ['', [Validators.minLength(5), Validators.maxLength(100)]],
+      cvLac: [''],
+      nota: ['', Validators.maxLength(1000)]
+    });
   }
   
   openModalOk(message: string) {
@@ -192,8 +136,32 @@ export class CrearSolicitudUsuarioComponent {
 	}
 
   openModalBad(data: ErrorData) {
-    console.log(data);
 		const modalRef = this.modalService.open(ModalBadComponent);
 		modalRef.componentInstance.mensaje = data;
 	}
+
+
+  // Esta funcion hace el campo CVLAC obligatorio si el tipo de usuario a crear es DOCENTE
+  onTipoUsuarioSeleccionado(event: any) {
+    const valorSeleccionado = event.target.value;
+    if (valorSeleccionado == 'DOCENTE') {
+      const campoCvLac = this.formulario.get('cvLac');
+
+      if (campoCvLac) {
+        campoCvLac.setValidators([Validators.required]);
+        campoCvLac.updateValueAndValidity(); // Actualizar los validadores
+      }
+    }else{
+      const campoCvLac = this.formulario.get('cvLac');
+      if (campoCvLac) {
+        campoCvLac.clearValidators(); // Quitar todos los validadores
+        campoCvLac.updateValueAndValidity(); // Actualizar los validadores
+      }
+    }
+  }
+
+  resetearAlturaTextArea(elemento: HTMLTextAreaElement) {
+    // Restablecer la altura del textarea
+    elemento.style.height = 'auto';
+  }
 }
