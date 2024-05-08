@@ -1,12 +1,12 @@
-<form [formGroup]="formularioFiltro" (ngSubmit)="onsubmit()" method="get">
+<form [formGroup]="formulario" (ngSubmit)="onsubmit()" method="get">
   <div class="filter-box">
 
     <!--filtro de busqueda por id semillero, nombre semillero y estado-->
     <div class="row">
       <div class="col-sm">
         <label for="idSemillero" class="etiqueta-form"><strong>Id</strong></label>
-        <input id="idSemillero" name="idSemillero" class="form-control" type="text" placeholder="Id Semillero"
-          formControlName="idSemillero">
+        <input id="idSemillero" name="idSemillero" class="form-control" type="number" placeholder="Id Semillero"
+          formControlName="idSemillero" (keydown)="onKeyDown($event)">
       </div>
 
       <div class="col-sm">
@@ -18,8 +18,8 @@
         <label for="estado" class="etiqueta-form"><strong>Estado</strong></label>
         <select id="estado" name="estado" class="form-select" formControlName="estado">
           <option value="" disabled selected hidden>Estado Semillero</option>
-          @for (key of getKeys(estadoSemilleroEnum); track $index) {
-          <option [value]="key">{{getValueByKey(estadoSemilleroEnum, key)}}</option>
+          @for (key of enumTranslationService.getEnumKeys(estadoSemilleroEnum); track $index) {
+          <option [value]="key">{{enumTranslationService.getEnumValueByKey(estadoSemilleroEnum,key)}}</option>
           }
         </select>
       </div>

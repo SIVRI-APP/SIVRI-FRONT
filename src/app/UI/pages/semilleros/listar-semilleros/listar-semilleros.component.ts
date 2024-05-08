@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { SemilleroEstado } from '../../../../service/semilleros/domain/model/enum/semilleroEstado';
-import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { Paginacion } from '../../../../service/common/model/paginacion';
 import { SemilleroListarConFiltroxMentorProyeccion } from '../../../../service/semilleros/domain/model/proyecciones/semilleroListarConFIltroxMentorProyeccion';
 import { Respuesta } from '../../../../service/common/model/respuesta';
@@ -8,6 +8,7 @@ import { RouterLink } from '@angular/router';
 import { DatatableInput } from '../../../../service/common/model/datatableInput';
 import { SemilleroObtenerService } from '../../../../service/semilleros/service/semillero-obtener.service';
 import { DatatableComponent } from '../../../shared/datatable/datatable.component';
+import { EnumTranslationService } from '../../../../service/common/enum-translation.service';
 
 @Component({
   selector: 'app-listar-semilleros',
@@ -22,49 +23,54 @@ import { DatatableComponent } from '../../../shared/datatable/datatable.componen
 })
 export class ListarSemillerosComponent {
 
-  estadoSemilleroEnum = SemilleroEstado;
   paginas: number[] = [2, 3, 5];
-  protected formularioFiltro: FormGroup;
-  protected datos: Respuesta<Paginacion<SemilleroListarConFiltroxMentorProyeccion>>;
+  protected formulario: FormGroup;
+  protected respuesta: Respuesta<Paginacion<SemilleroListarConFiltroxMentorProyeccion>>;
   protected datatableInputs: DatatableInput;
+  protected estadoSemilleroEnum = SemilleroEstado;
 
-  constructor(private semilleroObtenerService: SemilleroObtenerService) {
-    this.datos = new Respuesta<Paginacion<SemilleroListarConFiltroxMentorProyeccion>>();
-    this.formularioFiltro = new FormGroup({
-      pageNo: new FormControl(0),
-      pageSize: new FormControl('2'),
-      idSemillero: new FormControl(null),
-      idUsuario: new FormControl(null),
-      nombre: new FormControl(""),
-      estado: new FormControl("")
-    });
+  constructor(private semilleroObtenerService: SemilleroObtenerService,
+    private formBuilder: FormBuilder,
+    protected enumTranslationService: EnumTranslationService
+  ) {
+
+    this.respuesta = new Respuesta<Paginacion<SemilleroListarConFiltroxMentorProyeccion>>();
 
     this.datatableInputs = new DatatableInput('Semilleros',
       new Paginacion<SemilleroListarConFiltroxMentorProyeccion>());
+
+    this.formulario = this.formBuilder.group({
+      pageNo: [0],
+      pageSize: ['2'],
+      idSemillero: [null],
+      nombre: [''],
+      estado: ['']
+    });
+
   }
 
   onsubmit() {
-    console.log(this.obtenerDatosFormulario());
-    if (this.formularioFiltro.valid) {
-      console.log("el for es valido")
-      //obtener los valores del formulario
-      const formValues = this.obtenerDatosFormulario();
+
+    if (this.formulario.valid) {
+
+
       //realiza la peticion para obtener los datos filtrados
       this.semilleroObtenerService.listarConFiltro(
-        formValues.idSemillero,
-        formValues.pageNo,
-        formValues.pageSize,
-        formValues.nombre, formValues.estado
+        this.formulario.value.idSemillero,
+        this.formulario.value.pageNo,
+        this.formulario.value.pageSize,
+        this.formulario.value.nombre,
+        this.formulario.value.estado
       ).subscribe({
         // Manejar respuesta exitosa
         next: (respuesta) => {
           console.log("Respuesta ------------------------")
           console.log(respuesta)
           // Actualizar la lista de solicitudes de usuario con los datos obtenidos
-          this.datos = respuesta;
-
+          this.respuesta = respuesta;
+          //actualiza el input del datatable
           this.datatableInputs.searchPerformed = true;
-          this.datatableInputs.paginacion = this.datos.data;
+          this.datatableInputs.paginacion = this.respuesta.data;
           this.datatableInputs.tableHeaders = ['ID', 'Semillero', 'Estado'];
           this.datatableInputs.dataAttributes = [
             { name: 'semilleroId', type: Number },
@@ -84,84 +90,24 @@ export class ListarSemillerosComponent {
       });
     } else {
       // Marcar todos los campos del formulario como tocados si el formulario no es válido
-      this.formularioFiltro.markAllAsTouched();
+      this.formulario.markAllAsTouched();
       // Lanzar un error
       throw new Error('Formulario no válido');
     }
   }
 
-  getKeys(enumObject: any): string[] {
-    return Object.keys(enumObject);
-  }
-
-  getValueByKey(enumObject: any, key: string): string {
-    return enumObject[key];
-  }
-
-  private obtenerDatosFormulario(): {
-    pageNo: number;
-    pageSize: number;
-    idSemillero: number | null;
-    nombre: string;
-    estado: string;
-  } {
-    //toma los valores de los campos de las vistas
-    const pageNo = this.formularioFiltro.get('pageNo')?.value ?? 0;
-    const pageSize = parseInt(
-      this.formularioFiltro.get('pageSize')?.value ?? '2', 10
-    );
-    // Valida y convierte el valor de idSemillero a número o null si no es un número
-    const idSemilleroValue = this.formularioFiltro.get('idSemillero')?.value;
-
-    // Verifica si idSemilleroValue es una cadena no vacía y contiene solo números
-    const idSemillero = idSemilleroValue && /^\d+$/.test(idSemilleroValue)
-      ? parseInt(idSemilleroValue, 10) // Convertir a número entero si es válido
-      : null; // Asignar null si no es válido o está vacío
-
-    const nombre = this.formularioFiltro.get('nombre')?.value ?? undefined;
-    const estado = this.formularioFiltro.get('estado')?.value ?? undefined;
-    return {
-      pageNo,
-      pageSize,
-      idSemillero,
-      nombre,
-      estado
-    }
-  }
   //borrar los datos ingresados en el filtro
   limpiarCampos(): void {
-    //restablece datos
-    this.formularioFiltro.reset();
-
-    // Establecer el número de página en 0 y el tamaño de página en 1
-    this.formularioFiltro.get('pageNo')?.setValue(0);
-    this.formularioFiltro.get('pageSize')?.setValue('2');
-
-    // Restablecer el estado inicial de los selectores
-    this.restaurarEstadoInicialSelect('estado', '#estado');
-
+    this.formulario = this.formBuilder.group({
+      pageNo: [0],
+      pageSize: ['2'],
+      idSemillero: [null],
+      nombre: [''],
+      estado: ['']
+    })
     // Reiniciar la lista de usuarios solicitados
-    this.datos = new Respuesta<Paginacion<SemilleroListarConFiltroxMentorProyeccion>>();
-  }
-
-  /**
-   * Restablece el estado inicial de un selector dado.
-   * @param controlName El nombre del control del formulario.
-   * @param selector El selector CSS del elemento del DOM.
-   */
-  restaurarEstadoInicialSelect(controlName: string, selector: string): void {
-    const control = this.formularioFiltro.get(controlName);
-    if (control) {
-      // Restablecer el valor del control a vacío
-      control.setValue('');
-      // Restablecer el estado inicial del elemento del DOM
-      const option = document.querySelector(`${selector} option[value=""]`);
-      if (option) {
-        option.setAttribute('disabled', 'true');
-        option.setAttribute('selected', 'true');
-        option.setAttribute('hidden', 'true');
-      }
-    }
+    this.respuesta = new Respuesta<Paginacion<SemilleroListarConFiltroxMentorProyeccion>>();
+    this.datatableInputs = new DatatableInput('semilleros', new Paginacion<SemilleroListarConFiltroxMentorProyeccion>());
   }
 
   /**
@@ -170,7 +116,7 @@ export class ListarSemillerosComponent {
    */
   changePage(pageNumber: number): void {
     // Actualizar el valor de pageNo en el formulario
-    this.formularioFiltro.get('pageNo')?.setValue(pageNumber);
+    this.formulario.get('pageNo')?.setValue(pageNumber);
 
     // Enviar el formulario para cargar los datos de la nueva página
     this.onsubmit();
@@ -182,11 +128,21 @@ export class ListarSemillerosComponent {
    */
   movePage(newPage: number): void {
     // Realizar incremento o decremento de la Pagina
-    this.formularioFiltro
+    this.formulario
       .get('pageNo')
-      ?.setValue((this.formularioFiltro.get('pageNo')?.value ?? 0) + newPage);
+      ?.setValue((this.formulario.get('pageNo')?.value ?? 0) + newPage);
 
     // Enviar el formulario para cargar los datos de la nueva página
     this.onsubmit();
   }
+
+  //metodo que no permite el ingreso de punto y la letra e
+  onKeyDown(event: KeyboardEvent) {
+    console.log('tecla ' + event.key)
+    const tecla = event.key;
+    if (['.', ',', 'e'].includes(tecla)) {
+      event.preventDefault();
+    }
+  }
+
 }
