@@ -19,4 +19,13 @@ export class EnumTranslationService {
     return enumObject[key];
   }
 
+  getKeyByValue(enumObject: any, value: string): string | undefined {
+    for (const key in enumObject) {
+      if (enumObject.hasOwnProperty(key) && enumObject[key] === value) {
+        return key;
+      }
+    }
+    return undefined;
+  }
+
 }

@@ -30,8 +30,17 @@ export class UsuarioSolicitudCrearService {
   }
 
   aprobarSolicitudUsuario(
-    solicitudUsuarioId?: string
+    solicitudUsuarioId?: number
   ): Observable<Respuesta<boolean>> {
     return this.usuarioSolicitudAdapter.aprobarSolicitudUsuario(solicitudUsuarioId);
+  }
+
+  rechazarSolicitudUsuario(
+    body: {
+      usuarioSolicitudId?: string,
+      observacion?: string,
+    }
+  ): Observable<Respuesta<boolean>> {
+    return this.usuarioSolicitudAdapter.rechazarSolicitudUsuario(body);
   }
 }

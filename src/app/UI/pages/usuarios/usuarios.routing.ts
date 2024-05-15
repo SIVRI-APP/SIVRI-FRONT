@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { IndexComponent } from './index/index.component';
-import { VerSolicitudUsuarioComponent } from './ver-solicitud-usuario/ver-solicitud-usuario.component';
 
 const usuariosRoutes: Routes = [
   {
@@ -19,7 +18,7 @@ const usuariosRoutes: Routes = [
       }
     ],
   },
-  { path: 'listar-solicitudes/:id', component: VerSolicitudUsuarioComponent }
+  { path: 'listar-solicitudes/:id', loadChildren: () => import('./ver-solicitud-usuario/ver-solicitud.module').then(m => m.VerSolicitudModule) }
 ];
 
 @NgModule({

@@ -10,7 +10,12 @@ import { UsuarioSolicitudInformaciónDetalladaProyección } from '../model/proye
   providedIn: 'root',
 })
 export class UsuarioSolicitudObtenerService {
-  constructor(private usuarioSolicitudAdapter: UsuarioSolicitudAdapter) {}
+
+  private solicitudUsuarioInformaciónDetallada: Observable<Respuesta<UsuarioSolicitudInformaciónDetalladaProyección>>;
+
+  constructor(private usuarioSolicitudAdapter: UsuarioSolicitudAdapter) {
+    this.solicitudUsuarioInformaciónDetallada = new Observable;
+  }
 
   listarConFiltro(
     pageNo?: number,
@@ -39,8 +44,14 @@ export class UsuarioSolicitudObtenerService {
   obtenerSolicitudUsuarioInformaciónDetallada(
     solicitudUsuarioId?: string
   ): Observable<Respuesta<UsuarioSolicitudInformaciónDetalladaProyección>> {
-    return this.usuarioSolicitudAdapter.obtenerSolicitudUsuarioInformaciónDetallada(
+    this.solicitudUsuarioInformaciónDetallada = this.usuarioSolicitudAdapter.obtenerSolicitudUsuarioInformaciónDetallada(
       solicitudUsuarioId
     );
+
+    return this.solicitudUsuarioInformaciónDetallada;
+  }
+
+  getSolicitudUsuarioInformaciónDetallada(){
+    return this.solicitudUsuarioInformaciónDetallada;
   }
 }

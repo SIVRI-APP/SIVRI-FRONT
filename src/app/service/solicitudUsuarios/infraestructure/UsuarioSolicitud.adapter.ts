@@ -73,12 +73,22 @@ export class UsuarioSolicitudAdapter {
   }
 
   aprobarSolicitudUsuario(
-    solicitudUsuarioId: string = '0'
+    solicitudUsuarioId: number = 0
   ): Observable<Respuesta<boolean>> {
 
     let params = new HttpParams()
     .set('solicitudUsuarioId', solicitudUsuarioId)
 
     return this.http.post<Respuesta<boolean>>(this.apiUrl + 'aprobar', null, { params: params });
+  }
+
+
+  rechazarSolicitudUsuario(
+    body: {
+      usuarioSolicitudId?: string,
+      observacion?: string
+    }
+  ): Observable<Respuesta<boolean>> {
+    return this.http.post<Respuesta<boolean>>(this.apiUrl + 'rechazar', body);
   }
 }

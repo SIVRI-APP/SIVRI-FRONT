@@ -133,6 +133,14 @@ export class CrearSolicitudUsuarioComponent {
   openModalOk(message: string) {
 		const modalRef = this.modalService.open(ModalOkComponent);
 		modalRef.componentInstance.name = message;
+
+    modalRef.result.then((result) => {
+      // Este bloque se ejecutará cuando se cierre la modal
+      if (result === 'navegar') {
+        // Aquí puedes realizar la navegación a otra ruta
+        this.router.navigate(['/usuarios/listar-solicitudes']);
+      }
+    });
 	}
 
   openModalBad(data: ErrorData) {

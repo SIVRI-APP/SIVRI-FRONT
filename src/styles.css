@@ -310,6 +310,10 @@
     color: #ED7D31; /* Color de texto verde */
 }
 
+#infoFeedback{
+    color: #C00; /* Color de texto verde */
+}
+
 .icon-container {
     display: flex;
     flex-direction: column;
