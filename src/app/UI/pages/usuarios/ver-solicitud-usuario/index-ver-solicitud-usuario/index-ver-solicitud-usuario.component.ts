@@ -1,18 +1,8 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Respuesta } from '../../../../../service/common/model/respuesta';
-import { UsuarioSolicitudInformaciónDetalladaProyección } from '../../../../../service/solicitudUsuarios/domain/model/proyecciones/usuarioSolicitudInformaciónDetalladaProyección';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { TipoDocumento } from '../../../../../service/solicitudUsuarios/domain/model/enum/tipoDocumento';
-import { Sexo } from '../../../../../service/solicitudUsuarios/domain/model/enum/sexo';
-import { TipoUsuario } from '../../../../../service/solicitudUsuarios/domain/model/enum/tipoUsuario';
-import { EstadoSolicitudUsuario } from '../../../../../service/solicitudUsuarios/domain/model/enum/estadoSolicitudUsuario';
+import { Component, OnInit } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { UsuarioSolicitudObtenerService } from '../../../../../service/solicitudUsuarios/domain/service/usuarioSolicitudObtener.service';
-import { UsuarioSolicitudCrearService } from '../../../../../service/solicitudUsuarios/domain/service/usuarioSolicitudCrear.service';
-import { ErrorData } from '../../../../../service/common/model/errorData';
-import { ModalOkComponent } from '../../../../shared/modal-ok/modal-ok.component';
-import { ModalBadComponent } from '../../../../shared/modal-bad/modal-bad.component';
+
 
 @Component({
   selector: 'app-index-ver-solicitud-usuario',

@@ -15,6 +15,10 @@ const usuariosRoutes: Routes = [
       {
         path: 'crear-usuario',
         loadComponent: () => import('./crear-solicitud-usuario/crear-solicitud-usuario.component').then((c) => c.CrearSolicitudUsuarioComponent),
+      },
+      {
+        path: 'listar-usuarios',
+        loadComponent: () => import('./listar-usuarios/listar-usuarios.component').then((c) => c.ListarUsuariosComponent),
       }
     ],
   },

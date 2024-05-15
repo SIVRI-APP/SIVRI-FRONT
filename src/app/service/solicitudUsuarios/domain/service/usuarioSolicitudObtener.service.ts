@@ -3,9 +3,9 @@ import { Injectable } from '@angular/core';
 import { UsuarioSolicitudListarConFiltroProyeccion } from '../model/proyecciones/usuarioSolicitudListarConFiltroProyeccion';
 import { Paginacion } from '../../../common/model/paginacion';
 import { Respuesta } from '../../../common/model/respuesta';
-import { UsuarioSolicitudAdapter } from '../../infraestructure/UsuarioSolicitud.adapter';
+import { UsuarioSolicitudAdapter } from '../../infraestructure/usuarioSolicitud.adapter';
 import { UsuarioSolicitudInformaciónDetalladaProyección } from '../model/proyecciones/usuarioSolicitudInformaciónDetalladaProyección';
-import { Form, FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root',
