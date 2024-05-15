@@ -22,7 +22,8 @@ const usuariosRoutes: Routes = [
       }
     ],
   },
-  { path: 'listar-solicitudes/:id', loadChildren: () => import('./ver-solicitud-usuario/ver-solicitud.module').then(m => m.VerSolicitudModule) }
+  { path: 'listar-solicitudes/:id', loadChildren: () => import('./ver-solicitud-usuario/ver-solicitud.module').then(m => m.VerSolicitudModule) },
+  { path: 'listar-usuarios/:id', loadChildren: () => import('./ver-usuario/ver-usuario.module').then(m => m.VerUsuarioModule) }
 ];
 
 @NgModule({

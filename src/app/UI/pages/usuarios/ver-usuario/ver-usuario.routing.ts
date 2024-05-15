@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { IndexVerSolicitudUsuarioComponent } from './index-ver-solicitud-usuario/index-ver-solicitud-usuario.component';
+import { IndexVerUsuarioComponent } from './index-ver-usuario/index-ver-usuario.component';
 
-const verSolicitudRoutes: Routes = [
+const verUsuarioRoutes: Routes = [
   {
     path: '',
-    component: IndexVerSolicitudUsuarioComponent,
+    component: IndexVerUsuarioComponent,
     children: [
       {
         path: '',
@@ -15,17 +15,13 @@ const verSolicitudRoutes: Routes = [
       {
         path: 'informacion-general',
         loadComponent: () => import('./informacion-general/informacion-general.component').then((c) => c.InformacionGeneralComponent),
-      },
-      {
-        path: 'observaciones',
-        loadComponent: () => import('./observaciones/observaciones.component').then((c) => c.ObservacionesComponent),
       }
     ],
   },
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(verSolicitudRoutes)],
+  imports: [RouterModule.forChild(verUsuarioRoutes)],
   exports: [RouterModule],
 })
-export class VerSolicitudUsuariosRoutingModule {}
+export class VerUsuarioRoutingModule {}

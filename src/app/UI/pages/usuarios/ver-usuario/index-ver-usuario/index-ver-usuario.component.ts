@@ -1,31 +1,30 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { UsuarioSolicitudObtenerService } from '../../../../../service/solicitudUsuarios/domain/service/usuarioSolicitudObtener.service';
-
+import { UsuarioObtenerService } from '../../../../../service/solicitudUsuarios/domain/service/usuarioObtener.service';
 
 @Component({
-  selector: 'app-index-ver-solicitud-usuario',
+  selector: 'app-index-ver-usuario',
   standalone: true,
   imports: [RouterOutlet, RouterLink, RouterLinkActive],
-  templateUrl: './index-ver-solicitud-usuario.component.html',
-  styleUrl: './index-ver-solicitud-usuario.component.css'
+  templateUrl: './index-ver-usuario.component.html',
+  styleUrl: './index-ver-usuario.component.css'
 })
-export class IndexVerSolicitudUsuarioComponent implements OnInit{
-  
+export class IndexVerUsuarioComponent implements OnInit{
+
   //Campos que ayuda a la visualizacion
   protected id!: string;
   protected nombre: string = '';
   
   constructor(
     private route: ActivatedRoute,
-    private usuarioSolicitudObtenerService: UsuarioSolicitudObtenerService,
+    private usuarioObtenerService: UsuarioObtenerService,
   ){}
 
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.id = params['id']; 
 
-      this.usuarioSolicitudObtenerService.obtenerSolicitudUsuarioInformaciónDetallada(this.id)
+      this.usuarioObtenerService.obtenerUsuarioInformaciónDetallada(this.id)
         .subscribe({
           // Manejar respuesta exitosa
           next: (respuesta) => {
@@ -38,5 +37,4 @@ export class IndexVerSolicitudUsuarioComponent implements OnInit{
         });
     });   
   }
-
 }

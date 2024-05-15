@@ -167,6 +167,9 @@ export class ListarUsuariosComponent {
       'Solicitud Usuarios',
       new Paginacion<UsuarioListarConFiltroProyeccion>()
     );
+
+    //Guardamos el estado actual del formulario
+    this.usuarioObtenerService.setFormularioListarConFiltro(this.formulario)
   }
 
   /**

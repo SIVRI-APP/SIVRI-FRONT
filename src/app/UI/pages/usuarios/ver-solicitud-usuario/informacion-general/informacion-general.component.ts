@@ -7,7 +7,7 @@ import { Sexo } from '../../../../../service/solicitudUsuarios/domain/model/enum
 import { TipoUsuario } from '../../../../../service/solicitudUsuarios/domain/model/enum/tipoUsuario';
 import { EstadoSolicitudUsuario } from '../../../../../service/solicitudUsuarios/domain/model/enum/estadoSolicitudUsuario';
 import { UsuarioSolicitudCrearService } from '../../../../../service/solicitudUsuarios/domain/service/usuarioSolicitudCrear.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { UsuarioSolicitudObtenerService } from '../../../../../service/solicitudUsuarios/domain/service/usuarioSolicitudObtener.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ErrorData } from '../../../../../service/common/model/errorData';
@@ -43,7 +43,6 @@ export class InformacionGeneralComponent implements OnInit{
 
   constructor(
     private router: Router,
-    private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private usuarioSolicitudCrearService: UsuarioSolicitudCrearService,
     private usuarioSolicitudObtenerService: UsuarioSolicitudObtenerService,
