@@ -5,16 +5,38 @@ import { Paginacion } from '../../../common/model/paginacion';
 import { Respuesta } from '../../../common/model/respuesta';
 import { UsuarioSolicitudAdapter } from '../../infraestructure/UsuarioSolicitud.adapter';
 import { UsuarioSolicitudInformaciónDetalladaProyección } from '../model/proyecciones/usuarioSolicitudInformaciónDetalladaProyección';
+import { Form, FormBuilder, FormGroup } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UsuarioSolicitudObtenerService {
 
+  // Variable para guardar la informacion de un registro en particular
   private solicitudUsuarioInformaciónDetallada: Observable<Respuesta<UsuarioSolicitudInformaciónDetalladaProyección>>;
+  // Variable para guardar un listado
+  private solicitudUsuarioListarConFilrtro: Observable<Respuesta<Paginacion<UsuarioSolicitudListarConFiltroProyeccion>>>; 
+  // Variable para guardar un formulario
+  protected formularioListarConFiltro: FormGroup;
 
-  constructor(private usuarioSolicitudAdapter: UsuarioSolicitudAdapter) {
+  constructor(
+    private usuarioSolicitudAdapter: UsuarioSolicitudAdapter,
+    private formBuilder: FormBuilder,
+  ) {
     this.solicitudUsuarioInformaciónDetallada = new Observable;
+    this.solicitudUsuarioListarConFilrtro = new Observable;
+    // Inicialización del formulario reactivo
+    this.formularioListarConFiltro = this.formBuilder.group({
+      pageNo: [0],
+      pageSize: ['10'],
+      correo: [''],
+      estado: [''],
+      tipoDocumento: [''],
+      numeroDocumento: [''],
+      nombres: [''],
+      apellidos: [''],
+      tipoUsuario: ['']
+    });
   }
 
   listarConFiltro(
@@ -28,7 +50,7 @@ export class UsuarioSolicitudObtenerService {
     apellido?: string,
     tipoUsuario?: string
   ): Observable<Respuesta<Paginacion<UsuarioSolicitudListarConFiltroProyeccion>>> {
-    return this.usuarioSolicitudAdapter.listarConFiltro(
+    this.solicitudUsuarioListarConFilrtro = this.usuarioSolicitudAdapter.listarConFiltro(
       pageNo,
       pageSize,
       correo,
@@ -39,6 +61,7 @@ export class UsuarioSolicitudObtenerService {
       apellido,
       tipoUsuario
     );
+    return this.solicitudUsuarioListarConFilrtro;
   }
 
   obtenerSolicitudUsuarioInformaciónDetallada(
@@ -53,5 +76,17 @@ export class UsuarioSolicitudObtenerService {
 
   getSolicitudUsuarioInformaciónDetallada(){
     return this.solicitudUsuarioInformaciónDetallada;
+  }
+
+  getSolicitudUsuarioListarConFilrtro(){
+    return this.solicitudUsuarioListarConFilrtro;
+  }
+
+  setFormularioListarConFiltro(formulario: FormGroup){
+    this.formularioListarConFiltro = formulario;
+  }
+
+  getFormularioListarConFiltro(){
+    return this.formularioListarConFiltro;
   }
 }

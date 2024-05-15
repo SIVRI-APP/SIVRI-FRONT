@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { UsuarioSolicitudObtenerService } from '../../../../service/solicitudUsuarios/domain/service/usuarioSolicitudObtener.service';
@@ -19,7 +19,7 @@ import { EnumTranslationService } from '../../../../service/common/enum-translat
   templateUrl: './listar-solicitud-usuarios.component.html',
   styleUrl: './listar-solicitud-usuarios.component.css',
 })
-export class ListarSolicitudUsuariosComponent {
+export class ListarSolicitudUsuariosComponent implements OnInit{
 
   // Enumeraciones que llenan los select
   protected tipoDocumentoEnum = TipoDocumento;
@@ -59,6 +59,32 @@ export class ListarSolicitudUsuariosComponent {
     });
   }
 
+  ngOnInit(): void {
+    this.usuarioSolicitudObtenerService.getSolicitudUsuarioListarConFilrtro()
+      .subscribe({
+        next: (respuesta) => {
+          this.respuesta = respuesta;
+
+          // Actualiar el Input del datatable
+          this.datatableInputs.searchPerformed = true;
+          this.datatableInputs.paginacion = this.respuesta.data;
+          this.datatableInputs.tableHeaders = ['ID', 'Correo', 'Nombre', 'Apellido', 'Tipo Documento', 'Numero Documento', 'Tipo Usuario', 'Estado'];
+          this.datatableInputs.dataAttributes = [
+            {name:'id', type:String}, 
+            {name:'correo', type:String}, 
+            {name:'nombre', type:String}, 
+            {name:'apellido', type:String}, 
+            {name:'tipoDocumento', type:TipoDocumento}, 
+            {name:'numeroDocumento', type:String}, 
+            {name:'tipoUsuario', type:TipoUsuario}, 
+            {name:'estado', type:EstadoSolicitudUsuario}
+          ]      
+        }
+      })
+
+    this.formulario = this.usuarioSolicitudObtenerService.getFormularioListarConFiltro();
+  }
+
   /**
    * Maneja el envío del formulario de búsqueda de solicitudes de usuario.
    *
@@ -71,6 +97,8 @@ export class ListarSolicitudUsuariosComponent {
     // Verificar si el formulario es válido
     if (this.formulario.valid) {
 
+      //Guardamos el estado actual del formulario
+      this.usuarioSolicitudObtenerService.setFormularioListarConFiltro(this.formulario)
       // Realizar solicitud para obtener la respuesta
       this.usuarioSolicitudObtenerService
         .listarConFiltro(
