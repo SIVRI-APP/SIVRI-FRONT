@@ -1,0 +1,26 @@
+<form [formGroup]="formulario" (ngSubmit)="onSubmit()" method="get">
+    <div class="row">
+        <div class="modal-header d-flex justify-content-center">
+            <span class="material-symbols-outlined">
+                indeterminate_question_box
+            </span>
+        </div>
+        <div class="modal-body d-flex flex-column justify-content-center align-items-center">
+            <p>{{ mensaje }}!</p>           
+        </div>
+
+        <div class="modal-body">
+            <div class="col-sm">
+                <label for="observacion" class="etiqueta-form"><strong>Observación</strong></label>
+                <textarea id="observacion" name="observacion" class="form-control" type="text" placeholder="Observaciones" formControlName="observacion"></textarea>
+                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('observacion')?.valid && this.formulario.get('observacion')?.touched ? 'block' : 'none'"> 
+                    {{restriccion}}
+                </div>
+            </div>
+        </div>
+        
+        <div class="modal-footer d-flex flex-column justify-content-center align-items-center">
+            <button type="submit" class="btn btn-outline-dark">Crear Observación</button>
+        </div>
+    </div>
+</form>

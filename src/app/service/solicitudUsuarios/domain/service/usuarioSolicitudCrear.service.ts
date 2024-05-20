@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Respuesta } from '../../../common/model/respuesta';
-import { UsuarioSolicitudAdapter } from '../../infraestructure/UsuarioSolicitud.adapter';
+import { UsuarioSolicitudAdapter } from '../../infraestructure/usuarioSolicitud.adapter';
 
 @Injectable({
   providedIn: 'root',
@@ -30,8 +30,17 @@ export class UsuarioSolicitudCrearService {
   }
 
   aprobarSolicitudUsuario(
-    solicitudUsuarioId?: string
+    solicitudUsuarioId?: number
   ): Observable<Respuesta<boolean>> {
     return this.usuarioSolicitudAdapter.aprobarSolicitudUsuario(solicitudUsuarioId);
+  }
+
+  rechazarSolicitudUsuario(
+    body: {
+      usuarioSolicitudId?: string,
+      observacion?: string,
+    }
+  ): Observable<Respuesta<boolean>> {
+    return this.usuarioSolicitudAdapter.rechazarSolicitudUsuario(body);
   }
 }

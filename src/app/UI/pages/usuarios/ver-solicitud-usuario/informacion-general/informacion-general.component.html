@@ -1,0 +1,193 @@
+<form [formGroup]="formulario" (ngSubmit)="onSubmit()" method="get">
+
+    <div class="filter-box">
+
+        <!-- Formulario de Creacion -->
+
+        <div class="row">
+            <div class="col-sm-2">
+                <label for="id" class="etiqueta-form"><strong>Id Solicitud</strong></label>
+                <input id="id" name="id" class="form-control" type="text" placeholder="ID" formControlName="id">
+            </div>
+
+            <div class="col-sm"></div>
+            <div class="col-sm"></div>
+            <div class="col-sm"></div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-4">
+                <label for="correo" class="etiqueta-form"><strong>Correo</strong></label>
+                <input id="correo" name="correo" class="form-control" type="email" placeholder="Correo" formControlName="correo">
+                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('correo')?.valid && this.formulario.get('correo')?.touched ? 'block' : 'none'"> 
+                    Digita un Correo valido (8 - 100 caracteres)
+                </div>
+
+            </div>
+
+            <div class="col-sm-4">
+                <label for="tipoDocumento" class="etiqueta-form"><strong>Tipo de Documento</strong></label>
+                <select id="tipoDocumento" name="tipoDocumento" class="form-select" formControlName="tipoDocumento">
+                    <option value="" disabled selected hidden>Tipo de Documento</option>
+                    @for (key of enumTranslationService.getEnumKeys(tipoDocumentoEnum); track $index) {
+                    <option [value]="key">{{enumTranslationService.getEnumValueByKey(tipoDocumentoEnum, key)}}</option>
+                    }
+                </select>
+                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('tipoDocumento')?.valid && this.formulario.get('tipoDocumento')?.touched ? 'block' : 'none'"> 
+                    Debes seleccionar un Tipo de Documento de la lista
+                </div>
+            </div>
+
+            <div class="col-sm-4">
+                <label for="numeroDocumento" class="etiqueta-form"><strong>Numero de Documento</strong></label>
+                <input id="numeroDocumento" name="numeroDocumento" class="form-control" type="text"
+                    placeholder="Numero de Documento" formControlName="numeroDocumento">
+                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('numeroDocumento')?.valid && this.formulario.get('numeroDocumento')?.touched ? 'block' : 'none'"> 
+                    Digita un Numero de Documento valido (5 - 100 caracteres)
+                </div>
+            </div>
+
+            
+        </div>
+
+        <div class="row">
+            <div class="col-sm-4">
+                <label for="sexo" class="etiqueta-form"><strong>Sexo</strong></label>
+                <select id="sexo" name="sexo" class="form-select" formControlName="sexo">
+                    <option value="" disabled selected hidden>Sexo</option>
+                    @for (key of enumTranslationService.getEnumKeys(sexoEnum); track $index) {
+                    <option [value]="key">{{enumTranslationService.getEnumValueByKey(sexoEnum, key)}}</option>
+                    }
+                </select>
+                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('sexo')?.valid && this.formulario.get('sexo')?.touched ? 'block' : 'none'"> 
+                    Debes seleccionar un Sexo de la lista
+                </div>
+            </div>
+
+            <div class="col-sm-4">
+                <label for="tipoUsuario" class="etiqueta-form"><strong>Tipo Usuario</strong></label>
+                <select id="tipoUsuario" name="tipoUsuario" class="form-select" formControlName="tipoUsuario" (change)="onTipoUsuarioSeleccionado($event)">
+                    <option value="" disabled selected hidden>Tipo de Usuario</option>
+                    @for (key of enumTranslationService.getEnumKeys(tipoUsuarioEnum); track $index) {
+                    <option [value]="key">{{enumTranslationService.getEnumValueByKey(tipoUsuarioEnum, key)}}</option>
+                    }
+                </select>
+                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('tipoUsuario')?.valid && this.formulario.get('tipoUsuario')?.touched ? 'block' : 'none'"> 
+                    Debes seleccionar un Tipo de Usuario de la lista
+                </div>
+            </div>
+
+            <div class="col-sm-4">
+                <label for="nombre" class="etiqueta-form"><strong>Nombres</strong></label>
+                <input id="nombre" name="nombre" class="form-control" type="text" placeholder="Nombres"
+                    formControlName="nombre">
+                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('nombre')?.valid && this.formulario.get('nombre')?.touched ? 'block' : 'none'"> 
+                    Digita un Nombre valido (1 - 100 caracteres)
+                </div>
+            </div>
+
+            
+        </div>
+
+        <!-- TODO MIGUEL Select con la lista de programas -->
+        <!-- TODO MIGUEL Select con la lista de organismos de investigacion -->
+        <!-- TODO MIGUEL Select con la lista de roles disponibles de ese organismo de investigacion -->
+
+        <div class="row">
+            <div class="col-sm-4">
+                <label for="apellido" class="etiqueta-form"><strong>Apellidos</strong></label>
+                <input id="apellido" name="apellido" class="form-control" type="text" placeholder="Apellidos"
+                    formControlName="apellido">
+                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('apellido')?.valid && this.formulario.get('apellido')?.touched ? 'block' : 'none'"> 
+                    Digita un Apellido valido (1 - 100 caracteres)
+                </div>
+            </div>
+
+            <div class="col-sm-4">
+                <label for="telefono" class="etiqueta-form"><strong>Telefono</strong></label>
+                <input id="telefono" name="telefono" class="form-control" type="text" placeholder="Telefono"
+                    formControlName="telefono">
+                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('telefono')?.valid && this.formulario.get('telefono')?.touched ? 'block' : 'none'"> 
+                    Digita un Telefono valido (5 - 100 caracteres)
+                </div>
+            </div>
+
+            <div class="col-sm-4">
+                <label for="estadoSolicitud" class="etiqueta-form"><strong>Estado de Solicitud</strong></label>
+                <select id="estadoSolicitud" name="estadoSolicitud" class="form-select" formControlName="estadoSolicitud">
+                    <option value="" disabled selected hidden>Estado de Solicitud</option>
+                    @for (key of enumTranslationService.getEnumKeys(estadoSolicitudUsuarioEnum); track $index) {
+                    <option [value]="key">{{enumTranslationService.getEnumValueByKey(estadoSolicitudUsuarioEnum, key)}}</option>
+                    }
+                </select>
+                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('estadoSolicitud')?.valid && this.formulario.get('estadoSolicitud')?.touched ? 'block' : 'none'"> 
+                    Debes seleccionar un Estado de Solicitud de la lista
+                </div>
+            </div>
+
+            
+       
+        </div>
+
+        <div class="row">
+
+            <div class="col-sm-8">
+                <label for="cvLac" class="etiqueta-form"><strong>cvLac</strong></label>
+                <input id="cvLac" name="cvLac" class="form-control" type="text" placeholder="cvLac"
+                    formControlName="cvLac">
+                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('cvLac')?.valid && this.formulario.get('cvLac')?.touched ? 'block' : 'none'"> 
+                    Los usuarios de tipo Docente deben estar registrados en cvLac
+                </div>
+            </div>
+
+            <div class="col-sm-3"></div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-sm-8">
+                <label for="nota" class="etiqueta-form"><strong>Nota</strong></label>
+                <textarea id="nota" name="nota" class="form-control" type="text" placeholder="Nota" formControlName="nota"></textarea>
+                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('nota')?.valid && this.formulario.get('nota')?.touched ? 'block' : 'none'"> 
+                    Digita una Nota valida (max 1000 caracteres)
+                </div>
+            </div>
+
+            <div class="col-sm-3"></div>
+        </div>
+        
+
+        <div class="row">
+            <div class="col controls">
+
+                @if (this.formulario.value.estadoSolicitud == this.enumTranslationService.getKeyByValue(this.estadoSolicitudUsuarioEnum, this.estadoSolicitudUsuarioEnum.REVISION_VRI)) {
+                    <button type="button" class="secondaryBTN" (click)="rechazarSolicitud()">
+                        <div class="button-content">
+                            <span class="material-symbols-outlined secondaryBTN-icon">
+                                cancel
+                            </span>
+                            <span class="text">Rechazar</span>
+                        </div>
+                    </button>
+
+                    <button type="submit" class="primaryBTN">
+                        <div class="button-content">
+                            <span class="material-symbols-outlined primaryBTN-icon">
+                                check_circle 
+                            </span>
+                            <span class="text">Aprobar</span>
+                        </div>
+                    </button>
+                }@else {
+                    <div id="infoFeedback" class="invalid-feedback" [style.display]="'block'"> 
+                        El control de la solicitud esta en el Usuario respectivo, no se puede aprobar o rechazar hasta que el usuario envie el registro a revisión VRI
+                    </div>
+                }
+
+            </div>
+        </div>
+
+        <div class="form-guide-line"></div>
+    </div>
+
+</form>

@@ -1,0 +1,98 @@
+<form [formGroup]="formulario" (ngSubmit)="onSubmit()" method="get">
+
+    <div class="filter-box">
+
+        <!-- Filtro de Busqueda -->
+        <div class="row">
+            <div class="col-sm-4">
+                <label for="nombres" class="etiqueta-form"><strong>Nombres</strong></label>
+                <input id="nombres" name="nombres" class="form-control" type="text" placeholder="Nombre"
+                    formControlName="nombres">
+            </div>
+
+            <div class="col-sm-4">
+                <label for="apellidos" class="etiqueta-form"><strong>Apellidos</strong></label>
+                <input id="apellidos" name="apellidos" class="form-control" type="text" placeholder="Apellido"
+                    formControlName="apellidos">
+            </div>
+
+            <div class="col-sm-4">
+                <label for="correo" class="etiqueta-form"><strong>Correo</strong></label>
+                <input id="correo" name="correo" class="form-control" type="email" placeholder="Correo"
+                    formControlName="correo">
+            </div>
+
+
+        </div>
+
+        <div class="row">
+            <div class="col-sm-4">
+                <label for="tipo_documento" class="etiqueta-form"><strong>Tipo de
+                        Documento</strong></label>
+                <select id="tipo_documento" name="tipo_documento" class="form-select" formControlName="tipoDocumento">
+                    <option value="" disabled selected hidden>Tipo de Documento</option>
+                    @for (key of enumTranslationService.getEnumKeys(tipoDocumentoEnum); track $index) {
+                    <option [value]="key">{{enumTranslationService.getEnumValueByKey(tipoDocumentoEnum, key)}}</option>
+                    }
+                </select>
+            </div>
+
+            <div class="col-sm-4">
+                <label for="numero_documento" class="etiqueta-form"><strong>Número de
+                        Documento</strong></label>
+                <input id="numero_documento" name="numero_documento" class="form-control" type="text"
+                    placeholder="# de Documento" formControlName="numeroDocumento">
+            </div>
+
+            <div class="col-sm-4">
+                <label for="tipo_usuario" class="etiqueta-form"><strong>Tipo de
+                        Usuario</strong></label>
+                <select id="tipo_usuario" name="tipo_usuario" class="form-select" formControlName="tipoUsuario">
+                    <option value="" disabled selected hidden>Tipo de Usuario</option>
+                    @for (key of enumTranslationService.getEnumKeys(tipoUsuarioEnum); track $index) {
+                    <option [value]="key">{{enumTranslationService.getEnumValueByKey(tipoUsuarioEnum, key)}}</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col controls">
+                <label class="form-label listar">Ver
+                    <select class="form-select form-select-sm" formControlName="pageSize">
+                        <option value="10" selected>10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                </label>
+
+                <button type="button" class="secondaryBTN" (click)="limpiarCampos()">
+                    <div class="button-content">
+                        <span class="material-symbols-outlined secondaryBTN-icon">
+                            filter_alt
+                        </span>
+                        <span class="text">Limpiar</span>
+                    </div>
+                </button>
+
+                <button type="submit" class="primaryBTN">
+                    <div class="button-content">
+                        <span class="material-symbols-outlined primaryBTN-icon">
+                            search
+                        </span>
+                        <span class="text">Buscar</span>
+                    </div>
+                </button>
+
+            </div>
+        </div>
+
+        <div class="form-guide-line"></div>
+    </div>
+
+    <!-- Tabla Paginada  -->
+    <app-datatable [datatableInputs]="datatableInputs" (changePageEmitter)="changePage($event)"
+        (movePageEmitter)="movePage($event)"></app-datatable>
+
+</form>

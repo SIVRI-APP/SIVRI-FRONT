@@ -1,48 +1,46 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { UsuarioSolicitudObtenerService } from '../../../../service/solicitudUsuarios/domain/service/usuarioSolicitudObtener.service';
-import { UsuarioSolicitudListarConFiltroProyeccion } from '../../../../service/solicitudUsuarios/domain/model/proyecciones/usuarioSolicitudListarConFiltroProyeccion';
-import { Respuesta } from '../../../../service/common/model/respuesta';
-import { Paginacion } from '../../../../service/common/model/paginacion';
+import { DatatableComponent } from '../../../shared/datatable/datatable.component';
 import { TipoDocumento } from '../../../../service/solicitudUsuarios/domain/model/enum/tipoDocumento';
 import { TipoUsuario } from '../../../../service/solicitudUsuarios/domain/model/enum/tipoUsuario';
-import { EstadoSolicitudUsuario } from '../../../../service/solicitudUsuarios/domain/model/enum/estadoSolicitudUsuario';
-import { DatatableComponent } from '../../../shared/datatable/datatable.component';
+import { UsuarioListarConFiltroProyeccion } from '../../../../service/solicitudUsuarios/domain/model/proyecciones/usuarioListarConFiltroProyeccion';
+import { Paginacion } from '../../../../service/common/model/paginacion';
+import { Respuesta } from '../../../../service/common/model/respuesta';
 import { DatatableInput } from '../../../../service/common/model/datatableInput';
+import { UsuarioObtenerService } from '../../../../service/solicitudUsuarios/domain/service/usuarioObtener.service';
 import { EnumTranslationService } from '../../../../service/common/enum-translation.service';
 
 @Component({
   selector: 'app-listar-usuarios',
   standalone: true,
   imports: [RouterLink, ReactiveFormsModule, DatatableComponent],
-  templateUrl: './listar-solicitud-usuarios.component.html',
-  styleUrl: './listar-solicitud-usuarios.component.css',
+  templateUrl: './listar-usuarios.component.html',
+  styleUrl: './listar-usuarios.component.css'
 })
-export class ListarSolicitudUsuariosComponent implements OnInit{
+export class ListarUsuariosComponent {
 
   // Enumeraciones que llenan los select
   protected tipoDocumentoEnum = TipoDocumento;
   protected tipoUsuarioEnum = TipoUsuario;
-  protected estadoSolicitudUsuarioEnum = EstadoSolicitudUsuario;
   // Formulario reactivo
   protected formulario: FormGroup;
   // Respuesta del Back
-  protected respuesta: Respuesta<Paginacion<UsuarioSolicitudListarConFiltroProyeccion>>
+  protected respuesta: Respuesta<Paginacion<UsuarioListarConFiltroProyeccion>>
   // Informacion del Datatable
   protected datatableInputs: DatatableInput;
 
   constructor(
     private formBuilder: FormBuilder,
-    private usuarioSolicitudObtenerService: UsuarioSolicitudObtenerService,
+    private usuarioObtenerService: UsuarioObtenerService,
     protected enumTranslationService: EnumTranslationService
   ) {
-    this.respuesta = new Respuesta<Paginacion<UsuarioSolicitudListarConFiltroProyeccion>>();
+    this.respuesta = new Respuesta<Paginacion<UsuarioListarConFiltroProyeccion>>();
 
     // Inicialización de los datos que construyen el datatable
     this.datatableInputs = new DatatableInput(
       'Solicitud Usuarios',
-      new Paginacion<UsuarioSolicitudListarConFiltroProyeccion>()
+      new Paginacion<UsuarioListarConFiltroProyeccion>()
     );
 
     // Inicialización del formulario reactivo
@@ -50,7 +48,6 @@ export class ListarSolicitudUsuariosComponent implements OnInit{
       pageNo: [0],
       pageSize: ['10'],
       correo: [''],
-      estado: [''],
       tipoDocumento: [''],
       numeroDocumento: [''],
       nombres: [''],
@@ -60,7 +57,7 @@ export class ListarSolicitudUsuariosComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.usuarioSolicitudObtenerService.getSolicitudUsuarioListarConFilrtro()
+    this.usuarioObtenerService.getUsuarioListarConFilrtro()
       .subscribe({
         next: (respuesta) => {
           this.respuesta = respuesta;
@@ -68,7 +65,7 @@ export class ListarSolicitudUsuariosComponent implements OnInit{
           // Actualiar el Input del datatable
           this.datatableInputs.searchPerformed = true;
           this.datatableInputs.paginacion = this.respuesta.data;
-          this.datatableInputs.tableHeaders = ['ID', 'Correo', 'Nombre', 'Apellido', 'Tipo Documento', 'Numero Documento', 'Tipo Usuario', 'Estado'];
+          this.datatableInputs.tableHeaders = ['ID', 'Correo', 'Nombre', 'Apellido', 'Tipo Documento', 'Numero Documento', 'Tipo Usuario'];
           this.datatableInputs.dataAttributes = [
             {name:'id', type:String}, 
             {name:'correo', type:String}, 
@@ -77,12 +74,11 @@ export class ListarSolicitudUsuariosComponent implements OnInit{
             {name:'tipoDocumento', type:TipoDocumento}, 
             {name:'numeroDocumento', type:String}, 
             {name:'tipoUsuario', type:TipoUsuario}, 
-            {name:'estado', type:EstadoSolicitudUsuario}
           ]      
         }
       })
 
-    this.formulario = this.usuarioSolicitudObtenerService.getFormularioListarConFiltro();
+    this.formulario = this.usuarioObtenerService.getFormularioListarConFiltro();
   }
 
   /**
@@ -98,14 +94,13 @@ export class ListarSolicitudUsuariosComponent implements OnInit{
     if (this.formulario.valid) {
 
       //Guardamos el estado actual del formulario
-      this.usuarioSolicitudObtenerService.setFormularioListarConFiltro(this.formulario)
+      this.usuarioObtenerService.setFormularioListarConFiltro(this.formulario)
       // Realizar solicitud para obtener la respuesta
-      this.usuarioSolicitudObtenerService
+      this.usuarioObtenerService
         .listarConFiltro(
           this.formulario.value.pageNo,
           this.formulario.value.pageSize,
           this.formulario.value.correo,
-          this.formulario.value.estado,
           this.formulario.value.tipoDocumento,
           this.formulario.value.numeroDocumento,
           this.formulario.value.nombres,
@@ -121,7 +116,7 @@ export class ListarSolicitudUsuariosComponent implements OnInit{
             // Actualiar el Input del datatable
             this.datatableInputs.searchPerformed = true;
             this.datatableInputs.paginacion = this.respuesta.data;
-            this.datatableInputs.tableHeaders = ['ID', 'Correo', 'Nombre', 'Apellido', 'Tipo Documento', 'Numero Documento', 'Tipo Usuario', 'Estado'];
+            this.datatableInputs.tableHeaders = ['ID', 'Correo', 'Nombre', 'Apellido', 'Tipo Documento', 'Numero Documento', 'Tipo Usuario'];
             this.datatableInputs.dataAttributes = [
               {name:'id', type:String}, 
               {name:'correo', type:String}, 
@@ -130,7 +125,6 @@ export class ListarSolicitudUsuariosComponent implements OnInit{
               {name:'tipoDocumento', type:TipoDocumento}, 
               {name:'numeroDocumento', type:String}, 
               {name:'tipoUsuario', type:TipoUsuario}, 
-              {name:'estado', type:EstadoSolicitudUsuario}
             ]      
           },
           // Manejar errores
@@ -166,16 +160,16 @@ export class ListarSolicitudUsuariosComponent implements OnInit{
 
     // Reiniciar la lista de usuarios solicitados
     this.respuesta = new Respuesta<
-      Paginacion<UsuarioSolicitudListarConFiltroProyeccion>
+      Paginacion<UsuarioListarConFiltroProyeccion>
     >();
 
     this.datatableInputs = new DatatableInput(
       'Solicitud Usuarios',
-      new Paginacion<UsuarioSolicitudListarConFiltroProyeccion>()
+      new Paginacion<UsuarioListarConFiltroProyeccion>()
     );
 
     //Guardamos el estado actual del formulario
-    this.usuarioSolicitudObtenerService.setFormularioListarConFiltro(this.formulario)
+    this.usuarioObtenerService.setFormularioListarConFiltro(this.formulario)
   }
 
   /**

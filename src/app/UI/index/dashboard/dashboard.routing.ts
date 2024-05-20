@@ -9,10 +9,8 @@ const adminRoutes: Routes = [
     children: [
       {
         path: '',
-        loadChildren: () =>
-          import('../../pages/inicio/inicio.module').then(
-            (c) => c.InicioModule
-          ),
+        redirectTo: 'inicio',
+        pathMatch: 'full'
       },
       {
         path: 'inicio',

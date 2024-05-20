@@ -9,7 +9,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrl: './modal-ok.component.css'
 })
 export class ModalOkComponent {
-  	activeModal = inject(NgbActiveModal);
+  activeModal = inject(NgbActiveModal);
 
 	@Input() name: string = 'empty';	
 }
