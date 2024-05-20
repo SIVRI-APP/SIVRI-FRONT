@@ -5,12 +5,13 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Respuesta } from '../../common/model/respuesta';
 import { Paginacion } from '../../common/model/paginacion';
 import { SemilleroListarConFiltroxMentorProyeccion } from '../domain/model/proyecciones/semilleroListarConFIltroxMentorProyeccion';
-import { SemilleroObtenerService } from '../service/semillero-obtener.service';
+import { SemilleroObtenerService } from '../domain/service/semillero-obtener.service';
+import { SemilleroProyeccion } from '../domain/model/proyecciones/semilleroProyeccion';
 
 @Injectable({
   providedIn: 'root',
 })
-export class SemilleroObtenerAdapter {
+export class SemilleroAdapter {
   private apiUrl = environment.urlApi + 'semilleros/';
   constructor(private http: HttpClient){}
 
@@ -30,4 +31,27 @@ export class SemilleroObtenerAdapter {
     if (estado !== undefined) params = params.set('estado', estado);
     return this.http.get<Respuesta<Paginacion<SemilleroListarConFiltroxMentorProyeccion>>>(this.apiUrl+'listarSemilleroConFiltroxmentor',{params:params});
   }
+
+  obtenerSemilleroInformacionDetallada(
+    semilleroId: string=''
+  ):Observable<Respuesta<SemilleroProyeccion>>{
+    let params = new HttpParams().set('semilleroId',semilleroId)
+    return this.http.get<Respuesta<SemilleroProyeccion>>(this.apiUrl+'obtenerSemillero',{params:params});
+  }
+
+  actualizarSemilleroxMentor(
+    body:{
+      semilleroId: string,
+      nombre: string,
+      correo: string,
+      objetivo:string,
+      mision: string,
+      vision: string,
+      sede: string,
+      grupoId: number
+    }
+  ):Observable<Respuesta<boolean>>{
+    return this.http.patch<Respuesta<boolean>>(this.apiUrl+'actualizarSemilleroxMentor',body);
+  }
+
 }

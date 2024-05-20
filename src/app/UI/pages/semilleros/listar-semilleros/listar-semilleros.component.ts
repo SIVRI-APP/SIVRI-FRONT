@@ -6,7 +6,7 @@ import { SemilleroListarConFiltroxMentorProyeccion } from '../../../../service/s
 import { Respuesta } from '../../../../service/common/model/respuesta';
 import { RouterLink } from '@angular/router';
 import { DatatableInput } from '../../../../service/common/model/datatableInput';
-import { SemilleroObtenerService } from '../../../../service/semilleros/service/semillero-obtener.service';
+import { SemilleroObtenerService } from '../../../../service/semilleros/domain/service/semillero-obtener.service';
 import { DatatableComponent } from '../../../shared/datatable/datatable.component';
 import { EnumTranslationService } from '../../../../service/common/enum-translation.service';
 
