@@ -9,16 +9,19 @@ import { CompromisoSemillero } from '../model/proyecciones/compromisoSemillero';
 })
 export class CompromisoSemilleroObtenerService {
   //variable para guardar la informacion de los compromisos
-  private compromisos:Observable<Respuesta<CompromisoSemillero>>
+  private compromisos:Observable<Respuesta<CompromisoSemillero[]>>;
+
   constructor(private compromisoSemilleroAdapter:CompromisoSemilleroAdapter) {
     this.compromisos=new Observable;
+
   }
   obtenerCompromisosSemilleros(
-    ):Observable<Respuesta<CompromisoSemillero>>{
+    ):Observable<Respuesta<CompromisoSemillero[]>>{
       this.compromisos= this.compromisoSemilleroAdapter.obtenerCompromisosSemillero();
       return this.compromisos;
   }
   getCompromisosSemillero(){
     return this.compromisos;
   }
+
 }

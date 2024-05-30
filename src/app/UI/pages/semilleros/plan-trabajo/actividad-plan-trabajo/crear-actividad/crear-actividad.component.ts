@@ -20,16 +20,15 @@ export class CrearActividadComponent implements OnInit {
   protected idSemillero!: string;
   protected idGrupo!: number ;
   protected semillero:Respuesta<SemilleroProyeccion>
-  protected compromisosSemillero: Respuesta<CompromisoSemillero>
-  protected integrantes: Respuesta<IntegrantesMentores>;
+  compromisosSemillero: CompromisoSemillero[]=[];
+  protected integrantesMentores: IntegrantesMentores[]=[];
   constructor(
     private route: ActivatedRoute,
     private semilleroObtenerService: SemilleroObtenerService,
     private compromisosObtenerService: CompromisoSemilleroObtenerService,
     private integrantesGrupoObtenerService: IntegrantesGrupoObtenerService
   ){
-    this.integrantes = new Respuesta<IntegrantesMentores>
-    this.compromisosSemillero= new Respuesta<CompromisoSemillero>();
+
     this.semillero=new Respuesta<SemilleroProyeccion>();
   }
 
@@ -40,15 +39,14 @@ export class CrearActividadComponent implements OnInit {
     console.log('idsemillero de crear actividad---------'+this.idSemillero);
     this.semilleroObtenerService.obtenerSemilleroInformacionDetallada(this.idSemillero).subscribe({
       next:(respuesta)=>{
-        console.log(respuesta);
+        //console.log(respuesta);
         this.semillero=respuesta;
         this.idGrupo= this.semillero.data.grupoId;
-        console.log('id grupo dentro de el servicio --------'+this.idGrupo);
         this.integrantesGrupoObtenerService.obtenerMentores(this.idGrupo).subscribe({
           next:(respuesta)=>{
-            console.log('respuesta de integrantes-----------');
-            console.log(respuesta);
-            this.integrantes= respuesta;
+           // console.log('respuesta de integrantes-----------');
+            //console.log(respuesta);
+            this.integrantesMentores= respuesta.data;
 
           }
         });
@@ -59,6 +57,7 @@ export class CrearActividadComponent implements OnInit {
       next:(respuesta)=>{
         console.log('respuesta de compromisos------------');
         console.log(respuesta);
+        this.compromisosSemillero=respuesta.data;
       },
       error: (errorData) => {
         console.log(errorData);

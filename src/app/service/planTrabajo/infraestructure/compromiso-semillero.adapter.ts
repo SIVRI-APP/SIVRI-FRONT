@@ -13,7 +13,7 @@ export class CompromisoSemilleroAdapter {
   constructor(private http: HttpClient) { }
 
   obtenerCompromisosSemillero(
-  ):Observable<Respuesta<CompromisoSemillero>>{
-    return this.http.get<Respuesta<CompromisoSemillero>>(this.apiUrl+'obtenerCompromisos');
+  ):Observable<Respuesta<CompromisoSemillero[]>>{
+    return this.http.get<Respuesta<CompromisoSemillero[]>>(this.apiUrl+'obtenerCompromisos');
   }
 }

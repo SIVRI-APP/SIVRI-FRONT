@@ -23,10 +23,10 @@
     <div class="col-sm">
       <label for="compromiso" class="etiqueta-form"><strong>Producto </strong><span class="text-red-500">*</span></label>
       <select id="compromiso" name="compromiso" class="form-select" formControlName="compromiso">
-        <!-- TODO falta traer los compromisos desde la bd -->
-        <option value="1">BOLETÍN DIVULGATIVO DE RESULTADOS DE INVESTIGACIÓN</option>
-        <option value="2">BOLETÍN DIVULGATIVO DE RESULTADOS DE INVESTIGACIÓN</option>
-        <option value="3">DOCUMENTO DE TRABAJO (WORKING PAPER)</option>
+
+        @for (compromiso of compromisosSemillero; track $index) {
+          <option [value]="compromiso.id">{{compromiso.nombre}}</option>
+          }
       </select>
     </div>
   </div>
@@ -35,9 +35,9 @@
       <label for="responsable" class="etiqueta-form"><strong>Responsable </strong><span class="text-red-500">*</span></label>
       <select id="responsable" name="responsable" class="form-select" formControlName="responsable">
         <!-- TODO falta traer los responsables desde la bd -->
-
-        <option value="1">Julio Ariel Hurtado Alegria</option>
-
+        @for (mentor of integrantesMentores; track $index) {
+        <option [value]="mentor.id">{{mentor.nombres}}</option>
+        }
       </select>
     </div>
     <div class="col-sm">

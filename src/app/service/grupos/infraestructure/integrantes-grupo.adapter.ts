@@ -14,8 +14,8 @@ export class IntegrantesGrupoAdapter {
 
   obtenerIntegrantesGrupoId(
     idGrupo:number
-  ):Observable<Respuesta<IntegrantesMentores>>{
+  ):Observable<Respuesta<IntegrantesMentores[]>>{
     let params = new HttpParams().set('idGrupo',idGrupo);
-    return this.http.get<Respuesta<IntegrantesMentores>>(this.apiUrl+'integrantesMentoresPorGrupoId',{params:params});
+    return this.http.get<Respuesta<IntegrantesMentores[]>>(this.apiUrl+'integrantesMentoresPorGrupoId',{params:params});
   }
 }

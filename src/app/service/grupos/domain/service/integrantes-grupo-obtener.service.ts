@@ -8,7 +8,7 @@ import { IntegrantesMentores } from '../model/proyecciones/integrantesMentores';
   providedIn: 'root'
 })
 export class IntegrantesGrupoObtenerService {
-  private mentoresxGrupoId:Observable<Respuesta<IntegrantesMentores>>;
+  private mentoresxGrupoId:Observable<Respuesta<IntegrantesMentores[]>>;
   constructor(
     private integrantesGrupoAdapter: IntegrantesGrupoAdapter
   ) {
@@ -17,15 +17,13 @@ export class IntegrantesGrupoObtenerService {
 
   obtenerMentores(
     idGrupo:number
-  ):Observable<Respuesta<IntegrantesMentores>>{
+  ):Observable<Respuesta<IntegrantesMentores[]>>{
      this.mentoresxGrupoId = this.integrantesGrupoAdapter.obtenerIntegrantesGrupoId(idGrupo);
      return this.mentoresxGrupoId;
   }
   getMentoresxGrupoId(){
     return this.mentoresxGrupoId;
   }
-  setMentoresxGrupoId(mentoresxGrupoId:Observable<Respuesta<IntegrantesMentores>>){
-    this.mentoresxGrupoId=mentoresxGrupoId;
-  }
+
 
 }
