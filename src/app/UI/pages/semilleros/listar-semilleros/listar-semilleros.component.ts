@@ -53,7 +53,6 @@ export class ListarSemillerosComponent {
 
     if (this.formulario.valid) {
 
-
       //realiza la peticion para obtener los datos filtrados
       this.semilleroObtenerService.listarConFiltro(
         this.formulario.value.idSemillero,

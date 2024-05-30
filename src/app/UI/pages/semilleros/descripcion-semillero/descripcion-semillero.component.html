@@ -3,14 +3,14 @@
     <!--formulario de editar semillero -->
     <div class="row">
       <div class="col-sm">
-        <label for="nombre" class="etiqueta-form"><strong>Nombre</strong></label>
+        <label for="nombre" class="etiqueta-form"><strong>Nombre</strong><span class="text-red-500">*</span></label>
         <input id="nombre" name="nombre" class="form-control" type="text" placeholder="nombre" formControlName="nombre">
         <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('nombre')?.valid && this.formulario.get('nombre')?.touched ? 'block' : 'none'">
           Digita un Nombre valido (1 - 100 caracteres)
       </div>
       </div>
       <div class="col-sm">
-        <label for="correo" class="etiqueta-form"><strong>Correo</strong></label>
+        <label for="correo" class="etiqueta-form"><strong>Correo</strong><span class="text-red-500">*</span></label>
         <input id="correo" name="correo" class="form-control" type="email" placeholder="Correo"
           formControlName="correo">
           <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('correo')?.valid && this.formulario.get('correo')?.touched ? 'block' : 'none'">
@@ -44,19 +44,17 @@
       </div>
 
       <div class="col-sm">
-        <label for="nombreFacultad" class="etiqueta-form"><strong>Facultad </strong></label>
-        <input id="nombreFacultad" name="nombreFacultad" class="form-control" type="text" placeholder="Facultad"
-          formControlName="nombreFacultad">
-      </div>
-
-      <div class="col-sm">
         <label for="sede" class="etiqueta-form"><strong>Sede </strong></label>
         <select id="sede" name="sede" class="form-select" formControlName="sede">
           <option value="POPAYAN">Popayán</option>
           <option value="SANTANDER_QUILICHAO">Santander de Quilichao</option>
         </select>
       </div>
-      <div class="col-sm">
+
+      <div class="col-sm-6">
+        <label for="nombreFacultad" class="etiqueta-form"><strong>Facultad </strong></label>
+        <input id="nombreFacultad" name="nombreFacultad" class="form-control" type="text" placeholder="Facultad"
+          formControlName="nombreFacultad">
       </div>
 
     </div>
@@ -81,7 +79,7 @@
       </div>
 
       <div class="col-sm">
-        <label for="objetivo" class="etiqueta-form"><strong>Objetivo</strong></label>
+        <label for="objetivo" class="etiqueta-form"><strong>Objetivo</strong><span class="text-red-500">*</span></label>
         <textarea id="objetivo" name="objetivo" class="form-control" type="text" placeholder="Objetivo"
           formControlName="objetivo"></textarea>
           <div id="badFeedback" class="invalid-feedback" [style.display]="!formulario.get('objetivo')?.valid && formulario.get('objetivo')?.touched ? 'block' : 'none'">
@@ -92,7 +90,7 @@
     </div>
     <div class="row">
       <div class="col-sm">
-        <label for="mision" class="etiqueta-form"><strong>Misión</strong></label>
+        <label for="mision" class="etiqueta-form"><strong>Misión</strong><span class="text-red-500">*</span></label>
         <textarea id="mision" name="mision" class="form-control" type="text" placeholder="Misión"
           formControlName="mision"></textarea>
           <div id="badFeedback" class="invalid-feedback" [style.display]="!formulario.get('mision')?.valid && formulario.get('mision')?.touched ? 'block' : 'none'">
@@ -101,7 +99,7 @@
       </div>
 
       <div class="col-sm">
-        <label for="vision" class="etiqueta-form"><strong>Visión</strong></label>
+        <label for="vision" class="etiqueta-form"><strong>Visión</strong><span class="text-red-500">*</span></label>
         <textarea id="vision" name="vision" class="form-control" type="text" placeholder="Visión"
           formControlName="vision"></textarea>
           <div id="badFeedback" class="invalid-feedback" [style.display]="!formulario.get('vision')?.valid && formulario.get('vision')?.touched ? 'block' : 'none'">

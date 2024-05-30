@@ -1,0 +1,87 @@
+<div class=" d-flex justify-content-center">
+  <h5 class="etiqueta-form"><strong>Crear Actividad del plan de trabajo</strong></h5>
+
+</div>
+<div class="filter-box">
+  <!--formulario de editar semillero -->
+  <div class="row">
+    <div class="col-sm">
+      <label for="objetivo" class="etiqueta-form"><strong>Objetivo</strong><span class="text-red-500">*</span></label>
+      <textarea id="objetivo" name="objetivo" class="form-control" type="text" placeholder="Objetivo"
+        formControlName="objetivo"></textarea>
+        <!--div id="badFeedback" class="invalid-feedback" [style.display]="!formulario.get('objetivo')?.valid && formulario.get('objetivo')?.touched ? 'block' : 'none'">
+          Digita un objetivo valido (1 - 1325 caracteres)
+        </!--div-->
+    </div>
+    <div class="col-sm">
+      <label for="actividad" class="etiqueta-form"><strong>Actividad</strong><span class="text-red-500">*</span></label>
+      <input id="actividad" name="actividad" class="form-control" type="text" placeholder="Actividad" formControlName="actividad">
+      <!--div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('actividad')?.valid && this.formulario.get('actividad')?.touched ? 'block' : 'none'">
+        Digita un Nombre valido (1 - 100 caracteres)
+    </!--div-->
+    </div>
+    <div class="col-sm">
+      <label for="compromiso" class="etiqueta-form"><strong>Producto </strong><span class="text-red-500">*</span></label>
+      <select id="compromiso" name="compromiso" class="form-select" formControlName="compromiso">
+        <!-- TODO falta traer los compromisos desde la bd -->
+        <option value="1">BOLETÍN DIVULGATIVO DE RESULTADOS DE INVESTIGACIÓN</option>
+        <option value="2">BOLETÍN DIVULGATIVO DE RESULTADOS DE INVESTIGACIÓN</option>
+        <option value="3">DOCUMENTO DE TRABAJO (WORKING PAPER)</option>
+      </select>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm">
+      <label for="responsable" class="etiqueta-form"><strong>Responsable </strong><span class="text-red-500">*</span></label>
+      <select id="responsable" name="responsable" class="form-select" formControlName="responsable">
+        <!-- TODO falta traer los responsables desde la bd -->
+
+        <option value="1">Julio Ariel Hurtado Alegria</option>
+
+      </select>
+    </div>
+    <div class="col-sm">
+      <label for="fechaInicio" class="etiqueta-form"><strong>Fecha Inicio</strong><span class="text-red-500">*</span></label>
+      <input id="fechaInicio" name="fechaInicio" class="form-control" type="date" placeholder="Fecha Inicio"
+        formControlName="fechaInicio">
+    </div>
+    <div class="col-sm">
+      <label for="fechaFin" class="etiqueta-form"><strong>Fecha Fin</strong><span class="text-red-500">*</span></label>
+      <input id="fechaFin" name="fechaFin" class="form-control" type="date" placeholder="Fecha Fin"
+        formControlName="fechaFin">
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="col controls">
+
+      <button type="submit" class="secondaryBTN">
+        <div class="button-content">
+          <span class="material-symbols-outlined primaryBTN-icon">
+            check_circle
+          </span>
+          <span class="text">Agregar</span>
+        </div>
+      </button>
+      <button type="button" class="secondaryBTN" (click)="limpiarCampos()">
+        <div class="button-content">
+          <span class="material-symbols-outlined secondaryBTN-icon">
+            filter_alt
+          </span>
+          <span class="text">Limpiar</span>
+        </div>
+      </button>
+      <button type="submit" class="primaryBTN">
+        <div class="button-content">
+          <span class="material-symbols-outlined primaryBTN-icon">
+            check_circle
+          </span>
+          <span class="text">Crear</span>
+        </div>
+      </button>
+    </div>
+  </div>
+  <div class="form-guide-line"></div>
+
+</div>

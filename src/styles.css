@@ -1,371 +1,390 @@
+/*----------------- biñeta de campo obligatorio-----*/
+.text-red-500 {
+  /* Color del texto */
+  color: var(--NARANJA-WARNING, #F26500); /* Si --NARANJA-WARNING no está definido, el color será #F26500 (naranja) */
+  /* Fuente */
+  font-family: "Titillium Web"; /* Usar la fuente Titillium Web */
+  /* Tamaño y estilo de la fuente */
+  font-size: 18px; /* Tamaño de la fuente de 20 píxeles */
+  font-style: normal; /* Estilo de fuente normal */
+  font-weight: 600; /* Peso de la fuente 600 (semi-negrita) */
+  /* Espaciado de línea */
+  line-height: normal; /* Espaciado de línea normal */
+}
+
 /* ---------------- Miga de Pan ---------------- */
 
 /* Estilos para la miga de pan */
 .breadcrumb {
-    margin-bottom: 5px;
-    /* Margen inferior de la miga de pan */
+  margin-bottom: 5px;
+  /* Margen inferior de la miga de pan */
 }
 
 /* Estilos para los elementos de la miga de pan */
 .breadcrumb-item+.breadcrumb-item::before {
-    padding-right: 8px;
-    /* Espacio entre elementos */
-    color: #C00;
-    /* Color del separador */
-    content: var(--bs-breadcrumb-divider, "/");
-    /* Contenido del separador */
-    font-weight: bold;
-    /* Peso de la fuente del separador */
+  padding-right: 8px;
+  /* Espacio entre elementos */
+  color: #C00;
+  /* Color del separador */
+  content: var(--bs-breadcrumb-divider, "/");
+  /* Contenido del separador */
+  font-weight: bold;
+  /* Peso de la fuente del separador */
 }
 
 /* Estilos para los enlaces de la miga de pan */
 .breadcrumb-item a {
-    font-size: 12px;
-    /* Tamaño de fuente */
+  font-size: 12px;
+  /* Tamaño de fuente */
 }
 
 /* Estilos para los enlaces de la miga de pan al pasar el mouse */
 .breadcrumb-item a:hover {
-    cursor: pointer;
-    /* Cambiar el cursor */
-    color: #006;
-    /* Color del texto al pasar el mouse */
-    border-bottom: 1px solid #006;
-    /* Borde inferior al pasar el mouse */
+  cursor: pointer;
+  /* Cambiar el cursor */
+  color: #006;
+  /* Color del texto al pasar el mouse */
+  border-bottom: 1px solid #006;
+  /* Borde inferior al pasar el mouse */
 }
 
 /* ---------------- Titulo ---------------- */
 
 /* Estilos para el título */
 .title {
-    color: var(--azul-principal, #006);
-    /* Color del texto del título */
-    font-size: 25px;
-    /* Tamaño de fuente */
-    font-style: normal;
-    /* Estilo de fuente */
-    font-weight: 700;
-    /* Peso de la fuente */
-    line-height: normal;
-    /* Altura de línea */
-    text-transform: capitalize;
-    /* Transformación de texto */
-    position: relative;
-    /* Posición relativa */
-    display: inline;
-    /* Visualización en línea */
+  color: var(--azul-principal, #006);
+  /* Color del texto del título */
+  font-size: 25px;
+  /* Tamaño de fuente */
+  font-style: normal;
+  /* Estilo de fuente */
+  font-weight: 700;
+  /* Peso de la fuente */
+  line-height: normal;
+  /* Altura de línea */
+  text-transform: capitalize;
+  /* Transformación de texto */
+  position: relative;
+  /* Posición relativa */
+  display: inline;
+  /* Visualización en línea */
 }
 
 /* Estilos para el subrayado del título */
 .title::after {
-    content: "";
-    /* Contenido del pseudo-elemento */
-    position: absolute;
-    /* Posición absoluta */
-    bottom: -5px;
-    /* Posición vertical del subrayado */
-    left: 0;
-    /* Posición horizontal del subrayado */
-    width: 60%;
-    /* Ancho del subrayado */
-    border-bottom: 2px solid #C00;
-    /* Estilo del subrayado */
+  content: "";
+  /* Contenido del pseudo-elemento */
+  position: absolute;
+  /* Posición absoluta */
+  bottom: -5px;
+  /* Posición vertical del subrayado */
+  left: 0;
+  /* Posición horizontal del subrayado */
+  width: 60%;
+  /* Ancho del subrayado */
+  border-bottom: 2px solid #C00;
+  /* Estilo del subrayado */
 }
 
 /* ---------------- Navegación Horizontal ---------------- */
 
 /* Estilos para la navegación horizontal */
 .nav-underline {
-    margin-top: 30px;
-    /* Margen superior */
-    padding-bottom: 9px;
-    /* Relleno inferior */
-    position: relative;
-    /* Posición relativa */
+  margin-top: 30px;
+  /* Margen superior */
+  padding-bottom: 9px;
+  /* Relleno inferior */
+  position: relative;
+  /* Posición relativa */
 }
 
 /* Estilos para los elementos de la navegación horizontal */
 .nav-underline .nav-item {
-    margin-right: 16px;
-    /* Margen derecho entre elementos */
+  margin-right: 16px;
+  /* Margen derecho entre elementos */
 }
 
 /* Estilos para los enlaces de la navegación horizontal */
 .nav-underline .nav-item .nav-link {
-    color: var(--azul-principal, #006);
-    /* Color del texto del enlace */
-    font-size: 15px;
-    /* Tamaño de fuente */
-    font-style: normal;
-    /* Estilo de fuente */
-    font-weight: 400;
-    /* Peso de la fuente */
-    line-height: normal;
-    /* Altura de línea */
+  color: var(--azul-principal, #006);
+  /* Color del texto del enlace */
+  font-size: 15px;
+  /* Tamaño de fuente */
+  font-style: normal;
+  /* Estilo de fuente */
+  font-weight: 400;
+  /* Peso de la fuente */
+  line-height: normal;
+  /* Altura de línea */
 }
 
 /* Estilos para el enlace activo de la navegación horizontal */
 .nav-underline .nav-item .nav-link.active {
-    font-weight: 700;
-    /* Peso de la fuente */
-    border-bottom-color: #C00;
-    /* Color del borde inferior */
-    border-bottom-width: 2px;
-    /* Ancho del borde inferior */
+  font-weight: 700;
+  /* Peso de la fuente */
+  border-bottom-color: #C00;
+  /* Color del borde inferior */
+  border-bottom-width: 2px;
+  /* Ancho del borde inferior */
 }
 
 /* Estilos para los enlaces de la navegación horizontal al pasar el mouse */
 .nav-underline .nav-item:hover .nav-link:not(.active) {
-    border-bottom-width: 2px;
-    /* Ancho del borde inferior */
+  border-bottom-width: 2px;
+  /* Ancho del borde inferior */
 }
 
 /* Estilos para el contenedor de navegación */
 .nav-container {
-    position: relative;
-    /* Posición relativa */
+  position: relative;
+  /* Posición relativa */
 }
 
 /* Estilos para la línea guía */
 .guide-line {
-    position: absolute;
-    /* Posición absoluta */
-    left: 0;
-    /* Posición horizontal */
-    bottom: 9px;
-    /* Posición vertical */
-    width: 100%;
-    /* Ancho */
-    height: 1px;
-    /* Altura */
-    background-color: rgba(224, 224, 255, 0.70);
-    /* Color */
-    z-index: 1;
-    /* Índice z */
+  position: absolute;
+  /* Posición absoluta */
+  left: 0;
+  /* Posición horizontal */
+  bottom: 9px;
+  /* Posición vertical */
+  width: 100%;
+  /* Ancho */
+  height: 1px;
+  /* Altura */
+  background-color: rgba(224, 224, 255, 0.70);
+  /* Color */
+  z-index: 1;
+  /* Índice z */
 }
 
 /* ---------------- Data Table ---------------- */
 .filter-box>.row {
-    margin-top: 15px;
+  margin-top: 15px;
 }
 
 .form-guide-line {
-    margin-top: 20px;
-    height: 1px;
-    background-color: rgba(224, 224, 255, 0.70);
+  margin-top: 20px;
+  height: 1px;
+  background-color: rgba(224, 224, 255, 0.70);
 }
 
-.table th{
-    color: var(--azul-principal, #006);
-    /* Color del texto del enlace */
-    font-size: 15px;
-    /* Tamaño de fuente */
-    font-style: normal;
-    /* Estilo de fuente */
-    font-weight: 700;
-    /* Peso de la fuente */
-    line-height: normal;
-    text-align: center;
+.table th {
+  color: var(--azul-principal, #006);
+  /* Color del texto del enlace */
+  font-size: 15px;
+  /* Tamaño de fuente */
+  font-style: normal;
+  /* Estilo de fuente */
+  font-weight: 700;
+  /* Peso de la fuente */
+  line-height: normal;
+  text-align: center;
 }
 
-.table td{
-    /* Color del texto del enlace */
-    font-size: 15px;
-    /* Tamaño de fuente */
-    font-style: normal;
-    /* Peso de la fuente */
-    line-height: normal;
-    vertical-align: middle;
-    text-align: center;
+.table td {
+  /* Color del texto del enlace */
+  font-size: 15px;
+  /* Tamaño de fuente */
+  font-style: normal;
+  /* Peso de la fuente */
+  line-height: normal;
+  vertical-align: middle;
+  text-align: center;
 }
 
 /* Botones */
 .controls {
-    display: flex;
-    flex-direction: row; /* Alinea los elementos en una columna */
-    align-items: center; /* Centra verticalmente los elementos */
-    gap: 15px; /* Ajusta el valor según el espacio horizontal que desees entre los elementos */
+  display: flex;
+  flex-direction: row;
+  /* Alinea los elementos en una columna */
+  align-items: center;
+  /* Centra verticalmente los elementos */
+  gap: 15px;
+  /* Ajusta el valor según el espacio horizontal que desees entre los elementos */
 }
 
 .primaryBTN {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 100px;
-    border: var(--2, 2px) solid #006;
-    background: #006;
-    height: 34px;
-    margin-top: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100px;
+  border: var(--2, 2px) solid #006;
+  background: #006;
+  height: 34px;
+  margin-top: 12px;
 }
 
 .primaryBTN .button-content {
-    display: flex;
-    align-items: center;
-    color: #fff;
-    margin-right: 5px;
+  display: flex;
+  align-items: center;
+  color: #fff;
+  margin-right: 5px;
 }
 
 .primaryBTN-icon {
-    font-size: 20px;
-    margin-right: 5px;
+  font-size: 20px;
+  margin-right: 5px;
 }
 
 .primaryBTN:hover {
-    background: #5056AC;
-    box-shadow: none !important;
-    outline: none !important;
-    border-color: transparent !important;
+  background: #5056AC;
+  box-shadow: none !important;
+  outline: none !important;
+  border-color: transparent !important;
 }
 
 .secondaryBTN {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 100px;
-    border: var(--2, 2px) solid #006;
-    background: #F6F6F6;
-    height: 34px;
-    margin-top: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100px;
+  border: var(--2, 2px) solid #006;
+  background: #F6F6F6;
+  height: 34px;
+  margin-top: 12px;
 }
 
 .secondaryBTN .button-content {
-    display: flex;
-    align-items: center;
-    color: #006;
-    margin-right: 5px;
+  display: flex;
+  align-items: center;
+  color: #006;
+  margin-right: 5px;
 }
 
 .secondaryBTN-icon {
-    font-size: 20px;
-    margin-right: 1px;
+  font-size: 20px;
+  margin-right: 1px;
 }
 
 .secondaryBTN:hover {
-    color: #006;
-    border: var(--2, 2px) solid #006;
-    background: rgba(80, 86, 172, 0.20);
+  color: #006;
+  border: var(--2, 2px) solid #006;
+  background: rgba(80, 86, 172, 0.20);
 }
 
 
 
 .etiqueta-form {
-    color: var(--azul-principal, #006);
-    /* Color del texto del enlace */
-    font-size: 15px;
-    /* Tamaño de fuente */
-    font-style: normal;
-    /* Estilo de fuente */
-    font-weight: 400;
-    /* Peso de la fuente */
-    line-height: normal;
+  color: var(--azul-principal, #006);
+  /* Color del texto del enlace */
+  font-size: 15px;
+  /* Tamaño de fuente */
+  font-style: normal;
+  /* Estilo de fuente */
+  font-weight: 400;
+  /* Peso de la fuente */
+  line-height: normal;
 }
 
 .form-select {
-    border-radius: 7px;
-    border: 1px solid var(--gris-deshabilitado, #E4E1EC);
-    /* Color del texto del enlace */
-    font-size: 15px;
-    /* Tamaño de fuente */
-    font-style: normal;
-    /* Estilo de fuente */
-    font-weight: 400;
-    /* Peso de la fuente */
-    line-height: normal;
+  border-radius: 7px;
+  border: 1px solid var(--gris-deshabilitado, #E4E1EC);
+  /* Color del texto del enlace */
+  font-size: 15px;
+  /* Tamaño de fuente */
+  font-style: normal;
+  /* Estilo de fuente */
+  font-weight: 400;
+  /* Peso de la fuente */
+  line-height: normal;
 }
 
 .form-select option {
-    font-size: 15px;
-    /* Tamaño de fuente */
-    font-style: normal;
-    /* Estilo de fuente */
-    font-weight: 400;
-    /* Peso de la fuente */
-    line-height: normal;
+  font-size: 15px;
+  /* Tamaño de fuente */
+  font-style: normal;
+  /* Estilo de fuente */
+  font-weight: 400;
+  /* Peso de la fuente */
+  line-height: normal;
 }
 
 .form-control {
-    border-radius: 7px;
-    border: 1px solid var(--gris-deshabilitado, #E4E1EC);
-    /* Color del texto del enlace */
-    font-size: 15px;
-    /* Tamaño de fuente */
-    font-style: normal;
-    /* Estilo de fuente */
-    font-weight: 400;
-    /* Peso de la fuente */
-    line-height: normal;
+  border-radius: 7px;
+  border: 1px solid var(--gris-deshabilitado, #E4E1EC);
+  /* Color del texto del enlace */
+  font-size: 15px;
+  /* Tamaño de fuente */
+  font-style: normal;
+  /* Estilo de fuente */
+  font-weight: 400;
+  /* Peso de la fuente */
+  line-height: normal;
 }
 
 /* Mensaje Feedback de formulario */
-.ng-valid:not(form).ng-touched{
-	border-left: 5px solid #59A640;
-    background-color: light-dark(rgb(232, 240, 254), rgba(70, 90, 126, 0.4)) !important;
+.ng-valid:not(form).ng-touched {
+  border-left: 5px solid #59A640;
+  background-color: light-dark(rgb(232, 240, 254), rgba(70, 90, 126, 0.4)) !important;
 }
 
-.ng-invalid:not(form).ng-touched{
-    border-left: 5px solid #ED7D31;
+.ng-invalid:not(form).ng-touched {
+  border-left: 5px solid #ED7D31;
 }
 
-#badFeedback{
-    color: #ED7D31; /* Color de texto verde */
+#badFeedback {
+  color: #ED7D31;
+  /* Color de texto verde */
 }
 
-#infoFeedback{
-    color: #C00; /* Color de texto verde */
+#infoFeedback {
+  color: #C00;
+  /* Color de texto verde */
 }
 
 .icon-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    height: 100%;
-    color: var(--GRIS-DE-INPUT, #ABA9B0);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  height: 100%;
+  color: var(--GRIS-DE-INPUT, #ABA9B0);
 }
 
 .giant-icon {
-    padding-top: 30px;
-    font-size: 10em;
+  padding-top: 30px;
+  font-size: 10em;
 }
 
 .file-description {
-    color: #888;
-    /* color gris */
-    margin-top: 0px;
-    /* ajusta el margen superior según sea necesario */
+  color: #888;
+  /* color gris */
+  margin-top: 0px;
+  /* ajusta el margen superior según sea necesario */
 }
 
 .datatable {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 .dataTables_info {
-    font-size: 15px;
-    /* Tamaño de fuente */
-    font-style: normal;
-    /* Estilo de fuente */
-    font-weight: 400;
-    /* Peso de la fuente */
-    line-height: normal;
+  font-size: 15px;
+  /* Tamaño de fuente */
+  font-style: normal;
+  /* Estilo de fuente */
+  font-weight: 400;
+  /* Peso de la fuente */
+  line-height: normal;
 }
 
 .dataTableActionBtn {
-    /* font-size: 22px; */
-    color: #006;
-    cursor: pointer;
+  /* font-size: 22px; */
+  color: #006;
+  cursor: pointer;
 
-    transition: transform 0.2s ease, color 0.3s ease;
+  transition: transform 0.2s ease, color 0.3s ease;
 }
 
 .dataTableActionBtn:hover {
-    transform: scale(1.2); 
-    color: #C00;
+  transform: scale(1.2);
+  color: #C00;
 }
 
-.active > .page-link{
-    background-color: #006;
+.active>.page-link {
+  background-color: #006;
 }
 
 .page-link:not(.active > .page-link) {
-    cursor: pointer;
+  cursor: pointer;
 }

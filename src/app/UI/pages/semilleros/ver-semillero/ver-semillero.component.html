@@ -3,7 +3,7 @@
       <li class="breadcrumb-item" routerLink="/inicio"><a>Inicio</a></li>
       <li class="breadcrumb-item" routerLink="/semilleros"><a>Semilleros</a></li>
       <li class="breadcrumb-item" routerLink="/semilleros/listar-semilleros"><a>Listar Semilleros</a></li>
-      <li class="breadcrumb-item" routerLink="/semilleros/listar-semilleros/"><a>Semillero ID:{{id}}</a>
+      <li class="breadcrumb-item" routerLink="/semilleros/listar-semilleros/{{id}}"><a>Semillero ID:{{id}}</a>
       </li>
   </ol>
 </nav>
@@ -15,7 +15,7 @@
       <a class="nav-link" routerLink="descripcion" routerLinkActive="active">Descripción</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" routerLink="" routerLinkActive="active">Plan</a>
+      <a class="nav-link" routerLink="listar-plan" routerLinkActive="active">Plan</a>
     </li>
     <li class="nav-item">
       <a class="nav-link" routerLink="" routerLinkActive="active">Integrantes</a>

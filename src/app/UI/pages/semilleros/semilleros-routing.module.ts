@@ -22,6 +22,10 @@ const routes: Routes = [
         path:'descripcion',
         loadComponent:()=>import('./descripcion-semillero/descripcion-semillero.component').then((c)=>c.DescripcionSemilleroComponent),
       },
+      {
+        path:'listar-plan',
+        loadComponent:()=>import('./plan-trabajo/listar-plan-trabajo/listar-plan-trabajo.component').then((c)=>c.ListarPlanTrabajoComponent),
+      },
     ]
   },
 ];

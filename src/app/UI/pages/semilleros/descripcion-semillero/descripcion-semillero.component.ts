@@ -68,7 +68,7 @@ export class DescripcionSemilleroComponent implements OnInit {
     this.programas = new Respuesta<Paginacion<ListarProgramas>>();
     this.lineas = new Respuesta<LineaInvestigacion[]>;
     this.disciplinas = new Respuesta<ListarDisciplinaxGrupoIdProyeccion[]>
-    this.formulario = formBuilder.group({
+    this.formulario = this.formBuilder.group({
       semilleroId: [''],
       nombre: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(200)]],
       estadoSemillero: [''],
@@ -126,15 +126,21 @@ export class DescripcionSemilleroComponent implements OnInit {
           this.formulario.markAllAsTouched();
           //TODO obtengo los programas del semillero
           this.semilleroProgramaObtenerService.obtenerProgramasxSemilleroId(this.id).subscribe({
+
             //manejar respuesta exitosa
             next: (respuesta) => {
+
               this.programas = respuesta;
               this.nombreProgramas = this.programas.data.content.map(programa => programa.nombre).join(',');
               this.formulario.get('programa')?.setValue(this.nombreProgramas)
-              this.formulario.get('programa')?.disable();
             },
             error: (errorData) => {
               console.log(errorData);
+              const status=errorData.status;
+              if(status==400){
+                const data=errorData.error.data.error;
+                this.formulario.get('programa')?.setValue(data)
+              }
             }
           });
           //TODO obtengo las lineas
@@ -144,9 +150,13 @@ export class DescripcionSemilleroComponent implements OnInit {
               this.lineas= respuesta;
               this.nombreLineas= this.lineas.data.map(linea => linea.linea).join(',');
               this.formulario.get('linea')?.setValue(this.nombreLineas);
-              this.formulario.get('linea')?.disable();
             }, error: (errorData) => {
               console.log(errorData);
+              const status=errorData.status;
+              if(status==400){
+                const data=errorData.error.data.error;
+                this.formulario.get('linea')?.setValue(data)
+              }
             }
           });
           //TODO obtengo las disciplinas
@@ -159,6 +169,11 @@ export class DescripcionSemilleroComponent implements OnInit {
 
             }, error: (errorData) => {
               console.log(errorData);
+              const status=errorData.status;
+              if(status==400){
+                const data=errorData.error.data.error;
+                this.formulario.get('disciplina')?.setValue(data)
+              }
             }
           })
         },
