@@ -75,6 +75,7 @@ export class ListarPlanTrabajoComponent implements OnInit {
   }
 
   onsubmit() {
+    this.mostrarCreaPlan=false;
     if (this.formulario.valid) {
       //realiza la peticion para obtener los datos filtrados
       this.planTrabajoObtenerService.obtenerPlanTrabajoxAnio(
@@ -104,8 +105,9 @@ export class ListarPlanTrabajoComponent implements OnInit {
             });
           }
 
-          // Actualizar la lista de actividades del plan con los datos obtenidos
-          this.respuesta = respuesta;
+            // Actualizar la lista de actividades del plan con los datos obtenidos
+            this.respuesta = respuesta;
+
           //actualiza el input del datatable
           this.datatableInputs.searchPerformed = true;
           this.datatableInputs.paginacion = respuesta.data;
@@ -118,6 +120,7 @@ export class ListarPlanTrabajoComponent implements OnInit {
             { name: 'fechaFin', type: String },
             { name: 'responsable', type: String },
           ]
+
         },
         // Manejar errores
         error: (errorData) => {

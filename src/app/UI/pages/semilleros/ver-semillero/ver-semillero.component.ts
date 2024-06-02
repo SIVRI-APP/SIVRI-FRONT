@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute, RouterLink, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { DescripcionSemilleroComponent } from '../descripcion-semillero/descripcion-semillero.component';
 import { SemilleroObtenerService } from '../../../../service/semilleros/domain/service/semillero-obtener.service';
 import { Respuesta } from '../../../../service/common/model/respuesta';
@@ -9,7 +9,7 @@ import { SemilleroProyeccion } from '../../../../service/semilleros/domain/model
 @Component({
   selector: 'app-ver-semillero',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, ReactiveFormsModule],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive,ReactiveFormsModule],
   templateUrl: './ver-semillero.component.html',
   styleUrl: './ver-semillero.component.css'
 })

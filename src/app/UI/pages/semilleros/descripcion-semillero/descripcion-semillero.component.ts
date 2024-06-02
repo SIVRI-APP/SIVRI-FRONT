@@ -1,7 +1,7 @@
 import { LineaInvestigacion } from './../../../../service/semilleros/domain/model/proyecciones/lineaInvestigacion';
 import { Component, NgModule, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { Respuesta } from '../../../../service/common/model/respuesta';
 import { SemilleroProyeccion } from '../../../../service/semilleros/domain/model/proyecciones/semilleroProyeccion';
 import { SemilleroEstado } from '../../../../service/semilleros/domain/model/enum/semilleroEstado';
@@ -25,7 +25,7 @@ import { ModalBadComponent } from '../../../shared/modal-bad/modal-bad.component
 @Component({
   selector: 'app-descripcion-semillero',
   standalone: true,
-  imports: [RouterLink, ReactiveFormsModule],
+  imports: [RouterOutlet,RouterLink, ReactiveFormsModule,RouterLinkActive],
   templateUrl: './descripcion-semillero.component.html',
   styleUrl: './descripcion-semillero.component.css'
 })

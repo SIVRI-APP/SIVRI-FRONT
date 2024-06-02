@@ -25,7 +25,10 @@ const routes: Routes = [
       {
         path:'listar-plan',
         loadComponent:()=>import('./plan-trabajo/listar-plan-trabajo/listar-plan-trabajo.component').then((c)=>c.ListarPlanTrabajoComponent),
-      },
+      },{
+        path:'listar-integrantes',
+        loadComponent:()=>import('./integrante/listar-integrantes/listar-integrantes.component').then((c)=>c.ListarIntegrantesComponent),
+      }
     ]
   },
 ];

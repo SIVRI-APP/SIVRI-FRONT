@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, inject } from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -24,7 +24,7 @@ import { CrearActividadComponent } from '../actividad-plan-trabajo/crear-activid
   templateUrl: './crear-plan.component.html',
   styleUrl: './crear-plan.component.css'
 })
-export class CrearPlanComponent {
+export class CrearPlanComponent implements OnInit {
   @Input() idSemillero!: string;
   //activeModal = inject(NgbActiveModal);
   // Inyeccion de Modal
@@ -48,6 +48,12 @@ export class CrearPlanComponent {
       anio: [undefined, Validators.required]
     });
     this.formulario.get('estado')?.disable();
+  }
+  ngOnInit(): void {
+    this.route.parent?.params.subscribe(params => {
+      this.idSemillero = params['id'];
+
+    })
   }
 
   onsubmit(): void {
