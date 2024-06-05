@@ -168,6 +168,8 @@ export class ListarUsuariosComponent {
       new Paginacion<UsuarioListarConFiltroProyeccion>()
     );
 
+    this.usuarioObtenerService.limpiarUsuarioListarConFilrtro();
+
     //Guardamos el estado actual del formulario
     this.usuarioObtenerService.setFormularioListarConFiltro(this.formulario)
   }

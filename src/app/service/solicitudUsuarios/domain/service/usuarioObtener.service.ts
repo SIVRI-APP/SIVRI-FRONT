@@ -86,4 +86,8 @@ export class UsuarioObtenerService {
   getFormularioListarConFiltro(){
     return this.formularioListarConFiltro;
   }
+
+  limpiarUsuarioListarConFilrtro(){
+    this.usuarioListarConFilrtro = new Observable;
+  }
 }
