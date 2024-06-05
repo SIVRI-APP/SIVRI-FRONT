@@ -174,6 +174,8 @@ export class ListarSolicitudUsuariosComponent implements OnInit{
       new Paginacion<UsuarioSolicitudListarConFiltroProyeccion>()
     );
 
+    this.usuarioSolicitudObtenerService.limpiarSolicitudUsuarioListarConFilrtro();
+
     //Guardamos el estado actual del formulario
     this.usuarioSolicitudObtenerService.setFormularioListarConFiltro(this.formulario)
   }

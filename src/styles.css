@@ -369,3 +369,15 @@
 .page-link:not(.active > .page-link) {
     cursor: pointer;
 }
+
+/* Acordeon */
+.accordion-button:not(.collapsed) {
+    background-color: #828AE3;
+    box-shadow: none;
+    color: #fff;
+    font-weight: 400;
+}
+
+.accordion{
+    margin-top: 20px;
+}

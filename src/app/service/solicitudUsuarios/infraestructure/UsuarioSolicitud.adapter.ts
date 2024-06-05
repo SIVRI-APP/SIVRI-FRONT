@@ -72,6 +72,16 @@ export class UsuarioSolicitudAdapter {
     return this.http.post<Respuesta<boolean>>(this.apiUrl + 'crearSolicitudUsuario', body);
   }
 
+  resolverObservacion(
+    observacionId: number = 0
+  ): Observable<Respuesta<boolean>> {
+
+    let params = new HttpParams()
+    .set('observacionId', observacionId)
+
+    return this.http.post<Respuesta<boolean>>(this.apiUrl + 'resolverObservacion', null, { params: params });
+  }
+
   aprobarSolicitudUsuario(
     solicitudUsuarioId: number = 0
   ): Observable<Respuesta<boolean>> {

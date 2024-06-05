@@ -160,30 +160,47 @@
         <div class="row">
             <div class="col controls">
 
-                @if (this.formulario.value.estadoSolicitud == this.enumTranslationService.getKeyByValue(this.estadoSolicitudUsuarioEnum, this.estadoSolicitudUsuarioEnum.REVISION_VRI)) {
-                    <button type="button" class="secondaryBTN" (click)="rechazarSolicitud()">
-                        <div class="button-content">
-                            <span class="material-symbols-outlined secondaryBTN-icon">
-                                cancel
-                            </span>
-                            <span class="text">Rechazar</span>
-                        </div>
-                    </button>
+                <!-- Si es Funcionario -->
+                @if (authService.esFuncionario()) {
+                    @if ( this.formulario.value.estadoSolicitud == this.enumTranslationService.getKeyByValue(this.estadoSolicitudUsuarioEnum, this.estadoSolicitudUsuarioEnum.REVISION_VRI) ) {
+                        <button type="button" class="secondaryBTN" (click)="rechazarSolicitud()">
+                            <div class="button-content">
+                                <span class="material-symbols-outlined secondaryBTN-icon">
+                                    cancel
+                                </span>
+                                <span class="text">Rechazar</span>
+                            </div>
+                        </button>
 
-                    <button type="submit" class="primaryBTN">
-                        <div class="button-content">
-                            <span class="material-symbols-outlined primaryBTN-icon">
-                                check_circle 
-                            </span>
-                            <span class="text">Aprobar</span>
+                        <button type="submit" class="primaryBTN">
+                            <div class="button-content">
+                                <span class="material-symbols-outlined primaryBTN-icon">
+                                    check_circle 
+                                </span>
+                                <span class="text">Aprobar</span>
+                            </div>
+                        </button>
+                    }@else {
+                        <div id="infoFeedback" class="invalid-feedback" [style.display]="'block'"> 
+                            El control de la solicitud esta en el Usuario respectivo, no se puede aprobar o rechazar hasta que el usuario envie el registro a revisión VRI
                         </div>
-                    </button>
-                }@else {
-                    <div id="infoFeedback" class="invalid-feedback" [style.display]="'block'"> 
-                        El control de la solicitud esta en el Usuario respectivo, no se puede aprobar o rechazar hasta que el usuario envie el registro a revisión VRI
-                    </div>
+                    }
+                }@else{
+                    @if ( this.formulario.value.estadoSolicitud != this.enumTranslationService.getKeyByValue(this.estadoSolicitudUsuarioEnum, this.estadoSolicitudUsuarioEnum.REVISION_VRI) ) {
+                        <button type="submit" class="primaryBTN">
+                            <div class="button-content">
+                                <span class="material-symbols-outlined primaryBTN-icon">
+                                    check_circle 
+                                </span>
+                                <span class="text">Enviar a revision</span>
+                            </div>
+                        </button>
+                    }@else {
+                        <div id="infoFeedback" class="invalid-feedback" [style.display]="'block'"> 
+                            El control de la solicitud esta en la VRI, no se puede modificar hasta que la VRI realice la respectiva revision
+                        </div>
+                    }
                 }
-
             </div>
         </div>
 

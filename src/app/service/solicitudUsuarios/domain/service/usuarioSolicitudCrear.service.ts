@@ -29,6 +29,13 @@ export class UsuarioSolicitudCrearService {
     return this.usuarioSolicitudAdapter.crearSolicitudUsuario(body);
   }
 
+  resolverObservacion(
+    observacionId?: number
+  ): Observable<Respuesta<boolean>> {
+    return this.usuarioSolicitudAdapter.resolverObservacion(observacionId);
+  }
+
+
   aprobarSolicitudUsuario(
     solicitudUsuarioId?: number
   ): Observable<Respuesta<boolean>> {

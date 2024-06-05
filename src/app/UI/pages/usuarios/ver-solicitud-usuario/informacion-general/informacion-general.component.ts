@@ -8,13 +8,14 @@ import { TipoUsuario } from '../../../../../service/solicitudUsuarios/domain/mod
 import { EstadoSolicitudUsuario } from '../../../../../service/solicitudUsuarios/domain/model/enum/estadoSolicitudUsuario';
 import { UsuarioSolicitudCrearService } from '../../../../../service/solicitudUsuarios/domain/service/usuarioSolicitudCrear.service';
 import { Router } from '@angular/router';
-import { UsuarioSolicitudObtenerService } from '../../../../../service/solicitudUsuarios/domain/service/usuarioSolicitudObtener.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ErrorData } from '../../../../../service/common/model/errorData';
 import { ModalOkComponent } from '../../../../shared/modal-ok/modal-ok.component';
 import { ModalBadComponent } from '../../../../shared/modal-bad/modal-bad.component';
 import { EnumTranslationService } from '../../../../../service/common/enum-translation.service';
 import { ModalGetObservacionComponent } from '../../../../shared/modal-get-observacion/modal-get-observacion.component';
+import { AuthService } from '../../../../../service/auth/domain/service/auth.service';
+import { UsuarioSolicitudObtenerService } from '../../../../../service/solicitudUsuarios/domain/service/usuarioSolicitudObtener.service';
 
 @Component({
   selector: 'app-informacion-general',
@@ -46,7 +47,8 @@ export class InformacionGeneralComponent implements OnInit{
     private formBuilder: FormBuilder,
     private usuarioSolicitudCrearService: UsuarioSolicitudCrearService,
     private usuarioSolicitudObtenerService: UsuarioSolicitudObtenerService,
-    protected enumTranslationService: EnumTranslationService
+    protected enumTranslationService: EnumTranslationService,
+    protected authService: AuthService
   ){
     this.respuesta = new Respuesta<false>;
     this.solicitudUsuario = new Respuesta<UsuarioSolicitudInformaciónDetalladaProyección>;
@@ -130,14 +132,19 @@ export class InformacionGeneralComponent implements OnInit{
   }
 
   rechazarSolicitud(){
+    //Preparar la ULR donde enviaremos al usuario
+    let pathActual = this.router.url; 
+    const segmentos = pathActual.split('/');
+    segmentos.pop();
+    pathActual = segmentos.join('/');
+    const nuevaUrl = `${pathActual}/observaciones`;
+
     const modalRef = this.modalService.open(ModalGetObservacionComponent);
     modalRef.componentInstance.mensaje = '¿Estas seguro de devolver esta solicitud de Usuario con observaciones?';
     modalRef.componentInstance.restriccion = 'La Observación debe contener (10 - 1000 caracteres)';
 
+    // Esperara a la Modal
     modalRef.componentInstance.enviarInformacion.subscribe((informacion: string) => {
-      // Aquí recibes la información desde la modal y puedes manejarla como desees
-      console.log('Información recibida desde la modal:', informacion);
-
       this.usuarioSolicitudCrearService.rechazarSolicitudUsuario({
         usuarioSolicitudId: this.formulario.value.id,
         observacion: informacion,
@@ -145,7 +152,7 @@ export class InformacionGeneralComponent implements OnInit{
       .subscribe({
         // Manejar respuesta exitosa
         next: (respuesta) => {
-          this.openModalOk(respuesta.userMessage)
+          this.openModalOk(respuesta.userMessage, nuevaUrl)
         },
         // Manejar errores
         error: (errorData) => {
@@ -163,6 +170,13 @@ export class InformacionGeneralComponent implements OnInit{
   }
 
   onSubmit(): void {
+    //Preparar la ULR donde enviaremos al usuario
+    let pathActual = this.router.url; 
+    const segmentos = pathActual.split('/');
+    segmentos.pop();
+    segmentos.pop();
+    pathActual = segmentos.join('/');
+
     this.usuarioSolicitudCrearService.aprobarSolicitudUsuario(this.id)
     .subscribe({
       // Manejar respuesta exitosa
@@ -170,7 +184,7 @@ export class InformacionGeneralComponent implements OnInit{
         // Captura la respuesta
         this.respuesta = respuesta;
 
-        this.openModalOk(this.respuesta.userMessage)
+        this.openModalOk(this.respuesta.userMessage, pathActual)
       },
       // Manejar errores
       error: (errorData) => {
@@ -186,7 +200,7 @@ export class InformacionGeneralComponent implements OnInit{
     });
   }
 
-  openModalOk(message: string) {
+  openModalOk(message: string, nuevaUrl:any) {
 		const modalRef = this.modalService.open(ModalOkComponent);
 		modalRef.componentInstance.name = message;
 
@@ -194,7 +208,7 @@ export class InformacionGeneralComponent implements OnInit{
       // Este bloque se ejecutará cuando se cierre la modal
       if (result === 'navegar') {
         // Aquí puedes realizar la navegación a otra ruta
-        this.router.navigate(['/usuarios/listar-solicitudes']);
+        this.router.navigate(["/" + nuevaUrl]);
       }
     });
 	}

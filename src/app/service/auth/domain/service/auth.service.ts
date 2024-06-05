@@ -22,6 +22,15 @@ export class AuthService {
     };
   }
 
+  esFuncionario(){
+    for (const cadena of this.token.authorities) {
+      if (cadena.includes("FUNCIONARIO")) {
+          return true;
+      }
+    }
+    return false;
+  }
+
   isAuth() {
     return this.token.isLoggedIn;
   }

@@ -3,6 +3,7 @@ import { ActivatedRoute, RouterLink, RouterLinkActive, RouterOutlet } from '@ang
 import { UsuarioSolicitudObtenerService } from '../../../../../service/solicitudUsuarios/domain/service/usuarioSolicitudObtener.service';
 
 
+
 @Component({
   selector: 'app-index-ver-solicitud-usuario',
   standalone: true,
@@ -30,6 +31,8 @@ export class IndexVerSolicitudUsuarioComponent implements OnInit{
           // Manejar respuesta exitosa
           next: (respuesta) => {
             this.nombre = respuesta.data.nombre + ' ' + respuesta.data.apellido;
+
+            console.log(respuesta)
           },
           // Manejar errores
           error: (errorData) => {

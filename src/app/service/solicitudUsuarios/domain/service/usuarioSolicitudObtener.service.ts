@@ -82,6 +82,10 @@ export class UsuarioSolicitudObtenerService {
     return this.solicitudUsuarioListarConFilrtro;
   }
 
+  limpiarSolicitudUsuarioListarConFilrtro(){
+    this.solicitudUsuarioListarConFilrtro = new Observable;
+  }
+
   setFormularioListarConFiltro(formulario: FormGroup){
     this.formularioListarConFiltro = formulario;
   }
@@ -89,4 +93,6 @@ export class UsuarioSolicitudObtenerService {
   getFormularioListarConFiltro(){
     return this.formularioListarConFiltro;
   }
+
+
 }
