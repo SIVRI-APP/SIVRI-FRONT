@@ -5,6 +5,8 @@ import { ErrorData } from '../../../../service/common/model/errorData';
 import { ModalBadComponent } from '../../modal-bad/modal-bad.component';
 import { ModalOkComponent } from '../../modal-ok/modal-ok.component';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CredencialService } from '../../../../service/auth/domain/service/credencial.service';
+import { Respuesta } from '../../../../service/common/model/respuesta';
 
 @Component({
   selector: 'app-create-password',
@@ -24,11 +26,12 @@ export class CreatePasswordComponent {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private credencialService: CredencialService
   ) {
     this.formulario = this.formBuilder.group({
-      password: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
-      verifyPassword: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
+      password: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(245)]],
+      verifyPassword: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(245)]],
     });
   }
 
@@ -44,48 +47,38 @@ export class CreatePasswordComponent {
     // Verificar si el formulario es válido
     if (this.formulario.valid) {
 
-      this.route.params.subscribe(params => {
-        this.id = params['id']; 
-        console.log(this.id);
-      });  
-      
-      // // Realizar solicitud para obtener los datos filtrados
-      // this.usuarioSolicitudCrearService
-      //   .crearSolicitudUsuario({
-      //     correo: this.formulario.value.correo,
-      //     tipoDocumento: this.formulario.value.tipoDocumento,
-      //     numeroDocumento: this.formulario.value.numeroDocumento,
-      //     sexo: this.formulario.value.sexo,
-      //     tipoUsuario: this.formulario.value.tipoUsuario,
-      //     nombre: this.formulario.value.nombre,
-      //     apellido: this.formulario.value.apellido,
-      //     telefono: this.formulario.value.telefono,
-      //     cvLac: this.formulario.value.cvLac,
-      //     nota: this.formulario.value.nota,
-      //     programaId: 1,
-      //     organismoDeInvestigacionId: 1,
-      //     rolGrupoId: 1,
-      //   })
-      //   .subscribe({
-      //     // Manejar respuesta exitosa
-      //     next: (respuesta) => {
-      //       // Captura la respuesta
-      //       this.respuesta = respuesta;
-
-      //       this.openModalOk(this.respuesta.userMessage)
-      //     },
-      //     // Manejar errores
-      //     error: (errorData) => {
-      //       // Verificar si el error es del tipo esperado
-      //       if (errorData.error && errorData.error.data) {
-      //         let respuesta: Respuesta<ErrorData> = errorData.error;
-      //         this.openModalBad(respuesta.data);
-      //       } else {
-      //         // Manejar errores inesperados
-      //         this.openModalBad(new ErrorData({error: "Error inseperado, contactar a soporte"}));
-      //       }
-      //     }
-      //   });
+      if (this.contraseniasCoinciden()) {
+        this.route.params.subscribe(params => {
+          this.id = params['id']; 
+        });  
+        
+        // Realizar solicitud
+        this.credencialService
+          .crearActualizarCredencial({
+            passwordRecoveryCode: this.id,
+            password: this.formulario.value.password,
+            repeatPassword: this.formulario.value.verifyPassword
+          })
+          .subscribe({
+            // Manejar respuesta exitosa
+            next: (respuesta) => {
+              this.openModalOk("Contraseña asignada correctamente, Inicia Sesión para continuar.");
+            },
+            // Manejar errores
+            error: (errorData) => {
+              // Verificar si el error es del tipo esperado
+              if (errorData.error && errorData.error.data) {
+                let respuesta: Respuesta<ErrorData> = errorData.error;
+                this.openModalBad(respuesta.data);
+              } else {
+                // Manejar errores inesperados
+                this.openModalBad(new ErrorData({error: "Error inseperado, contactar a soporte"}));
+              }
+            }
+          });
+      }else{
+        this.openModalBad(new ErrorData({error: "Las contraseñas no Coinciden"}));
+      }
     } else {
       // Marcar todos los campos del formulario como tocados si el formulario no es válido
       this.formulario.markAllAsTouched();

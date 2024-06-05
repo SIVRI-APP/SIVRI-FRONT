@@ -4,6 +4,7 @@ import { TokenModel } from '../model/token.model';
 import { Observable, tap } from 'rxjs';
 import { LoginRequest } from '../model/loginRequest';
 import { CredencialAdapter } from '../../infraestructure/credencial.adapter';
+import { CrearActualizarCredencialRequest } from '../model/crearActualizarCredencialRequest';
 
 @Injectable({
   providedIn: 'root',
@@ -19,5 +20,9 @@ export class CredencialService {
         }
       })
     );
+  }
+
+  crearActualizarCredencial(crearActualizarCredencialRequest: CrearActualizarCredencialRequest): Observable<Boolean> {
+    return this.credencialAdapter.crearActualizarCredencial(crearActualizarCredencialRequest)
   }
 }

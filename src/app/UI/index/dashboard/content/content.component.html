@@ -1,19 +1,24 @@
-<div class="content">
+@if (authService.token.authorities.length > 0) {
+    <div class="content">
 
-    <header class="header">
-        <app-header></app-header>
-    </header>
+        <header class="header">
+            <app-header></app-header>
+        </header>
+    
+        <section class="sidebar">
+            <app-sidebar></app-sidebar>
+        </section>
+    
+        <main class="main">
+            <router-outlet></router-outlet>
+        </main>
+    
+        <footer class="footer">
+            <app-footer></app-footer>
+        </footer>
 
-    <section class="sidebar">
-        <app-sidebar></app-sidebar>
-    </section>
+    </div>
+}@else {
+    <app-usuario-sin-rol></app-usuario-sin-rol>    
+}
 
-    <main class="main">
-        <router-outlet></router-outlet>
-    </main>
-
-    <footer class="footer">
-        <app-footer></app-footer>
-    </footer>
-
-</div>

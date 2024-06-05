@@ -14,12 +14,11 @@ export class AuthService {
   constructor(private credencialService: CredencialService) {
     // Asignación de valores a la instancia
     this.token = {
-      isLoggedIn: false, // Por defecto, no está logueado
-      access_token: '', // Cadena vacía
-      refresh_token: '', // Cadena vacía
-      nombreCompleto: '', // Cadena vacía
+      isLoggedIn: false,
+      access_token: '',
+      nombreCompleto: '',
       tipoUsuario: '',
-      authorities: new Set<string>() // Set vacío
+      authorities: []
     };
   }
 
@@ -40,12 +39,11 @@ export class AuthService {
 
   logout(): void {
     this.token = {
-      isLoggedIn: false, // Por defecto, no está logueado
-      access_token: '', // Cadena vacía
-      refresh_token: '', // Cadena vacía
-      nombreCompleto: '', // Cadena vacía
+      isLoggedIn: false,
+      access_token: '', 
+      nombreCompleto: '', 
       tipoUsuario: '',
-      authorities: new Set<string>() // Set vacío
+      authorities: []
     };
   }
 }
