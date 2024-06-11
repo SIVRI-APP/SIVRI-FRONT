@@ -1,6 +1,6 @@
 export enum SemilleroEstado {
   FORMULADO = 'Formulado',
-  REVICIÓN_VRI = 'Revicion VRI',
+  REVISIÓN_VRI = 'Revisión VRI',
   ACTIVO = 'Activo',
   ACTIVO_PENDIENTE_ACTUALIZACION = 'Activo Pendiente Actualizacion',
   INACTIVO = 'Inactivo'

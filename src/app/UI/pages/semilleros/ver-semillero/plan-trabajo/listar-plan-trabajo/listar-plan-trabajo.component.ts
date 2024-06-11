@@ -1,17 +1,17 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { DatatableInput } from '../../../../../service/common/model/datatableInput';
-import { Paginacion } from '../../../../../service/common/model/paginacion';
-import { DatatableComponent } from '../../../../shared/datatable/datatable.component';
-import { EnumTranslationService } from '../../../../../service/common/enum-translation.service';
+import { DatatableInput } from '../../../../../../service/common/model/datatableInput';
+import { Paginacion } from '../../../../../../service/common/model/paginacion';
+import { DatatableComponent } from '../../../../../shared/datatable/datatable.component';
+import { EnumTranslationService } from '../../../../../../service/common/enum-translation.service';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { PlanTrabajoObtenerService } from '../../../../../service/planTrabajo/domain/service/plan-trabajo-obtener.service';
-import { Respuesta } from '../../../../../service/common/model/respuesta';
-import { ObtenerPlanTrabajoxAnio } from '../../../../../service/planTrabajo/domain/model/proyecciones/obtenerPlanTrabajoxAnio';
-import { EstadoPlantrabajo } from '../../../../../service/planTrabajo/domain/model/enum/EstadoPlanTrabajo';
-import { PlanTrabajo } from '../../../../../service/planTrabajo/domain/model/proyecciones/planTrabajo';
+import { PlanTrabajoObtenerService } from '../../../../../../service/planTrabajo/domain/service/plan-trabajo-obtener.service';
+import { Respuesta } from '../../../../../../service/common/model/respuesta';
+import { ObtenerPlanTrabajoxAnio } from '../../../../../../service/planTrabajo/domain/model/proyecciones/obtenerPlanTrabajoxAnio';
+import { EstadoPlantrabajo } from '../../../../../../service/planTrabajo/domain/model/enum/EstadoPlanTrabajo';
+import { PlanTrabajo } from '../../../../../../service/planTrabajo/domain/model/proyecciones/planTrabajo';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CrearPlanModalComponent } from '../crear-plan-modal/crear-plan-modal.component';
+import { CrearPlanModalComponent } from '../../../plan-trabajo/crear-plan-modal/crear-plan-modal.component';
 import { CrearPlanComponent } from '../crear-plan/crear-plan.component';
 
 @Component({
@@ -38,7 +38,7 @@ export class ListarPlanTrabajoComponent implements OnInit {
   protected datatableInputs: DatatableInput;
   protected datosPlan: Respuesta<PlanTrabajo>
   protected mostrarCreaPlan: boolean = false;
-
+  @Output() movePageEmitter = new EventEmitter<number>();
   constructor(
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
@@ -171,6 +171,19 @@ export class ListarPlanTrabajoComponent implements OnInit {
 
     // Enviar el formulario para cargar los datos de la nueva página
     this.onsubmit();
+  }
+  /**
+   * Mueve la página de resultados hacia adelante o hacia atrás según la dirección especificada.
+   * @param newPage La dirección hacia la que se debe mover la página ('adelante' o 'atras').
+   */
+  movePageTable(newPage: string): void {
+    if (newPage === 'atras') {
+        // Enviar la disminucion del valor de la pagina al componente padre
+        this.movePageEmitter.emit(-1);
+    } else {
+      // Enviar el incremento del valor de la pagina al componente padre
+      this.movePageEmitter.emit(1);
+    }
   }
   /**
    * Calcula el texto que indica qué elementos se están visualizando actualmente.

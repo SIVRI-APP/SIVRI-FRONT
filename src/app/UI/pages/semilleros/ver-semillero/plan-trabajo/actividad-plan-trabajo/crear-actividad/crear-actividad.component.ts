@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { CompromisoSemilleroObtenerService } from '../../../../../../service/planTrabajo/domain/service/compromiso-semillero-obtener.service';
-import { IntegrantesGrupoObtenerService } from '../../../../../../service/grupos/domain/service/integrantes-grupo-obtener.service';
+import { CompromisoSemilleroObtenerService } from '../../../../../../../service/planTrabajo/domain/service/compromiso-semillero-obtener.service';
+import { IntegrantesGrupoObtenerService } from '../../../../../../../service/grupos/domain/service/integrantes-grupo-obtener.service';
 import { ActivatedRoute } from '@angular/router';
-import { SemilleroObtenerService } from '../../../../../../service/semilleros/domain/service/semillero-obtener.service';
-import { Respuesta } from '../../../../../../service/common/model/respuesta';
-import { SemilleroProyeccion } from '../../../../../../service/semilleros/domain/model/proyecciones/semilleroProyeccion';
-import { CompromisoSemillero } from '../../../../../../service/planTrabajo/domain/model/proyecciones/compromisoSemillero';
-import { IntegrantesMentores } from '../../../../../../service/grupos/domain/model/proyecciones/integrantesMentores';
+import { SemilleroObtenerService } from '../../../../../../../service/semilleros/domain/service/semillero-obtener.service';
+import { Respuesta } from '../../../../../../../service/common/model/respuesta';
+import { SemilleroProyeccion } from '../../../../../../../service/semilleros/domain/model/proyecciones/semilleroProyeccion';
+import { CompromisoSemillero } from '../../../../../../../service/planTrabajo/domain/model/proyecciones/compromisoSemillero';
+import { IntegrantesMentores } from '../../../../../../../service/grupos/domain/model/proyecciones/integrantesMentores';
 import { Observable } from 'rxjs';
 
 @Component({

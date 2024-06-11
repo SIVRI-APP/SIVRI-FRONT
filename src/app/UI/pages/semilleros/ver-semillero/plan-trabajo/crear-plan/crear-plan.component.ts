@@ -3,12 +3,12 @@ import { Component, Input, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Respuesta } from '../../../../../service/common/model/respuesta';
-import { EnumTranslationService } from '../../../../../service/common/enum-translation.service';
-import { PlanTrabajoCrearService } from '../../../../../service/planTrabajo/domain/service/plan-trabajo-crear.service';
-import { ErrorData } from '../../../../../service/common/model/errorData';
-import { ModalOkComponent } from '../../../../shared/modal-ok/modal-ok.component';
-import { ModalBadComponent } from '../../../../shared/modal-bad/modal-bad.component';
+import { Respuesta } from '../../../../../../service/common/model/respuesta';
+import { EnumTranslationService } from '../../../../../../service/common/enum-translation.service';
+import { PlanTrabajoCrearService } from '../../../../../../service/planTrabajo/domain/service/plan-trabajo-crear.service';
+import { ErrorData } from '../../../../../../service/common/model/errorData';
+import { ModalOkComponent } from '../../../../../shared/modal-ok/modal-ok.component';
+import { ModalBadComponent } from '../../../../../shared/modal-bad/modal-bad.component';
 import { CrearActividadComponent } from '../actividad-plan-trabajo/crear-actividad/crear-actividad.component';
 
 @Component({
@@ -89,6 +89,8 @@ export class CrearPlanComponent implements OnInit {
           }
         }
       })
+    }else{
+      this.formulario.markAllAsTouched();
     }
   }
   limpiarCampos() {

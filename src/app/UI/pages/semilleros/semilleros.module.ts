@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-
+import { CommonModule, DatePipe } from '@angular/common';
 import { SemillerosRoutingModule } from './semilleros-routing.module';
 
 
@@ -9,6 +8,9 @@ import { SemillerosRoutingModule } from './semilleros-routing.module';
   imports: [
     CommonModule,
     SemillerosRoutingModule
-  ]
+  ],
+  providers: [
+    DatePipe // Agrega DatePipe como un proveedor
+  ],
 })
 export class SemillerosModule { }

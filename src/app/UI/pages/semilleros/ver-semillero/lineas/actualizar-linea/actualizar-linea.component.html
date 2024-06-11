@@ -1,0 +1,40 @@
+<form [formGroup]="formulario" (ngSubmit)="onsubmit()" method="get">
+  <div class="filter-box">
+    <div class=" d-flex justify-content-center">
+      <h5 class="etiqueta-form"><strong>Asociar Linea de Investigacion</strong></h5>
+
+    </div>
+    <!--formulario de asociar linea-->
+    <div class="row">
+      <div class="col-sm">
+        <label for="linea" class="etiqueta-form"><strong>Nombre de la Linea</strong><span
+            class="text-red-500">*</span></label>
+        <input id="linea" name="linea" class="form-control" type="text" placeholder="Linea"
+          formControlName="linea">
+        <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('linea')?.valid && this.formulario.get('linea')?.touched ? 'block' : 'none'">
+          Digita un nombre valido (1 - 200 caracteres)
+        </div>
+      </div>
+
+      <div class="col controls">
+        <button type="button" class="secondaryBTN" >
+          <div class="button-content">
+            <span class="material-symbols-outlined secondaryBTN-icon">
+              filter_alt
+            </span>
+            <span class="text">Rechazar</span>
+          </div>
+        </button>
+        <button type="submit" class="primaryBTN" >
+          <div class="button-content">
+            <span class="material-symbols-outlined primaryBTN-icon">
+              check_circle
+            </span>
+            <span class="text">Actualizar</span>
+          </div>
+        </button>
+      </div>
+    </div>
+
+  </div>
+</form>

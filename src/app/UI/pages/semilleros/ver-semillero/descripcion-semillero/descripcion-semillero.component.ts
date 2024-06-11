@@ -1,26 +1,26 @@
-import { LineaInvestigacion } from './../../../../service/semilleros/domain/model/proyecciones/lineaInvestigacion';
+import { LineaInvestigacion } from '../../../../../service/semilleros/domain/model/proyecciones/lineaInvestigacion';
 import { Component, NgModule, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { Respuesta } from '../../../../service/common/model/respuesta';
-import { SemilleroProyeccion } from '../../../../service/semilleros/domain/model/proyecciones/semilleroProyeccion';
-import { SemilleroEstado } from '../../../../service/semilleros/domain/model/enum/semilleroEstado';
-import { Sede } from '../../../../service/semilleros/domain/model/enum/sede';
-import { EnumTranslationService } from '../../../../service/common/enum-translation.service';
-import { SemilleroObtenerService } from '../../../../service/semilleros/domain/service/semillero-obtener.service';
-import { GrupoObtenerService } from '../../../../service/grupos/domain/service/grupo-obtener.service';
-import { GrupoProyeccion } from '../../../../service/grupos/domain/model/proyecciones/grupoProyeccion';
-import { ListarProgramas } from '../../../../service/academica/domain/model/proyecciones/listarProgramas';
-import { SemilleroProgramaObtenerService } from '../../../../service/academica/domain/service/semillero-programa-obtener.service';
-import { Paginacion } from '../../../../service/common/model/paginacion';
-import { LineaInvestigacionObtenerService } from '../../../../service/semilleros/domain/service/linea-investigacion-obtener.service';
-import { GrupoDisciplinaObtenerService } from '../../../../service/grupos/domain/service/grupo-disciplina-obtener.service';
-import { ListarDisciplinaxGrupoIdProyeccion } from '../../../../service/grupos/domain/model/proyecciones/listarDisciplinasxGrupoIdProyeccion';
-import { SemilleroActualizarService } from '../../../../service/semilleros/domain/service/semillero-actualizar.service';
+import { Respuesta } from '../../../../../service/common/model/respuesta';
+import { SemilleroProyeccion } from '../../../../../service/semilleros/domain/model/proyecciones/semilleroProyeccion';
+import { SemilleroEstado } from '../../../../../service/semilleros/domain/model/enum/semilleroEstado';
+import { Sede } from '../../../../../service/semilleros/domain/model/enum/sede';
+import { EnumTranslationService } from '../../../../../service/common/enum-translation.service';
+import { SemilleroObtenerService } from '../../../../../service/semilleros/domain/service/semillero-obtener.service';
+import { GrupoObtenerService } from '../../../../../service/grupos/domain/service/grupo-obtener.service';
+import { GrupoProyeccion } from '../../../../../service/grupos/domain/model/proyecciones/grupoProyeccion';
+import { ListarProgramas } from '../../../../../service/academica/domain/model/proyecciones/listarProgramas';
+import { SemilleroProgramaObtenerService } from '../../../../../service/academica/domain/service/semillero-programa-obtener.service';
+import { Paginacion } from '../../../../../service/common/model/paginacion';
+import { LineaInvestigacionObtenerService } from '../../../../../service/semilleros/domain/service/linea-investigacion-obtener.service';
+import { GrupoDisciplinaObtenerService } from '../../../../../service/grupos/domain/service/grupo-disciplina-obtener.service';
+import { ListarDisciplinaxGrupoIdProyeccion } from '../../../../../service/grupos/domain/model/proyecciones/listarDisciplinasxGrupoIdProyeccion';
+import { SemilleroActualizarService } from '../../../../../service/semilleros/domain/service/semillero-actualizar.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ErrorData } from '../../../../service/common/model/errorData';
-import { ModalOkComponent } from '../../../shared/modal-ok/modal-ok.component';
-import { ModalBadComponent } from '../../../shared/modal-bad/modal-bad.component';
+import { ErrorData } from '../../../../../service/common/model/errorData';
+import { ModalOkComponent } from '../../../../shared/modal-ok/modal-ok.component';
+import { ModalBadComponent } from '../../../../shared/modal-bad/modal-bad.component';
 
 @Component({
   selector: 'app-descripcion-semillero',

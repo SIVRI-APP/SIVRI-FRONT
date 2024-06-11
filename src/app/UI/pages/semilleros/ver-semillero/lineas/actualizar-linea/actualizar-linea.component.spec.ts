@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { VerSemilleroComponent } from './ver-semillero.component';
+import { ActualizarLineaComponent } from './actualizar-linea.component';
 
-describe('VerSemilleroComponent', () => {
-  let component: VerSemilleroComponent;
-  let fixture: ComponentFixture<VerSemilleroComponent>;
+describe('ActualizarLineaComponent', () => {
+  let component: ActualizarLineaComponent;
+  let fixture: ComponentFixture<ActualizarLineaComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [VerSemilleroComponent]
+      imports: [ActualizarLineaComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(VerSemilleroComponent);
+    fixture = TestBed.createComponent(ActualizarLineaComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

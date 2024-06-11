@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { Respuesta } from '../../common/model/respuesta';
 import { Paginacion } from '../../common/model/paginacion';
 import { IntegranteSemilleroListar } from '../domain/model/proyecciones/integranteSemilleroListarProyeccion';
+import { IntegranteSemillero } from '../domain/model/proyecciones/integranteSemilleroProyeccion';
 
 @Injectable({
   providedIn: 'root'
@@ -30,5 +31,32 @@ export class IntegranteSemilleroAdapter {
     if(rolSemillero!=null) params= params.set('rolSemillero',rolSemillero);
     if(estado!=null) params = params.set('estado',estado);
     return this.http.get<Respuesta<Paginacion<IntegranteSemilleroListar>>>(this.apiUrl+'listarIntegrantesSemilleroPorSemilleroId',{params:params});
+  }
+
+  obtenerIntegrantexId(
+    idIntegrante:string
+  ):Observable<Respuesta<IntegranteSemillero>>{
+    let params=new HttpParams().set('idIntegrante',idIntegrante);
+    return this.http.get<Respuesta<IntegranteSemillero>>(this.apiUrl+'obtenerxId',{params:params});
+  }
+
+  crearIntegranteSemillero(
+    body:{
+      semilleroId:string,
+      usuarioId:number,
+      rolSemilleroId: number
+    }
+  ):Observable<Respuesta<boolean>>{
+    return this.http.post<Respuesta<boolean>>(this.apiUrl+'agregarintegrante',body);
+  }
+
+  actualizarIntegranteSemillero(
+    body:{
+      id:string,
+      estado:string,
+      rolSemilleroId:number,
+      fechaRetiro:string
+    }):Observable<Respuesta<boolean>>{
+      return this.http.patch<Respuesta<boolean>>(this.apiUrl+'actualizarIntegrante',body);
   }
 }

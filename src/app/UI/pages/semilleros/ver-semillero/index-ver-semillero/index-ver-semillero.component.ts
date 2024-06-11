@@ -1,19 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { Respuesta } from '../../../../../service/common/model/respuesta';
+import { SemilleroProyeccion } from '../../../../../service/semilleros/domain/model/proyecciones/semilleroProyeccion';
 import { ActivatedRoute, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { DescripcionSemilleroComponent } from './descripcion-semillero/descripcion-semillero.component';
-import { SemilleroObtenerService } from '../../../../service/semilleros/domain/service/semillero-obtener.service';
-import { Respuesta } from '../../../../service/common/model/respuesta';
-import { SemilleroProyeccion } from '../../../../service/semilleros/domain/model/proyecciones/semilleroProyeccion';
+import { SemilleroObtenerService } from '../../../../../service/semilleros/domain/service/semillero-obtener.service';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-ver-semillero',
+  selector: 'app-index-ver-semillero',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, RouterLinkActive,ReactiveFormsModule],
-  templateUrl: './ver-semillero.component.html',
-  //styleUrl: './ver-semillero.component.css'
+  imports: [
+    RouterOutlet,RouterLink,RouterLinkActive,ReactiveFormsModule
+  ],
+  templateUrl: './index-ver-semillero.component.html',
+  styleUrl: './index-ver-semillero.component.css'
 })
-export class VerSemilleroComponent {
+export class IndexVerSemilleroComponent implements OnInit {
   //campos de visualizacion del semillero
   protected id!: string;
   protected nombre: string = '';

@@ -5,6 +5,7 @@ import { Respuesta } from '../../../common/model/respuesta';
 import { Paginacion } from '../../../common/model/paginacion';
 import { IntegranteSemilleroListar } from '../model/proyecciones/integranteSemilleroListarProyeccion';
 import { RolIntegranteSemillero } from '../model/proyecciones/rolIntegranteSemillero';
+import { IntegranteSemillero } from '../model/proyecciones/integranteSemilleroProyeccion';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +23,12 @@ export class IntegranteSemilleroObtenerService {
     pageSize?: number,
   ):Observable<Respuesta<Paginacion<IntegranteSemilleroListar>>>{
     return this.integranteSemilleroAdapter.obtenerIntegrantesxSemilleroIdPaginado(idSemillero,numeroDocumento,rolSemillero,estado,pageNo,pageSize);
+  }
+
+  obtenerIntegrantexId(
+    idIntegrante:string
+  ):Observable<Respuesta<IntegranteSemillero>>{
+    return this.integranteSemilleroAdapter.obtenerIntegrantexId(idIntegrante);
   }
 
   getRolIntegranteSemillero(): RolIntegranteSemillero[]{

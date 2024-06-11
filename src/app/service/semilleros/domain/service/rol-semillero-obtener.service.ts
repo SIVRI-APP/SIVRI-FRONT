@@ -8,11 +8,17 @@ import { RolIntegranteSemillero } from '../model/proyecciones/rolIntegranteSemil
   providedIn: 'root'
 })
 export class RolSemilleroObtenerService {
-
+  protected rolIntegranteSemillero: RolIntegranteSemillero[] = [];
   constructor(private rolSemilleroAdapter:RolSemilleroAdapter) { }
 
   obtenerRolesSemillero():Observable<Respuesta<RolIntegranteSemillero[]>>{
     return this.rolSemilleroAdapter.obtenerRolesSemillero();
   }
+  getRolIntegranteSemillero(): RolIntegranteSemillero[]{
+    return this.rolIntegranteSemillero;
+  }
 
+  setRolIntegranteSemillero(rolIntegrante: RolIntegranteSemillero[]){
+    this.rolIntegranteSemillero= rolIntegrante;
+  }
 }
