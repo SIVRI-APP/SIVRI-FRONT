@@ -33,6 +33,13 @@ const adminRoutes: Routes = [
             (c) => c.ConvocatoriasModule
           ),
       },
+      {
+        path: 'proyectos',
+        loadChildren: () =>
+          import('../../pages/proyectos/proyecto.module').then(
+            (c) => c.ProyectosModule
+          ),
+      },
     ],
   },
 ];

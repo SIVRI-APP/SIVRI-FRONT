@@ -16,6 +16,10 @@ const convocatoriasRoutes: Routes = [
         path: 'ver',
         loadComponent: () => import('./ver-convocatoria/ver-convocatoria.component').then((c) => c.VerConvocatoriaComponent),
       },
+      {
+        path: 'crear',
+        loadComponent: () => import('./crear-convocatoria/crear-convocatoria.component').then((c) => c.CrearConvocatoriaComponent),
+      },
     ],
   },
 ];

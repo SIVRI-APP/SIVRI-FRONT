@@ -24,10 +24,12 @@ export class CrearSolicitudUsuarioComponent {
 
   // Inyeccion de Modal
   private modalService = inject(NgbModal);
+
   // Enumeraciones que llenan los select
   protected tipoDocumentoEnum = TipoDocumento;
   protected sexoEnum = Sexo;
   protected tipoUsuarioEnum = TipoUsuario;
+
   // Formulario reactivo
   protected formulario: FormGroup;
   // Respuesta del Back
@@ -168,8 +170,4 @@ export class CrearSolicitudUsuarioComponent {
     }
   }
 
-  resetearAlturaTextArea(elemento: HTMLTextAreaElement) {
-    // Restablecer la altura del textarea
-    elemento.style.height = 'auto';
-  }
 }

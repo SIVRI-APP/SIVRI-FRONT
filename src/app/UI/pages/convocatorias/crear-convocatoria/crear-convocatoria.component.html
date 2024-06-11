@@ -1,0 +1,89 @@
+<form [formGroup]="formulario" (ngSubmit)="onSubmit()" method="get">
+
+    <div class="filter-box">
+
+        <!-- Formulario de Creacion -->
+        <div class="row">
+            <div class="col-sm">
+                <label for="nombre" class="etiqueta-form"><strong>Nombre</strong></label>
+                <input id="nombre" name="nombre" class="form-control" type="email" placeholder="Nombre" formControlName="nombre">
+                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('nombre')?.valid && this.formulario.get('nombre')?.touched ? 'block' : 'none'"> 
+                    Digita un Nombre valido (5 - 245 caracteres)
+                </div>
+
+            </div>
+
+            <div class="col-sm">
+                <label for="tipoFinanciacion" class="etiqueta-form"><strong>Tipo de Financiación</strong></label>
+                <select id="tipoFinanciacion" name="tipoFinanciacion" class="form-select" formControlName="tipoFinanciacion">
+                    <option value="" disabled selected hidden>Tipo de Financiación</option>
+                    @for (key of enumTranslationService.getEnumKeys(tipoFinanciacionEnum); track $index) {
+                    <option [value]="key">{{enumTranslationService.getEnumValueByKey(tipoFinanciacionEnum, key)}}</option>
+                    }
+                </select>
+                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('tipoFinanciacion')?.valid && this.formulario.get('tipoFinanciacion')?.touched ? 'block' : 'none'"> 
+                    Debes seleccionar un Tipo de Financiación de la lista
+                </div>
+            </div>
+
+            <div class="col-sm">
+                <label for="oferente" class="etiqueta-form"><strong>Oferente</strong></label>
+                <input id="oferente" name="oferente" class="form-control" type="email" placeholder="Oferente" formControlName="oferente">
+                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('oferente')?.valid && this.formulario.get('oferente')?.touched ? 'block' : 'none'"> 
+                    Digita un Oferente valido (5 - 245 caracteres)
+                </div>
+            </div>
+            
+        </div>
+
+        <!-- <div class="row">
+            <div class="col-sm"></div>
+        </div> -->
+
+        <div class="row">
+
+            <div class="col-sm">
+                <label for="descripcion" class="etiqueta-form"><strong>Descripcion</strong></label>
+                <textarea id="descripcion" name="descripcion" class="form-control" type="text" placeholder="Descripcion" formControlName="descripcion"></textarea>
+                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('descripcion')?.valid && this.formulario.get('descripcion')?.touched ? 'block' : 'none'"> 
+                    Digita una Descripcion valida (max 1000 caracteres)
+                </div>
+            </div>
+
+            <div class="col-sm">
+                <label for="objetivos" class="etiqueta-form"><strong>Objetivos</strong></label>
+                <textarea id="objetivos" name="objetivos" class="form-control" type="text" placeholder="Objetivos" formControlName="objetivos"></textarea>
+                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('nota')?.valid && this.formulario.get('nota')?.touched ? 'block' : 'none'"> 
+                    Digita una Objetivo valido (max 1000 caracteres)
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col controls">
+                <button type="button" class="secondaryBTN" (click)="limpiarCampos()">
+                    <div class="button-content">
+                        <span class="material-symbols-outlined secondaryBTN-icon">
+                            filter_alt
+                        </span>
+                        <span class="text">Limpiar</span>
+                    </div>
+                </button>
+
+                <button type="submit" class="primaryBTN">
+                    <div class="button-content">
+                        <span class="material-symbols-outlined primaryBTN-icon">
+                            add_circle
+                        </span>
+                        <span class="text">Crear</span>
+                    </div>
+                </button>
+
+            </div>
+        </div>
+
+        <div class="form-guide-line"></div>
+    </div>
+
+</form>
