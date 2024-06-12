@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output, inject } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output, inject } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { LineaInvestigacionObtenerService } from '../../../../../../service/semilleros/domain/service/linea-investigacion-obtener.service';
 import { Respuesta } from '../../../../../../service/common/model/respuesta';
@@ -10,6 +10,8 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CrearLineaComponent } from '../crear-linea/crear-linea.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EliminarLineaModalComponent } from '../eliminar-linea-modal/eliminar-linea-modal.component';
+import { Subscription } from 'rxjs';
+import { CommunicationComponentsService } from '../../../../../../service/common/communication-components.service';
 
 @Component({
   selector: 'app-listar-lineas',
@@ -22,8 +24,9 @@ import { EliminarLineaModalComponent } from '../eliminar-linea-modal/eliminar-li
   templateUrl: './listar-lineas.component.html',
   styleUrl: './listar-lineas.component.css'
 })
-export class ListarLineasComponent implements OnInit {
+export class ListarLineasComponent implements OnInit,OnDestroy {
   @Output() movePageEmitter = new EventEmitter<number>();
+  private suscripciones: Subscription[]=[];
   protected idSemillero!: string;
   protected idLinea!:number;
   protected datatableInputs: DatatableInput;
@@ -34,6 +37,7 @@ export class ListarLineasComponent implements OnInit {
   // Inyeccion de Modal
   private modalService = inject(NgbModal);
   constructor(
+    private actualizarListarService: CommunicationComponentsService,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private lineaInvestigacionObtenerService: LineaInvestigacionObtenerService,
@@ -48,6 +52,10 @@ export class ListarLineasComponent implements OnInit {
     this.datatableInputs = new DatatableInput('Lineas',
       new Paginacion<LineaInvestigacionProyeccion>());
   }
+  ngOnDestroy(): void {
+    // Liberar la suscripción para evitar memory leaks
+    this.suscripciones.forEach(subcription => subcription.unsubscribe());
+  }
 
   ngOnInit(): void {
     //obtener el id del semillero
@@ -59,6 +67,7 @@ export class ListarLineasComponent implements OnInit {
     console.log('llamar la lista de las lineas')
     this.listarLineas(this.idSemillero,this.formulario.value.pageSize,this.formulario.value.pageNo);
     console.log('issemillerodelineas'+this.idSemillero)
+    this.suscribirseALasActualizaciones();
   }
   onPageSizeChange() {
     this.mostrarCreaLinea=false;
@@ -88,6 +97,20 @@ export class ListarLineasComponent implements OnInit {
     });
 
   }
+  suscribirseALasActualizaciones(){
+    // Suscribirse a las notificaciones de actualización para cada tipo
+    this.suscripciones.push(
+      this.actualizarListarService.actualizarListar$.subscribe((tipo:string)=>{
+        if(tipo=='agregar'){
+          this.mostrarCreaLinea=false;
+        }
+        this.listarLineas(this.formulario.value.semilleroId,
+          this.formulario.value.pageSize,
+          this.formulario.value.pageNo
+        );
+      })
+    );
+  }
   toggleFormulario() {
     this.mostrarCreaLinea= !this.mostrarCreaLinea;
   }
@@ -95,7 +118,7 @@ export class ListarLineasComponent implements OnInit {
     console.log('id de linea'+idLinea);
     //llamar la modal de eliminar
     const modalRef = this.modalService.open(EliminarLineaModalComponent);
-    modalRef.componentInstance.idLinea = this.idLinea;
+    modalRef.componentInstance.idLinea = idLinea;
   }
   /**
    * Calcula el texto que indica qué elementos se están visualizando actualmente.

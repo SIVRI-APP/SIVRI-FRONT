@@ -57,4 +57,10 @@ export class LineaInvestigacionAdapter {
     let params = new HttpParams().set('idSemillero', semilleroId)
     return this.http.get<Respuesta<LineaInvestigacion[]>>(this.apiUrl + 'LineastotInvestigacionPorIdSemillero', { params: params })
   }
+
+  eliminarLinea(
+    idLinea:number
+  ):Observable<Respuesta<boolean>> {
+    return this.http.delete<Respuesta<boolean>>(this.apiUrl+`eliminarLinea/${idLinea}`);
+  }
 }

@@ -7,6 +7,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Respuesta } from '../../../../../../service/common/model/respuesta';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LineaInvestigacionCrearService } from '../../../../../../service/semilleros/domain/service/linea-investigacion-crear.service';
+import { CommunicationComponentsService } from '../../../../../../service/common/communication-components.service';
 
 @Component({
   selector: 'app-crear-linea',
@@ -23,17 +24,19 @@ export class CrearLineaComponent implements OnInit {
   protected formulario: FormGroup;
   // Respuesta del Back
   protected respuesta: Respuesta<boolean>;
-  @Output() mostrarCreaLinea: boolean = true;
+  @Output() mostrarCreaLinea: boolean;
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
+    private actualizarListarService: CommunicationComponentsService,
     private lineaInvestigacionCrearService: LineaInvestigacionCrearService
-  ){
+  ) {
+    this.mostrarCreaLinea = true;
     this.respuesta = new Respuesta<false>();
     this.formulario = this.formBuilder.group({
       idSemillero: [''],
-      linea: ['', [Validators.required,Validators.minLength(1),Validators.maxLength(200)]],
+      linea: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(200)]],
 
     });
   }
@@ -45,7 +48,7 @@ export class CrearLineaComponent implements OnInit {
     })
   }
 
-  onsubmit(){
+  onsubmit() {
     // Verificar si el formulario es válido
 
     if (this.formulario.valid) {
@@ -54,10 +57,11 @@ export class CrearLineaComponent implements OnInit {
         semilleroId: this.idSemillero,
         linea: this.formulario.value.linea
       }).subscribe({
-        next:(respuesta)=>{
+        next: (respuesta) => {
           this.respuesta = respuesta;
           this.openModalOk(respuesta.userMessage);
-
+          this.actualizarListarService.notificarActualizarListar('agregar')
+          this.mostrarCreaLinea = false;
         },
         // Manejar errores
         error: (errorData) => {
@@ -72,7 +76,7 @@ export class CrearLineaComponent implements OnInit {
         }
       });
 
-    }else{
+    } else {
       this.formulario.markAllAsTouched();
     }
   }
@@ -80,7 +84,7 @@ export class CrearLineaComponent implements OnInit {
   limpiarCampos() {
     this.formulario = this.formBuilder.group({
       idSemillero: [''],
-      linea: ['', [Validators.required,Validators.minLength(1),Validators.maxLength(200)]],
+      linea: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(200)]],
 
     });
   }
