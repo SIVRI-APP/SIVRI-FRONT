@@ -38,6 +38,9 @@ const routes: Routes = [
       }, {
         path: 'Listar-lineas/:idLinea',
         component: ActualizarLineaComponent,
+      },{
+        path: 'listar-programas',
+        loadComponent: () => import('./ver-semillero/programas/listar-programas/listar-programas.component').then((c)=>c.ListarProgramasComponent),
       },
 
     ]

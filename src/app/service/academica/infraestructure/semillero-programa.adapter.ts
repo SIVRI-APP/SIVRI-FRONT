@@ -9,7 +9,7 @@ import { Paginacion } from '../../common/model/paginacion';
 @Injectable({
   providedIn: 'root'
 })
-export class SemilleroProgramaObtenerAdapter {
+export class SemilleroProgramasAdapter {
   private apiUrl= environment.urlApi+'semillerosProgramas/';
 
   constructor(private http: HttpClient) { }

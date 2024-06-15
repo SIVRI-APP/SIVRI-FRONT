@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, Output, inject } from '@angular/core';
 import { RolIntegranteSemillero } from '../../../../../../service/semilleros/domain/model/proyecciones/rolIntegranteSemillero';
 import { IntegranteSemilleroObtenerService } from '../../../../../../service/semilleros/domain/service/integrante-semillero-obtener.service';
 import { IntegranteSemilleroEstado } from '../../../../../../service/semilleros/domain/model/enum/integranteSemilleroEstado';
@@ -12,6 +12,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalOkComponent } from '../../../../../shared/modal-ok/modal-ok.component';
 import { ErrorData } from '../../../../../../service/common/model/errorData';
 import { ModalBadComponent } from '../../../../../shared/modal-bad/modal-bad.component';
+import { CommunicationComponentsService } from '../../../../../../service/common/communication-components.service';
 
 @Component({
   selector: 'app-crear-integrante',
@@ -27,6 +28,7 @@ export class CrearIntegranteComponent implements OnInit {
   private idSemillero!: string;
   // Inyeccion de Modal
   private modalService = inject(NgbModal);
+  @Output() mostrarFormularioCrear:boolean;
   protected rolIntegranteSemillero: RolIntegranteSemillero[] = [];
   protected estadoIntegranteEnum = IntegranteSemilleroEstado;
   protected tipoDocumentoEnum = TipoDocumento;
@@ -35,12 +37,15 @@ export class CrearIntegranteComponent implements OnInit {
   protected formularioConsultar: FormGroup;
   protected respuestaCrear: Respuesta<boolean>;
   constructor(
+
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
+    private actualizarListarService: CommunicationComponentsService,
     private integranteSemilleroObtenerService: IntegranteSemilleroObtenerService,
     private integranteSemilleroCrearService: IntegranteSemilleroCrearService,
     protected enumTranslationService: EnumTranslationService,
   ) {
+    this.mostrarFormularioCrear=true;
     this.respuestaCrear = new Respuesta<false>();
     this.formularioCrear = this.formBuilder.group({
       idSemillero: [''],
@@ -89,6 +94,8 @@ export class CrearIntegranteComponent implements OnInit {
           console.log(respuesta)
           this.respuestaCrear=respuesta;
           this.openModalOk(respuesta.userMessage);
+          this.actualizarListarService.notificarActualizarListar('agregar');
+          this.mostrarFormularioCrear=false;
         },
         // Manejar errores
         error: (errorData) => {

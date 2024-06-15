@@ -12,6 +12,8 @@ export class CommunicationComponentsService {
   private actualizarListarSubject= new Subject<string>();
   actualizarListar$ = this.actualizarListarSubject.asObservable();
   constructor() { }
+  /*el tipo de notificacion para actualizar la lista se puede
+  **manejar con: agregar, actualizar, eliminar */
   notificarActualizarListar(tipo: string){
     this.actualizarListarSubject.next(tipo);
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit, numberAttribute } from '@angular/core';
+import { Component, OnDestroy, OnInit, numberAttribute } from '@angular/core';
 import { IntegranteSemilleroEstado } from '../../../../../../service/semilleros/domain/model/enum/integranteSemilleroEstado';
 import { EnumTranslationService } from '../../../../../../service/common/enum-translation.service';
 import { RolIntegranteSemillero } from '../../../../../../service/semilleros/domain/model/proyecciones/rolIntegranteSemillero';
@@ -12,6 +12,8 @@ import { IntegranteSemilleroListar } from '../../../../../../service/semilleros/
 import { DatatableInput } from '../../../../../../service/common/model/datatableInput';
 import { DatatableComponent } from '../../../../../shared/datatable/datatable.component';
 import { CrearIntegranteComponent } from '../crear-integrante/crear-integrante.component';
+import { Subscription } from 'rxjs';
+import { CommunicationComponentsService } from '../../../../../../service/common/communication-components.service';
 
 @Component({
   selector: 'app-listar-integrantes',
@@ -26,11 +28,12 @@ import { CrearIntegranteComponent } from '../crear-integrante/crear-integrante.c
   templateUrl: './listar-integrantes.component.html',
   styleUrl: './listar-integrantes.component.css'
 })
-export class ListarIntegrantesComponent implements OnInit {
+export class ListarIntegrantesComponent implements OnInit, OnDestroy {
   private idSemillero!: string;
   protected formulario: FormGroup;
+  private suscripciones: Subscription[] = [];
   paginas: number[] = [2, 3, 5];
-  protected respuesta:Respuesta<Paginacion<IntegranteSemilleroListar>>
+  protected respuesta: Respuesta<Paginacion<IntegranteSemilleroListar>>
   protected estadoIntegranteEnum = IntegranteSemilleroEstado;
   protected rolIntegranteSemillero: RolIntegranteSemillero[] = [];
   protected datatableInputs: DatatableInput;
@@ -38,12 +41,13 @@ export class ListarIntegrantesComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
+    private actualizarListarService: CommunicationComponentsService,
     protected enumTranslationService: EnumTranslationService,
     private rolSemilleroObtenerService: RolSemilleroObtenerService,
     private integranteSemilleroObtenerService: IntegranteSemilleroObtenerService,
   ) {
-    this.respuesta= new Respuesta<Paginacion<IntegranteSemilleroListar>>();
-    this.datatableInputs= new DatatableInput('Integrantes', new Paginacion<IntegranteSemilleroListar>());
+    this.respuesta = new Respuesta<Paginacion<IntegranteSemilleroListar>>();
+    this.datatableInputs = new DatatableInput('Integrantes', new Paginacion<IntegranteSemilleroListar>());
     this.formulario = this.formBuilder.group({
       pageNo: [0],
       pageSize: ['2'],
@@ -53,11 +57,15 @@ export class ListarIntegrantesComponent implements OnInit {
       rolSemillero: ['']
     })
   }
+  ngOnDestroy(): void {
+    // Liberar la suscripción para evitar memory leaks
+    this.suscripciones.forEach(subscription => subscription.unsubscribe());
+  }
   ngOnInit(): void {
     this.route.parent?.params.subscribe(params => {
       this.idSemillero = params['id'];
     });
-
+    this.formulario.get('idSemillero')?.setValue(this.idSemillero);
     this.rolSemilleroObtenerService.obtenerRolesSemillero().subscribe({
       // Manejar respuesta exitosa
       next: (respueta) => {
@@ -71,46 +79,73 @@ export class ListarIntegrantesComponent implements OnInit {
         console.error(errorData);
       },
     });
+    this.listarIntegrantes();
+    console.log('es el on init**********')
+    this.suscribirseALasActualizaciones();
   }
 
   onsubmit() {
-    this.mostrarFormularioCrear=false;
+    this.mostrarFormularioCrear = false;
     if (this.formulario.valid) {
-      //realiza la peticion para obtener los datos filtrados
-      this.integranteSemilleroObtenerService.obtenerIntegrantesxSemilleroIdPaginado(
-        this.idSemillero, this.formulario.value.numeroDocumento,
-        this.formulario.value.rolSemillero, this.formulario.value.estado,
-        this.formulario.value.pageNo, this.formulario.value.pageSize).subscribe({
-          next: (respuesta) => {
-            console.log('respuesta de la lista de los integrantes-----')
-            console.log(respuesta);
-            // Actualizar la lista de integrantes con los datos obtenidos
-            this.respuesta=respuesta;
-            //actualiza el input del datatable
-            this.datatableInputs.searchPerformed=true;
-            this.datatableInputs.paginacion=this.respuesta.data;
-            this.datatableInputs.tableHeaders=['ID','Numero Documento','Nombre','Rol Semillero','Estado','Fecha Ingreso'];
-            this.datatableInputs.dataAttributes=[
-              {name:'idIntegranteSemillero',type:Number},
-              {name:'numeroDocumento',type:String},
-              {name:'nombreCompleto',type:String},
-              {name:'rolSemillero',type:String},
-              {name:'estado',type:String},
-              {name:'fechaIngreso',type:String},
-            ]
-            },
-          // Manejar errores
-          error: (errorData) => {
-            console.error(errorData);
-          },
-        });
+      this.listarIntegrantes();
+
     }
   }
-  toggleFormulario() {
-    this.mostrarFormularioCrear= !this.mostrarFormularioCrear;
+  listarIntegrantes() {
+    //realiza la peticion para obtener los datos filtrados
+    this.integranteSemilleroObtenerService.obtenerIntegrantesxSemilleroIdPaginado(
+      this.idSemillero, this.formulario.value.numeroDocumento,
+      this.formulario.value.rolSemillero, this.formulario.value.estado,
+      this.formulario.value.pageNo, this.formulario.value.pageSize).subscribe({
+        next: (respuesta) => {
+          console.log('respuesta de la lista de los integrantes-----')
+          console.log(respuesta);
+          // Actualizar la lista de integrantes con los datos obtenidos
+          this.respuesta = respuesta;
+          //actualiza el input del datatable
+          this.datatableInputs.searchPerformed = true;
+          this.datatableInputs.paginacion = this.respuesta.data;
+          this.datatableInputs.tableHeaders = ['ID', 'Numero Documento', 'Nombre', 'Rol Semillero', 'Estado', 'Fecha Ingreso'];
+          this.datatableInputs.dataAttributes = [
+            { name: 'idIntegranteSemillero', type: Number },
+            { name: 'numeroDocumento', type: String },
+            { name: 'nombreCompleto', type: String },
+            { name: 'rolSemillero', type: String },
+            { name: 'estado', type: String },
+            { name: 'fechaIngreso', type: String },
+          ]
+        },
+        // Manejar errores
+        error: (errorData) => {
+          console.error(errorData);
+        },
+      });
   }
-  limpiarCampos():void{
-    this.formulario=this.formBuilder.group({
+  suscribirseALasActualizaciones() {
+    console.log('ingresa a la suscripcion**********')
+    // Suscribirse a las notificaciones de actualización para cada tipo
+    this.suscripciones.push(
+      this.actualizarListarService.actualizarListar$.subscribe((tipo: string) => {
+        console.log('tipo********** ' + tipo);
+        if (tipo == 'agregar') {
+          console.log('ingresa al agregar integrante de actualizar lista')
+          this.mostrarFormularioCrear = false;
+        } else if ('actualizar') {
+          console.log('formulario para volver a listar los integrnates')
+          console.log(this.formulario)
+        }
+        console.log('formulario en la suscripcion *************')
+        console.log(this.formulario);
+        this.listarIntegrantes();
+      })
+    );
+    console.log('sale de suscripcion***********')
+  }
+  toggleFormulario() {
+    this.mostrarFormularioCrear = !this.mostrarFormularioCrear;
+  }
+  limpiarCampos(): void {
+    this.formulario = this.formBuilder.group({
       pageNo: [0],
       pageSize: ['2'],
       idSemillero: [null],
