@@ -18,11 +18,15 @@ import { ModalOkComponent } from '../../../shared/modal-ok/modal-ok.component';
 import { ModalBadComponent } from '../../../shared/modal-bad/modal-bad.component';
 import { CommonModule } from '@angular/common';
 import { ModalCrearChecklistComponent } from './crearCheckList/modal-crear-checklist.component';
+import { DatatableInput } from '../../../../service/common/model/datatableInput';
+import { Paginacion } from '../../../../service/common/model/paginacion';
+import { DatatableCustomComponent } from '../../../shared/datatableCustomizable/datatable-custom.component';
+import { DatatableInputAction } from '../../../../service/common/model/datatableAction';
 
 @Component({
   selector: 'app-crear-convocatoria',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, DatatableCustomComponent],
   templateUrl: './crear-convocatoria.component.html',
   styleUrl: './crear-convocatoria.component.css',
 })
@@ -39,13 +43,21 @@ export class CrearConvocatoriaComponent {
 
   // Formulario reactivo
   protected formulario: FormGroup;
-  protected formularioSecundario: FormGroup;
+
   // Respuesta del Back
   protected respuesta: Respuesta<boolean>;
 
   // Cuerpo para enviar en la solicitud de Creación
   private crearConvocatoriaDTO: CrearConvocatoriaDTO;
-  protected crearChecklistDTO: CrearChecklistDTO[];
+
+  protected crearChecklistDTODocEjecucion: CrearChecklistDTO[];
+  protected crearChecklistDTODocPreEjecucion: CrearChecklistDTO[];
+  protected crearChecklistDTODocPostEjecucion: CrearChecklistDTO[];
+
+  // Datatable para los documentos
+  protected datatableInputsDocEjecucion: DatatableInput;
+  protected datatableInputsDocPreEjecucion: DatatableInput;
+  protected datatableInputsDocPostEjecucion: DatatableInput;
 
   constructor(
     private router: Router,
@@ -57,7 +69,9 @@ export class CrearConvocatoriaComponent {
     this.respuesta = new Respuesta<false>();
 
     this.crearConvocatoriaDTO = new CrearConvocatoriaDTO();
-    this.crearChecklistDTO = [];
+    this.crearChecklistDTODocEjecucion = [];
+    this.crearChecklistDTODocPreEjecucion = [];
+    this.crearChecklistDTODocPostEjecucion = [];
 
     this.formulario = this.formBuilder.group({
       nombre: [
@@ -98,13 +112,59 @@ export class CrearConvocatoriaComponent {
       checklist: this.formBuilder.array([])
     });
 
-    this.formularioSecundario = this.formBuilder.group({
-      documentoId: ['', Validators.required],
-      etapaDocumento: ['', Validators.required],
-      responsableDocumento: ['', Validators.required],
-      cantidad: ['', [Validators.required, Validators.min(0)]],
-      obligatorio: ['', Validators.required],
-    });
+    // Inicialización de los datos que construyen el datatable EJECUCION
+    this.datatableInputsDocEjecucion = new DatatableInput(
+      'Documentos',
+      new Paginacion<CrearChecklistDTO>()
+    );
+    this.datatableInputsDocEjecucion.searchPerformed = true;
+    this.datatableInputsDocEjecucion.tableHeaders = ['ID Doc', 'Nombre', 'Responsable Documento', 'Cantidad', '¿Obligatorio?'];
+    this.datatableInputsDocEjecucion.dataAttributes = [
+      {name:'documentoId', type:String}, 
+      {name:'nombre', type:String}, 
+      {name:'responsableDocumento', type:ResponsableDocumento}, 
+      {name:'cantidad', type:String}, 
+      {name:'obligatorio', type:String}, 
+    ]
+    this.datatableInputsDocEjecucion.acciones = [new DatatableInputAction('delete', 'eliminar')]  
+    this.datatableInputsDocEjecucion.mensajeNoHayElementos = 'No hay Docuementos asociados para esta Etapa'
+    this.datatableInputsDocEjecucion.quieresPaginar = false;
+
+    // Inicialización de los datos que construyen el datatable PRE EJECUCION
+    this.datatableInputsDocPreEjecucion = new DatatableInput(
+      'Documentos',
+      new Paginacion<CrearChecklistDTO>()
+    );
+    this.datatableInputsDocPreEjecucion.searchPerformed = true;
+    this.datatableInputsDocPreEjecucion.tableHeaders = ['ID Doc', 'Nombre', 'Responsable Documento', 'Cantidad', '¿Obligatorio?'];
+    this.datatableInputsDocPreEjecucion.dataAttributes = [
+      {name:'documentoId', type:String}, 
+      {name:'nombre', type:String}, 
+      {name:'responsableDocumento', type:ResponsableDocumento}, 
+      {name:'cantidad', type:String}, 
+      {name:'obligatorio', type:String}, 
+    ]
+    this.datatableInputsDocPreEjecucion.acciones = [new DatatableInputAction('delete', 'eliminar')]  
+    this.datatableInputsDocPreEjecucion.mensajeNoHayElementos = 'No hay Docuementos asociados para esta Etapa'
+    this.datatableInputsDocPreEjecucion.quieresPaginar = false;
+
+    // Inicialización de los datos que construyen el datatable POST EJECUCION
+    this.datatableInputsDocPostEjecucion = new DatatableInput(
+      'Documentos',
+      new Paginacion<CrearChecklistDTO>()
+    );
+    this.datatableInputsDocPostEjecucion.searchPerformed = true;
+    this.datatableInputsDocPostEjecucion.tableHeaders = ['ID Doc', 'Nombre', 'Responsable Documento', 'Cantidad', '¿Obligatorio?'];
+    this.datatableInputsDocPostEjecucion.dataAttributes = [
+      {name:'documentoId', type:String}, 
+      {name:'nombre', type:String}, 
+      {name:'responsableDocumento', type:ResponsableDocumento}, 
+      {name:'cantidad', type:String}, 
+      {name:'obligatorio', type:String}, 
+    ]
+    this.datatableInputsDocPostEjecucion.acciones = [new DatatableInputAction('delete', 'eliminar')]  
+    this.datatableInputsDocPostEjecucion.mensajeNoHayElementos = 'No hay Docuementos asociados para esta Etapa'
+    this.datatableInputsDocPostEjecucion.quieresPaginar = false;
   }
 
   /**
@@ -114,7 +174,15 @@ export class CrearConvocatoriaComponent {
     // Verificar si el formulario es válido
     if (this.formulario.valid) {
       // Agregar los Docs al checklist
-      this.crearConvocatoriaDTO.checklist = this.crearChecklistDTO;
+      this.crearChecklistDTODocEjecucion.forEach((doc) => {
+        this.crearConvocatoriaDTO.checklist.push(doc);
+      });
+      this.crearChecklistDTODocPreEjecucion.forEach((doc) => {
+        this.crearConvocatoriaDTO.checklist.push(doc);
+      });
+      this.crearChecklistDTODocPostEjecucion.forEach((doc) => {
+        this.crearConvocatoriaDTO.checklist.push(doc);
+      });
       (this.crearConvocatoriaDTO.nombre = this.formulario.value.nombre),
       (this.crearConvocatoriaDTO.descripcion = this.formulario.value.descripcion),
       (this.crearConvocatoriaDTO.objetivos = this.formulario.value.objetivos),
@@ -157,14 +225,33 @@ export class CrearConvocatoriaComponent {
   
   agregarDocPreEjecucion(){   
     this.openModalModalCrearChecklistComponent(EtapaDocumento.PRE_EJECUCION);
+
+      let paginacion = new Paginacion();
+      paginacion.content = this.crearChecklistDTODocPreEjecucion;
+
+      // Actualiar el Input del datatable
+      this.datatableInputsDocPreEjecucion.paginacion = paginacion;
   }
 
   agregarDocEjecucion(){   
     this.openModalModalCrearChecklistComponent(EtapaDocumento.EJECUCION);
+
+      let paginacion = new Paginacion();
+      paginacion.content = this.crearChecklistDTODocEjecucion;
+
+      // Actualiar el Input del datatable
+      this.datatableInputsDocEjecucion.paginacion = paginacion;
+      
   }
 
-  agregarDocPosEjecucion(){   
+  agregarDocPostEjecucion(){   
     this.openModalModalCrearChecklistComponent(EtapaDocumento.POST_EJECUCION);
+
+      let paginacion = new Paginacion();
+      paginacion.content = this.crearChecklistDTODocPostEjecucion;
+
+      // Actualiar el Input del datatable
+      this.datatableInputsDocPostEjecucion.paginacion = paginacion;
   }
 
   /**
@@ -211,6 +298,39 @@ export class CrearConvocatoriaComponent {
     });
   }
 
+  openModalModalCrearChecklistComponent(etapaDocumento:EtapaDocumento){
+    const modalRef = this.modalService.open(ModalCrearChecklistComponent);
+
+    modalRef.componentInstance.enviarInformacion.subscribe((result: CrearChecklistDTO) => {
+      
+      const clave = this.enumTranslationService.getKeyByValue(EtapaDocumento, etapaDocumento);
+      if (clave !== undefined) {
+        result.etapaDocumento = clave;
+      }   
+      
+      if (result.etapaDocumento == "PRE_EJECUCION") {
+        this.crearChecklistDTODocPreEjecucion.push(result);
+      }
+
+      if (result.etapaDocumento == "EJECUCION") {
+        this.crearChecklistDTODocEjecucion.push(result);
+      }
+
+      if (result.etapaDocumento == "POST_EJECUCION") {
+        this.crearChecklistDTODocPostEjecucion.push(result);
+      }
+      
+    }); 
+  }
+
+  /**
+   * Cambia la página de resultados de acuerdo al número de página especificado.
+   * @param pageNumber El número de página al que se debe cambiar.
+   */
+  accion(accion: any): void {
+    console.log(accion);
+  }
+
   openModalOk(message: string, nuevaUrl: any) {
     const modalRef = this.modalService.open(ModalOkComponent);
     modalRef.componentInstance.name = message;
@@ -227,19 +347,5 @@ export class CrearConvocatoriaComponent {
   openModalBad(data: ErrorData) {
     const modalRef = this.modalService.open(ModalBadComponent);
     modalRef.componentInstance.mensaje = data;
-  }
-
-  openModalModalCrearChecklistComponent(etapaDocumento:EtapaDocumento){
-    const modalRef = this.modalService.open(ModalCrearChecklistComponent);
-
-    modalRef.componentInstance.enviarInformacion.subscribe((result: CrearChecklistDTO) => {
-      
-      const clave = this.enumTranslationService.getKeyByValue(EtapaDocumento, etapaDocumento);
-      if (clave !== undefined) {
-        result.etapaDocumento = clave;
-      }   
-      
-      this.crearChecklistDTO.push(result);
-    });
   }
 }

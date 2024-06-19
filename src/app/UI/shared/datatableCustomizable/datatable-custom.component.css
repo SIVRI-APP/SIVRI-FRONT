@@ -1,0 +1,42 @@
+/* ---------------- Data Table ---------------- */
+.filter-box>.row {
+    margin-top: 15px;
+}
+
+.form-guide-line {
+    margin-top: 20px;
+    height: 1px;
+    background-color: rgba(224, 224, 255, 0.70);
+}
+
+.table th{
+    color: var(--azul-principal, #006);
+    /* Color del texto del enlace */
+    font-size: 15px;
+    /* Tamaño de fuente */
+    font-style: normal;
+    /* Estilo de fuente */
+    font-weight: 700;
+    /* Peso de la fuente */
+    line-height: normal;
+    text-align: center;
+}
+
+.table td{
+    /* Color del texto del enlace */
+    font-size: 15px;
+    /* Tamaño de fuente */
+    font-style: normal;
+    /* Peso de la fuente */
+    line-height: normal;
+    vertical-align: middle;
+    text-align: center;
+}
+
+/* Botones */
+.controls {
+    display: flex;
+    flex-direction: row; /* Alinea los elementos en una columna */
+    align-items: center; /* Centra verticalmente los elementos */
+    gap: 15px; /* Ajusta el valor según el espacio horizontal que desees entre los elementos */
+}
