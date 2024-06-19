@@ -271,6 +271,7 @@
     font-weight: 400;
     /* Peso de la fuente */
     line-height: normal;
+    margin-bottom: 5px;
 }
 
 .form-select option {
@@ -294,6 +295,12 @@
     font-weight: 400;
     /* Peso de la fuente */
     line-height: normal;
+    margin-bottom: 5px;
+}
+
+.form-check-input{
+    margin-bottom: 5px;
+    margin-right: 5px;
 }
 
 /* Mensaje Feedback de formulario */

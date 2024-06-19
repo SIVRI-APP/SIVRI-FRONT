@@ -2,7 +2,7 @@ import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Respuesta } from '../../../common/model/respuesta';
 import { ConvocatoriaAdapter } from '../../infraestructure/convocatoria.adapter';
-import { CrearConvocatoriaDTO } from './DTO/crearConvocatoriaDTO';
+import { CrearConvocatoriaDTO } from '../model/DTO/crearConvocatoriaDTO';
 
 @Injectable({
   providedIn: 'root',

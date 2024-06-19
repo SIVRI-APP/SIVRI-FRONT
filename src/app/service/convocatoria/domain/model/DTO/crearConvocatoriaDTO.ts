@@ -1,4 +1,20 @@
+export class ObtenerDocumentosDTO {
+  documentos: DocumentoDTO[] = [];
+  constructor() {}
+}
+
+export class DocumentoDTO {
+  id: number = 0;
+  nombre: string = '';
+
+  constructor(id: number, nombre:string){
+    this.id = id;
+    this.nombre = nombre
+  }
+}
+
 export class CrearChecklistDTO {
+  nombre: string = '';
   documentoId: number = 0;
   etapaDocumento: string = '';
   responsableDocumento: string = '';

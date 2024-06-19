@@ -6,7 +6,7 @@ import { Respuesta } from '../../common/model/respuesta';
 import { Paginacion } from '../../common/model/paginacion';
 import { ConvocatoriaListarConFiltroProyeccion } from '../domain/model/proyecciones/usuarioSolicitudListarConFiltroProyeccion';
 import { ConvocatoriaInformaciónDetalladaProyección } from '../domain/model/proyecciones/convocatoriaInformaciónDetalladaProyección';
-import { CrearConvocatoriaDTO } from '../domain/service/DTO/crearConvocatoriaDTO';
+import { CrearConvocatoriaDTO } from '../domain/model/DTO/crearConvocatoriaDTO';
 
 @Injectable({
   providedIn: 'root',

@@ -36,29 +36,148 @@
             
         </div>
 
-        <!-- <div class="row">
-            <div class="col-sm"></div>
-        </div> -->
+        <div class="row">
+            <div class="col-sm-4">
+                <label for="fechaInicio" class="etiqueta-form"><strong>Fecha Inicio</strong></label>
+                <input id="fechaInicio" name="fechaInicio" class="form-control" type="date" placeholder="Fecha Inicio" formControlName="fechaInicio">
+                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('fechaInicio')?.valid && this.formulario.get('fechaInicio')?.touched ? 'block' : 'none'"> 
+                    Digite una Fecha de Inicio valida
+                </div>
+            </div>
+
+            <div class="col-sm-4">
+                <label for="fechaFin" class="etiqueta-form"><strong>Fecha Fin</strong></label>
+                <input id="fechaFin" name="fechaFin" class="form-control" type="date" placeholder="Fecha Fin" formControlName="fechaFin">
+                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('fechaFin')?.valid && this.formulario.get('fechaFin')?.touched ? 'block' : 'none'"> 
+                    Digite una Fecha de Fin valida
+                </div>
+            </div>            
+        </div>
 
         <div class="row">
-
-            <div class="col-sm">
+            <div class="col-sm-8">
                 <label for="descripcion" class="etiqueta-form"><strong>Descripcion</strong></label>
                 <textarea id="descripcion" name="descripcion" class="form-control" type="text" placeholder="Descripcion" formControlName="descripcion"></textarea>
                 <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('descripcion')?.valid && this.formulario.get('descripcion')?.touched ? 'block' : 'none'"> 
-                    Digita una Descripcion valida (max 1000 caracteres)
+                    Digita un Descripcion valido (5 - 245 caracteres)
+                </div>
+            </div>
+        </div>
+
+        <div class="row">       
+            <div class="col-sm-8">
+                <label for="objetivos" class="etiqueta-form"><strong>Objetivos</strong></label>
+                <textarea id="objetivos" name="objetivos" class="form-control" type="text" placeholder="Objetivos" formControlName="objetivos"></textarea>
+                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('objetivos')?.valid && this.formulario.get('objetivos')?.touched ? 'block' : 'none'"> 
+                    Digita una Objetivo valido (5 - 1000 caracteres)
+                </div>
+            </div>
+        </div>
+
+        <!-- DOCUMENTOS -->
+        <div class="row text-center"><h5 class="">Documentos Requeridos</h5></div>
+        
+        <div class="row">
+            <div class="col-sm">
+                <div class="row text-center">
+                    <label class="etiqueta-form"><strong>PRE_EJECUCION</strong></label>
+                </div>                
+                <div class="row mx-auto w-25">
+                    <button type="button" class="secondaryBTN" (click)="agregarDocPreEjecucion()">
+                        <div class="button-content">
+                            <span class="material-symbols-outlined secondaryBTN-icon">
+                                add
+                            </span>
+                            <span class="text">Añadir</span>
+                        </div>
+                    </button>
+                </div>
+                <div class="row">
+                    <ul>
+                        @for (doc of this.crearChecklistDTO; track $index) {
+                            @if (doc.etapaDocumento == "PRE_EJECUCION") {
+                                <div class="form-guide-line"></div>
+                                <li>
+                                    <div class="row">
+                                        <div class="col">Nombre: {{doc.nombre}}</div>
+                                        <div class="col">Cantidad: {{doc.cantidad}}</div>
+                                        <div class="col">Obligatorio?: {{doc.obligatorio}}</div>
+                                        <div class="col">Responsable{{doc.responsableDocumento}}</div>
+                                    </div>
+                                </li>
+                                <div class="form-guide-line"></div>
+                            }
+                        }
+                    </ul>                    
+                </div>
+            </div>
+            
+            <div class="col-sm">
+                <div class="row text-center">
+                    <label class="etiqueta-form"><strong>EJECUCIÓN</strong></label>
+                </div>                
+                <div class="row mx-auto w-25">
+                    <button type="button" class="secondaryBTN" (click)="agregarDocEjecucion()">
+                        <div class="button-content">
+                            <span class="material-symbols-outlined secondaryBTN-icon">
+                                add
+                            </span>
+                            <span class="text">Añadir</span>
+                        </div>
+                    </button>
+                </div>
+                <div class="row">
+                    <ul>
+                        @for (doc of this.crearChecklistDTO; track $index) {
+                            @if (doc.etapaDocumento == "EJECUCION") {
+                                <li>
+                                    <div class="row">
+                                        <div class="col">{{doc.nombre}}</div>
+                                        <div class="col">{{doc.cantidad}}</div>
+                                        <div class="col">{{doc.obligatorio}}</div>
+                                        <div class="col">{{doc.responsableDocumento}}</div>
+                                    </div>
+                                </li>
+                            }
+                        }
+                    </ul>                    
                 </div>
             </div>
 
             <div class="col-sm">
-                <label for="objetivos" class="etiqueta-form"><strong>Objetivos</strong></label>
-                <textarea id="objetivos" name="objetivos" class="form-control" type="text" placeholder="Objetivos" formControlName="objetivos"></textarea>
-                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('nota')?.valid && this.formulario.get('nota')?.touched ? 'block' : 'none'"> 
-                    Digita una Objetivo valido (max 1000 caracteres)
+                <div class="row text-center">
+                    <label class="etiqueta-form"><strong>POST_EJECUCION</strong></label>
+                </div>                
+                <div class="row mx-auto w-25">
+                    <button type="button" class="secondaryBTN" (click)="agregarDocPosEjecucion()">
+                        <div class="button-content">
+                            <span class="material-symbols-outlined secondaryBTN-icon">
+                                add
+                            </span>
+                            <span class="text">Añadir</span>
+                        </div>
+                    </button>
+                </div>
+                <div class="row">
+                    <ul>
+                        @for (doc of this.crearChecklistDTO; track $index) {
+                            @if (doc.etapaDocumento == "POST_EJECUCION") {
+                                <li>
+                                    <div class="row">
+                                        <div class="col">{{doc.nombre}}</div>
+                                        <div class="col">{{doc.cantidad}}</div>
+                                        <div class="col">{{doc.obligatorio}}</div>
+                                        <div class="col">{{doc.responsableDocumento}}</div>
+                                    </div>
+                                </li>
+                            }
+                        }
+                    </ul>                    
                 </div>
             </div>
 
         </div>
+
 
         <div class="row">
             <div class="col controls">
@@ -79,11 +198,9 @@
                         <span class="text">Crear</span>
                     </div>
                 </button>
-
             </div>
         </div>
 
         <div class="form-guide-line"></div>
     </div>
-
 </form>
