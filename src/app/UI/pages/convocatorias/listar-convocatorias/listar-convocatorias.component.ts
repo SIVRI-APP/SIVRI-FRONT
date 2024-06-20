@@ -76,7 +76,7 @@ export class ListarConvocatoriasComponent implements OnInit{
         }
       })
     // Recuperar el estado del formulario en el servicio
-    this.formulario = this.obtenerService.getFormularioListarConFiltro(); 
+    // this.formulario = this.obtenerService.getFormularioListarConFiltro(); 
   }
 
   /**

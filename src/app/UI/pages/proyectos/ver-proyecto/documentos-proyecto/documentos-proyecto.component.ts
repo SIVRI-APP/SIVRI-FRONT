@@ -24,13 +24,13 @@ export class DocumentosProyectoComponent implements OnInit{
   ) {
     this.proyectoInformacionConvocatoria = new ProyectoInformacionConvocatoria();
     
-    // Suscribirse a la informacion de la Convocatoria del Proyecto
-    proyectoObtenerService.getRegistroInformacionDetallada()
-    .subscribe({
-        next: (respuesta) => {
-          this.proyectoInformacionConvocatoria = respuesta.data.convocatoria;
-        }
-    })
+    // // Suscribirse a la informacion de la Convocatoria del Proyecto
+    // proyectoObtenerService.getRegistroInformacionDetallada()
+    // .subscribe({
+    //     next: (respuesta) => {
+    //       this.proyectoInformacionConvocatoria = respuesta.data.convocatoria;
+    //     }
+    // })
 
     // Inicialización del formulario reactivo
     this.asociarConvocatoriaForm = this.formBuilder.group({
@@ -40,7 +40,12 @@ export class DocumentosProyectoComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    
+    this.proyectoObtenerService.getRegistroInformacionDetallada()
+      .subscribe({
+          next: (respuesta) => {
+            this.proyectoInformacionConvocatoria = respuesta.data.convocatoria;
+          }
+      })
   }
 
   /**
