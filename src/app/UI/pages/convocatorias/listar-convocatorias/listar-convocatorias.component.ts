@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Respuesta } from '../../../../service/common/model/respuesta';
 import { TipoFinanciacion } from '../../../../service/convocatoria/domain/model/enum/tipoFinanciacion';
 import { ConvocatoriaEstado } from '../../../../service/convocatoria/domain/model/enum/convocatoriaEstado';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -20,7 +19,6 @@ import { DatatableInputAction } from '../../../../service/common/model/datatable
   styleUrl: './listar-convocatorias.component.css'
 })
 export class ListarConvocatoriasComponent implements OnInit{
-
 
   // Enumeraciones que llenan los select
   protected tipoFinanciacionEnum = TipoFinanciacion;
@@ -83,11 +81,6 @@ export class ListarConvocatoriasComponent implements OnInit{
 
   /**
    * Maneja el envío del formulario de búsqueda.
-   *
-   * Si el formulario es válido, realiza una solicitud para obtener la respuesta.
-   * Actualiza la lista y el texto de visualización en consecuencia.
-   *
-   * Si el formulario no es válido, marca todos los campos como tocados y lanza un error.
    */
   onSubmit(): void {
     // Verificar si el formulario es válido

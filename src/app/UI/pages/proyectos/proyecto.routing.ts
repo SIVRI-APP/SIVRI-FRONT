@@ -23,6 +23,7 @@ const proyectosRoutes: Routes = [
       },
     ],
   },
+  { path: 'listar/:id', loadChildren: () => import('./ver-proyecto/ver-proyecto.module').then(m => m.VerProyectoaModule) },
 ];
 
 @NgModule({

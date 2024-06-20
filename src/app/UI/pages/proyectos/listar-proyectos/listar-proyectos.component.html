@@ -1,1 +1,58 @@
-<p>listar-proyectos works!</p>
+<form [formGroup]="formulario" (ngSubmit)="onSubmit()" method="get">
+
+    <div class="filter-box">
+
+        <!-- Filtro de Busqueda -->
+        <div class="row">
+            <div class="col-sm-4">
+                <label for="id" class="etiqueta-form"><strong>ID Proyecto</strong></label>
+                <input id="id" name="id" class="form-control" type="text" placeholder="ID"
+                    formControlName="id">
+            </div>
+
+            <div class="col-sm-4">
+                <label for="nombre" class="etiqueta-form"><strong>Nombre</strong></label>
+                <input id="nombre" name="nombre" class="form-control" type="text" placeholder="Nombre"
+                    formControlName="nombre">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col controls">
+                <label class="form-label listar">Ver
+                    <select class="form-select form-select-sm" formControlName="pageSize">
+                        <option value="10" selected>10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                </label>
+
+                <button type="button" class="secondaryBTN" (click)="limpiarCampos()">
+                    <div class="button-content">
+                        <span class="material-symbols-outlined secondaryBTN-icon">
+                            filter_alt
+                        </span>
+                        <span class="text">Limpiar</span>
+                    </div>
+                </button>
+
+                <button type="submit" class="primaryBTN">
+                    <div class="button-content">
+                        <span class="material-symbols-outlined primaryBTN-icon">
+                            search
+                        </span>
+                        <span class="text">Buscar</span>
+                    </div>
+                </button>
+
+            </div>
+        </div>
+
+        <div class="form-guide-line"></div>
+    </div>
+
+    <!-- Tabla Paginada  -->
+    <app-datatable-custom [datatableInputs]="datatableInputs" (accionEmitter)="accion($event)"></app-datatable-custom>
+
+</form>

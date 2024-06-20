@@ -1,1 +1,28 @@
-<p>index-ver-proyecto works!</p>
+<nav>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item" routerLink="/inicio"><a>Inicio</a></li>
+        <li class="breadcrumb-item" routerLink="/proyectos/listar"><a>Proyectos</a></li>
+        <li class="breadcrumb-item" routerLink="/proyectos/listar/{{id}}"><a>Proyectos ID:{{id}}</a>
+        </li>
+    </ol>
+</nav>
+
+<h1 class="title">Proyecto: {{this.nombre}}</h1>
+
+<div class="nav-container">
+    <ul class="nav nav-underline">
+        <li class="nav-item">
+            <a class="nav-link" routerLink="informacion-general" routerLinkActive="active">Detalles</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" routerLink="documentos" routerLinkActive="active">Documentos</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" routerLink="integrantes" routerLinkActive="active">Integrantes</a>
+        </li>
+    </ul>
+    <div class="guide-line"></div>
+</div>
+
+
+<router-outlet></router-outlet>

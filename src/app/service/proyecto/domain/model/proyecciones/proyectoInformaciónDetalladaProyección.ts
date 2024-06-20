@@ -15,11 +15,7 @@ export interface ProyectoInformaciónDetalladaProyección {
   fechaFin: string; // O cambiar a tipo Date si prefieres manejar fechas directamente
   fechaInicio: string; // O cambiar a tipo Date
   estado: EstadoProyecto; // Podría ser un enum si tienes definido un conjunto fijo de estados
-  convocatoria: {
-    id: number;
-    tipoFinanciacion: TipoFinanciacion; // Puedes definir un enum si los tipos de financiación son limitados
-    nombre: string;
-  };
+  convocatoria: ProyectoInformacionConvocatoria
   consideraciones: string;
   justificacion: string;
   planteamiento: string;
@@ -28,4 +24,16 @@ export interface ProyectoInformaciónDetalladaProyección {
   efectosAdversos: string;
   integrantes: any[]; // Define un tipo específico si es posible
   
+}
+
+export class ProyectoInformacionConvocatoria {
+  id: number;
+  tipoFinanciacion: TipoFinanciacion; // Puedes definir un enum si los tipos de financiación son limitados
+  nombre: string;
+
+  constructor(){
+    this.id = 0,
+    this.tipoFinanciacion = TipoFinanciacion.PROYECTOS_INTERNOS,
+    this.nombre = ''
+  }
 }

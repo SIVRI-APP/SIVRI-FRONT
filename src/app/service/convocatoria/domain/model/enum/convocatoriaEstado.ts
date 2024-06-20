@@ -1,5 +1,5 @@
 export enum ConvocatoriaEstado {
   ABIERTA = 'Abierta',
-  CERRADA = 'Cerrad',
+  CERRADA = 'Cerrada',
   PROGRAMADA = 'Programada'
 }

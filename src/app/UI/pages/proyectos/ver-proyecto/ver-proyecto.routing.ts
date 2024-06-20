@@ -15,7 +15,16 @@ const verProyectoRoutes: Routes = [
       {
         path: 'informacion-general',
         loadComponent: () => import('./proyecto-informacion-general/proyecto-informacion-general.component').then((c) => c.ProyectoInformacionGeneralComponent),
-      }
+      },
+      {
+        path: 'documentos',
+        loadComponent: () => import('./documentos-proyecto/documentos-proyecto.component').then((c) => c.DocumentosProyectoComponent),
+      },
+      {
+        path: 'integrantes',
+        loadComponent: () => import('./integrantes-proyecto/integrantes-proyecto.component').then((c) => c.IntegrantesProyectoComponent),
+      },
+
     ],
   },
 ];
