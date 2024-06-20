@@ -7,10 +7,10 @@ import { ProyectoAdapter } from '../../infraestructure/proyecto.adapter';
 @Injectable({
   providedIn: 'root',
 })
-export class ConvocatoriaCrearService {
+export class ProyectoCrearService {
   constructor(private proyectoAdapter: ProyectoAdapter) {}
 
-  crearSolicitudUsuario(
+  crear(
     body: CrearProyectoDTO
   ): Observable<Respuesta<boolean>> {
     return this.proyectoAdapter.crear(body);

@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-sm">
                 <label for="nombre" class="etiqueta-form"><strong>Nombre</strong></label>
-                <input id="nombre" name="nombre" class="form-control" type="email" placeholder="Nombre" formControlName="nombre">
+                <input id="nombre" name="nombre" class="form-control" type="text" placeholder="Nombre" formControlName="nombre">
                 <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('nombre')?.valid && this.formulario.get('nombre')?.touched ? 'block' : 'none'"> 
                     Digita un Nombre valido (5 - 245 caracteres)
                 </div>
@@ -28,7 +28,7 @@
 
             <div class="col-sm">
                 <label for="oferente" class="etiqueta-form"><strong>Oferente</strong></label>
-                <input id="oferente" name="oferente" class="form-control" type="email" placeholder="Oferente" formControlName="oferente">
+                <input id="oferente" name="oferente" class="form-control" type="text" placeholder="Oferente" formControlName="oferente">
                 <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('oferente')?.valid && this.formulario.get('oferente')?.touched ? 'block' : 'none'"> 
                     Digita un Oferente valido (5 - 245 caracteres)
                 </div>

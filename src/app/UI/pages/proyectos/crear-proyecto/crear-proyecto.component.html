@@ -1,1 +1,143 @@
-<p>crear-proyecto works!</p>
+<form [formGroup]="formulario" (ngSubmit)="onSubmit()" method="get">
+
+    <div class="filter-box">
+
+        <!-- Formulario de Creacion -->
+        <div class="row">
+            <div class="col-sm-6">
+                <label for="nombre" class="etiqueta-form"><strong>Nombre</strong></label>
+                <textarea id="nombre" name="nombre" class="form-control" type="text" placeholder="Nombre" formControlName="nombre"></textarea>
+                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('nombre')?.valid && this.formulario.get('nombre')?.touched ? 'block' : 'none'"> 
+                    Digita una Nombre valido (5 - 256 caracteres)
+                </div>
+            </div>
+
+            <div class="col-sm-3">
+                <label for="fechaInicio" class="etiqueta-form"><strong>Fecha Inicio</strong></label>
+                <input id="fechaInicio" name="fechaInicio" class="form-control" type="date" placeholder="Fecha Inicio" formControlName="fechaInicio">
+                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('fechaInicio')?.valid && this.formulario.get('fechaInicio')?.touched ? 'block' : 'none'"> 
+                    Digite una Fecha de Inicio valida
+                </div>
+            </div>
+
+            <div class="col-sm-3">
+                <label for="fechaFin" class="etiqueta-form"><strong>Fecha Fin</strong></label>
+                <input id="fechaFin" name="fechaFin" class="form-control" type="date" placeholder="Fecha Fin" formControlName="fechaFin">
+                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('fechaFin')?.valid && this.formulario.get('fechaFin')?.touched ? 'block' : 'none'"> 
+                    Digite una Fecha de Fin valida
+                </div>
+            </div>                
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <label for="planteamiento" class="etiqueta-form"><strong>Planteamiento</strong></label>
+                <textarea id="planteamiento" name="planteamiento" class="form-control" type="text" placeholder="Planteamiento" formControlName="planteamiento"></textarea>
+                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('planteamiento')?.valid && this.formulario.get('planteamiento')?.touched ? 'block' : 'none'"> 
+                    Digita una Planteamiento valido (5 - 256 caracteres)
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <label for="objetivoGeneral" class="etiqueta-form"><strong>Objetivo General</strong></label>
+                <textarea id="objetivoGeneral" name="objetivoGeneral" class="form-control" type="text" placeholder="Objetivo General" formControlName="objetivoGeneral"></textarea>
+                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('objetivoGeneral')?.valid && this.formulario.get('objetivoGeneral')?.touched ? 'block' : 'none'"> 
+                    Digita una Objetivo General valido (5 - 256 caracteres)
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <label for="objetivosEspecificos" class="etiqueta-form"><strong>Objetivos Especificos</strong></label>
+                <textarea id="objetivosEspecificos" name="objetivosEspecificos" class="form-control" type="text" placeholder="Objetivos Especificos" formControlName="objetivosEspecificos"></textarea>
+                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('objetivosEspecificos')?.valid && this.formulario.get('objetivosEspecificos')?.touched ? 'block' : 'none'"> 
+                    Digita Objetivos Especificos validos (5 - 256 caracteres)
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <label for="justificacion" class="etiqueta-form"><strong>Justificación</strong></label>
+                <textarea id="justificacion" name="justificacion" class="form-control" type="text" placeholder="Justificación" formControlName="justificacion"></textarea>
+                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('justificacion')?.valid && this.formulario.get('justificacion')?.touched ? 'block' : 'none'"> 
+                    Digita una Justificación valida (5 - 256 caracteres)
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <label for="enfoqueMetodologico" class="etiqueta-form"><strong>Enfoque Metodologico</strong></label>
+                <textarea id="enfoqueMetodologico" name="enfoqueMetodologico" class="form-control" type="text" placeholder="Enfoque Metodologico" formControlName="enfoqueMetodologico"></textarea>
+                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('enfoqueMetodologico')?.valid && this.formulario.get('enfoqueMetodologico')?.touched ? 'block' : 'none'"> 
+                    Digita un Enfoque Metodologico valido (5 - 256 caracteres)
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <label for="aspectosEticosLegales" class="etiqueta-form"><strong>Aspectos Eticos Legales</strong></label>
+                <textarea id="aspectosEticosLegales" name="aspectosEticosLegales" class="form-control" type="text" placeholder="Aspectos Eticos Legales" formControlName="aspectosEticosLegales"></textarea>
+                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('aspectosEticosLegales')?.valid && this.formulario.get('aspectosEticosLegales')?.touched ? 'block' : 'none'"> 
+                    Digita un Enfoque Metodologico valido (5 - 256 caracteres)
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <label for="confidencialidadDeInformacion" class="etiqueta-form"><strong>Confidencialidad De Información</strong></label>
+                <textarea id="confidencialidadDeInformacion" name="confidencialidadDeInformacion" class="form-control" type="text" placeholder="Confidencialidad De Información" formControlName="confidencialidadDeInformacion"></textarea>
+                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('confidencialidadDeInformacion')?.valid && this.formulario.get('confidencialidadDeInformacion')?.touched ? 'block' : 'none'"> 
+                    Digita Confidencialidad De Informacion valido (5 - 256 caracteres)
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <label for="efectosAdversos" class="etiqueta-form"><strong>Efectos Adversos</strong></label>
+                <textarea id="efectosAdversos" name="efectosAdversos" class="form-control" type="text" placeholder="Efectos Adversos" formControlName="efectosAdversos"></textarea>
+                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('efectosAdversos')?.valid && this.formulario.get('efectosAdversos')?.touched ? 'block' : 'none'"> 
+                    Digita Efectos Adversos validos (5 - 256 caracteres)
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <label for="impactosResultadosEsperados" class="etiqueta-form"><strong>Impactos-Resultados Esperados</strong></label>
+                <textarea id="impactosResultadosEsperados" name="impactosResultadosEsperados" class="form-control" type="text" placeholder="Impactos-Resultados Esperados" formControlName="impactosResultadosEsperados"></textarea>
+                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('impactosResultadosEsperados')?.valid && this.formulario.get('impactosResultadosEsperados')?.touched ? 'block' : 'none'"> 
+                    Digita Impactos-Resultados Esperados validos (5 - 256 caracteres)
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <label for="consideraciones" class="etiqueta-form"><strong>Consideraciones</strong></label>
+                <textarea id="consideraciones" name="consideraciones" class="form-control" type="text" placeholder="Consideraciones" formControlName="consideraciones"></textarea>
+                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('consideraciones')?.valid && this.formulario.get('consideraciones')?.touched ? 'block' : 'none'"> 
+                    Digita Consideraciones validos (5 - 256 caracteres)
+                </div>
+            </div>
+        </div>
+        
+
+
+        <div class="row">
+            <div class="col controls">
+                <button type="button" class="secondaryBTN" (click)="limpiarCampos()">
+                    <div class="button-content">
+                        <span class="material-symbols-outlined secondaryBTN-icon">
+                            filter_alt
+                        </span>
+                        <span class="text">Limpiar</span>
+                    </div>
+                </button>
+
+                <button type="submit" class="primaryBTN">
+                    <div class="button-content">
+                        <span class="material-symbols-outlined primaryBTN-icon">
+                            add_circle
+                        </span>
+                        <span class="text">Crear</span>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <div class="form-guide-line"></div>
+    </div>
+</form>

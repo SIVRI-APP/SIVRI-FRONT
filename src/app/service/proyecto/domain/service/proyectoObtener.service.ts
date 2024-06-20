@@ -49,11 +49,11 @@ export class ProyectoObtenerService {
     // return this.registroListarConFiltro;
   }
 
-  obtenerSolicitudUsuarioInformaciónDetallada(
-    convocatoriaId?: string
+  obtenerInformaciónDetallada(
+    proyectoId?: string
   ): void {
     this.registroInformacionDetallada = this.proyectoAdapter.obtenerInformaciónDetallada(
-      convocatoriaId
+      proyectoId
     );
 
     // return this.registroInformacionDetallada;

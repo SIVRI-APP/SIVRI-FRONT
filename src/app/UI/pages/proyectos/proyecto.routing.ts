@@ -9,15 +9,16 @@ const proyectosRoutes: Routes = [
     component: IndexComponent,
     children: [
       {
+        path: '',
+        redirectTo: 'listar',
+        pathMatch: 'full'
+      },
+      {
         path: 'listar',
         loadComponent: () => import('./listar-proyectos/listar-proyectos.component').then((c) => c.ListarProyectosComponent),
       },
       {
-        path: 'ver',
-        loadComponent: () => import('./ver-proyecto/ver-proyecto.component').then((c) => c.VerProyectoComponent),
-      },
-      {
-        path: 'crear-usuario',
+        path: 'crear',
         loadComponent: () => import('./crear-proyecto/crear-proyecto.component').then((c) => c.CrearProyectoComponent),
       },
     ],
