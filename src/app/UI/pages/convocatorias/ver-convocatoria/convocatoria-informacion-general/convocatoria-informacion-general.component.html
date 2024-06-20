@@ -1,0 +1,196 @@
+<form [formGroup]="formulario" (ngSubmit)="onSubmit()" method="get">
+
+    <div class="filter-box">
+
+        <!-- Formulario de Creacion -->
+        <div class="row">
+            <div class="col-sm-1">
+                <label for="id" class="etiqueta-form"><strong>ID</strong></label>
+                <input id="id" name="id" class="form-control" type="text" placeholder="id" formControlName="id">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm">
+                <label for="nombre" class="etiqueta-form"><strong>Nombre</strong></label>
+                <input id="nombre" name="nombre" class="form-control" type="email" placeholder="Nombre" formControlName="nombre">
+                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('nombre')?.valid && this.formulario.get('nombre')?.touched ? 'block' : 'none'"> 
+                    Digita un Nombre valido (5 - 245 caracteres)
+                </div>
+
+            </div>
+
+            <div class="col-sm">
+                <label for="tipoFinanciacion" class="etiqueta-form"><strong>Tipo de Financiación</strong></label>
+                <select id="tipoFinanciacion" name="tipoFinanciacion" class="form-select" formControlName="tipoFinanciacion">
+                    <option value="" disabled selected hidden>Tipo de Financiación</option>
+                    @for (key of enumTranslationService.getEnumKeys(tipoFinanciacionEnum); track $index) {
+                    <option [value]="key">{{enumTranslationService.getEnumValueByKey(tipoFinanciacionEnum, key)}}</option>
+                    }
+                </select>
+                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('tipoFinanciacion')?.valid && this.formulario.get('tipoFinanciacion')?.touched ? 'block' : 'none'"> 
+                    Debes seleccionar un Tipo de Financiación de la lista
+                </div>
+            </div>
+
+            <div class="col-sm">
+                <label for="oferente" class="etiqueta-form"><strong>Oferente</strong></label>
+                <input id="oferente" name="oferente" class="form-control" type="email" placeholder="Oferente" formControlName="oferente">
+                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('oferente')?.valid && this.formulario.get('oferente')?.touched ? 'block' : 'none'"> 
+                    Digita un Oferente valido (5 - 245 caracteres)
+                </div>
+            </div>
+            
+        </div>
+
+        <div class="row">
+            <div class="col-sm-4">
+                <label for="fechaInicio" class="etiqueta-form"><strong>Fecha Inicio</strong></label>
+                <input id="fechaInicio" name="fechaInicio" class="form-control" type="date" placeholder="Fecha Inicio" formControlName="fechaInicio">
+                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('fechaInicio')?.valid && this.formulario.get('fechaInicio')?.touched ? 'block' : 'none'"> 
+                    Digite una Fecha de Inicio valida
+                </div>
+            </div>
+
+            <div class="col-sm-4">
+                <label for="fechaFin" class="etiqueta-form"><strong>Fecha Fin</strong></label>
+                <input id="fechaFin" name="fechaFin" class="form-control" type="date" placeholder="Fecha Fin" formControlName="fechaFin">
+                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('fechaFin')?.valid && this.formulario.get('fechaFin')?.touched ? 'block' : 'none'"> 
+                    Digite una Fecha de Fin valida
+                </div>
+            </div>            
+        </div>
+
+        <div class="row">
+            <div class="col-sm-8">
+                <label for="descripcion" class="etiqueta-form"><strong>Descripcion</strong></label>
+                <textarea id="descripcion" name="descripcion" class="form-control" type="text" placeholder="Descripcion" formControlName="descripcion"></textarea>
+                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('descripcion')?.valid && this.formulario.get('descripcion')?.touched ? 'block' : 'none'"> 
+                    Digita un Descripcion valido (5 - 245 caracteres)
+                </div>
+            </div>
+        </div>
+
+        <div class="row">       
+            <div class="col-sm-8">
+                <label for="objetivos" class="etiqueta-form"><strong>Objetivos</strong></label>
+                <textarea id="objetivos" name="objetivos" class="form-control" type="text" placeholder="Objetivos" formControlName="objetivos"></textarea>
+                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('objetivos')?.valid && this.formulario.get('objetivos')?.touched ? 'block' : 'none'"> 
+                    Digita una Objetivo valido (5 - 1000 caracteres)
+                </div>
+            </div>
+        </div>
+
+        <!-- DOCUMENTOS -->
+        <div class="row text-center"><h5 class="">Documentos Requeridos</h5></div>
+        
+        <div class="accordion" id="accordionExample">
+
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                    Previos a la Ejecución
+                </button>
+              </h2>
+              <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <app-datatable-custom [datatableInputs]="datatableInputsDocPreEjecucion"></app-datatable-custom>
+
+                    <!-- <div class="form-guide-line"></div>
+                    <div class="row">
+                        <div class="col controls">            
+                            <button type="button" class="secondaryBTN" (click)="agregarDocPreEjecucion()">
+                                <div class="button-content">
+                                    <span class="material-symbols-outlined secondaryBTN-icon">
+                                        add
+                                    </span>
+                                    <span class="text">Agregar</span>
+                                </div>
+                            </button>
+                        </div>
+                    </div> -->
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    Durante la Ejecución
+                </button>
+              </h2>
+              <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <app-datatable-custom [datatableInputs]="datatableInputsDocEjecucion"></app-datatable-custom>
+
+                    <!-- <div class="form-guide-line"></div>
+                    <div class="row">
+                        <div class="col controls">            
+                            <button type="button" class="secondaryBTN" (click)="agregarDocEjecucion()">
+                                <div class="button-content">
+                                    <span class="material-symbols-outlined secondaryBTN-icon">
+                                        add
+                                    </span>
+                                    <span class="text">Agregar</span>
+                                </div>
+                            </button>
+                        </div>
+                    </div> -->
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    Posteriores a la Ejecución
+                </button>
+              </h2>
+              <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <app-datatable-custom [datatableInputs]="datatableInputsDocPostEjecucion"></app-datatable-custom>
+
+                    <!-- <div class="form-guide-line"></div>
+                    <div class="row">
+                        <div class="col controls">            
+                            <button type="button" class="secondaryBTN" (click)="agregarDocPostEjecucion()">
+                                <div class="button-content">
+                                    <span class="material-symbols-outlined secondaryBTN-icon">
+                                        add
+                                    </span>
+                                    <span class="text">Agregar</span>
+                                </div>
+                            </button>
+                        </div>
+                    </div> -->
+                </div>
+              </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col controls">
+                <!-- <button type="button" class="secondaryBTN" (click)="limpiarCampos()">
+                    <div class="button-content">
+                        <span class="material-symbols-outlined secondaryBTN-icon">
+                            filter_alt
+                        </span>
+                        <span class="text">Limpiar</span>
+                    </div>
+                </button> -->
+
+                <!-- <button type="submit" class="primaryBTN">
+                    <div class="button-content">
+                        <span class="material-symbols-outlined primaryBTN-icon">
+                            add_circle
+                        </span>
+                        <span class="text">Crear</span>
+                    </div>
+                </button> -->
+            </div>
+        </div>
+
+        <div class="form-guide-line"></div>
+    </div>
+</form>

@@ -296,6 +296,10 @@ export class CrearConvocatoriaComponent {
       tipoFinanciacion: ['', Validators.required],
       checklist: this.formBuilder.array([])
     });
+
+    this.crearChecklistDTODocPreEjecucion.length = 0;
+    this.crearChecklistDTODocEjecucion.length = 0;
+    this.crearChecklistDTODocPostEjecucion.length = 0;
   }
 
   openModalModalCrearChecklistComponent(etapaDocumento:EtapaDocumento){
@@ -323,12 +327,36 @@ export class CrearConvocatoriaComponent {
     }); 
   }
 
-  /**
-   * Cambia la página de resultados de acuerdo al número de página especificado.
-   * @param pageNumber El número de página al que se debe cambiar.
-   */
   accion(accion: any): void {
-    console.log(accion);
+    let index;
+    // Si la accion es eliminar
+    if (accion.accion.accion == "eliminar") {
+      switch (accion.data.etapaDocumento) {
+        case "PRE_EJECUCION":
+          // Encuentra el índice del elemento con el documentoId específico
+          index = this.crearChecklistDTODocPreEjecucion.findIndex(item => item.documentoId === accion.data.documentoId);
+          if (index !== -1) {
+            this.crearChecklistDTODocPreEjecucion.splice(index, 1);
+          }
+          break;
+        case "EJECUCION":
+          // Encuentra el índice del elemento con el documentoId específico
+          index = this.crearChecklistDTODocEjecucion.findIndex(item => item.documentoId === accion.data.documentoId);
+          if (index !== -1) {
+            this.crearChecklistDTODocEjecucion.splice(index, 1);
+          }
+          break;
+        case "POST_EJECUCION":
+          // Encuentra el índice del elemento con el documentoId específico
+          index = this.crearChecklistDTODocPostEjecucion.findIndex(item => item.documentoId === accion.data.documentoId);
+          if (index !== -1) {
+            this.crearChecklistDTODocPostEjecucion.splice(index, 1);
+          }
+          break;      
+        default:
+          break;
+      }
+    }
   }
 
   openModalOk(message: string, nuevaUrl: any) {

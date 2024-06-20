@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { IndexComponent } from './index/index.component';
 
-const convocatoriasRoutes: Routes = [
+const proyectosRoutes: Routes = [
   {
     path: '',
     component: IndexComponent,
@@ -25,7 +25,7 @@ const convocatoriasRoutes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(convocatoriasRoutes)],
+  imports: [RouterModule.forChild(proyectosRoutes)],
   exports: [RouterModule],
 })
-export class ConvocatoriasRoutingModule {}
+export class ProyectosRoutingModule {}

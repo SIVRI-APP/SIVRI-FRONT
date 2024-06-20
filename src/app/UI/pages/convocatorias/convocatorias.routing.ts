@@ -9,12 +9,13 @@ const convocatoriasRoutes: Routes = [
     component: IndexComponent,
     children: [
       {
-        path: 'listar',
-        loadComponent: () => import('./listar-convocatorias/listar-convocatorias.component').then((c) => c.ListarConvocatoriasComponent),
+        path: '',
+        redirectTo: 'listar',
+        pathMatch: 'full'
       },
       {
-        path: 'ver',
-        loadComponent: () => import('./ver-convocatoria/ver-convocatoria.component').then((c) => c.VerConvocatoriaComponent),
+        path: 'listar',
+        loadComponent: () => import('./listar-convocatorias/listar-convocatorias.component').then((c) => c.ListarConvocatoriasComponent),
       },
       {
         path: 'crear',
@@ -22,6 +23,7 @@ const convocatoriasRoutes: Routes = [
       },
     ],
   },
+  { path: 'listar/:id', loadChildren: () => import('./ver-convocatoria/ver-convocatoria.module').then(m => m.VerConvocatoriaModule) },
 ];
 
 @NgModule({

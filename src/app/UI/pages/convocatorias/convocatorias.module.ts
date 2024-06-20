@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ConvocatoriasRoutingModule } from './convocatorias-routing';
+import { ConvocatoriasRoutingModule } from './convocatorias.routing';
 
 
 @NgModule({

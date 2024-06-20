@@ -10,7 +10,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 @Injectable({
   providedIn: 'root',
 })
-export class UsuarioSolicitudObtenerService {
+export class ConvocatoriaObtenerService {
 
   // Variable para guardar la informacion de detallada del registro
   private registroInformacionDetallada: Observable<Respuesta<ConvocatoriaInformaciónDetalladaProyección>>;
@@ -20,14 +20,20 @@ export class UsuarioSolicitudObtenerService {
   protected formularioListarConFiltro: FormGroup;
 
   constructor(
-    private convocatoriaAdapter: ConvocatoriaAdapter,
     private formBuilder: FormBuilder,
+    private convocatoriaAdapter: ConvocatoriaAdapter
   ) {
 
     this.registroInformacionDetallada = new Observable;
     this.registroListarConFiltro = new Observable;
-    // Inicialización del formulario reactivo
-    this.formularioListarConFiltro = new FormGroup({});
+    this.formularioListarConFiltro = this.formBuilder.group({
+      pageNo: [0],
+      pageSize: ['10'],
+      id: [''],
+      nombre: [''],
+      estado: [''],
+      tipoFinanciacion: ['']
+    });
   }
 
   listarConFiltro(
@@ -37,7 +43,7 @@ export class UsuarioSolicitudObtenerService {
     nombre?: string,
     estado?: string,
     tipoFinanciacion?: string,
-  ): Observable<Respuesta<Paginacion<ConvocatoriaListarConFiltroProyeccion>>>{
+  ): void{
     this.registroListarConFiltro = this.convocatoriaAdapter.listarConFiltro(
       pageNo,
       pageSize,
@@ -46,17 +52,17 @@ export class UsuarioSolicitudObtenerService {
       estado,
       tipoFinanciacion,
     );
-    return this.registroListarConFiltro;
+    // return this.registroListarConFiltro;
   }
 
   obtenerSolicitudUsuarioInformaciónDetallada(
     convocatoriaId?: string
-  ): Observable<Respuesta<ConvocatoriaInformaciónDetalladaProyección>> {
+  ): void {
     this.registroInformacionDetallada = this.convocatoriaAdapter.obtenerInformaciónDetallada(
       convocatoriaId
     );
 
-    return this.registroInformacionDetallada;
+    // return this.registroInformacionDetallada;
   }
 
   getRegistroListarConFiltro(){
@@ -76,8 +82,15 @@ export class UsuarioSolicitudObtenerService {
   }
 
   limpiarSolicitudUsuarioListarConFilrtro(){
-    this.registroInformacionDetallada = new Observable;
     this.registroListarConFiltro = new Observable;
+    this.formularioListarConFiltro = this.formBuilder.group({
+      pageNo: [0],
+      pageSize: ['10'],
+      id: [''],
+      nombre: [''],
+      estado: [''],
+      tipoFinanciacion: ['']
+    });
   }
 
 }

@@ -1,0 +1,22 @@
+<nav>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item" routerLink="/inicio"><a>Inicio</a></li>
+        <li class="breadcrumb-item" routerLink="/convocatorias/listar"><a>Convocatorias</a></li>
+        <li class="breadcrumb-item" routerLink="/convocatorias/listar/{{id}}"><a>Convocatoria ID:{{id}}</a>
+        </li>
+    </ol>
+</nav>
+
+<h1 class="title">Usuario: {{this.nombre}}</h1>
+
+<div class="nav-container">
+    <ul class="nav nav-underline">
+        <li class="nav-item">
+            <a class="nav-link" routerLink="informacion-general" routerLinkActive="active">Detalles</a>
+        </li>
+    </ul>
+    <div class="guide-line"></div>
+</div>
+
+
+<router-outlet></router-outlet>

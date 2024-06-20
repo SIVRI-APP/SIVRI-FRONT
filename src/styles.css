@@ -332,7 +332,7 @@
 
 .giant-icon {
     padding-top: 30px;
-    font-size: 10em;
+    font-size: 6em;
 }
 
 .file-description {
@@ -387,4 +387,8 @@
 
 .accordion{
     margin-top: 20px;
+}
+
+.row {
+    box-shadow: none !important
 }

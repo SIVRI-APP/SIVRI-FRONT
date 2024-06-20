@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ConvocatoriasRoutingModule } from './proyecto-routing';
+import { ProyectosRoutingModule } from './proyecto.routing';
 
 
 @NgModule({
-  imports: [CommonModule, ConvocatoriasRoutingModule],
+  imports: [CommonModule, ProyectosRoutingModule],
   declarations: [],
 })
 export class ProyectosModule {}
