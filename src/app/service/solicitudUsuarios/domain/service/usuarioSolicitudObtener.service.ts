@@ -5,7 +5,7 @@ import { Paginacion } from '../../../common/model/paginacion';
 import { Respuesta } from '../../../common/model/respuesta';
 import { UsuarioSolicitudInformaciónDetalladaProyección } from '../model/proyecciones/usuarioSolicitudInformaciónDetalladaProyección';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { UsuarioSolicitudAdapter } from '../../infraestructure/UsuarioSolicitud.adapter';
+import { UsuarioSolicitudAdapter } from '../../infraestructure/usuarioSolicitud.adapter';
 
 @Injectable({
   providedIn: 'root',
