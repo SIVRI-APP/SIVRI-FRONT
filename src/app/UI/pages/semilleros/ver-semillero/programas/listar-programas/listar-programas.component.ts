@@ -9,11 +9,12 @@ import { SemilleroProgramasAdapter } from '../../../../../../service/academica/i
 import { DatatableInput } from '../../../../../../service/common/model/datatableInput';
 import { EnumTranslationService } from '../../../../../../service/common/enum-translation.service';
 import { EliminarProgramaComponent } from '../eliminar-programa/eliminar-programa.component';
+import { CrearProgramaComponent } from '../crear-programa/crear-programa.component';
 
 @Component({
   selector: 'app-listar-programas',
   standalone: true,
-  imports: [RouterLink,ReactiveFormsModule],
+  imports: [RouterLink,ReactiveFormsModule, CrearProgramaComponent],
   templateUrl: './listar-programas.component.html',
   styleUrl: './listar-programas.component.css'
 })
