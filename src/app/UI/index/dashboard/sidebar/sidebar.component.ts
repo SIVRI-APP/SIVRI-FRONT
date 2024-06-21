@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { MenuService } from '../../../../service/auth/domain/service/menu.service';
-import { AuthService } from '../../../../service/auth/domain/service/auth.service';
+import { InformacionUsuarioAutenticadoService } from '../../../../service/auth/domain/service/informacionUsuarioAutenticado.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -13,10 +12,9 @@ import { AuthService } from '../../../../service/auth/domain/service/auth.servic
 export class SidebarComponent {
 
   constructor(
-    protected authService:AuthService,
-    protected menuService:MenuService 
+    protected informacionUsuarioAutenticadoService:InformacionUsuarioAutenticadoService
   ){
-    console.log(menuService.retornarRoles())
-    
+    // Aqui Yurani puede acceder a los roles
+    console.log(informacionUsuarioAutenticadoService.retornarRoles());
   }
 }
