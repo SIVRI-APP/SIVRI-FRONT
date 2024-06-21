@@ -21,13 +21,18 @@ export class MenuService {
   construirMenu(){
     //TODO completar el menu
     for (let tipoUsuario of this.authService.token.authorities) {
-
-      if (tipoUsuario.includes('FUNCIONARIO')) {
-        
-      }
-      
+      console.log(tipoUsuario);
     }
-    
   }
+
+  retornarRoles(){
+    return this.authService.token.authorities;
+  }
+
+  retornarNombre(){
+    return this.authService.token.nombreCompleto;
+  }
+
+
 
 }
