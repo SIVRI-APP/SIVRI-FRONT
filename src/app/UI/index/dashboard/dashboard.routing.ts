@@ -20,6 +20,20 @@ const adminRoutes: Routes = [
           ),
       },
       {
+        path: 'grupos',
+        loadChildren: () =>
+          import('../../pages/grupos/grupos.module').then(
+            (c) => c.GruposModule
+          ),
+      },
+      {
+        path: 'semilleros',
+        loadChildren: () =>
+          import('../../pages/semilleros/semilleros.module').then(
+            (c) => c.SemillerosModule
+          ),
+      },
+      {
         path: 'usuarios',
         loadChildren: () =>
           import('../../pages/usuarios/usuarios.module').then(

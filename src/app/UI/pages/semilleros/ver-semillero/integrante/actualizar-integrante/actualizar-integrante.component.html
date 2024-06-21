@@ -1,0 +1,81 @@
+<form [formGroup]="formulario" (ngSubmit)="onsubmit()" method="get">
+  <div class="filter-box">
+    <!--formulario de editar semillero -->
+    <div class=" d-flex justify-content-center">
+      <h5 class="etiqueta-form"><strong>Actualizar Integrante </strong></h5>
+    </div>
+    <div class="row">
+      <div class="col-sm">
+        <label for="numeroDocumento" class="etiqueta-form"><strong>Número Documento</strong></label>
+        <input id="numeroDocumento" name="numeroDocumento" class="form-control" type="number"
+          placeholder="Número Documento" formControlName="numeroDocumento">
+      </div>
+      <div class="col-sm">
+        <label for="nombre" class="etiqueta-form"><strong>Integrante</strong></label>
+        <input id="nombre" name="nombre" class="form-control" type="text" placeholder="Nombre"
+          formControlName="nombre">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm">
+        <label for="rolSemillero" class="etiqueta-form"><strong>Rol Semillero</strong></label>
+        <select id="rolSemillero" name="rolSemillero" class="form-select" formControlName="rolSemilleroId">
+
+          <option value="1">COORDINADOR</option>
+          <option value="2">MENTOR</option>
+          <option value="3">MIEMBRO_ACTIVO_PROFESOR</option>
+          <option value="4">MIEMBRO_ACTIVO_ESTUDIANTE_POSGRADO</option>
+          <option value="5">MIEMBRO_ACTIVO_EGRESADO</option>
+          <option value="6">SEMILLAS</option>
+          <!-- @for (key of rolIntegranteSemillero; track $index) {
+          <option [value]="key.id">{{key.rolSemillero}}</option>
+          }-->
+        </select>
+      </div>
+      <div class="col-sm">
+        <label for="estadoIntegrante" class="etiqueta-form"><strong>Estado</strong></label>
+        <select id="estadoIntegrante" name="estadoIntegrante" class="form-select" formControlName="estadoIntegrante">
+          <option value="" disabled selected hidden>Estado del integrante</option>
+          @for (key of enumTranslationService.getEnumKeys(estadoIntegranteEnum); track $index) {
+          <option [value]="key">{{enumTranslationService.getEnumValueByKey(estadoIntegranteEnum,key)}}</option>
+          }
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm">
+        <label for="fechaIngreso" class="etiqueta-form"><strong>Fecha Ingreso</strong></label>
+        <input id="fechaIngreso" name="fechaIngreso" class="form-control" type="date" placeholder=""
+          formControlName="fechaIngreso">
+      </div>
+      <div class="col-sm">
+        <label for="fechaRetiro" class="etiqueta-form"><strong>Fecha Retiro</strong></label>
+        <input id="fechaRetiro" name="fechaRetiro" class="form-control" type="date" placeholder=""
+          formControlName="fechaRetiro">
+      </div>
+
+    </div>
+    <div class="row">
+      <div class="col controls">
+        <button type="button" class="secondaryBTN">
+          <div class="button-content">
+            <span class="material-symbols-outlined secondaryBTN-icon">
+              cancel
+            </span>
+            <span class="text">Rechazar</span>
+          </div>
+        </button>
+
+        <button type="submit" class="primaryBTN">
+          <div class="button-content">
+            <span class="material-symbols-outlined primaryBTN-icon">
+              check_circle
+            </span>
+            <span class="text">Actualizar</span>
+          </div>
+        </button>
+
+      </div>
+    </div>
+  </div>
+</form>

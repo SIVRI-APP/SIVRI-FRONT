@@ -1,0 +1,63 @@
+<form [formGroup]="formulario" (ngSubmit)="onsubmit()" method="get">
+
+    <div class="filter-box">
+      <div class=" d-flex justify-content-center">
+        <h5 class="etiqueta-form"><strong>Crear plan de trabajo</strong></h5>
+
+      </div>
+      <!--formulario de crear plan-->
+      <div class="row">
+        <div class="col-sm">
+          <label for="nombrePlan" class="etiqueta-form"><strong>Nombre del plan</strong><span
+              class="text-red-500">*</span></label>
+          <input id="nombrePlan" name="nombrePlan" class="form-control" type="text" placeholder="Nombre"
+            formControlName="nombrePlan">
+          <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('nombrePlan')?.valid && this.formulario.get('nombrePlan')?.touched ? 'block' : 'none'">
+            Digita un Nombre valido (1 - 50 caracteres)
+          </div>
+        </div>
+        <div class="col-sm">
+          <label for="anio" class="etiqueta-form"><strong>Año</strong><span class="text-red-500">*</span></label>
+          <input id="anio" name="anio" class="form-control" type="number" placeholder="Año del plan"
+            formControlName="anio" min="1900" max="2100">
+          <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('anio')?.valid && this.formulario.get('anio')?.touched ? 'block' : 'none'">
+            Digita un Año valido (1990 - 2100)
+          </div>
+        </div>
+        <div class="col-sm">
+          <label for="estadoPlan" class="etiqueta-form"><strong>Estado</strong></label>
+          <select id="estado" name="estado" class="form-select" formControlName="estado">
+            <option value="FORMULADO">Formulado</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <div class="row">
+          <div class="col controls">
+
+
+            <button type="button" class="secondaryBTN" (click)="limpiarCampos()">
+              <div class="button-content">
+                <span class="material-symbols-outlined secondaryBTN-icon">
+                  filter_alt
+                </span>
+                <span class="text">Limpiar</span>
+              </div>
+            </button>
+            <button type="submit" class="primaryBTN" >
+              <div class="button-content">
+                <span class="material-symbols-outlined primaryBTN-icon">
+                  check_circle
+                </span>
+                <span class="text">Crear</span>
+              </div>
+            </button>
+          </div>
+        </div>
+        <!--app-crear-actividad/-->
+      </div>
+
+
+    </div>
+</form>

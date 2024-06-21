@@ -1,0 +1,31 @@
+<div class="row">
+  <div class="filter-box">
+    <div class="modal-header d-flex justify-content-center">
+      <h5 class="etiqueta-form"><strong>Eliminar Linea Investigación</strong></h5>
+      <button class="btn-close" type="button" (click)="activeModal.close('navegar')"></button>
+
+    </div>
+    <div class="modal-body d-flex flex-column justify-content-center align-items-start">
+      <!--formulario de crear plan-->
+
+      <div class="row">
+        <div class="col-sm">
+          <label for="nombrePlan" class="etiqueta-form"><strong>Seguro que desea eliminar la linea de investigacion con
+              ID {{idLinea}} del semilero?</strong><span class="text-red-500">*</span></label>
+        </div>
+      </div>
+
+    </div>
+    <div class="modal-footer d-flex justify-content-center align-items-center">
+
+      <button type="submit" class="primaryBTN" (click)="onsubmit()">
+        <div class="button-content">
+          <span class="material-symbols-outlined primaryBTN-icon">
+            check_circle
+          </span>
+          <span class="text">Ok</span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
