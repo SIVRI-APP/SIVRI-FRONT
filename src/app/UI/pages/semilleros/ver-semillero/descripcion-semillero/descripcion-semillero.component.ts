@@ -11,7 +11,6 @@ import { SemilleroObtenerService } from '../../../../../service/semilleros/domai
 import { GrupoObtenerService } from '../../../../../service/grupos/domain/service/grupo-obtener.service';
 import { GrupoProyeccion } from '../../../../../service/grupos/domain/model/proyecciones/grupoProyeccion';
 import { ListarProgramas } from '../../../../../service/academica/domain/model/proyecciones/listarProgramas';
-import { SemilleroProgramaObtenerService } from '../../../../../service/academica/domain/service/semillero-programa-obtener.service';
 import { Paginacion } from '../../../../../service/common/model/paginacion';
 import { LineaInvestigacionObtenerService } from '../../../../../service/semilleros/domain/service/linea-investigacion-obtener.service';
 import { GrupoDisciplinaObtenerService } from '../../../../../service/grupos/domain/service/grupo-disciplina-obtener.service';
@@ -21,6 +20,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ErrorData } from '../../../../../service/common/model/errorData';
 import { ModalOkComponent } from '../../../../shared/modal-ok/modal-ok.component';
 import { ModalBadComponent } from '../../../../shared/modal-bad/modal-bad.component';
+import { SemilleroProgramaObtenerService } from '../../../../../service/semilleros/domain/service/semillero-programa-obtener.service';
 
 @Component({
   selector: 'app-descripcion-semillero',

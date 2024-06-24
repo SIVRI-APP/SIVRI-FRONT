@@ -1,1 +1,45 @@
-<p>crear-programa works!</p>
+<form [formGroup]="formulario" (ngSubmit)="onsubmit()" method="get">
+  <div class="filter-box">
+    <div class=" d-flex justify-content-center">
+      <h5 class="etiqueta-form"><strong>Asociar programa</strong></h5>
+
+    </div>
+    <!--formulario de asociar linea-->
+    <div class="row">
+      <div class="col-sm">
+        <label for="programa" class="etiqueta-form"><strong>Nombre del Programa</strong><span
+            class="text-red-500">*</span></label>
+          <select id="programa" name="programa" class="form-select" formControlName="programa">
+            <option value="" disabled selected hidden>Programas</option>
+            @for (key of programasxdepartamento; track $index) {
+            <option [value]="key.id">{{key.nombre}}</option>
+            }
+          </select>
+          <div id="badFeedback" class="invalid-feedback"
+            [style.display]="!this.formulario.get('programa')?.valid && this.formulario.get('programa')?.touched ? 'block' : 'none'">
+            Selecciona un programa
+          </div>
+      </div>
+
+      <div class="col controls">
+        <button type="button" class="secondaryBTN" (click)="limpiarCampos()">
+          <div class="button-content">
+            <span class="material-symbols-outlined secondaryBTN-icon">
+              filter_alt
+            </span>
+            <span class="text">Limpiar</span>
+          </div>
+        </button>
+        <button type="submit" class="primaryBTN">
+          <div class="button-content">
+            <span class="material-symbols-outlined primaryBTN-icon">
+              check_circle
+            </span>
+            <span class="text">Asociar</span>
+          </div>
+        </button>
+      </div>
+    </div>
+
+  </div>
+</form>

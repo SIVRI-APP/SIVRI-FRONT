@@ -10,7 +10,7 @@ import { InformacionUsuarioAutenticadoService } from '../../../../service/auth/d
   styleUrl: './sidebar.component.css'
 })
 export class SidebarComponent {
-
+  roles:string[]=[]
   constructor(
     protected informacionUsuarioAutenticadoService:InformacionUsuarioAutenticadoService
   ){
