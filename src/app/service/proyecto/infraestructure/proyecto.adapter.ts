@@ -8,6 +8,7 @@ import { ProyectoListarConFiltroProyeccion } from '../domain/model/proyecciones/
 import { ProyectoInformaciónDetalladaProyección } from '../domain/model/proyecciones/proyectoInformaciónDetalladaProyección';
 import { CrearProyectoDTO } from '../domain/model/DTO/crearProyectoDTO';
 
+
 @Injectable({
   providedIn: 'root',
 })

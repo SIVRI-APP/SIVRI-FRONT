@@ -25,6 +25,7 @@ export class ListarSolicitudUsuariosComponent implements OnInit{
   protected tipoDocumentoEnum = TipoDocumento;
   protected tipoUsuarioEnum = TipoUsuario;
   protected estadoSolicitudUsuarioEnum = EstadoSolicitudUsuario;
+  
   // Formulario reactivo
   protected formulario: FormGroup;
   // Respuesta del Back

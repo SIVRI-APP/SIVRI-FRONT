@@ -1,12 +1,12 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CrearProyectoDTO } from '../../../../../service/proyecto/domain/model/DTO/crearProyectoDTO';
 import { Router } from '@angular/router';
 import { ProyectoCrearService } from '../../../../../service/proyecto/domain/service/proyectoCrear.service';
 import { EnumTranslationService } from '../../../../../service/common/enum-translation.service';
 import { ProyectoObtenerService } from '../../../../../service/proyecto/domain/service/proyectoObtener.service';
 import { ProyectoInformaciónDetalladaProyección } from '../../../../../service/proyecto/domain/model/proyecciones/proyectoInformaciónDetalladaProyección';
+import { FormalizarProyectoDTO } from '../../../../../service/proyecto/domain/model/DTO/formalizarProyectoDTO';
 
 @Component({
   selector: 'app-proyecto-informacion-general',
@@ -25,7 +25,7 @@ export class ProyectoInformacionGeneralComponent implements OnInit{
   protected formulario: FormGroup;
 
   // Cuerpo para enviar en la solicitud de Creación
-  private crearProyectoDTO: CrearProyectoDTO;
+  private formalizarProyectoDTO: FormalizarProyectoDTO;
 
   constructor(
     private router: Router,
@@ -34,7 +34,7 @@ export class ProyectoInformacionGeneralComponent implements OnInit{
     private proyectoObtenerService: ProyectoObtenerService,
     protected enumTranslationService: EnumTranslationService
   ) {
-    this.crearProyectoDTO = new CrearProyectoDTO();
+    this.formalizarProyectoDTO = new FormalizarProyectoDTO();
 
     this.formulario = this.formBuilder.group({
       nombre: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(256)]],

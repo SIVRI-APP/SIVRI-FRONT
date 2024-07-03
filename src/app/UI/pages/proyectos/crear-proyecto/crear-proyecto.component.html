@@ -4,116 +4,144 @@
 
         <!-- Formulario de Creacion -->
         <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-4">
                 <label for="nombre" class="etiqueta-form"><strong>Nombre</strong></label>
-                <textarea id="nombre" name="nombre" class="form-control" type="text" placeholder="Nombre" formControlName="nombre"></textarea>
-                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('nombre')?.valid && this.formulario.get('nombre')?.touched ? 'block' : 'none'"> 
+                <textarea id="nombre" name="nombre" class="form-control" type="text" placeholder="Nombre"
+                    formControlName="nombre"></textarea>
+                <div id="badFeedback" class="invalid-feedback"
+                    [style.display]="!this.formulario.get('nombre')?.valid && this.formulario.get('nombre')?.touched ? 'block' : 'none'">
                     Digita una Nombre valido (5 - 256 caracteres)
                 </div>
             </div>
-
-            <div class="col-sm-3">
-                <label for="fechaInicio" class="etiqueta-form"><strong>Fecha Inicio</strong></label>
-                <input id="fechaInicio" name="fechaInicio" class="form-control" type="date" placeholder="Fecha Inicio" formControlName="fechaInicio">
-                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('fechaInicio')?.valid && this.formulario.get('fechaInicio')?.touched ? 'block' : 'none'"> 
-                    Digite una Fecha de Inicio valida
-                </div>
-            </div>
-
-            <div class="col-sm-3">
-                <label for="fechaFin" class="etiqueta-form"><strong>Fecha Fin</strong></label>
-                <input id="fechaFin" name="fechaFin" class="form-control" type="date" placeholder="Fecha Fin" formControlName="fechaFin">
-                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('fechaFin')?.valid && this.formulario.get('fechaFin')?.touched ? 'block' : 'none'"> 
-                    Digite una Fecha de Fin valida
-                </div>
-            </div>                
         </div>
 
         <div class="row">
-            <div class="col-sm-6">
-                <label for="planteamiento" class="etiqueta-form"><strong>Planteamiento</strong></label>
-                <textarea id="planteamiento" name="planteamiento" class="form-control" type="text" placeholder="Planteamiento" formControlName="planteamiento"></textarea>
-                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('planteamiento')?.valid && this.formulario.get('planteamiento')?.touched ? 'block' : 'none'"> 
-                    Digita una Planteamiento valido (5 - 256 caracteres)
-                </div>
+            <div class="col-sm-4">
+
+                <div class="row">
+                    <div class="col-sm">
+                        <label for="organismo" class="etiqueta-form"><strong>Vincular Proyecto</strong></label>
+                        <select id="organismo" name="organismo" class="form-select" formControlName="organismo"
+                            (change)="visualizarFiltroBusquedaOrganismo($event)">
+                            <option value="" disabled selected hidden>Vincular a un Grupo/Semillero</option>
+                            @for (key of enumTranslationService.getEnumKeys(organismoDeInvestigacionEnum); track $index) {
+                            <option [value]="key">{{enumTranslationService.getEnumValueByKey(organismoDeInvestigacionEnum,
+                                key)}}</option>
+                            }
+                        </select>
+                    </div>
+                </div>  
+                
+                @if (this.mostrarIntegrantes) {    
+                <div class="row">
+                    <div class="col-sm">
+                        <label for="organismoSeleccionado" class="etiqueta-form"><strong>Organismo Seleccionado</strong></label>
+                        <input id="organismoSeleccionado" class="form-control" type="text" [value]="this.integrantesOrganismo?.nombre" [disabled]="true">
+
+                    </div>                    
+                </div> 
+
+                <div class="row">
+                    <div class="col-sm">
+                        <label for="directorDeProyectoId" class="etiqueta-form"><strong>Director de Proyecto</strong></label>
+                        <select id="directorDeProyectoId" name="directorDeProyectoId" class="form-select" formControlName="directorDeProyectoId">
+                            <option value="" disabled selected hidden>Seleccionar Director</option>
+                            @for (usuario of this.integrantesOrganismo?.integrantes; track $index) {
+                            <option [value]="usuario.usuario.id">{{usuario.usuario.nombre}} {{usuario.usuario.apellido}}</option>
+                            }
+                        </select>
+                        <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('directorDeProyectoId')?.valid && this.formulario.get('directorDeProyectoId')?.touched ? 'block' : 'none'"> 
+                            Debe haber un Director de Proyecto seleccionado
+                        </div>
+                    </div>
+                </div>  
+                } 
+
             </div>
-            <div class="col-sm-6">
-                <label for="objetivoGeneral" class="etiqueta-form"><strong>Objetivo General</strong></label>
-                <textarea id="objetivoGeneral" name="objetivoGeneral" class="form-control" type="text" placeholder="Objetivo General" formControlName="objetivoGeneral"></textarea>
-                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('objetivoGeneral')?.valid && this.formulario.get('objetivoGeneral')?.touched ? 'block' : 'none'"> 
-                    Digita una Objetivo General valido (5 - 256 caracteres)
-                </div>
+
+            <div class="col-sm">
+                @if (visualizarOrganismos) {
+                <!-- Mostrar datatable con los organismos para filtrar -->
+
+                <form [formGroup]="formularioBuscarOrganismos" (ngSubmit)="buscarOrganismos()" method="get">
+                    <div class="">
+
+                        <div class="row">
+                            <!-- <div class="form-guide-line"></div> -->
+                            <div class="col-sm-3">
+                                <label for="tipoOrganismo" class="etiqueta-form"><strong>Tipo de
+                                        Organismo</strong></label>
+                                <select id="tipoOrganismo" name="tipoOrganismo" class="form-select"
+                                    formControlName="tipoOrganismo">
+                                    <option value="" disabled selected hidden>Vincular a un Grupo/Semillero</option>
+                                    @for (key of enumTranslationService.getEnumKeys(organismoDeInvestigacionEnum); track
+                                    $index) {
+                                    <option [value]="key">
+                                        {{enumTranslationService.getEnumValueByKey(organismoDeInvestigacionEnum, key)}}
+                                    </option>
+                                    }
+                                </select>
+                            </div>
+
+                            <div class="col-sm-2">
+                                <label for="organismoId" class="etiqueta-form"><strong>ID</strong></label>
+                                <input id="organismoId" name="organismoId" class="form-control" type="text"
+                                    placeholder="ID" formControlName="organismoId">
+                            </div>
+
+                            <div class="col-sm-3">
+                                <label for="nombreOrganismo" class="etiqueta-form"><strong>Nombre</strong></label>
+                                <input id="nombreOrganismo" name="nombreOrganismo" class="form-control" type="text"
+                                    placeholder="Nombre" formControlName="nombreOrganismo">
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col controls">
+                                <label class="form-label listar">Ver
+                                    <select class="form-select form-select-sm"
+                                        formControlName="buscarOrganismosPageSize">
+                                        <option value="10" selected>10</option>
+                                        <option value="25">25</option>
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
+                                    </select>
+                                </label>
+
+                                <button type="button" class="secondaryBTN" (click)="limpiarFiltroBusquedaOrganismo()">
+                                    <div class="button-content">
+                                        <span class="material-symbols-outlined secondaryBTN-icon">
+                                            filter_alt
+                                        </span>
+                                        <span class="text">Limpiar</span>
+                                    </div>
+                                </button>
+
+                                <button type="submit" class="primaryBTN">
+                                    <div class="button-content">
+                                        <span class="material-symbols-outlined primaryBTN-icon">
+                                            search
+                                        </span>
+                                        <span class="text">Buscar</span>
+                                    </div>
+                                </button>
+
+                            </div>
+                        </div>
+
+                        <div class="form-guide-line"></div>
+                    </div>
+
+                    <!-- Tabla Paginada  -->
+                    <app-datatable-custom [datatableInputs]="datatableInputs"
+                        (accionEmitter)="accion($event)"></app-datatable-custom>
+                </form>
+                }
             </div>
+
         </div>
 
-        <div class="row">
-            <div class="col-sm-6">
-                <label for="objetivosEspecificos" class="etiqueta-form"><strong>Objetivos Especificos</strong></label>
-                <textarea id="objetivosEspecificos" name="objetivosEspecificos" class="form-control" type="text" placeholder="Objetivos Especificos" formControlName="objetivosEspecificos"></textarea>
-                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('objetivosEspecificos')?.valid && this.formulario.get('objetivosEspecificos')?.touched ? 'block' : 'none'"> 
-                    Digita Objetivos Especificos validos (5 - 256 caracteres)
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <label for="justificacion" class="etiqueta-form"><strong>Justificación</strong></label>
-                <textarea id="justificacion" name="justificacion" class="form-control" type="text" placeholder="Justificación" formControlName="justificacion"></textarea>
-                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('justificacion')?.valid && this.formulario.get('justificacion')?.touched ? 'block' : 'none'"> 
-                    Digita una Justificación valida (5 - 256 caracteres)
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-sm-6">
-                <label for="enfoqueMetodologico" class="etiqueta-form"><strong>Enfoque Metodologico</strong></label>
-                <textarea id="enfoqueMetodologico" name="enfoqueMetodologico" class="form-control" type="text" placeholder="Enfoque Metodologico" formControlName="enfoqueMetodologico"></textarea>
-                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('enfoqueMetodologico')?.valid && this.formulario.get('enfoqueMetodologico')?.touched ? 'block' : 'none'"> 
-                    Digita un Enfoque Metodologico valido (5 - 256 caracteres)
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <label for="aspectosEticosLegales" class="etiqueta-form"><strong>Aspectos Eticos Legales</strong></label>
-                <textarea id="aspectosEticosLegales" name="aspectosEticosLegales" class="form-control" type="text" placeholder="Aspectos Eticos Legales" formControlName="aspectosEticosLegales"></textarea>
-                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('aspectosEticosLegales')?.valid && this.formulario.get('aspectosEticosLegales')?.touched ? 'block' : 'none'"> 
-                    Digita un Enfoque Metodologico valido (5 - 256 caracteres)
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-sm-6">
-                <label for="confidencialidadDeInformacion" class="etiqueta-form"><strong>Confidencialidad De Información</strong></label>
-                <textarea id="confidencialidadDeInformacion" name="confidencialidadDeInformacion" class="form-control" type="text" placeholder="Confidencialidad De Información" formControlName="confidencialidadDeInformacion"></textarea>
-                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('confidencialidadDeInformacion')?.valid && this.formulario.get('confidencialidadDeInformacion')?.touched ? 'block' : 'none'"> 
-                    Digita Confidencialidad De Informacion valido (5 - 256 caracteres)
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <label for="efectosAdversos" class="etiqueta-form"><strong>Efectos Adversos</strong></label>
-                <textarea id="efectosAdversos" name="efectosAdversos" class="form-control" type="text" placeholder="Efectos Adversos" formControlName="efectosAdversos"></textarea>
-                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('efectosAdversos')?.valid && this.formulario.get('efectosAdversos')?.touched ? 'block' : 'none'"> 
-                    Digita Efectos Adversos validos (5 - 256 caracteres)
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-sm-6">
-                <label for="impactosResultadosEsperados" class="etiqueta-form"><strong>Impactos-Resultados Esperados</strong></label>
-                <textarea id="impactosResultadosEsperados" name="impactosResultadosEsperados" class="form-control" type="text" placeholder="Impactos-Resultados Esperados" formControlName="impactosResultadosEsperados"></textarea>
-                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('impactosResultadosEsperados')?.valid && this.formulario.get('impactosResultadosEsperados')?.touched ? 'block' : 'none'"> 
-                    Digita Impactos-Resultados Esperados validos (5 - 256 caracteres)
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <label for="consideraciones" class="etiqueta-form"><strong>Consideraciones</strong></label>
-                <textarea id="consideraciones" name="consideraciones" class="form-control" type="text" placeholder="Consideraciones" formControlName="consideraciones"></textarea>
-                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('consideraciones')?.valid && this.formulario.get('consideraciones')?.touched ? 'block' : 'none'"> 
-                    Digita Consideraciones validos (5 - 256 caracteres)
-                </div>
-            </div>
-        </div>
-        
 
 
         <div class="row">
@@ -132,7 +160,7 @@
                         <span class="material-symbols-outlined primaryBTN-icon">
                             add_circle
                         </span>
-                        <span class="text">Crear</span>
+                        <span class="text">Crear Proyecto</span>
                     </div>
                 </button>
             </div>
