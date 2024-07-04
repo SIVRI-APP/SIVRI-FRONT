@@ -1,42 +1,75 @@
 <nav>
   <ol class="breadcrumb">
-      <li class="breadcrumb-item" routerLink="/inicio"><a>Inicio</a></li>
-      <li class="breadcrumb-item" routerLink="/semilleros"><a>Semilleros</a></li>
-      <li class="breadcrumb-item" routerLink="/semilleros/listar-semilleros"><a>Listar Semilleros</a></li>
-      <li class="breadcrumb-item" routerLink="/semilleros/listar-semilleros/{{id}}"><a>Semillero ID:{{id}}</a>
-      </li>
+    <li class="breadcrumb-item" routerLink="/inicio"><a>Inicio</a></li>
+    <li class="breadcrumb-item" routerLink="/semilleros"><a>Semilleros</a></li>
+    <li class="breadcrumb-item" routerLink="/semilleros/listar-semilleros"><a>Listar Semilleros</a></li>
+    <li class="breadcrumb-item" routerLink="/semilleros/listar-semilleros/{{id}}"><a>Semillero ID:{{id}}</a>
+    </li>
   </ol>
 </nav>
 <h1 class="title">{{nombre}}</h1>
 
 <div class="nav-container">
-  <ul class="nav nav-underline">
-    <li class="nav-item">
-      <a class="nav-link" routerLink="descripcion" routerLinkActive="active">Descripción</a>
-    </li>
-    <li class="nav-item">
+  @if (showAlert) {
+  <div class=" alerta-warning ">
+    <table>
+      <tr>
+        <td rowspan="2">
+          <span class="material-symbols-outlined">
+          warning
+        </span></td>
+        <td>
+          <span class="alert-title">{{titleMessaje}}</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <span>{{messaje}}</span>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+}
+<ul class="nav nav-underline">
+  <li class="nav-item">
+    <a class="nav-link" routerLink="descripcion" routerLinkActive="active">Descripción</a>
+  </li>
+  <!--******** plan modificado-->
+  <li class="nav-item dropdown" routerLinkActive="active"> <!-- Agregamos la clase dropdown para el submenú -->
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+      aria-expanded="false">
+      Plan
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+      <li><a class="dropdown-item" routerLink="listar-plan" routerLinkActive="active">Listar</a></li>
+      <li><a class="dropdown-item" routerLink="editar-plan" routerLinkActive="active">Editar</a></li>
+    </ul>
+  </li>
+
+  <!--******** plan modificado-->
+  <!--li class="nav-item">
       <a class="nav-link" routerLink="listar-plan" routerLinkActive="active">Plan</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" routerLink="listar-integrantes" routerLinkActive="active">Integrantes</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" routerLink="Listar-lineas" routerLinkActive="active">Lineas</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" routerLink="listar-programas" routerLinkActive="active">Programas</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" routerLink="" routerLinkActive="active">Documentos</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" routerLink="" routerLinkActive="active">Observación</a>
-    </li>
-  </ul>
-  <div class="guide-line"></div>
+    </!--li-->
+  <li class="nav-item">
+    <a class="nav-link" routerLink="listar-integrantes" routerLinkActive="active">Integrantes</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" routerLink="listar-lineas" routerLinkActive="active">Lineas</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" routerLink="listar-programas" routerLinkActive="active">Programas</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" routerLink="listar-documentos" routerLinkActive="active">Documentos</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" routerLink="listar-observaciones" routerLinkActive="active">Observación</a>
+  </li>
+</ul>
+<div class="guide-line"></div>
 
 </div>
 
 
 <router-outlet></router-outlet>
-

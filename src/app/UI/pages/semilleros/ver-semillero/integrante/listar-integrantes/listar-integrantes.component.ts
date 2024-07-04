@@ -80,7 +80,7 @@ export class ListarIntegrantesComponent implements OnInit, OnDestroy {
       },
     });
     this.listarIntegrantes();
-    console.log('es el on init**********')
+
     this.suscribirseALasActualizaciones();
   }
 
@@ -122,11 +122,11 @@ export class ListarIntegrantesComponent implements OnInit, OnDestroy {
       });
   }
   suscribirseALasActualizaciones() {
-    console.log('ingresa a la suscripcion**********')
+
     // Suscribirse a las notificaciones de actualización para cada tipo
     this.suscripciones.push(
       this.actualizarListarService.actualizarListar$.subscribe((tipo: string) => {
-        console.log('tipo********** ' + tipo);
+
         if (tipo == 'agregar') {
           console.log('ingresa al agregar integrante de actualizar lista')
           this.mostrarFormularioCrear = false;
@@ -139,7 +139,7 @@ export class ListarIntegrantesComponent implements OnInit, OnDestroy {
         this.listarIntegrantes();
       })
     );
-    console.log('sale de suscripcion***********')
+
   }
   toggleFormulario() {
     this.mostrarFormularioCrear = !this.mostrarFormularioCrear;

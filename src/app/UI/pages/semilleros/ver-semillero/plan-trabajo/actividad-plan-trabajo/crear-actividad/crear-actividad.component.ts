@@ -42,7 +42,7 @@ export class CrearActividadComponent implements OnInit {
         //console.log(respuesta);
         this.semillero=respuesta;
         this.idGrupo= this.semillero.data.grupoId;
-        this.integrantesGrupoObtenerService.obtenerMentores(this.idGrupo).subscribe({
+        this.integrantesGrupoObtenerService.obtenerMentoresxgrupo(this.idGrupo).subscribe({
           next:(respuesta)=>{
            // console.log('respuesta de integrantes-----------');
             //console.log(respuesta);

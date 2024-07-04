@@ -34,7 +34,7 @@ export class SemilleroProgramasAdapter {
     let params = new HttpParams()
     .set('idSemillero', idSemillero)
     .set('programaId', programaId);
-    return this.http.post<Respuesta<boolean>>(this.apiUrl + 'crearProgramaSemillero', { params: params });
+    return this.http.post<Respuesta<boolean>>(this.apiUrl + `crearProgramaSemillero?programaId=${programaId}&idSemillero=${idSemillero}`,{params:params});
   }
 
   eliminarProgramaSemillero(

@@ -80,7 +80,7 @@ export class CrearIntegranteComponent implements OnInit {
     // Verificar si el formulario es válido
     if (this.formularioCrear.valid) {
       //TODO este id lo debo sacar de la consulta del integrante
-      const usuarioId = 8;
+      const usuarioId = 2;
       //this.formularioCrear.get('usuarioId')?.setValue(usuarioId);
       //this.formularioCrear.get('idSemillero')?.setValue(this.idSemillero);
       this.integranteSemilleroCrearService.crearIntegranteSemillero({

@@ -4,29 +4,24 @@
     <!--filtro de busqueda por id semillero, nombre semillero y estado-->
     <div class="row">
       <div class="col-sm">
-        <label for="anio" class="etiqueta-form"><strong>Año de ejecución</strong><span
-            class="text-red-500">*</span></label>
+        <label for="anio" class="etiqueta-form"><strong>Año de ejecución</strong></label>
         <input id="anio" name="anio" class="form-control" type="number" placeholder="Año del plan"
           formControlName="anio" min="1900" max="2100">
-        <div id="badFeedback" class="invalid-feedback"
-          [style.display]="!this.formulario.get('anio')?.valid && this.formulario.get('anio')?.touched ? 'block' : 'none'">
-          Digita un año valido
-        </div>
-      </div>
-
-      <div class="col-sm">
-        <label for="fechaInicio" class="etiqueta-form"><strong>Fecha de inicio</strong></label>
-        <input id="fechaInicio" name="fechaInicio" class="form-control" type="date" placeholder=""
-          formControlName="fechaInicio">
-      </div>
-
-      <div class="col-sm">
-        <label for="fechaFin" class="etiqueta-form"><strong>Fecha de fin</strong></label>
-        <input id="fechaFin" name="fechaFin" class="form-control" type="date" placeholder="" formControlName="fechaFin">
-      </div>
-      <div class="col-sm">
 
       </div>
+      <div class="col-sm">
+        <label for="estado" class="etiqueta-form"><strong>Estado</strong></label>
+        <select id="estado" name="estado" class="form-select" formControlName="estado">
+          <option value="" disabled hidden>Estado del plan</option>
+          @for (key of enumTranslationService.getEnumKeys(estadoPlanEnum); track $index) {
+          <option [value]="key">{{enumTranslationService.getEnumValueByKey(estadoPlanEnum,key)}}</option>
+          }
+        </select>
+
+      </div>
+      <div class="col-sm"></div>
+      <div class="col-sm"></div>
+
     </div>
     <div class="row">
       <div class="col controls">
@@ -68,124 +63,52 @@
     <div class="form-guide-line"></div>
   </div>
 
-  <!-- Tabla Paginada  -->
-  <!--app-datatable [datatableInputs]="datatableInputs" (changePageEmitter)="changePage($event)"
-  (movePageEmitter)="movePage($event)"></!--app-datatable-->
-  @if (mostrarCreaPlan== false) {
-    @if (datatableInputs.searchPerformed == true ) {
-    @if (datatableInputs.paginacion.content.length > 0) {
+  <!--acordeon del los planes -->
+  @if(mostrarCreaPlan==false){
+  @if (searchPerformed == true) {
+    @if (respuesta.status == 200) {
+      @if (respuesta.data.content.length > 0) {
+        <div class="accordion" id="accordionPlanes">
+          @for (item of respuesta.data.content; track $index) {
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                      [attr.data-bs-target]="'#'+item.id" aria-expanded="false" [attr.aria-controls]="item.id">
+                      {{item.id}}  {{item.nombrePlan}} {{item.anio}}   -      {{item.estado}}
+                  </button>
+              </h2>
+              <div [id]="item.id" class="accordion-collapse collapse" data-bs-parent="#accordionPlanes">
+                  <div class="accordion-body">
+                    <app-listar-actividades [idPlan]="item.id"></app-listar-actividades>
+                  </div>
+              </div>
 
-    <div class="card shadow datatable">
+            </div>
 
-      <div class="card-body">
-
-        <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
-          <table class="table my-0 table-striped" id="dataTable">
-
-            <thead>
-              <tr>
-                <th colspan="7">
-                  {{datosPlan.data.nombrePlan}} {{datosPlan.data.anio}} {{datosPlan.data.estado}}
-                </th>
-              </tr>
-              <tr>
-                @for (tableHeader of datatableInputs.tableHeaders; track $index) {
-                <th>{{tableHeader}}</th>
-                }
-                <th>Acciones</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              @for (data of datatableInputs.paginacion.content; track data[datatableInputs.dataAttributes[0].name]) {
-              <tr>
-                @for (attribute of datatableInputs.dataAttributes; track $index) {
-                @if (enumTranslationService.isEnumType(attribute.type)) {
-                <td>{{enumTranslationService.getEnumValueByKey(attribute.type, data[attribute.name])}}</td>
-                }@else {
-                <td>{{data[attribute.name]}}</td>
-                }
-                }
-                <td><a [routerLink]="[data[datatableInputs.dataAttributes[0].name]]"><span
-                      class="material-symbols-outlined dataTableActionBtn">visibility</span></a>
-                  <a><span class="material-symbols-outlined dataTableActionBtn">download</span></a>
-                  <a href=""><span class="material-symbols-outlined dataTableActionBtn">upload</span></a>
-                </td>
-              </tr>
-              }
-            </tbody>
-
-          </table>
+          }
         </div>
-
-        <div class="row">
-          <div class="col-md-6 align-self-center">
-            <p id="dataTable_info" class="dataTables_info" role="status" aria-live="polite">
-              {{calcularTextoVisualizacion()}}</p>
-          </div>
-          <div class="col-md-6">
-            <nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
-              <ul class="pagination">
-
-                <!-- Atras -->
-                @if (datatableInputs.paginacion.first) {
-                <li class="page-item disabled"><a class="page-link" aria-label="Previous"
-                                          (click)="movePageTable('atras')"><span aria-hidden="true">«</span></a></li>
-                }@else {
-                <li class="page-item"><a class="page-link" aria-label="Previous"
-                                          (click)="movePageTable('atras')"><span aria-hidden="true">«</span></a></li>
-                }
-
-                <!-- Paginas -->
-
-                @for (pageNumber of getPageNumbers(); track $index) {
-                <li class="page-item pagina" [class.active]="pageNumber === datatableInputs.paginacion.number + 1"><a
-                    class="page-link" (click)="changePage(pageNumber)">{{ pageNumber }}</a></li>
-                }
-
-                <!-- Adelante -->
-                @if (datatableInputs.paginacion.last) {
-                <li class="page-item disabled"><a class="page-link" aria-label="Next"
-                                          (click)="movePageTable('adelante')"><span aria-hidden="true">»</span></a></li>
-                }@else {
-                <li class="page-item"><a class="page-link" aria-label="Next"
-                                          (click)="movePageTable('adelante')"><span aria-hidden="true">»</span></a></li>
-                }
-
-              </ul>
-            </nav>
-          </div>
-        </div>
-      </div>
-    </div>
-    }@else {
-    <div class="icon-container">
-
-      <button type="button" class="secondaryBTN" (click)="toggleFormulario()">
-        <div class="button-content">
-          <span class="material-symbols-outlined primaryBTN-icon">
-            add
+      }@else {
+        <!--no hay registros-->
+        <div class="icon-container">
+          <span class="material-symbols-outlined giant-icon">
+            scan_delete
           </span>
-          <span class="text">Plan</span>
+          <p class="file-description">No hay Plan de trabajo disponibles asociados a esta busqueda.</p>
         </div>
-      </button>
-      <span class="material-symbols-outlined giant-icon">
-        scan_delete
-      </span>
-      <p class="file-description">No hay {{datatableInputs.domain}} disponibles asociados a esta busqueda.</p>
-    </div>
-    }
+      }
+
     }@else {
+    <p>No se puedieron cargar los planes de trabajo del semillero</p>
+    }
+  }@else {
     <div class="icon-container">
       <span class="material-symbols-outlined giant-icon">
         description
       </span>
-      <p class="file-description">Visualiza registros de {{datatableInputs.domain}} llenando los campos del formulario.
-      </p>
+      <p class="file-description">Visualiza registros de Plan de trabajo llenando los campos del formulario.</p>
     </div>
-    }
   }
-
+  }
 </form>
 @if (mostrarCreaPlan) {
 <div>

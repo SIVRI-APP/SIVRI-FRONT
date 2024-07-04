@@ -67,10 +67,12 @@ export class CrearProgramaComponent implements OnInit {
         error: (errorData) => {
           // Verificar si el error es del tipo esperado
           if (errorData.error && errorData.error.data) {
+            console.error(errorData);
             let respuesta: Respuesta<ErrorData> = errorData.error;
             this.openModalBad(respuesta.data);
           } else {
             // Manejar errores inesperados
+            console.error(errorData);
             this.openModalBad(new ErrorData({ error: "Error inseperado, contactar a soporte" }));
           }
         }

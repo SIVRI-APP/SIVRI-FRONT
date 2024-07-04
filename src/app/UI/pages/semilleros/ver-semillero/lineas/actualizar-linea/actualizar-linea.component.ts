@@ -89,7 +89,7 @@ export class ActualizarLineaComponent implements OnInit {
       if (result === 'navegar') {
         console.log('id semillero para la navegacion-------'+this.idSemillero);
         // Redirige a la ruta del componente ListarLineasComponent
-      this.router.navigate([`semilleros/listar-semilleros/${this.idSemillero}/Listar-lineas`]);
+      this.router.navigate([`semilleros/listar-semilleros/${this.idSemillero}/listar-lineas`]);
 
       }
 

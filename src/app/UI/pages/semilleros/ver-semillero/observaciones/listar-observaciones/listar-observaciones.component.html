@@ -1,0 +1,25 @@
+<form [formGroup]="formulario"  method="get">
+  <div class="filter-box">
+
+    <!--filtro de busqueda por id semillero, nombre semillero y estado-->
+
+    <div class="row">
+      <div class="col controls">
+        <label class="form-label listar">Mostrar
+          <select class="form-select form-select-sm" formControlName="pageSize" (change)="onPageSizeChange()">
+            @for (pag of paginas; track $index) {
+            <option [value]="pag">{{pag}}</option>
+            }
+          </select>
+        </label>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Tabla Paginada  -->
+  <app-datatable [datatableInputs]="datatableInputs" (changePageEmitter)="changePage($event)"
+  (movePageEmitter)="movePage($event)"></app-datatable>
+  <div class="form-guide-line"></div>
+</form>

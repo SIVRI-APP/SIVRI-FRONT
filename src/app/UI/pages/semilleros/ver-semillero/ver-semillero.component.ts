@@ -5,22 +5,27 @@ import { DescripcionSemilleroComponent } from './descripcion-semillero/descripci
 import { SemilleroObtenerService } from '../../../../service/semilleros/domain/service/semillero-obtener.service';
 import { Respuesta } from '../../../../service/common/model/respuesta';
 import { SemilleroProyeccion } from '../../../../service/semilleros/domain/model/proyecciones/semilleroProyeccion';
+import { NotificationAlertService } from '../../../../service/common/notification-alert.service';
 
 @Component({
   selector: 'app-ver-semillero',
   standalone: true,
   imports: [RouterOutlet, RouterLink, RouterLinkActive,ReactiveFormsModule],
   templateUrl: './ver-semillero.component.html',
-  //styleUrl: './ver-semillero.component.css'
+  styleUrl: './ver-semillero.component.css'
 })
 export class VerSemilleroComponent {
   //campos de visualizacion del semillero
   protected id!: string;
   protected nombre: string = '';
+  showAlert = false;
+  titleMessaje='';
+  messaje='';
   protected semillero: Respuesta<SemilleroProyeccion>
   constructor(
     private route: ActivatedRoute,
     private semilleroObtenerService: SemilleroObtenerService,
+    private notificationAlertService: NotificationAlertService
   ) {
     this.semillero = new Respuesta<SemilleroProyeccion>
   }
@@ -38,6 +43,15 @@ export class VerSemilleroComponent {
         }
       })
     });
+    this.notificationAlertService.alert$.subscribe(
+      (res:any) => {
+        this.showAlert=true;
+        this.messaje=res.messaje;
+        console.log(res)
+        setTimeout(()=>{
+          this.showAlert=false;
+        },res.time)
+      });
   }
 
 }

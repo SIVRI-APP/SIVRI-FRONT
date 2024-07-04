@@ -11,12 +11,20 @@ const routes: Routes = [
     component: IndexComponent,
     children: [
       {
+        path: '',
+        redirectTo: 'listar-semilleros',
+        pathMatch: 'full'
+      },
+      {
         path: 'listar-semilleros',
         loadComponent: () => import('./listar-semilleros/listar-semilleros.component').then((c) => c.ListarSemillerosComponent),
+      },{
+        path: 'crear-semillero',
+        loadComponent: () => import('./crear-semillero/crear-semillero.component').then((c) => c.CrearSemilleroComponent),
       },
     ]
   }, {
-    path: 'listar-semilleros/:id', /*loadChildren: () => import('./ver-semillero/ver-semillero.module').then(m => m.VerSemilleroModule),*/
+    path: 'listar-semilleros/:id', /* loadChildren: () => import('./ver-semillero/ver-semillero.module').then((m) => m.VerSemilleroModule),*/
     component: VerSemilleroComponent,
     children: [
       {
@@ -26,6 +34,10 @@ const routes: Routes = [
       {
         path: 'listar-plan',
         loadComponent: () => import('./ver-semillero/plan-trabajo/listar-plan-trabajo/listar-plan-trabajo.component').then((c) => c.ListarPlanTrabajoComponent),
+      },
+      {
+        path: 'editar-plan',
+        loadComponent: () => import('./ver-semillero/plan-trabajo/editar-plan/editar-plan.component').then((c) => c.EditarPlanComponent),
       }, {
         path: 'listar-integrantes',
         loadComponent: () => import('./ver-semillero/integrante/listar-integrantes/listar-integrantes.component').then((c) => c.ListarIntegrantesComponent),
@@ -33,14 +45,20 @@ const routes: Routes = [
         path: 'listar-integrantes/:idIntegrante',
         component: ActualizarIntegranteComponent,
       },{
-        path: 'Listar-lineas',
+        path: 'listar-lineas',
         loadComponent: () => import('./ver-semillero/lineas/listar-lineas/listar-lineas.component').then((c) => c.ListarLineasComponent),
       }, {
-        path: 'Listar-lineas/:idLinea',
+        path: 'listar-lineas/:idLinea',
         component: ActualizarLineaComponent,
-      },{
+      }, {
         path: 'listar-programas',
         loadComponent: () => import('./ver-semillero/programas/listar-programas/listar-programas.component').then((c)=>c.ListarProgramasComponent),
+      }, {
+        path: 'listar-documentos',
+        loadComponent: () => import('./ver-semillero/documentos/listar-documentos/listar-documentos.component').then((c)=>c.ListarDocumentosComponent),
+      }, {
+        path: 'listar-observaciones',
+        loadComponent: () => import('./ver-semillero/observaciones/listar-observaciones/listar-observaciones.component').then((c)=>c.ListarObservacionesComponent),
       },
 
     ]
@@ -52,3 +70,4 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class SemillerosRoutingModule { }
+/**/

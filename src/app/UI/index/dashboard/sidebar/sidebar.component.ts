@@ -10,11 +10,14 @@ import { InformacionUsuarioAutenticadoService } from '../../../../service/auth/d
   styleUrl: './sidebar.component.css'
 })
 export class SidebarComponent {
-  roles:string[]=[]
+
+  roles: string[] = []
   constructor(
-    protected informacionUsuarioAutenticadoService:InformacionUsuarioAutenticadoService
-  ){
+    protected informacionUsuarioAutenticadoService: InformacionUsuarioAutenticadoService
+  ) {
     // Aqui Yurani puede acceder a los roles
     console.log(informacionUsuarioAutenticadoService.retornarRoles());
+
+
   }
 }
