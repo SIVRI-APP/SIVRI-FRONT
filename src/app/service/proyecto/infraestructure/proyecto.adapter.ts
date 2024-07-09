@@ -7,6 +7,7 @@ import { Paginacion } from '../../common/model/paginacion';
 import { ProyectoListarConFiltroProyeccion } from '../domain/model/proyecciones/proyectoListarConFiltroProyeccion';
 import { ProyectoInformaciónDetalladaProyección } from '../domain/model/proyecciones/proyectoInformaciónDetalladaProyección';
 import { CrearProyectoDTO } from '../domain/model/DTO/crearProyectoDTO';
+import { FormalizarProyectoDTO } from '../domain/model/DTO/formalizarProyectoDTO';
 
 
 @Injectable({
@@ -51,5 +52,10 @@ export class ProyectoAdapter {
     return this.http.post<Respuesta<boolean>>(this.apiUrl + 'crear', body);
   }
 
+  formalizar(
+    body: FormalizarProyectoDTO
+  ): Observable<Respuesta<boolean>> {
+    return this.http.post<Respuesta<boolean>>(this.apiUrl + 'formalizar', body);
+  }
 
 }

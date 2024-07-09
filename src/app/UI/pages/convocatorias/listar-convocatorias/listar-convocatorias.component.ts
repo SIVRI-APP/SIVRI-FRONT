@@ -67,14 +67,14 @@ export class ListarConvocatoriasComponent implements OnInit{
 
   ngOnInit(): void {
     // Recuperar el estado del listado en el servicio
-    this.obtenerService.getRegistroListarConFiltro()
-      .subscribe({
-        next: (respuesta) => {
-          // Actualiar el Input del datatable
-          this.datatableInputs.searchPerformed = true;
-          this.datatableInputs.paginacion = respuesta.data;    
-        }
-      })
+    // this.obtenerService.getRegistroListarConFiltro()
+    //   .subscribe({
+    //     next: (respuesta) => {
+    //       // Actualiar el Input del datatable
+    //       this.datatableInputs.searchPerformed = true;
+    //       this.datatableInputs.paginacion = respuesta.data;    
+    //     }
+    //   })
     // Recuperar el estado del formulario en el servicio
     // this.formulario = this.obtenerService.getFormularioListarConFiltro(); 
   }

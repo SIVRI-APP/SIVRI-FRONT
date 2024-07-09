@@ -2,7 +2,6 @@ import { TipoFinanciacion } from "../../../../convocatoria/domain/model/enum/tip
 import { EstadoProyecto } from "../enum/estadoProyecto";
 
 export interface ProyectoInformaciónDetalladaProyección {
-
   id: number;
   enfoqueMetodologico: string;
   objetivosEspecificos: string;

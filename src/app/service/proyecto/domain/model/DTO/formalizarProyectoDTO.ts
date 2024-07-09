@@ -1,4 +1,5 @@
 export class FormalizarProyectoDTO {
+    id: number;
     nombre: string;
     fechaInicio: string;
     fechaFin: string;
@@ -12,9 +13,9 @@ export class FormalizarProyectoDTO {
     efectosAdversos: string;
     impactosResultadosEsperados: string;
     consideraciones: string;
-    eliminadoLogico: boolean;
 
     constructor() {
+        this.id = 0;
         this.nombre = '';
         this.fechaInicio = '';
         this.fechaFin = '';
@@ -28,6 +29,5 @@ export class FormalizarProyectoDTO {
         this.efectosAdversos = '';
         this.impactosResultadosEsperados = '';
         this.consideraciones = '';
-        this.eliminadoLogico = false;
     }
 }

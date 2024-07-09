@@ -40,12 +40,12 @@ export class DocumentosProyectoComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.proyectoObtenerService.getRegistroInformacionDetallada()
-      .subscribe({
-          next: (respuesta) => {
-            this.proyectoInformacionConvocatoria = respuesta.data.convocatoria;
-          }
-      })
+    // this.proyectoObtenerService.getRegistroInformacionDetallada()
+    //   .subscribe({
+    //       next: (respuesta) => {
+    //         this.proyectoInformacionConvocatoria = respuesta.data.convocatoria;
+    //       }
+    //   })
   }
 
   /**

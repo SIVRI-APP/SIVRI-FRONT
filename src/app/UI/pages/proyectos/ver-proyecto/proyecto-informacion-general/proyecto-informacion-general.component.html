@@ -4,18 +4,19 @@
 
         <!-- Formulario de Creacion -->
         <div class="row">
-            <div class="col-sm-6">
-                <label for="nombre" class="etiqueta-form"><strong>Nombre</strong></label>
-                <textarea id="nombre" name="nombre" class="form-control" type="text" placeholder="Nombre" formControlName="nombre"></textarea>
-                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('nombre')?.valid && this.formulario.get('nombre')?.touched ? 'block' : 'none'"> 
-                    Digita una Nombre valido (5 - 256 caracteres)
+            <div class="col-sm-1">
+                <label for="id" class="etiqueta-form"><strong>Id</strong></label>
+                <input id="id" name="id" class="form-control" type="text" placeholder="ID" formControlName="id">
+                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('id')?.valid ? 'block' : 'none'"> 
+                    ID no valido
                 </div>
             </div>
-
+        </div>
+            <div class="row">
             <div class="col-sm-2">
                 <label for="estado" class="etiqueta-form"><strong>Estado</strong></label>
                 <input id="estado" name="estado" class="form-control" type="text" placeholder="Estado" formControlName="estado">
-                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('estado')?.valid && this.formulario.get('estado')?.touched ? 'block' : 'none'"> 
+                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('estado')?.valid ? 'block' : 'none'"> 
                     Digita una Estado de la Lista
                 </div>
             </div>
@@ -34,7 +35,21 @@
                 <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('fechaFin')?.valid && this.formulario.get('fechaFin')?.touched ? 'block' : 'none'"> 
                     Digite una Fecha de Fin valida
                 </div>
-            </div>                
+            </div>    
+            
+        </div>
+
+
+        <div class="row">
+            <div class="col-sm-6">
+                <label for="nombre" class="etiqueta-form"><strong>Nombre</strong></label>
+                <textarea id="nombre" name="nombre" class="form-control" type="text" placeholder="Nombre" formControlName="nombre"></textarea>
+                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('nombre')?.valid && this.formulario.get('nombre')?.touched ? 'block' : 'none'"> 
+                    Digita una Nombre valido (5 - 256 caracteres)
+                </div>
+            </div>
+
+                        
         </div>
 
         <div class="row">
@@ -124,27 +139,19 @@
         
 
 
-        <!-- <div class="row">
+        <div class="row">
             <div class="col controls">
-                <button type="button" class="secondaryBTN" (click)="limpiarCampos()">
-                    <div class="button-content">
-                        <span class="material-symbols-outlined secondaryBTN-icon">
-                            filter_alt
-                        </span>
-                        <span class="text">Limpiar</span>
-                    </div>
-                </button>
 
                 <button type="submit" class="primaryBTN">
                     <div class="button-content">
                         <span class="material-symbols-outlined primaryBTN-icon">
-                            add_circle
+                            cached
                         </span>
-                        <span class="text">Crear</span>
+                        <span class="text">Actualizar</span>
                     </div>
                 </button>
             </div>
-        </div> -->
+        </div>
 
         <div class="form-guide-line"></div>
     </div>
