@@ -171,8 +171,8 @@ export class ListarProgramasComponent implements OnInit,OnDestroy {
     const nextPage = Math.max(pageNumber - 1, 0);
 
     // Enviar el valor de la nueva pagina al componente padre
-    this.changePageEmitter.emit(pageNumber);
-    this.changePageNew(pageNumber);
+    this.changePageEmitter.emit(nextPage);
+    this.changePageNew(nextPage);
   }
   /**
    * Cambia la página de resultados de acuerdo al número de página especificado.

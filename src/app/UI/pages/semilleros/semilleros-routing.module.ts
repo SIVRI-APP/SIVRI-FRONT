@@ -4,6 +4,7 @@ import { IndexComponent } from './index/index.component';
 import { VerSemilleroComponent } from './ver-semillero/ver-semillero.component';
 import { ActualizarIntegranteComponent } from './ver-semillero/integrante/actualizar-integrante/actualizar-integrante.component';
 import { ActualizarLineaComponent } from './ver-semillero/lineas/actualizar-linea/actualizar-linea.component';
+import { EditarObservacionComponent } from './ver-semillero/observaciones/editar-observacion/editar-observacion.component';
 
 const routes: Routes = [
   {
@@ -21,7 +22,13 @@ const routes: Routes = [
       },{
         path: 'crear-semillero',
         loadComponent: () => import('./crear-semillero/crear-semillero.component').then((c) => c.CrearSemilleroComponent),
-      },
+      },{
+        path: 'semilleros',
+        loadComponent: () => import('./listar-todos-semilleros/listar-todos-semilleros.component').then((c)=> c.ListarTodosSemillerosComponent),
+      },{
+        path: 'integrantes-semillero',
+        loadComponent: () => import('./listar-todos-integrantes-semillero/listar-todos-integrantes-semillero.component').then((c) => c.ListarTodosIntegrantesSemilleroComponent),
+      }
     ]
   }, {
     path: 'listar-semilleros/:id', /* loadChildren: () => import('./ver-semillero/ver-semillero.module').then((m) => m.VerSemilleroModule),*/
@@ -59,6 +66,9 @@ const routes: Routes = [
       }, {
         path: 'listar-observaciones',
         loadComponent: () => import('./ver-semillero/observaciones/listar-observaciones/listar-observaciones.component').then((c)=>c.ListarObservacionesComponent),
+      },{
+        path: 'listar-observaciones/:idObservacion',
+        component: EditarObservacionComponent
       },
 
     ]

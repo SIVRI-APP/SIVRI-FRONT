@@ -8,6 +8,8 @@ import { ErrorData } from '../../../../../../service/common/model/errorData';
 import { ModalBadComponent } from '../../../../../shared/modal-bad/modal-bad.component';
 import { ListarProgramas } from '../../../../../../service/academica/domain/model/proyecciones/listarProgramas';
 import { SemilleroProgramaCrearService } from '../../../../../../service/semilleros/domain/service/semillero-programa-crear.service';
+import { ModalOkComponent } from '../../../../../shared/modal-ok/modal-ok.component';
+import { CommunicationComponentsService } from '../../../../../../service/common/communication-components.service';
 
 @Component({
   selector: 'app-crear-programa',
@@ -30,6 +32,7 @@ export class CrearProgramaComponent implements OnInit {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private programaObtenerService: ProgramaObtenerService,
+    private actualizarListarService: CommunicationComponentsService,
     private programaSemilleroCrearService:SemilleroProgramaCrearService,
   ) {
     this.mostrarCreaPrograma = true;
@@ -62,6 +65,9 @@ export class CrearProgramaComponent implements OnInit {
       this.programaSemilleroCrearService.crearProgramaSemillero(this.idSemillero,this.formulario.value.programa).subscribe({
         next:(respuesta)=>{
           console.log(respuesta)
+          this.openModalOk(respuesta.userMessage);
+          this.actualizarListarService.notificarActualizarListar('agregar');
+          this.mostrarCreaPrograma = false;
         },
         // Manejar errores
         error: (errorData) => {
@@ -85,6 +91,20 @@ export class CrearProgramaComponent implements OnInit {
     this.formulario = this.formBuilder.group({
       idSemillero: [''],
       programa: ['', Validators.required],
+    });
+  }
+  openModalOk(message: string) {
+    const modalRef = this.modalService.open(ModalOkComponent);
+    modalRef.componentInstance.name = message;
+    modalRef.result.then((result) => {
+      // Este bloque se ejecutará cuando se cierre la modal
+      if (result === 'navegar') {
+        //cierra todas las modales
+        this.modalService.dismissAll();
+        //TODO FALTA QUE REDIRIJA A LISTAR
+        //this.router.navigate([''])
+      }
+
     });
   }
   openModalBad(data: ErrorData) {

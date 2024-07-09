@@ -1,0 +1,44 @@
+<form [formGroup]="formulario" (ngSubmit)="onsubmitCrear()" method="get">
+  <div class="filter-box">
+    <div class=" d-flex justify-content-center">
+      <h5 class="etiqueta-form"><strong>Observaciones del semillero</strong></h5>
+    </div>
+
+      <!--formulario de asociar el integrante-->
+      <div class="row">
+        <div class="col-sm">
+          <label for="observacion" class="etiqueta-form"><strong>Observación</strong></label>
+          <textarea  id="observacion" name="observacion" class="form-control" type="text" placeholder="Describe las observaciones del semillero"
+            formControlName="observacion" rows="3"></textarea>
+            <div id="badFeedback" class="invalid-feedback"
+            [style.display]="!this.formulario.get('observacion')?.valid && this.formulario.get('observacion')?.touched ? 'block' : 'none'">
+            Digita una observación valida (1 - 1445 caracteres)
+          </div>
+        </div>
+
+      </div>
+
+    <div class="row">
+      <div class="col controls">
+        <button type="button" class="secondaryBTN" >
+          <div class="button-content">
+            <span class="material-symbols-outlined secondaryBTN-icon">
+              filter_alt
+            </span>
+            <span class="text">Limpiar</span>
+          </div>
+        </button>
+
+        <button type="submit" class="primaryBTN">
+          <div class="button-content">
+            <span class="material-symbols-outlined primaryBTN-icon">
+              check_circle
+            </span>
+            <span class="text">Crear</span>
+          </div>
+        </button>
+      </div>
+    </div>
+
+  </div>
+</form>

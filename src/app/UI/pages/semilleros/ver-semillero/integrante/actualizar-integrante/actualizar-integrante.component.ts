@@ -15,6 +15,7 @@ import { ModalBadComponent } from '../../../../../shared/modal-bad/modal-bad.com
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalOkComponent } from '../../../../../shared/modal-ok/modal-ok.component';
 import { CommunicationComponentsService } from '../../../../../../service/common/communication-components.service';
+import { NotificationAlertService } from '../../../../../../service/common/notification-alert.service';
 
 @Component({
   selector: 'app-actualizar-integrante',
@@ -46,7 +47,8 @@ export class ActualizarIntegranteComponent implements OnInit {
     private rolIntegrante: RolSemilleroObtenerService,
     protected enumTranslationService: EnumTranslationService,
     private integranteSemilleroObtenerService: IntegranteSemilleroObtenerService,
-    private integranteSemilleroCrearService: IntegranteSemilleroCrearService
+    private integranteSemilleroCrearService: IntegranteSemilleroCrearService,
+    private notificationAlertService: NotificationAlertService,
   ) {
     this.respuesta = new Respuesta<false>();
     this.integranteDatos = new Respuesta<IntegranteSemillero>();
@@ -72,7 +74,7 @@ export class ActualizarIntegranteComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.idIntegrante = params['idIntegrante']
     });
-    console.log('id del integrante desde actualizar integrante-----' + this.idIntegrante);
+
     this.integranteSemilleroObtenerService.obtenerIntegrantexId(this.idIntegrante).subscribe({
       next: (respuesta) => {
 
@@ -138,6 +140,14 @@ export class ActualizarIntegranteComponent implements OnInit {
         }
       });
     }
+  }
+  cancelar(){
+    this.formulario.get('rolSemillero')?.setValue(this.integranteDatos.data.rolSemillero.rolSemillero);
+    this.formulario.get('fechaIngreso')?.setValue(this.integranteDatos.data.fechaIngreso);
+    this.formulario.get('fechaRetiro')?.setValue(this.integranteDatos.data.fechaRetiro);
+    this.notificationAlertService.showAlert('','integrante no actualizado',3000);
+    console.log('id semillero del boton cancelar '+this.idSemillero);
+    this.router.navigate([`/semilleros/listar-semilleros/${this.idSemillero}/listar-integrantes`]);
   }
   openModalOk(message: string) {
     this.actualizarListaService.notificarActualizarListar('actualizar');

@@ -11,7 +11,13 @@
   /* Espaciado de línea */
   line-height: normal; /* Espaciado de línea normal */
 }
-/* -------------- estilo de alerta-----------*/
+/* -------------icono de la tarjeta-------------*/
+.icon-card{
+  color: var(--azul-principal, #006);
+  /* Color del texto del título */
+  font-size: 40px;
+}
+/* -------------- estilo de alerta notificacion-----------*/
 .alerta-warning{
   position: fixed;
   max-width: 5000px;
@@ -35,6 +41,13 @@
 .alert-title{
   color: #FF554C;
 }
+.alert-icon-warning{
+  color: #FF554C;
+  width:"33";
+   height:"30";
+    fill:"none";
+}
+
 /* ---------------- Miga de Pan ---------------- */
 
 /* Estilos para la miga de pan */
@@ -72,7 +85,25 @@
 }
 
 /* ---------------- Titulo ---------------- */
-
+/* Estilos para el sub titulo */
+.sub-title{
+  color: var(--azul-principal, #006);
+  /* Color del texto del título */
+  font-size: 16px;
+  /* Tamaño de fuente */
+  font-style: normal;
+   /* Estilo de fuente */
+   font-weight: 700;
+   /* Peso de la fuente */
+   line-height: normal;
+   /* Altura de línea */
+   text-transform: capitalize;
+   /* Transformación de texto */
+   position: relative;
+   /* Posición relativa */
+   display: inline;
+   /* Visualización en línea */
+}
 /* Estilos para el título */
 .title {
   color: var(--azul-principal, #006);

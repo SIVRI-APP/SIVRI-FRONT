@@ -1,1 +1,118 @@
-<p>listar-documentos works!</p>
+<div class="row">
+  <div class="col-sm">
+    <span class="sub-title">Documentación del semillero</span><br>
+    <span>Visualice en la tabla los documentos adjuntos por el semillero</span>
+  </div>
+  <div class="col-sm">
+    <div class="card">
+      <div class="row g-0 align-items-center">
+        <div class="col-md-2 card-title text-center" >
+          <span class="nav-icon  icon-card card-title material-symbols-outlined">experiment</span>
+        </div>
+        <div class="col-md-6">
+          <div class="card-body">
+            <h6 class="card-title  sub-title">ID </h6>
+            <p class="card-text">Fecha de creación: </p>
+            </div>
+        </div>
+        <div class="col-md-4 card-title  text-center">
+            <p >estado </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="form-guide-line"></div>
+<div class="row">
+  <div class="col controls">
+
+    <button type="submit" class="primaryBTN">
+      <div class="button-content">
+        <span class="material-symbols-outlined primaryBTN-icon">
+          history_edu
+        </span>
+        <span class="text">Historial   de archivos</span>
+      </div>
+    </button>
+  </div>
+</div>
+<div class="form-guide-line"></div>
+
+<!-- tabla de la visualizacion de los archivos del semillero  -->
+ <div class="card shadow datatable">
+
+  <div class="card-body">
+
+      <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
+          <table class="table my-0 table-striped" id="dataTable">
+
+              <thead>
+                  <tr>
+                    <th>Documentos</th>
+                    <th>Estado</th>
+                    <th>Revisar VRI</th>
+                    <th>Acciones</th>
+                  </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td>Aval Departamento <br>
+                    <span >Validada y suscrita por el departamento</span>
+                  </td>
+                  <td>
+                    <select class="form-select" name="" id="">
+                      <option value="" hidden selected>Estado </option>
+                      <option value="AJUSTES">Ajustes</option>
+                      <option value="APROBADO">Aprobado</option>
+                      <option value="REVISION">Revisión</option>
+                      <option value="NO_ANEXADO">No anexado</option>
+                    </select>
+                  </td>
+                  <td>
+                    <input type="checkbox" id="vehicle1" name="vehicle1" value="">
+                  </td>
+                  <td>
+                    <a href=""><span class="material-symbols-outlined dataTableActionBtn"> chat_bubble </span></a>
+                    <a href=""><span class="material-symbols-outlined  dataTableActionBtn"> more_vert </span></a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Otros</td>
+                  <td>
+                    <select class="form-select" name="" id="">
+                      <option value="" hidden selected>Estado </option>
+                      <option value="AJUSTES">Ajustes</option>
+                      <option value="APROBADO">Aprobado</option>
+                      <option value="REVISION">Revisión</option>
+                      <option value="NO_ANEXADO">No anexado</option>
+                    </select>
+                  </td>
+                  <td>
+                    <input type="checkbox" id="vehicle1" name="vehicle1" value="">
+                  </td>
+                  <td>
+                    <a href=""><span class="material-symbols-outlined dataTableActionBtn"> chat_bubble </span></a>
+                    <a href=""><span class="material-symbols-outlined  dataTableActionBtn"> more_vert </span></a>
+                  </td>
+                </tr>
+                  <!--@for (data of datatableInputs.paginacion.content; track data[datatableInputs.dataAttributes[0].name]) {
+                      <tr>
+                          @for (attribute of datatableInputs.dataAttributes; track $index) {
+                              @if (enumTranslationService.isEnumType(attribute.type)) {
+                                  <td>{{enumTranslationService.getEnumValueByKey(attribute.type, data[attribute.name])}}</td>
+                              }@else {
+                                  <td>{{data[attribute.name]}}</td>
+                              }
+                          }
+                          <td><a [routerLink]="[data[datatableInputs.dataAttributes[0].name]]"><span class="material-symbols-outlined dataTableActionBtn">visibility</span></a></td>
+                      </tr>
+                    }-->
+              </tbody>
+
+          </table>
+      </div>
+
+
+  </div>
+</div>
