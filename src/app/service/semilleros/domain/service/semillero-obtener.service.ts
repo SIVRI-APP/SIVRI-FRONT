@@ -23,6 +23,15 @@ export class SemilleroObtenerService {
   ):Observable<Respuesta<Paginacion<ListarSemilleroosFuncionarioProyeccion>>>{
     return this.semilleroAdapter.listarConFiltroFuncionario(pageNo,pageSize,nombre,correo,estado);
   }
+  listarConFiltroDirector(
+    idSemillero: number | null,
+    pageNo: number,
+    pageSize: number,
+    nombre?: string,
+    estado?: string
+  ): Observable<Respuesta<Paginacion<SemilleroListarConFiltroxMentorProyeccion>>>{
+    return this.semilleroAdapter.listarConFiltroDirector(idSemillero,pageNo,pageSize,nombre,estado);
+  }
   listarConFiltro(
     idSemillero: number | null,
     pageNo?: number,

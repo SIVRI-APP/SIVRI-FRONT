@@ -20,6 +20,9 @@ const routes: Routes = [
         path: 'listar-semilleros',
         loadComponent: () => import('./listar-semilleros/listar-semilleros.component').then((c) => c.ListarSemillerosComponent),
       },{
+        path:'listar-semilleros-director',
+        loadComponent: () => import('./listar-semilleros-director/listar-semilleros-director.component').then((c)=> c.ListarSemillerosDirectorComponent),
+      },{
         path: 'crear-semillero',
         loadComponent: () => import('./crear-semillero/crear-semillero.component').then((c) => c.CrearSemilleroComponent),
       },{
