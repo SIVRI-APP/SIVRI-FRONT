@@ -1,9 +1,8 @@
 export interface ListarActividadPlan{
   id:number;
-  responsable: string;
+  actividad: string;
+  compromiso: string;
   fechaInicio:Date;
   fechaFin:Date;
-  objetivo: string;
-  compromiso: string;
-  actividad: string;
+  responsable: string;
 }

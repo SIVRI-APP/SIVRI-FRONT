@@ -12,4 +12,5 @@ import { RouterLink, RouterOutlet, RouterLinkActive } from '@angular/router';
 })
 export class IndexComponent {
   construsctor() { }
+
 }

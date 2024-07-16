@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Respuesta } from '../../../common/model/respuesta';
 import { Paginacion } from '../../../common/model/paginacion';
 import { ListarActividadPlan } from '../model/proyecciones/listarActividadPlan';
+import { ListarActividadxId } from '../model/proyecciones/listarActividadxId';
 
 @Injectable({
   providedIn: 'root'
@@ -21,5 +22,7 @@ export class ActividadPlanObtenerService {
   ): Observable<Respuesta<Paginacion<ListarActividadPlan>>> {
     return this.actividadPlanAdapter.obtenerActividadesPlanPaginado(idPlan,pageNo,pageSize,fechaInicio,fechaFin);
   }
-
+  obtenerActividadxId(idActividad:number):Observable<Respuesta<ListarActividadxId>>{
+    return this.actividadPlanAdapter.obtenerActividadxId(idActividad);
+  }
 }

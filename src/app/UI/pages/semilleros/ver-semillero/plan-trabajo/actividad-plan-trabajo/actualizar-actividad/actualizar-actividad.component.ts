@@ -1,55 +1,60 @@
 import { Component, inject, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { CompromisoSemillero } from '../../../../../../../service/planTrabajo/domain/model/proyecciones/compromisoSemillero';
 import { CompromisoSemilleroObtenerService } from '../../../../../../../service/planTrabajo/domain/service/compromiso-semillero-obtener.service';
 import { IntegrantesGrupoObtenerService } from '../../../../../../../service/grupos/domain/service/integrantes-grupo-obtener.service';
 import { ActivatedRoute } from '@angular/router';
 import { SemilleroObtenerService } from '../../../../../../../service/semilleros/domain/service/semillero-obtener.service';
-import { Respuesta } from '../../../../../../../service/common/model/respuesta';
 import { SemilleroProyeccion } from '../../../../../../../service/semilleros/domain/model/proyecciones/semilleroProyeccion';
-import { CompromisoSemillero } from '../../../../../../../service/planTrabajo/domain/model/proyecciones/compromisoSemillero';
+import { Respuesta } from '../../../../../../../service/common/model/respuesta';
 import { IntegrantesMentores } from '../../../../../../../service/grupos/domain/model/proyecciones/integrantesMentores';
-import { Observable } from 'rxjs';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ActividadPlanObtenerService } from '../../../../../../../service/planTrabajo/domain/service/actividad-plan-obtener.service';
+import { ListarActividadxId } from '../../../../../../../service/planTrabajo/domain/model/proyecciones/listarActividadxId';
 import { ActividadPlanCrearService } from '../../../../../../../service/planTrabajo/domain/service/actividad-plan-crear.service';
 import { ErrorData } from '../../../../../../../service/common/model/errorData';
 import { ModalBadComponent } from '../../../../../../shared/modal-bad/modal-bad.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalOkComponent } from '../../../../../../shared/modal-ok/modal-ok.component';
 import { CommunicationComponentsService } from '../../../../../../../service/common/communication-components.service';
+import { NotificationAlertService } from '../../../../../../../service/common/notification-alert.service';
 
 @Component({
-  selector: 'app-crear-actividad',
+  selector: 'app-actualizar-actividad',
   standalone: true,
   imports: [
     ReactiveFormsModule,
   ],
-  templateUrl: './crear-actividad.component.html',
-  styleUrl: './crear-actividad.component.css'
+  templateUrl: './actualizar-actividad.component.html',
+  styleUrl: './actualizar-actividad.component.css'
 })
-export class CrearActividadComponent implements OnInit {
-  @Input() idPlan!: number;
+export class ActualizarActividadComponent  implements OnInit {
+  @Input() idActividad!: number; // Recibe el ID de la actividad a editar
   protected idSemillero!: string;
   protected idGrupo!: number ;
-  protected semillero:Respuesta<SemilleroProyeccion>
-  compromisosSemillero: CompromisoSemillero[]=[];
-  protected integrantesMentores: IntegrantesMentores[]=[];
   //formulario reactivo
   protected formulario: FormGroup;
   // Inyeccion de Modal
   private modalService = inject(NgbModal);
-  // Respuesta del Back
+  @Output() mostrarEditar:boolean;
+  compromisosSemillero: CompromisoSemillero[]=[];
+  protected semillero:Respuesta<SemilleroProyeccion>;
+  protected integrantesMentores: IntegrantesMentores[]=[];
+  protected minDate: string;
+  protected actividadxid: Respuesta<ListarActividadxId>;
   protected respuesta: Respuesta<boolean>;
-  protected minDate: string; // Variable para almacenar la fecha mínima en formato YYYY-MM-DD
-  @Output() mostrarCrear:boolean;
   constructor(
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
-    private semilleroObtenerService: SemilleroObtenerService,
     private compromisosObtenerService: CompromisoSemilleroObtenerService,
     private integrantesGrupoObtenerService: IntegrantesGrupoObtenerService,
-    private actividadPlanCrearService: ActividadPlanCrearService,
+    private semilleroObtenerService: SemilleroObtenerService,
+    private actividadObtenerService: ActividadPlanObtenerService,
+    private actividadCrearService: ActividadPlanCrearService,
     private actualizarListarService: CommunicationComponentsService,
+    private notificationAlertService: NotificationAlertService,
   ){
-    this.mostrarCrear= true;
+    this.mostrarEditar=true;
+    this.respuesta = new Respuesta<false>();
     this.formulario= this.formBuilder.group({
       objetivo: ['',[Validators.required,Validators.minLength(2),Validators.maxLength(1450)]],
       actividad: ['',[Validators.required]],
@@ -59,7 +64,7 @@ export class CrearActividadComponent implements OnInit {
       fechaFin:['',[Validators.required]]
     });
     this.semillero=new Respuesta<SemilleroProyeccion>();
-    this.respuesta= new Respuesta<false>();
+    this.actividadxid= new Respuesta<ListarActividadxId>();
     // Obtener la fecha actual en formato YYYY-MM-DD
     const hoy = new Date();
     const yyyy = hoy.getFullYear();
@@ -67,7 +72,6 @@ export class CrearActividadComponent implements OnInit {
     const dd = String(hoy.getDate()).padStart(2, '0');
     this.minDate = `${yyyy}-${mm}-${dd}`;
   }
-
   ngOnInit(): void {
     this.route.parent?.params.subscribe(params=>{
       this.idSemillero=params['id'];
@@ -80,11 +84,11 @@ export class CrearActividadComponent implements OnInit {
         this.integrantesGrupoObtenerService.obtenerMentoresxgrupo(this.idGrupo).subscribe({
           next:(respuesta)=>{
           this.integrantesMentores= respuesta.data;
+
           }
         });
       }
     });
-
     this.compromisosObtenerService.obtenerCompromisosSemilleros().subscribe({
       next:(respuesta)=>{
         this.compromisosSemillero=respuesta.data;
@@ -93,26 +97,42 @@ export class CrearActividadComponent implements OnInit {
         console.log(errorData);
       }
     });
-
+    this.obtenerActividadxId();
+  }
+  obtenerActividadxId(){
+    console.log('id de la actividad '+this.idActividad);
+    this.actividadObtenerService.obtenerActividadxId(this.idActividad).subscribe({
+      next:(respuesta)=>{
+        console.log(respuesta);
+        this.actividadxid=respuesta;
+        this.formulario.get('objetivo')?.setValue(this.actividadxid.data.objetivo);
+        this.formulario.get('actividad')?.setValue(this.actividadxid.data.actividad);
+        this.formulario.get('compromiso')?.setValue(this.actividadxid.data.compromiso.id);
+        this.formulario.get('responsable')?.setValue(this.actividadxid.data.responsableUsuarioId);
+       this.formulario.get('fechaInicio')?.setValue(this.actividadxid.data.fechaInicio);
+       this.formulario.get('fechaFin')?.setValue(this.actividadxid.data.fechaFin);
+      }
+    });
+    console.log(this.formulario);
   }
   onsubmit(){
-
     if(this.formulario.valid){
-      console.log(this.formulario);
-      this.actividadPlanCrearService.crearActividad(this.idPlan,{
-        objetivo:this.formulario.value.objetivo,
-        actividad:this.formulario.value.actividad,
-        idCompromiso:this.formulario.value.compromiso,
-        responsableUsuarioId:this.formulario.value.responsable,
-        fechaInicio:this.formulario.value.fechaInicio,
-        fechaFin:this.formulario.value.fechaFin
+      //edita la actividad de un plan de trabajo
+      this.actividadCrearService.editarActividad(this.idActividad,{
+        objetivo: this.formulario.value.objetivo,
+        actividad: this.formulario.value.actividad,
+        fechaInicio: this.formulario.value.fechaInicio,
+        fechaFin: this.formulario.value.fechaFin,
+        idCompromiso: this.formulario.value.compromiso,
+        responsableUsuarioId: this.formulario.value.responsable
       }).subscribe({
         next:(respuesta)=>{
-          //console.log(respuesta);
-          this.respuesta= respuesta;
+          console.log(respuesta);
+          this.respuesta=respuesta;
           this.openModalOk(this.respuesta.userMessage);
-          this.actualizarListarService.notificarActualizarListar('agregar');
-          this.mostrarCrear = false;
+          this.actualizarListarService.notificarActualizarListar('actualizar');
+          this.mostrarEditar=false;
+
         },
         // Manejar errores
         error: (errorData) => {
@@ -122,7 +142,7 @@ export class CrearActividadComponent implements OnInit {
             this.openModalBad(respuesta.data);
           } else {
             // Manejar errores inesperados
-            this.openModalBad(new ErrorData({ error: "Error inseperado, contactar a soporte" }));
+            this.openModalBad(new ErrorData({error: "Error inseperado, contactar a soporte"}));
           }
         }
       });
@@ -130,33 +150,26 @@ export class CrearActividadComponent implements OnInit {
       this.formulario.markAllAsTouched();
     }
   }
-  //borrar los datos ingresados en el filtro
-  limpiarCampos(): void {
-    this.formulario= this.formBuilder.group({
-      objetivo: ['',[Validators.required,Validators.minLength(2),Validators.maxLength(1450)]],
-      actividad: ['',[Validators.required]],
-      compromiso: ['',[Validators.required]],
-      responsable:['',[Validators.required]],
-      fechaInicio:['',[Validators.required]],
-      fechaFin:['',[Validators.required]]
-    });
+
+  cancelar(){
+    this.notificationAlertService.showAlert('','Actividad no actualizada',3000);
+    this.actualizarListarService.notificarActualizarListar('cancelado');
+    this.mostrarEditar=false;
   }
   openModalOk(message: string) {
-    const modalRef = this.modalService.open(ModalOkComponent);
-    modalRef.componentInstance.name = message;
+		const modalRef = this.modalService.open(ModalOkComponent);
+		modalRef.componentInstance.name = message;
     modalRef.result.then((result) => {
       // Este bloque se ejecutará cuando se cierre la modal
       if (result === 'navegar') {
-        //cierra todas las modales
+        // Redirige a la ruta del componente ListarLineasComponent
         this.modalService.dismissAll();
-        //TODO FALTA QUE REDIRIJA A LISTAR
-        //this.router.navigate([''])
       }
 
     });
-  }
+	}
   openModalBad(data: ErrorData) {
-    const modalRef = this.modalService.open(ModalBadComponent);
-    modalRef.componentInstance.mensaje = data;
-  }
+		const modalRef = this.modalService.open(ModalBadComponent);
+		modalRef.componentInstance.mensaje = data;
+	}
 }

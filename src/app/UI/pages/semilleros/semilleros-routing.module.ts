@@ -5,6 +5,7 @@ import { VerSemilleroComponent } from './ver-semillero/ver-semillero.component';
 import { ActualizarIntegranteComponent } from './ver-semillero/integrante/actualizar-integrante/actualizar-integrante.component';
 import { ActualizarLineaComponent } from './ver-semillero/lineas/actualizar-linea/actualizar-linea.component';
 import { EditarObservacionComponent } from './ver-semillero/observaciones/editar-observacion/editar-observacion.component';
+import { ActualizarActividadComponent } from './ver-semillero/plan-trabajo/actividad-plan-trabajo/actualizar-actividad/actualizar-actividad.component';
 
 const routes: Routes = [
   {
