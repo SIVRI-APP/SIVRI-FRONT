@@ -9,21 +9,26 @@
 
 <div class="nav-container">
   <ul class="nav nav-underline">
+    @if (mostrarSemilleroMentor) {
     <li class="nav-item">
       <a class="nav-link" routerLink="listar-semilleros" routerLinkActive="active">Listar Semilleros</a>
-    </li>
+    </li>}
+    @if (mostrarSemilleroDirector) {
     <li class="nav-item">
       <a class="nav-link" routerLink="listar-semilleros-director" routerLinkActive="active">Semilleros director</a>
-    </li>
+    </li>}
+    @if (mostrarCrearSemilleroDirector) {
     <li class="nav-item">
       <a class="nav-link" routerLink="crear-semillero" routerLinkActive="active">Crear Semillero</a>
-    </li>
+    </li>}
+    @if (mostrarSemilleroFuncionario) {
     <li class="nav-item">
       <a class="nav-link" routerLink="semilleros" routerLinkActive="active">Semilleros</a>
-    </li>
+    </li>}
+    @if (mostrarIntegrantesSemilleroFuncionario) {
     <li class="nav-item">
       <a class="nav-link" routerLink="integrantes-semillero" routerLinkActive="active">Integrantes Semillero</a>
-    </li>
+    </li>}
   </ul>
   <div class="guide-line"></div>
 </div>

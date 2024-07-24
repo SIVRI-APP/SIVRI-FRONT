@@ -70,7 +70,11 @@ export class SemilleroAdapter {
     let params = new HttpParams().set('semilleroId', semilleroId)
     return this.http.get<Respuesta<SemilleroProyeccion>>(this.apiUrl + 'obtenerSemillero', { params: params });
   }
-
+  actualizarEstadoSemillero(idSemillero:number,body:{
+    estado: string
+  }): Observable<Respuesta<boolean>> {
+    return this.http.patch<Respuesta<boolean>>(this.apiUrl+`actualizarEstadoSemillero/${idSemillero}`,body);
+  }
   actualizarSemilleroxMentor(
     body: {
       semilleroId: string,

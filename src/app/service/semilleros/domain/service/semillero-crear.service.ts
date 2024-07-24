@@ -17,5 +17,9 @@ export class SemilleroCrearService {
   }):Observable<Respuesta<boolean>>{
     return this.semilleroAdapter.crearSemillero(body);
   }
-
+  actualizarEstadoSemillero(idSemillero:number,body:{
+    estado: string
+  }): Observable<Respuesta<boolean>> {
+    return this.semilleroAdapter.actualizarEstadoSemillero(idSemillero,body);
+  }
 }

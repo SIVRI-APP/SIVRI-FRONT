@@ -57,7 +57,8 @@
                   }
                   <td><a [routerLink]="[data[datatableInputs.dataAttributes[0].name]]"><span
                         class="material-symbols-outlined dataTableActionBtn">visibility</span></a>
-                    <a (click)="eliminarLinea([data[datatableInputs.dataAttributes[0].name]])"><span class="material-symbols-outlined dataTableActionBtn">delete</span></a>
+                    <a (click)="eliminarLinea([data[datatableInputs.dataAttributes[0].name]])">
+                      <span class="material-symbols-outlined dataTableActionBtn">delete</span></a>
                   </td>
                 </tr>
                 }

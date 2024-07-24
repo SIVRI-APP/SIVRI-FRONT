@@ -48,7 +48,7 @@ export class ListarSemillerosDirectorComponent {
 
   }
 
-  onsubmit() {
+  onSubmit() {
 
     if (this.formulario.valid) {
 
@@ -117,7 +117,7 @@ export class ListarSemillerosDirectorComponent {
     this.formulario.get('pageNo')?.setValue(pageNumber);
 
     // Enviar el formulario para cargar los datos de la nueva página
-    this.onsubmit();
+    this.onSubmit();
   }
 
   /**
@@ -131,7 +131,7 @@ export class ListarSemillerosDirectorComponent {
       ?.setValue((this.formulario.get('pageNo')?.value ?? 0) + newPage);
 
     // Enviar el formulario para cargar los datos de la nueva página
-    this.onsubmit();
+    this.onSubmit();
   }
 
   //metodo que no permite el ingreso de punto y la letra e

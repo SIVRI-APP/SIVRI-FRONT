@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { SemilleroEstado } from '../../../../service/semilleros/domain/model/enum/semilleroEstado';
 import { EnumTranslationService } from '../../../../service/common/enum-translation.service';
@@ -9,6 +9,8 @@ import { SemilleroObtenerService } from '../../../../service/semilleros/domain/s
 import { DatatableInput } from '../../../../service/common/model/datatableInput';
 import { DatatableComponent } from '../../../shared/datatable/datatable.component';
 import { RouterLink } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { CambiarEstadoSemilleroModalComponent } from '../cambiar-estado-semillero-modal/cambiar-estado-semillero-modal.component';
 
 @Component({
   selector: 'app-listar-todos-semilleros',
@@ -29,10 +31,14 @@ export class ListarTodosSemillerosComponent {
   protected datatableInputs: DatatableInput;
   protected estadoSemilleroEnum = SemilleroEstado;
   protected respuesta: Respuesta<Paginacion<ListarSemilleroosFuncionarioProyeccion>>
+
+  // Inyeccion de Modal
+  private modalService = inject(NgbModal);
   constructor(
     private formBuilder: FormBuilder,
     protected enumTranslationService: EnumTranslationService,
     private semilleroObtenerService:SemilleroObtenerService,
+
   ){
     this.respuesta = new Respuesta<Paginacion<ListarSemilleroosFuncionarioProyeccion>>();
     this.datatableInputs = new DatatableInput('Semilleros',
@@ -48,7 +54,7 @@ export class ListarTodosSemillerosComponent {
 
   onsubmit(){
     if (this.formulario.valid){
-    this.listarSemillerosFuncionario();
+      this.listarSemillerosFuncionario();
     }else {
       // Marcar todos los campos del formulario como tocados si el formulario no es válido
       this.formulario.markAllAsTouched();
@@ -57,12 +63,12 @@ export class ListarTodosSemillerosComponent {
     }
   }
   listarSemillerosFuncionario(){
-    console.log(this.formulario)
+
     this.semilleroObtenerService.listarConFiltroFuncionario(
       this.formulario.value.pageNo,this.formulario.value.pageSize,
     this.formulario.value.nombre, this.formulario.value.correo, this.formulario.value.estado).subscribe({
       next:(respuesta)=>{
-        console.log(respuesta);
+
         this.respuesta = respuesta;
         //actualiza el input del datatable
         this.datatableInputs.searchPerformed = true;
@@ -84,6 +90,19 @@ export class ListarTodosSemillerosComponent {
       complete: () => { },
     });
   }
+  cambiarEstado(idSemillero:any){
+    // Aquí supongamos que puedes obtener el estado actual del semillero desde tus datos
+    const estadoSemillero = this.datatableInputs.paginacion.content.find(data => data.semilleroId == idSemillero)?.estado;
+    //llamar la modal de cambiar el estado del semillero
+    const modalRef = this.modalService.open(CambiarEstadoSemilleroModalComponent);
+    modalRef.componentInstance.idSemillero = idSemillero;
+    modalRef.componentInstance.estadoActual = estadoSemillero;
+    modalRef.result.then((result) =>{
+      if(result== 'actualizar'){
+        this.listarSemillerosFuncionario();
+      }
+    })
+  }
   limpiarCampos(){
     this.formulario = this.formBuilder.group({
       pageNo: [0],
@@ -93,6 +112,7 @@ export class ListarTodosSemillerosComponent {
       estado: ['']
     });
   }
+
   /**
    * Genera un array de números de página basado en el número total de páginas.
    * @returns Un array de números de página.

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { ActivatedRoute,  RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { DescripcionSemilleroComponent } from './descripcion-semillero/descripcion-semillero.component';
 import { SemilleroObtenerService } from '../../../../service/semilleros/domain/service/semillero-obtener.service';
 import { Respuesta } from '../../../../service/common/model/respuesta';
@@ -23,6 +23,7 @@ export class VerSemilleroComponent {
   messaje='';
   protected semillero: Respuesta<SemilleroProyeccion>
   constructor(
+    //private router:Router,
     private route: ActivatedRoute,
     private semilleroObtenerService: SemilleroObtenerService,
     private notificationAlertService: NotificationAlertService
@@ -40,6 +41,8 @@ export class VerSemilleroComponent {
           console.log(respuesta)
           this.semillero = respuesta;
           this.nombre=this.semillero.data.nombre;
+          //this.router.navigate([`semilleros/listar-semilleros/${this.id}/descripcion`]);
+
         }
       })
     });

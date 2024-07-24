@@ -1,0 +1,53 @@
+<div class="row" >
+  <form [formGroup]="formulario" (ngSubmit)="onsubmit()" method="get">
+  <div class="filter-box">
+    <div class="modal-header d-flex justify-content-center">
+      <h5 class="etiqueta-form"><strong>Cambiar estado del semillero </strong></h5>
+      <button class="btn-close" type="button" (click)="activeModal.close('navegar')"></button>
+
+    </div>
+    <div class="modal-body d-flex flex-column justify-content-center align-items-start">
+      <!--formulario de cambiar estado -->
+
+      <div class="row">
+        <div class="col-sm">
+          <label for="estadoSemillero" class="etiqueta-form"><strong>Estado </strong></label>
+            <select id="estadoSemillero" name="estadoSemillero" class="form-select" formControlName="estadoSemillero">
+              <option value="" disabled selected hidden>Estado Semillero</option>
+              <option value="FORMULADO">Formulado</option>
+              <option value="REVISIÓN_VRI">Revisión VRI</option>
+              <option value="ACTIVO">Activo</option>
+              <option value="ACTIVO_PENDIENTE_ACTUALIZACION">Activo Pendiente Actualizacion</option>
+              <option value="INACTIVOv">Inactivo</option>
+            </select>
+            <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('estadoSemillero')?.valid && this.formulario.get('estadoSemillero')?.touched ? 'block' : 'none'">
+              Selecciona un estado valido
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="modal-footer d-flex justify-content-center align-items-center">
+
+      <div class="col controls">
+        <button type="button" class="secondaryBTN" (click)="cancelar()">
+          <div class="button-content">
+            <span class="material-symbols-outlined secondaryBTN-icon">
+              filter_alt
+            </span>
+            <span class="text">Rechazar</span>
+          </div>
+        </button>
+        <button type="submit" class="primaryBTN" >
+          <div class="button-content">
+            <span class="material-symbols-outlined primaryBTN-icon">
+              check_circle
+            </span>
+            <span class="text">Actualizar</span>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+</form>
+</div>

@@ -93,15 +93,22 @@
                                         }@else {
                                           @if (attribute.name === 'estado') {
                                             <td>
-                                              <select name="estado" id="estado">
-                                                <option value="">{{data[attribute.name]}}</option>
-                                              </select>
+                                                <select name="estado" id="estado_{{data.id}}" >
+                                                    <option value="{{data[attribute.name]}}" selected>{{data[attribute.name]}}</option>
+                                                    <option value="Activo">Activo</option>
+                                                    <option value="Inactivo">Inactivo</option>
+                                                    <option value="Formulado">Formulado</option>
+                                                </select>
                                             </td>
+                                          } @else {
+                                              <td>{{data[attribute.name]}}</td>
                                           }
-                                            <td>{{data[attribute.name]}}</td>
+                                            <!--td>{{data[attribute.name]}}</!--td-->
                                         }
                                     }
-                                    <td><a [routerLink]="[data[datatableInputs.dataAttributes[0].name]]"><span class="material-symbols-outlined dataTableActionBtn">visibility</span></a></td>
+                                    <td><a [routerLink]="[data[datatableInputs.dataAttributes[0].name]]"><span class="material-symbols-outlined dataTableActionBtn">visibility</span></a>
+                                      <a (click)="cambiarEstado([data[datatableInputs.dataAttributes[0].name]])"><span class="material-symbols-outlined dataTableActionBtn">edit</span></a>
+                                    </td>
                                 </tr>
                             }
                         </tbody>
