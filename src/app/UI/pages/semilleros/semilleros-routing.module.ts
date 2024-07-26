@@ -71,7 +71,7 @@ const routes: Routes = [
         loadComponent: () => import('./ver-semillero/programas/listar-programas/listar-programas.component').then((c)=>c.ListarProgramasComponent),
       }, {
         path: 'listar-documentos',
-        loadComponent: () => import('./ver-semillero/documentos/listar-documentos/listar-documentos.component').then((c)=>c.ListarDocumentosComponent),
+        loadComponent: () => import('./ver-semillero/documentos/listar-documentos-mentor/listar-documentos-mentor.component').then((c)=>c.ListarDocumentosMentorComponent),
       }, {
         path: 'listar-observaciones',
         loadComponent: () => import('./ver-semillero/observaciones/listar-observaciones/listar-observaciones.component').then((c)=>c.ListarObservacionesComponent),

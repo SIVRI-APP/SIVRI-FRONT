@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output,  } from '@angular/core';
+import { Component, ElementRef, EventEmitter, inject, Input, OnDestroy, OnInit, Output, ViewChild,  } from '@angular/core';
 import { ActividadPlanObtenerService } from '../../../../../../../service/planTrabajo/domain/service/actividad-plan-obtener.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ListarActividadPlan } from '../../../../../../../service/planTrabajo/domain/model/proyecciones/listarActividadPlan';
@@ -11,6 +11,11 @@ import { CrearActividadComponent } from '../crear-actividad/crear-actividad.comp
 import { CommunicationComponentsService } from '../../../../../../../service/common/communication-components.service';
 import { Subscription } from 'rxjs';
 import { ActualizarActividadComponent } from '../actualizar-actividad/actualizar-actividad.component';
+import { EvidenciaActividadCrearService } from '../../../../../../../service/planTrabajo/domain/service/evidencia-actividad-crear.service';
+import { ErrorData } from '../../../../../../../service/common/model/errorData';
+import { ModalBadComponent } from '../../../../../../shared/modal-bad/modal-bad.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalOkComponent } from '../../../../../../shared/modal-ok/modal-ok.component';
 
 @Component({
   selector: 'app-listar-actividades',
@@ -33,14 +38,19 @@ export class ListarActividadesComponent implements OnInit,OnDestroy {
   protected formulario: FormGroup;
   private suscripciones: Subscription[]=[];
   protected respuesta: Respuesta<Paginacion<ListarActividadPlan>>;
+  protected respuestaEvidencia: Respuesta<boolean>;
   @Output() movePageEmitter = new EventEmitter<number>();
   protected mostrarCreaActividad: boolean = false;
   protected mostrarEditarActividad: boolean = false;
+  selectedFile!: File;
+  // Inyeccion de Modal
+  private modalService = inject(NgbModal);
   constructor(
     private actualizarListarService: CommunicationComponentsService,
     private formBuilder: FormBuilder,
     private actividadPlanObtenerService: ActividadPlanObtenerService,
     protected enumTranslationService: EnumTranslationService,
+    private evidenciaActividadCrearService: EvidenciaActividadCrearService,
   ){
     this.formulario = this.formBuilder.group({
       pageNo: [0],
@@ -49,6 +59,7 @@ export class ListarActividadesComponent implements OnInit,OnDestroy {
       fechaFin: [null]
     });
     this.respuesta= new Respuesta<Paginacion<ListarActividadPlan>>();
+    this.respuestaEvidencia = new Respuesta<false>();
     this.datatableInputs = new DatatableInput('Actividad del plan de trabajo',
       new Paginacion<any>());
   }
@@ -116,6 +127,65 @@ export class ListarActividadesComponent implements OnInit,OnDestroy {
     this.idActividad = idActividad;
     this.mostrarCreaActividad = false;
     this.mostrarEditarActividad = true;
+  }
+  triggerFileUpload(fileInput: HTMLInputElement) {
+    fileInput.click();
+  }
+  onFileSelected(event: Event, id: number) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedFile = input.files[0];
+      if (this.selectedFile.type === 'application/pdf') {
+       this.uploadFile(id);
+      } else {
+        alert('El archivo debe ser un PDF.');
+      }
+    }
+  }
+  uploadFile(idActividad: number) {
+    // Aquí deberías implementar la lógica para enviar el archivo al servidor.
+    const formData = new FormData();
+    formData.append('file',this.selectedFile);
+    // Iterar sobre las entradas de FormData y mostrarlas en la consola
+  formData.forEach((value, key) => {
+    console.log(`${key}:`, value);
+  });
+    this.evidenciaActividadCrearService.subirEvidenciaActividad(idActividad,formData).subscribe({
+      next: (respuesta)=>{
+        console.log(respuesta);
+        this.respuestaEvidencia=respuesta;
+        this.openModalOk(this.respuestaEvidencia.userMessage);
+      },
+      // Manejar errores
+      error: (errorData) => {
+        // Verificar si el error es del tipo esperado
+        if (errorData.error && errorData.error.data) {
+          let respuesta: Respuesta<ErrorData> = errorData.error;
+          this.openModalBad(respuesta.data);
+        } else {
+          // Manejar errores inesperados
+          this.openModalBad(new ErrorData({ error: "Error inseperado, contactar a soporte" }));
+        }
+      }
+    });
+  }
+  openModalOk(message: string) {
+    const modalRef = this.modalService.open(ModalOkComponent);
+    modalRef.componentInstance.name = message;
+    modalRef.result.then((result) => {
+      // Este bloque se ejecutará cuando se cierre la modal
+      if (result === 'navegar') {
+        //cierra todas las modales
+        this.modalService.dismissAll();
+        //TODO FALTA QUE REDIRIJA A LISTAR
+        //this.router.navigate([''])
+      }
+
+    });
+  }
+  openModalBad(data: ErrorData) {
+    const modalRef = this.modalService.open(ModalBadComponent);
+    modalRef.componentInstance.mensaje = data;
   }
   /**
    * Calcula el texto que indica qué elementos se están visualizando actualmente.
