@@ -1,66 +1,91 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ProyectoObtenerService } from '../../../../../service/proyecto/domain/service/proyectoObtener.service';
 import { ProyectoInformacionConvocatoria } from '../../../../../service/proyecto/domain/model/proyecciones/proyectoInformaciónDetalladaProyección';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ListarConvocatoriasComponent } from '../../../convocatorias/listar-convocatorias/listar-convocatorias.component';
+import { ProyectoCrearService } from '../../../../../service/proyecto/domain/service/proyectoCrear.service';
+import { Respuesta } from '../../../../../service/common/model/respuesta';
+import { ErrorData } from '../../../../../service/common/model/errorData';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalOkComponent } from '../../../../shared/modal-ok/modal-ok.component';
+import { ModalBadComponent } from '../../../../shared/modal-bad/modal-bad.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-documentos-proyecto',
   standalone: true,
-  imports: [ReactiveFormsModule, ListarConvocatoriasComponent],
+  imports: [ListarConvocatoriasComponent],
   templateUrl: './documentos-proyecto.component.html',
   styleUrl: './documentos-proyecto.component.css'
 })
-export class DocumentosProyectoComponent implements OnInit{
+export class DocumentosProyectoComponent {
 
-  protected proyectoInformacionConvocatoria: ProyectoInformacionConvocatoria
+  // Informacion de la convocatoria asociada
+  protected proyectoInformacionConvocatoria:ProyectoInformacionConvocatoria = new ProyectoInformacionConvocatoria();
 
-  // Formulario reactivo
-  protected asociarConvocatoriaForm: FormGroup;
+  private proyectoId:number = 0;
+
+  // Inyeccion de Modal
+  private modalService = inject(NgbModal);
 
   constructor(
-    private formBuilder: FormBuilder,
-    protected proyectoObtenerService: ProyectoObtenerService
-  ) {
-    this.proyectoInformacionConvocatoria = new ProyectoInformacionConvocatoria();
-    
-    // // Suscribirse a la informacion de la Convocatoria del Proyecto
-    // proyectoObtenerService.getRegistroInformacionDetallada()
-    // .subscribe({
-    //     next: (respuesta) => {
-    //       this.proyectoInformacionConvocatoria = respuesta.data.convocatoria;
-    //     }
-    // })
-
-    // Inicialización del formulario reactivo
-    this.asociarConvocatoriaForm = this.formBuilder.group({
-      proyectoId: [0],
-      convocatoriaId: [0, Validators.required]
-    });
+    private router: Router,
+    protected proyectoObtenerService: ProyectoObtenerService,
+    protected proyectoCrearService: ProyectoCrearService
+  ) { 
+    // Suscribirse a la informacion de la Convocatoria del Proyecto
+    proyectoObtenerService.getRegistroInformacionDetallada().subscribe({
+        next: (respuesta) => {
+          if (respuesta.data.convocatoria != null) {
+            this.proyectoInformacionConvocatoria = respuesta.data.convocatoria;
+          }
+          this.proyectoId = respuesta.data.id;          
+        }
+    })
   }
 
-  ngOnInit(): void {
-    // this.proyectoObtenerService.getRegistroInformacionDetallada()
-    //   .subscribe({
-    //       next: (respuesta) => {
-    //         this.proyectoInformacionConvocatoria = respuesta.data.convocatoria;
-    //       }
-    //   })
-  }
-
-  /**
-   * Maneja el envío del formulario de búsqueda.
-   */
-  onSubmit(): void {
-    // Verificar si el formulario es válido
-    if (this.asociarConvocatoriaForm.valid) {
-
-    } else {
-      // Marcar todos los campos del formulario como tocados si el formulario no es válido
-      this.asociarConvocatoriaForm.markAllAsTouched();
-      throw new Error('Formulario no válido');
+  accion(accion: any): void {
+    if (accion.accion.accion == 'agregar') {
+      this.proyectoCrearService.asociarConvocatoria(this.proyectoId.toString(), accion.data.id).subscribe({
+        // Manejar respuesta exitosa
+        next: (respuesta) => {
+          // Captura la respuesta
+          this.openModalOk(respuesta.userMessage, "/proyectos/listar/"+ this.proyectoId +"/informacion-general");
+        },
+        // Manejar errores
+        error: (errorData) => {
+          // Verificar si el error es del tipo esperado
+          if (errorData.error && errorData.error.data) {
+            let respuesta: Respuesta<ErrorData> = errorData.error;
+            this.openModalBad(respuesta.data);
+          } else {
+            // Manejar errores inesperados
+            this.openModalBad(
+              new ErrorData({
+                error: 'Error inseperado, contactar a soporte',
+              })
+            );
+          }
+        }
+      });
     }
   }
 
+  openModalOk(message: string, nuevaUrl: any) {
+    const modalRef = this.modalService.open(ModalOkComponent);
+    modalRef.componentInstance.name = message;
+
+    modalRef.result.then((result) => {
+      // Este bloque se ejecutará cuando se cierre la modal
+      if (result === 'navegar') {
+        // Aquí puedes realizar la navegación a otra ruta
+        this.router.navigate([nuevaUrl]);
+      }
+    });
+  }
+
+  openModalBad(data: ErrorData) {
+    const modalRef = this.modalService.open(ModalBadComponent);
+    modalRef.componentInstance.mensaje = data;
+  }
 
 }

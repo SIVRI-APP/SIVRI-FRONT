@@ -1,0 +1,75 @@
+<form [formGroup]="filtro" (ngSubmit)="onSubmit()" method="get">
+
+    <div class="filter-box">
+
+        @for (fila of this.filtroFormateadoParaAjustarFilas; track $index) {
+            <div class="row">
+                @for (campo of fila.filtroFields; track $index) {
+                    <!-- Si es Enum -->
+                    @if (campo.inputTipo == filtroFieldTipo.ENUM) {
+                        <div class="col-sm-4">
+                            <label [for]="campo.inputId" class="etiqueta-form"><strong>{{campo.label}}</strong></label>
+                            <select [id]="campo.inputId" class="form-select" [formControlName]="campo.inputId">
+                                <option value="" disabled hidden selected>{{campo.inputPlaceholder}}</option>
+                                @for (key of enumTranslationService.getEnumKeys(campo.enumClass); track $index) {
+                                <option [value]="key">{{enumTranslationService.getEnumValueByKey(campo.enumClass, key)}}</option>
+                                }
+                            </select>
+                        </div>
+                    }
+                    <!-- Si es Input -->
+                    @if (campo.inputTipo == filtroFieldTipo.INPUT) {
+                        <div class="col-sm-4">
+                            <label [for]="campo.inputId" class="etiqueta-form"><strong>{{campo.label}}</strong></label>
+                            <input [id]="campo.inputId" class="form-control" [type]="campo.inputType" [placeholder]="campo.inputPlaceholder" [formControlName]="campo.inputId">
+                        </div>
+                    }
+                }
+            </div>
+        }
+
+        @for (campo of filtroInput.filtroFields; track $index) {
+            <!-- Si es TEXTAREA-->
+            @if (campo.inputTipo == filtroFieldTipo.TEXTAREA) {  
+                <div class="row">
+
+                </div>                
+            }            
+        }
+
+        <div class="row">
+            <div class="col controls">
+                <label class="form-label listar">Ver
+                    <select class="form-select form-select-sm" formControlName="pageSize">
+                        <option value="10" selected>10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                </label>
+
+                <button type="button" class="secondaryBTN" (click)="limpiarCampos()">
+                    <div class="button-content">
+                        <span class="material-symbols-outlined secondaryBTN-icon">
+                            filter_alt
+                        </span>
+                        <span class="text">Limpiar</span>
+                    </div>
+                </button>
+
+                <button type="submit" class="primaryBTN">
+                    <div class="button-content">
+                        <span class="material-symbols-outlined primaryBTN-icon">
+                            search
+                        </span>
+                        <span class="text">Buscar</span>
+                    </div>
+                </button>
+
+            </div>
+        </div>
+
+        <div class="form-guide-line"></div>
+    </div>
+
+</form>

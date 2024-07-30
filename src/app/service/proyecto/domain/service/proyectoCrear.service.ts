@@ -24,4 +24,11 @@ export class ProyectoCrearService {
     return this.proyectoAdapter.formalizar(body);
   }
 
+  asociarConvocatoria(
+    proyectoId: string,
+    convocatoriaId: string
+  ): Observable<Respuesta<boolean>>{
+    return this.proyectoAdapter.asociarConvocatoria(proyectoId, convocatoriaId);
+  }
+
 }

@@ -5,7 +5,7 @@ import { Paginacion } from '../../../common/model/paginacion';
 import { Respuesta } from '../../../common/model/respuesta';
 import { ConvocatoriaAdapter } from '../../infraestructure/convocatoria.adapter';
 import { ConvocatoriaInformaciónDetalladaProyección } from '../model/proyecciones/convocatoriaInformaciónDetalladaProyección';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root',
@@ -16,24 +16,13 @@ export class ConvocatoriaObtenerService {
   private registroInformacionDetallada: Observable<Respuesta<ConvocatoriaInformaciónDetalladaProyección>>;
   // Variable para guardar un listado
   private registroListarConFiltro: Observable<Respuesta<Paginacion<ConvocatoriaListarConFiltroProyeccion>>>; 
-  // Variable para guardar un formulario
-  protected formularioListarConFiltro: FormGroup;
 
   constructor(
-    private formBuilder: FormBuilder,
     private convocatoriaAdapter: ConvocatoriaAdapter
   ) {
 
     this.registroInformacionDetallada = new Observable;
     this.registroListarConFiltro = new Observable;
-    this.formularioListarConFiltro = this.formBuilder.group({
-      pageNo: [0],
-      pageSize: ['10'],
-      id: [''],
-      nombre: [''],
-      estado: [''],
-      tipoFinanciacion: ['']
-    });
   }
 
   listarConFiltro(
@@ -52,17 +41,15 @@ export class ConvocatoriaObtenerService {
       estado,
       tipoFinanciacion,
     );
-    // return this.registroListarConFiltro;
   }
 
-  obtenerSolicitudUsuarioInformaciónDetallada(
+  obtenerInformaciónDetallada(
     convocatoriaId?: string
   ): void {
     this.registroInformacionDetallada = this.convocatoriaAdapter.obtenerInformaciónDetallada(
       convocatoriaId
     );
 
-    // return this.registroInformacionDetallada;
   }
 
   getRegistroListarConFiltro(){
@@ -73,24 +60,9 @@ export class ConvocatoriaObtenerService {
     return this.registroInformacionDetallada;
   }
 
-  getFormularioListarConFiltro(){
-    return this.formularioListarConFiltro;
-  }
-
-  setFormularioListarConFiltro(formulario: FormGroup){
-    this.formularioListarConFiltro = formulario;
-  }
-
   limpiarSolicitudUsuarioListarConFilrtro(){
     this.registroListarConFiltro = new Observable;
-    this.formularioListarConFiltro = this.formBuilder.group({
-      pageNo: [0],
-      pageSize: ['10'],
-      id: [''],
-      nombre: [''],
-      estado: [''],
-      tipoFinanciacion: ['']
-    });
+    this.registroInformacionDetallada = new Observable;
   }
 
 }

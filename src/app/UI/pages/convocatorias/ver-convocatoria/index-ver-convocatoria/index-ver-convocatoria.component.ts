@@ -23,7 +23,7 @@ export class IndexVerConvocatoriaComponent implements OnInit{
     this.route.params.subscribe(params => {
       this.id = params['id']; 
 
-      this.convocatoriaObtenerService.obtenerSolicitudUsuarioInformaciónDetallada(this.id);
+      this.convocatoriaObtenerService.obtenerInformaciónDetallada(this.id);
       this.convocatoriaObtenerService.getRegistroInformacionDetallada()
         .subscribe({
           // Manejar respuesta exitosa

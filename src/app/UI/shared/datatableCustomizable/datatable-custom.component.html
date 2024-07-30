@@ -33,11 +33,11 @@
                                             <td>{{data[attribute.name]}}</td>
                                         }
                                     }
-                                    @for (accion of datatableInputs.acciones; track $index) {
-                                        <td>
-                                            <a (click)="ejecutarAccion(accion, data)"><span class="material-symbols-outlined dataTableActionBtn">{{accion.icono}}</span></a>
-                                        </td>
-                                    }
+                                    <td>
+                                        @for (accion of datatableInputs.acciones; track $index) {                                            
+                                            <a (click)="ejecutarAccion(accion, data)" style="margin-right: 5px;"><span class="material-symbols-outlined dataTableActionBtn">{{accion.icono}}</span></a>                                            
+                                        }
+                                    </td>
                                 </tr>                                
                             }
                         </tbody>

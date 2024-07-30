@@ -5,10 +5,10 @@
         <span class="material-symbols-outlined inl" style="color: #ED7D31;">
             error
         </span>
-        <p class="d-inline ml-2 mb-0">El proyecto aun no tiene una Convocatoria Asociada. Usa el filtro acontinuacion para vincular una Convocatoria</p>
+        <p class="d-inline ml-2 mb-0">El proyecto aun no tiene una Convocatoria Asociada. Usa el filtro a continuacion para vincular una Convocatoria</p>
         <p class="d-inline ml-2 mb-0"></p>
     </div>
 
-    <app-listar-convocatorias></app-listar-convocatorias>    
+    <app-listar-convocatorias [obtenerRegistroId]="true" (filtrarEmitter)="accion($event)"></app-listar-convocatorias>
 }
     

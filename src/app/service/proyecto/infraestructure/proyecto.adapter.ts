@@ -58,4 +58,17 @@ export class ProyectoAdapter {
     return this.http.post<Respuesta<boolean>>(this.apiUrl + 'formalizar', body);
   }
 
+  asociarConvocatoria(
+    proyectoId?: string,
+    convocatoriaId?: string,
+  ): Observable<Respuesta<boolean>> {
+
+    let params = new HttpParams()
+    // Añade condicionalmente los otros parámetros si existen.
+    if (proyectoId !== undefined) params = params.set('proyectoId', proyectoId);
+    if (convocatoriaId !== undefined) params = params.set('convocatoriaId', convocatoriaId);
+  
+    return this.http.post<Respuesta<boolean>>(this.apiUrl + 'asociarConvocatoria', null, { params: params });
+  }
+
 }
