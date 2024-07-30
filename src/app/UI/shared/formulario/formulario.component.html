@@ -1,1 +1,88 @@
-<p>formulario works!</p>
+<form [formGroup]="filtro" (ngSubmit)="onSubmit()" method="get">
+
+    <div class="filter-box">
+
+        @for (fila of this.filtroFormateadoParaAjustarFilas; track $index) {
+            <div class="row">
+                @for (campo of fila.filtroFields; track $index) {
+                    <!-- Si es Enum -->
+                    @if (campo.inputTipo == filtroFieldTipo.ENUM) {
+                        <div class="col-sm-4">
+                            <label [for]="campo.inputId" class="etiqueta-form"><strong>{{campo.label}}</strong></label>
+                            <select [id]="campo.inputId" class="form-select" [formControlName]="campo.inputId">
+                                <option value="" disabled hidden selected>{{campo.inputPlaceholder}}</option>
+                                @for (key of enumTranslationService.getEnumKeys(campo.enumClass); track $index) {
+                                <option [value]="key">{{enumTranslationService.getEnumValueByKey(campo.enumClass, key)}}</option>
+                                }
+                            </select>
+                            @if (campo.validacion != "" && campo.editable) {
+                                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.filtro.get(campo.inputId)?.valid && this.filtro.get(campo.inputId)?.touched ? 'block' : 'none'"> 
+                                    {{campo.validacion}}
+                                </div>
+                            }
+                        </div>
+                    }
+                    <!-- Si es Input -->
+                    @if (campo.inputTipo == filtroFieldTipo.INPUT) {
+                        <div class="col-sm-4">
+                            <label [for]="campo.inputId" class="etiqueta-form"><strong>{{campo.label}}</strong></label>
+                            <input [id]="campo.inputId" class="form-control" [type]="campo.inputType" [placeholder]="campo.inputPlaceholder" [formControlName]="campo.inputId">
+                            <!-- @if (campo.validacion != "" && campo.editable) { -->
+                                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.filtro.get(campo.inputId)?.valid && this.filtro.get(campo.inputId)?.touched ? 'block' : 'none'"> 
+                                    {{campo.validacion}}
+                                </div>
+                            <!-- } -->
+                        </div>
+                    }
+                }
+            </div>
+        }
+
+        @for (fila of this.filtroFormateadoParaAjustarFilasTextArea; track $index) {
+            <div class="row">
+                @for (campo of fila.filtroFields; track $index) {   
+                    <div class="col-sm-6">
+                        <label [for]="campo.inputId" class="etiqueta-form"><strong>{{campo.label}}</strong></label>
+                        <textarea [id]="campo.inputId" class="form-control" [placeholder]="campo.inputPlaceholder" [formControlName]="campo.inputId"></textarea>
+                        @if (campo.validacion != "" && campo.editable) {
+                            <div id="badFeedback" class="invalid-feedback" [style.display]="!this.filtro.get(campo.inputId)?.valid && this.filtro.get(campo.inputId)?.touched ? 'block' : 'none'"> 
+                                {{campo.validacion}}
+                            </div>
+                        }
+                    </div>              
+                }
+            </div>
+        }
+
+        <div class="row">
+            <div class="col controls">
+
+                @for (accion of this.filtroInput.accionesSecundarias; track $index) {
+                    <button type="button" class="secondaryBTN" (click)="ejecutarAccion(accion, this.filtro)">
+                        <div class="button-content">
+                            <span class="material-symbols-outlined secondaryBTN-icon">
+                                {{accion.icono}}
+                            </span>
+                            <span class="text">{{accion.accion}}</span>
+                        </div>
+                    </button>
+                }    
+                
+                @if (this.filtroInput.accionPrimaria != null) {
+                    <button type="submit" class="primaryBTN">
+                        <div class="button-content">
+                            <span class="material-symbols-outlined primaryBTN-icon">
+                                {{this.filtroInput.accionPrimaria.icono}}
+                            </span>
+                            <span class="text">{{this.filtroInput.accionPrimaria.accion}}</span>
+                        </div>
+                    </button>
+                }                
+
+            </div>
+        </div>
+
+        <div class="form-guide-line"></div>
+    </div>
+
+</form>

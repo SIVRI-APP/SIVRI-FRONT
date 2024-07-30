@@ -41,10 +41,10 @@ export class ListarConvocatoriasComponent implements OnInit{
   ){
     // Inicialización de los datos que construyen el filtro
     this.filtroInput = new FiltroInput();
-    this.filtroInput.filtroFields.push(new FiltroField('ID Convocatoria', 'id', 'ID', FiltroFieldTipo.INPUT, 'text', null));
-    this.filtroInput.filtroFields.push(new FiltroField('Nombre', 'nombre', 'Nombre', FiltroFieldTipo.INPUT, 'text', null));
-    this.filtroInput.filtroFields.push(new FiltroField('Estado', 'estado', 'Estado de la Convocatoria', FiltroFieldTipo.ENUM, '', ConvocatoriaEstado));
-    this.filtroInput.filtroFields.push(new FiltroField('Financiación', 'tipoFinanciacion', 'Tipo de Financiación', FiltroFieldTipo.ENUM, '', TipoFinanciacion));
+    this.filtroInput.filtroFields.push(new FiltroField('ID Convocatoria', 'id', 'ID', FiltroFieldTipo.INPUT, 'text', null, "", [], true, ''));
+    this.filtroInput.filtroFields.push(new FiltroField('Nombre', 'nombre', 'Nombre', FiltroFieldTipo.INPUT, 'text', null, "", [], true, ''));
+    this.filtroInput.filtroFields.push(new FiltroField('Estado', 'estado', 'Estado de la Convocatoria', FiltroFieldTipo.ENUM, '', ConvocatoriaEstado, "", [], true, ''));
+    this.filtroInput.filtroFields.push(new FiltroField('Financiación', 'tipoFinanciacion', 'Tipo de Financiación', FiltroFieldTipo.ENUM, '', TipoFinanciacion, "", [], true, ''));
 
     // Inicialización de los datos que construyen el datatable
     this.datatableInputs = new DatatableInput(

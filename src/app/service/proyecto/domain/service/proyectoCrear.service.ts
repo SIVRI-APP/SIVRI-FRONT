@@ -20,7 +20,6 @@ export class ProyectoCrearService {
   formalizar(
     body: FormalizarProyectoDTO
   ): Observable<Respuesta<boolean>> {
-    console.log(body);
     return this.proyectoAdapter.formalizar(body);
   }
 
