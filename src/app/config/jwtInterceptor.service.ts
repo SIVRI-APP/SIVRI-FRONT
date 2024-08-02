@@ -11,7 +11,7 @@ export class JwtInterceptor implements HttpInterceptor{
     constructor(private authService: AuthService){ }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        console.log(req);
+        // console.log(req);
         
         let token:string = this.authService.token.access_token;
 

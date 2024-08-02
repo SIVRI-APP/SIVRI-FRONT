@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, ValidatorFn } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { FiltroInput } from '../../../service/common/model/filtro/filtroInput';
@@ -14,8 +14,11 @@ import { DatatableInputAction } from '../../../service/common/model/datatableAct
   styleUrl: './formulario.component.css',
 })
 export class FormularioComponent {
-  // Contine la informacion necesaria para crear los filtros
+  // Contine la informacion necesaria para crear los campos del formulario
   @Input() filtroInput!: FiltroInput;
+
+  // Continen los valores para popular los campos del formulario
+  @Input() specificInfo: any;
 
   // Accion emitida
   @Output() accionEmitter = new EventEmitter<any>();
@@ -43,6 +46,21 @@ export class FormularioComponent {
 
     // Acomodar el filtroFormateadoParaAjustarFilas
     this.formatearFiltro();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['specificInfo'] && changes['specificInfo'].currentValue) {
+      this.updateFormWithSpecificInfo(changes['specificInfo'].currentValue.data);
+    }
+  }
+
+  private updateFormWithSpecificInfo(data: any): void {
+    // Check if form controls exist and update their values
+    Object.keys(data).forEach(key => {
+      if (this.filtro.controls[key]) {
+        this.filtro.controls[key].patchValue(data[key]);
+      }
+    });
   }
 
   formatearFiltro() {
@@ -131,11 +149,10 @@ export class FormularioComponent {
     }
   }
 
-  ejecutarAccion(accion: DatatableInputAction, data:any): void{
-    console.log("value: " + data.value)
-    console.log("form: " + data)
+  ejecutarAccion(accion: DatatableInputAction): void{
+    let campos = this.filtro;
     if (this.filtro.valid) {
-      this.accionEmitter.emit({accion, data});
+      this.accionEmitter.emit({accion, campos});
     } else {
       this.filtro.markAllAsTouched();
     }
