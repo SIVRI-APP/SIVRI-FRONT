@@ -1,0 +1,108 @@
+<form [formGroup]="formularioConsultar" (ngSubmit)="onsubmitConsultarPlan()" method="get">
+
+  <div class="filter-box">
+
+    <!--formulario de buscar plan-->
+    <div class="row">
+      <div class="col-sm">
+        <label for="idPlan" class="etiqueta-form"><strong>ID Plan</strong></label>
+        <input id="idPlan" name="idPlan" class="form-control" type="number" placeholder="Id del plan de trabajo"
+          formControlName="idPlan">
+          <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formularioConsultar.get('idPlan')?.valid && this.formularioConsultar.get('idPlan')?.touched ? 'block' : 'none'">
+            Digita el Id del Plan de trabajo que desea actualizar
+          </div>
+      </div>
+
+      <div class="col controls">
+
+        <button type="button" class="secondaryBTN" (click)="limpiarCampos()" >
+          <div class="button-content">
+            <span class="material-symbols-outlined secondaryBTN-icon">
+              filter_alt
+            </span>
+            <span class="text">Limpiar</span>
+          </div>
+        </button>
+
+        <button type="submit" class="primaryBTN">
+          <div class="button-content">
+            <span class="material-symbols-outlined primaryBTN-icon">
+              search
+            </span>
+            <span class="text">Buscar</span>
+          </div>
+        </button>
+
+      </div>
+
+    </div>
+    <div class="form-guide-line"></div>
+  </div>
+</form>
+    <!--formulario de actualizar plan-->
+    <div class=" d-flex justify-content-center">
+      <h5 class="etiqueta-form"><strong>Actualizar plan de trabajo</strong></h5>
+
+    </div>
+    <form [formGroup]="formularioEditar" (ngSubmit)="onsubmitEditarPlan()" method="get">
+      <div class="row">
+        <div class="col-sm">
+          <label for="nombrePlan" class="etiqueta-form"><strong>Nombre del plan</strong><span
+              class="text-red-500">*</span></label>
+          <input id="nombrePlan" name="nombrePlan" class="form-control" type="text" placeholder="Nombre"
+            formControlName="nombrePlan">
+          <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formularioEditar.get('nombrePlan')?.valid && this.formularioEditar.get('nombrePlan')?.touched ? 'block' : 'none'">
+            Digita un Nombre valido (1 - 50 caracteres)
+          </div>
+        </div>
+        <div class="col-sm">
+          <label for="anio" class="etiqueta-form"><strong>Año</strong><span class="text-red-500">*</span></label>
+          <input id="anio" name="anio" class="form-control" type="number" placeholder="Año del plan"
+            formControlName="anio" min="1900" max="2100">
+          <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formularioEditar.get('anio')?.valid && this.formularioEditar.get('anio')?.touched ? 'block' : 'none'">
+            Digita un Año valido (1990 - 2100)
+          </div>
+        </div>
+        <div class="col-sm">
+          <label for="estadoPlan" class="etiqueta-form"><strong>Estado</strong></label>
+          <select id="estado" name="estado" class="form-select" formControlName="estado">
+            <option value="" disabled selected hidden>Estado Plan</option>
+            <option value="FORMULADO">Formulado</option>
+            <option value="REVISADO">Revisado</option>
+            <option value="FINALIZADO">Finalizado</option>
+          </select>
+          <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formularioEditar.get('estado')?.valid && this.formularioEditar.get('estado')?.touched ? 'block' : 'none'">
+            Selecciona un estado
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="row">
+          <div class="col controls">
+
+
+            <button type="button" class="secondaryBTN" >
+              <div class="button-content">
+                <span class="material-symbols-outlined secondaryBTN-icon">
+                  filter_alt
+                </span>
+                <span class="text">Cancelar</span>
+              </div>
+            </button>
+            <button type="submit" class="primaryBTN" >
+              <div class="button-content">
+                <span class="material-symbols-outlined primaryBTN-icon">
+                  check_circle
+                </span>
+                <span class="text">Actualizar</span>
+              </div>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </form>
+
+
+

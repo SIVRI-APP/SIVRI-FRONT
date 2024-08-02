@@ -6,6 +6,7 @@ import { Respuesta } from '../../common/model/respuesta';
 import { Paginacion } from '../../common/model/paginacion';
 import { IntegranteSemilleroListar } from '../domain/model/proyecciones/integranteSemilleroListarProyeccion';
 import { IntegranteSemillero } from '../domain/model/proyecciones/integranteSemilleroProyeccion';
+import { ListarTodosIntegranteSemilleroconFiltroProyeccion } from '../domain/model/proyecciones/listarIntegranteSemilleroconFiltroProyeccion';
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +32,29 @@ export class IntegranteSemilleroAdapter {
     if(rolSemillero!=null) params= params.set('rolSemillero',rolSemillero);
     if(estado!=null) params = params.set('estado',estado);
     return this.http.get<Respuesta<Paginacion<IntegranteSemilleroListar>>>(this.apiUrl+'listarIntegrantesSemilleroPorSemilleroId',{params:params});
+  }
+
+  obtenerTodosIntegrantesSemilleroPaginado(
+    numeroDocumento: string,
+    nombres: string,
+    semilleroId: number,
+    nombreSemillero: string,
+    rolSemillero: string,
+    estado: string,
+    pageNo:number = 0,
+    pageSize: number = 2,
+  ): Observable<Respuesta<Paginacion<ListarTodosIntegranteSemilleroconFiltroProyeccion>>>{
+    let params=new HttpParams()
+    .set('pageNo', pageNo.toString())
+    .set('pageSize', pageSize.toString());
+    // Añade condicionalmente los otros parámetros si existen.
+    if(numeroDocumento!=undefined) params = params.set('numeroDocumento',numeroDocumento);
+    if(nombres!=undefined) params=params.set('nombres',nombres);
+    if(semilleroId!=null) params= params.set('semilleroId',semilleroId);
+    if(nombreSemillero!=null) params = params.set('nombreSemillero',nombreSemillero);
+    if(rolSemillero!=null) params= params.set('rolSemillero',rolSemillero);
+    if(estado!=null) params = params.set('estado',estado);
+    return this.http.get<Respuesta<Paginacion<ListarTodosIntegranteSemilleroconFiltroProyeccion>>>(this.apiUrl+'listarTodosIntegrantesConFiltro',{params:params});
   }
 
   obtenerIntegrantexId(

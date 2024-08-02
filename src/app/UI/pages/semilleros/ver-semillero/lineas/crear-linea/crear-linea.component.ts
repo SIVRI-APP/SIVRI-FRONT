@@ -41,7 +41,6 @@ export class CrearLineaComponent implements OnInit {
     });
   }
   ngOnInit(): void {
-    console.log('ingreso aqui despues de la modal')
     this.route.parent?.params.subscribe(params => {
       this.idSemillero = params['id'];
 
@@ -52,7 +51,6 @@ export class CrearLineaComponent implements OnInit {
     // Verificar si el formulario es válido
 
     if (this.formulario.valid) {
-      console.log('id del semillero de crear plan----------------' + this.idSemillero);
       this.lineaInvestigacionCrearService.crearLineaInvestigacion({
         semilleroId: this.idSemillero,
         linea: this.formulario.value.linea

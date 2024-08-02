@@ -1,15 +1,17 @@
-import { Component, EventEmitter, inject, OnInit } from '@angular/core';
+import { Component, EventEmitter, inject, OnDestroy, OnInit } from '@angular/core';
 import { Respuesta } from '../../../../../../service/common/model/respuesta';
 import { Paginacion } from '../../../../../../service/common/model/paginacion';
 import { SemilleroProgramaProyeccion } from '../../../../../../service/semilleros/domain/model/proyecciones/semilleroProgramaProyeccion';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { SemilleroProgramasAdapter } from '../../../../../../service/academica/infraestructure/semillero-programa.adapter';
+import { SemilleroProgramasAdapter } from '../../../../../../service/semilleros/infraestructure/semillero-programa.adapter';
 import { DatatableInput } from '../../../../../../service/common/model/datatableInput';
 import { EnumTranslationService } from '../../../../../../service/common/enum-translation.service';
 import { EliminarProgramaComponent } from '../eliminar-programa/eliminar-programa.component';
 import { CrearProgramaComponent } from '../crear-programa/crear-programa.component';
+import { Subscription } from 'rxjs';
+import { CommunicationComponentsService } from '../../../../../../service/common/communication-components.service';
 
 @Component({
   selector: 'app-listar-programas',
@@ -18,7 +20,7 @@ import { CrearProgramaComponent } from '../crear-programa/crear-programa.compone
   templateUrl: './listar-programas.component.html',
   styleUrl: './listar-programas.component.css'
 })
-export class ListarProgramasComponent implements OnInit {
+export class ListarProgramasComponent implements OnInit,OnDestroy {
 
   private changePageEmitter = new EventEmitter<number>();
   private movePageEmitter = new EventEmitter<number>();
@@ -26,12 +28,14 @@ export class ListarProgramasComponent implements OnInit {
   protected idLinea!: number;
   private respuesta: Respuesta<Paginacion<SemilleroProgramaProyeccion>>;
   paginas: number[] = [2, 3, 5];
+  private suscripciones: Subscription []=[];
   protected formulario: FormGroup;
   protected mostrarCreaPrograma: boolean = false;
   protected datatableInputs: DatatableInput;
   // Inyeccion de Modal
   private modalService = inject(NgbModal);
   constructor(
+    private actualizarListarService: CommunicationComponentsService,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private semillleroProgramaAdapter: SemilleroProgramasAdapter,
@@ -46,23 +50,28 @@ export class ListarProgramasComponent implements OnInit {
     this.datatableInputs = new DatatableInput('Programas',
       new Paginacion<SemilleroProgramaProyeccion>());
   }
+  ngOnDestroy(): void {
+    // Liberar la suscripción para evitar memory leaks
+    this.suscripciones.forEach(subcription => subcription.unsubscribe());
+  }
   ngOnInit(): void {
     this.mostrarCreaPrograma=false;
+    this.suscribirseALasActualizaciones();
     //obtener el id del semillero
     this.route.parent?.params.subscribe(params => {
       this.idSemillero = params['id']
     });
     this.formulario.get('semilleroId')?.setValue(this.idSemillero);
-    console.log('llamar la lista de las programas');
+
     this.listarProgramas();
+
   }
   listarProgramas() {
-
     this.semillleroProgramaAdapter.obtenerProgramasxSemilleroId(this.formulario.value.semilleroId, this.formulario.value.pageNo, this.formulario.value.pageSize
     ).subscribe({
       next: (respuesta) => {
-        console.log('programas ------------------')
-        console.log(respuesta)
+
+
         // Actualizar la lista de programas con los datos obtenidos
         this.respuesta = respuesta;
         //actualiza el input del datatable
@@ -89,10 +98,33 @@ export class ListarProgramasComponent implements OnInit {
     this.mostrarCreaPrograma= !this.mostrarCreaPrograma;
   }
   eliminarPrograma(idPrograma:any){
-    console.log('id de programa---'+idPrograma);
+
     const modalRef = this.modalService.open(EliminarProgramaComponent);
     modalRef.componentInstance.idPrograma = idPrograma;
+    modalRef.result.then((result) =>{
+      // Aquí se ejecuta después de cerrar el modal de eliminación
+    if (result === 'eliminarExitoso') {
+      // Notificar al servicio de actualización que se ha eliminado un programa
+      this.actualizarListarService.notificarActualizarListar('eliminar');
+    }
+    });
   }
+  suscribirseALasActualizaciones(){
+    // Suscribirse a las notificaciones de actualización para cada tipo
+    this.suscripciones.push(
+      this.actualizarListarService.actualizarListar$.subscribe((tipo:string)=>{
+        if(tipo=='agregar'){
+          this.mostrarCreaPrograma=false;
+        }
+        if(tipo=='eliminar'){
+          this.listarProgramas();
+        }
+        this.listarProgramas();
+
+      })
+    );
+  }
+
   /**
    * Calcula el texto que indica qué elementos se están visualizando actualmente.
    * @param pageNumber El número de página actual.
@@ -138,8 +170,8 @@ export class ListarProgramasComponent implements OnInit {
     const nextPage = Math.max(pageNumber - 1, 0);
 
     // Enviar el valor de la nueva pagina al componente padre
-    this.changePageEmitter.emit(pageNumber);
-    this.changePageNew(pageNumber);
+    this.changePageEmitter.emit(nextPage);
+    this.changePageNew(nextPage);
   }
   /**
    * Cambia la página de resultados de acuerdo al número de página especificado.

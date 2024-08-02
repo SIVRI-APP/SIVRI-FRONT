@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit, Output } from '@angular/core';
 import { CompromisoSemilleroObtenerService } from '../../../../../../../service/planTrabajo/domain/service/compromiso-semillero-obtener.service';
 import { IntegrantesGrupoObtenerService } from '../../../../../../../service/grupos/domain/service/integrantes-grupo-obtener.service';
 import { ActivatedRoute } from '@angular/router';
@@ -8,46 +8,78 @@ import { SemilleroProyeccion } from '../../../../../../../service/semilleros/dom
 import { CompromisoSemillero } from '../../../../../../../service/planTrabajo/domain/model/proyecciones/compromisoSemillero';
 import { IntegrantesMentores } from '../../../../../../../service/grupos/domain/model/proyecciones/integrantesMentores';
 import { Observable } from 'rxjs';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ActividadPlanCrearService } from '../../../../../../../service/planTrabajo/domain/service/actividad-plan-crear.service';
+import { ErrorData } from '../../../../../../../service/common/model/errorData';
+import { ModalBadComponent } from '../../../../../../shared/modal-bad/modal-bad.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalOkComponent } from '../../../../../../shared/modal-ok/modal-ok.component';
+import { CommunicationComponentsService } from '../../../../../../../service/common/communication-components.service';
 
 @Component({
   selector: 'app-crear-actividad',
   standalone: true,
-  imports: [],
+  imports: [
+    ReactiveFormsModule,
+  ],
   templateUrl: './crear-actividad.component.html',
   styleUrl: './crear-actividad.component.css'
 })
 export class CrearActividadComponent implements OnInit {
+  @Input() idPlan!: number;
   protected idSemillero!: string;
   protected idGrupo!: number ;
   protected semillero:Respuesta<SemilleroProyeccion>
   compromisosSemillero: CompromisoSemillero[]=[];
   protected integrantesMentores: IntegrantesMentores[]=[];
+  //formulario reactivo
+  protected formulario: FormGroup;
+  // Inyeccion de Modal
+  private modalService = inject(NgbModal);
+  // Respuesta del Back
+  protected respuesta: Respuesta<boolean>;
+  protected minDate: string; // Variable para almacenar la fecha mínima en formato YYYY-MM-DD
+  @Output() mostrarCrear:boolean;
   constructor(
     private route: ActivatedRoute,
+    private formBuilder: FormBuilder,
     private semilleroObtenerService: SemilleroObtenerService,
     private compromisosObtenerService: CompromisoSemilleroObtenerService,
-    private integrantesGrupoObtenerService: IntegrantesGrupoObtenerService
+    private integrantesGrupoObtenerService: IntegrantesGrupoObtenerService,
+    private actividadPlanCrearService: ActividadPlanCrearService,
+    private actualizarListarService: CommunicationComponentsService,
   ){
-
+    this.mostrarCrear= true;
+    this.formulario= this.formBuilder.group({
+      objetivo: ['',[Validators.required,Validators.minLength(2),Validators.maxLength(1450)]],
+      actividad: ['',[Validators.required]],
+      compromiso: ['',[Validators.required]],
+      responsable:['',[Validators.required]],
+      fechaInicio:['',[Validators.required]],
+      fechaFin:['',[Validators.required]]
+    });
     this.semillero=new Respuesta<SemilleroProyeccion>();
+    this.respuesta= new Respuesta<false>();
+    // Obtener la fecha actual en formato YYYY-MM-DD
+    const hoy = new Date();
+    const yyyy = hoy.getFullYear();
+    const mm = String(hoy.getMonth() + 1).padStart(2, '0');
+    const dd = String(hoy.getDate()).padStart(2, '0');
+    this.minDate = `${yyyy}-${mm}-${dd}`;
   }
 
   ngOnInit(): void {
     this.route.parent?.params.subscribe(params=>{
       this.idSemillero=params['id'];
     });
-    console.log('idsemillero de crear actividad---------'+this.idSemillero);
     this.semilleroObtenerService.obtenerSemilleroInformacionDetallada(this.idSemillero).subscribe({
       next:(respuesta)=>{
-        //console.log(respuesta);
+
         this.semillero=respuesta;
         this.idGrupo= this.semillero.data.grupoId;
-        this.integrantesGrupoObtenerService.obtenerMentores(this.idGrupo).subscribe({
+        this.integrantesGrupoObtenerService.obtenerMentoresxgrupo(this.idGrupo).subscribe({
           next:(respuesta)=>{
-           // console.log('respuesta de integrantes-----------');
-            //console.log(respuesta);
-            this.integrantesMentores= respuesta.data;
-
+          this.integrantesMentores= respuesta.data;
           }
         });
       }
@@ -55,8 +87,6 @@ export class CrearActividadComponent implements OnInit {
 
     this.compromisosObtenerService.obtenerCompromisosSemilleros().subscribe({
       next:(respuesta)=>{
-        console.log('respuesta de compromisos------------');
-        console.log(respuesta);
         this.compromisosSemillero=respuesta.data;
       },
       error: (errorData) => {
@@ -65,9 +95,68 @@ export class CrearActividadComponent implements OnInit {
     });
 
   }
+  onsubmit(){
 
+    if(this.formulario.valid){
+
+      this.actividadPlanCrearService.crearActividad(this.idPlan,{
+        objetivo:this.formulario.value.objetivo,
+        actividad:this.formulario.value.actividad,
+        idCompromiso:this.formulario.value.compromiso,
+        responsableUsuarioId:this.formulario.value.responsable,
+        fechaInicio:this.formulario.value.fechaInicio,
+        fechaFin:this.formulario.value.fechaFin
+      }).subscribe({
+        next:(respuesta)=>{
+          //console.log(respuesta);
+          this.respuesta= respuesta;
+          this.openModalOk(this.respuesta.userMessage);
+          this.actualizarListarService.notificarActualizarListar('agregar');
+          this.mostrarCrear = false;
+        },
+        // Manejar errores
+        error: (errorData) => {
+          // Verificar si el error es del tipo esperado
+          if (errorData.error && errorData.error.data) {
+            let respuesta: Respuesta<ErrorData> = errorData.error;
+            this.openModalBad(respuesta.data);
+          } else {
+            // Manejar errores inesperados
+            this.openModalBad(new ErrorData({ error: "Error inseperado, contactar a soporte" }));
+          }
+        }
+      });
+    }else{
+      this.formulario.markAllAsTouched();
+    }
+  }
   //borrar los datos ingresados en el filtro
   limpiarCampos(): void {
+    this.formulario= this.formBuilder.group({
+      objetivo: ['',[Validators.required,Validators.minLength(2),Validators.maxLength(1450)]],
+      actividad: ['',[Validators.required]],
+      compromiso: ['',[Validators.required]],
+      responsable:['',[Validators.required]],
+      fechaInicio:['',[Validators.required]],
+      fechaFin:['',[Validators.required]]
+    });
+  }
+  openModalOk(message: string) {
+    const modalRef = this.modalService.open(ModalOkComponent);
+    modalRef.componentInstance.name = message;
+    modalRef.result.then((result) => {
+      // Este bloque se ejecutará cuando se cierre la modal
+      if (result === 'navegar') {
+        //cierra todas las modales
+        this.modalService.dismissAll();
+        //TODO FALTA QUE REDIRIJA A LISTAR
+        //this.router.navigate([''])
+      }
 
+    });
+  }
+  openModalBad(data: ErrorData) {
+    const modalRef = this.modalService.open(ModalBadComponent);
+    modalRef.componentInstance.mensaje = data;
   }
 }

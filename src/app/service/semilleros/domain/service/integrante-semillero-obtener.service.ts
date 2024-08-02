@@ -6,6 +6,7 @@ import { Paginacion } from '../../../common/model/paginacion';
 import { IntegranteSemilleroListar } from '../model/proyecciones/integranteSemilleroListarProyeccion';
 import { RolIntegranteSemillero } from '../model/proyecciones/rolIntegranteSemillero';
 import { IntegranteSemillero } from '../model/proyecciones/integranteSemilleroProyeccion';
+import { ListarTodosIntegranteSemilleroconFiltroProyeccion } from '../model/proyecciones/listarIntegranteSemilleroconFiltroProyeccion';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +24,21 @@ export class IntegranteSemilleroObtenerService {
     pageSize?: number,
   ):Observable<Respuesta<Paginacion<IntegranteSemilleroListar>>>{
     return this.integranteSemilleroAdapter.obtenerIntegrantesxSemilleroIdPaginado(idSemillero,numeroDocumento,rolSemillero,estado,pageNo,pageSize);
+  }
+
+  obtenerTodosIntegrantesSemilleroPaginado(
+    numeroDocumento: string,
+    nombres: string,
+    semilleroId: number,
+    nombreSemillero: string,
+    rolSemillero: string,
+    estado: string,
+    pageNo:number ,
+    pageSize: number ,
+  ): Observable<Respuesta<Paginacion<ListarTodosIntegranteSemilleroconFiltroProyeccion>>>{
+    return this.integranteSemilleroAdapter.obtenerTodosIntegrantesSemilleroPaginado(
+      numeroDocumento,nombres,semilleroId,nombreSemillero,rolSemillero,estado,pageNo,pageSize
+    );
   }
 
   obtenerIntegrantexId(

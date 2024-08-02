@@ -1,7 +1,7 @@
 <form [formGroup]="formulario" (ngSubmit)="onsubmit()" method="get">
   <div class="filter-box">
     <div class=" d-flex justify-content-center">
-      <h5 class="etiqueta-form"><strong>Asociar Linea de Investigacion</strong></h5>
+      <h5 class="etiqueta-form"><strong>Actualizar Linea de Investigacion</strong></h5>
 
     </div>
     <!--formulario de asociar linea-->
@@ -17,7 +17,7 @@
       </div>
 
       <div class="col controls">
-        <button type="button" class="secondaryBTN" >
+        <button type="button" class="secondaryBTN" (click)="cancelar()">
           <div class="button-content">
             <span class="material-symbols-outlined secondaryBTN-icon">
               filter_alt

@@ -1,0 +1,38 @@
+<form [formGroup]="formulario"  method="get">
+  <div class="filter-box">
+
+    <!--filtro de busqueda por id semillero, nombre semillero y estado-->
+
+    <div class="row">
+      <div class="col controls">
+        <label class="form-label listar">Mostrar
+          <select class="form-select form-select-sm" formControlName="pageSize" (change)="onPageSizeChange()">
+            @for (pag of paginas; track $index) {
+            <option [value]="pag">{{pag}}</option>
+            }
+          </select>
+        </label>
+        <button type="button" class="secondaryBTN" (click)="toggleFormulario()">
+          <div class="button-content">
+            <span class="material-symbols-outlined secondaryBTN-icon">
+              add
+            </span>
+            <span class="text">Observación</span>
+          </div>
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Tabla Paginada  -->
+   @if (mostrarFormularioCrear==false) {
+  <app-datatable [datatableInputs]="datatableInputs" (changePageEmitter)="changePage($event)"
+  (movePageEmitter)="movePage($event)"></app-datatable>
+   }@else {
+    <div>
+      <app-crear-observacion></app-crear-observacion>
+    </div>
+   }
+  <div class="form-guide-line"></div>
+</form>

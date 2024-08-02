@@ -1,7 +1,7 @@
 import { LineaInvestigacion } from '../../../../../service/semilleros/domain/model/proyecciones/lineaInvestigacion';
-import { Component, NgModule, OnInit, inject } from '@angular/core';
+import { Component, NgModule, OnInit, ViewChild, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { Respuesta } from '../../../../../service/common/model/respuesta';
 import { SemilleroProyeccion } from '../../../../../service/semilleros/domain/model/proyecciones/semilleroProyeccion';
 import { SemilleroEstado } from '../../../../../service/semilleros/domain/model/enum/semilleroEstado';
@@ -11,27 +11,33 @@ import { SemilleroObtenerService } from '../../../../../service/semilleros/domai
 import { GrupoObtenerService } from '../../../../../service/grupos/domain/service/grupo-obtener.service';
 import { GrupoProyeccion } from '../../../../../service/grupos/domain/model/proyecciones/grupoProyeccion';
 import { ListarProgramas } from '../../../../../service/academica/domain/model/proyecciones/listarProgramas';
-import { SemilleroProgramaObtenerService } from '../../../../../service/academica/domain/service/semillero-programa-obtener.service';
 import { Paginacion } from '../../../../../service/common/model/paginacion';
 import { LineaInvestigacionObtenerService } from '../../../../../service/semilleros/domain/service/linea-investigacion-obtener.service';
 import { GrupoDisciplinaObtenerService } from '../../../../../service/grupos/domain/service/grupo-disciplina-obtener.service';
 import { ListarDisciplinaxGrupoIdProyeccion } from '../../../../../service/grupos/domain/model/proyecciones/listarDisciplinasxGrupoIdProyeccion';
 import { SemilleroActualizarService } from '../../../../../service/semilleros/domain/service/semillero-actualizar.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAlert, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ErrorData } from '../../../../../service/common/model/errorData';
 import { ModalOkComponent } from '../../../../shared/modal-ok/modal-ok.component';
 import { ModalBadComponent } from '../../../../shared/modal-bad/modal-bad.component';
+import { SemilleroProgramaObtenerService } from '../../../../../service/semilleros/domain/service/semillero-programa-obtener.service';
+import { NotificationAlertService } from '../../../../../service/common/notification-alert.service';
 
 @Component({
   selector: 'app-descripcion-semillero',
   standalone: true,
-  imports: [RouterOutlet,RouterLink, ReactiveFormsModule,RouterLinkActive],
+  imports: [
+    RouterOutlet,RouterLink,
+    ReactiveFormsModule,RouterLinkActive,
+
+  ],
   templateUrl: './descripcion-semillero.component.html',
   styleUrl: './descripcion-semillero.component.css'
 })
 export class DescripcionSemilleroComponent implements OnInit {
   // Inyeccion de Modal
   private modalService = inject(NgbModal);
+
   //campos que ayuda a la visualizacion
   protected id!: string;
   protected idgrupo!: number;
@@ -51,7 +57,9 @@ export class DescripcionSemilleroComponent implements OnInit {
   protected sedeEnum = Sede;
   // Respuesta del Back
   protected respuesta: Respuesta<boolean>;
+
   constructor(
+    private router: Router,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     protected enumTranslationService: EnumTranslationService,
@@ -60,7 +68,8 @@ export class DescripcionSemilleroComponent implements OnInit {
     private semilleroProgramaObtenerService: SemilleroProgramaObtenerService,
     private lineasInvestigacionObtenerService: LineaInvestigacionObtenerService,
     private grupoDisciplinaObtenerService: GrupoDisciplinaObtenerService,
-    private semilleroActualizarService: SemilleroActualizarService
+    private semilleroActualizarService: SemilleroActualizarService,
+    private notificationAlertService: NotificationAlertService,
   ) {
     this.respuesta = new Respuesta<false>();
     this.semillero = new Respuesta<SemilleroProyeccion>();
@@ -135,7 +144,7 @@ export class DescripcionSemilleroComponent implements OnInit {
               this.formulario.get('programa')?.setValue(this.nombreProgramas)
             },
             error: (errorData) => {
-              console.log(errorData);
+            //  console.log(errorData);
               const status=errorData.status;
               if(status==400){
                 const data=errorData.error.data.error;
@@ -151,7 +160,7 @@ export class DescripcionSemilleroComponent implements OnInit {
               this.nombreLineas= this.lineas.data.map(linea => linea.linea).join(',');
               this.formulario.get('linea')?.setValue(this.nombreLineas);
             }, error: (errorData) => {
-              console.log(errorData);
+            //  console.log(errorData);
               const status=errorData.status;
               if(status==400){
                 const data=errorData.error.data.error;
@@ -168,7 +177,7 @@ export class DescripcionSemilleroComponent implements OnInit {
               this.formulario.get('disciplina')?.setValue(this.nombreDisciplinas);
 
             }, error: (errorData) => {
-              console.log(errorData);
+            //  console.log(errorData);
               const status=errorData.status;
               if(status==400){
                 const data=errorData.error.data.error;
@@ -187,11 +196,10 @@ export class DescripcionSemilleroComponent implements OnInit {
   }
 
   onSubmit():void{
-    //console.log('entra al metodo onsubmit de la descripcion')
 
     // Verificar si el formulario es válido
     if(this.formulario.valid){
-      console.log('valida el formulario--------'+this.formulario);
+
       //realiza la solicitud para actualizar los datos
       this.semilleroActualizarService.actualizarSemilleroxMentor({
         semilleroId:this.id,
@@ -206,7 +214,7 @@ export class DescripcionSemilleroComponent implements OnInit {
         // Manejar respuesta exitosa
         next: (respuesta) => {
           // Captura la respuesta
-          console.log('respuesta actualizacion de semillero++++++++---'+respuesta);
+
           this.respuesta = respuesta;
           this.openModalOk(this.respuesta.userMessage)
         },
@@ -223,10 +231,21 @@ export class DescripcionSemilleroComponent implements OnInit {
         }
       });
     }else {
-      console.log('no me esta dando valido el formulario')
       // Marcar todos los campos del formulario como tocados si el formulario no es válido
       this.formulario.markAllAsTouched();
     }
+
+  }
+  cancelar(){
+    // Lógica para cancelar la acción
+    this.formulario.get('nombre')?.setValue(this.semillero.data.nombre);
+    this.formulario.get('correo')?.setValue(this.semillero.data.correo);
+    this.formulario.get('sede')?.setValue(this.semillero.data.sede);
+    this.formulario.get('objetivo')?.setValue(this.semillero.data.objetivo);
+    this.formulario.get('mision')?.setValue(this.semillero.data.mision);
+    this.formulario.get('vision')?.setValue(this.semillero.data.vision);
+    this.notificationAlertService.showAlert('titulo','accion cancelada',3000);
+
 
   }
 

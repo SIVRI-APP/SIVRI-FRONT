@@ -15,6 +15,7 @@ import { ModalBadComponent } from '../../../../../shared/modal-bad/modal-bad.com
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalOkComponent } from '../../../../../shared/modal-ok/modal-ok.component';
 import { CommunicationComponentsService } from '../../../../../../service/common/communication-components.service';
+import { NotificationAlertService } from '../../../../../../service/common/notification-alert.service';
 
 @Component({
   selector: 'app-actualizar-integrante',
@@ -46,7 +47,8 @@ export class ActualizarIntegranteComponent implements OnInit {
     private rolIntegrante: RolSemilleroObtenerService,
     protected enumTranslationService: EnumTranslationService,
     private integranteSemilleroObtenerService: IntegranteSemilleroObtenerService,
-    private integranteSemilleroCrearService: IntegranteSemilleroCrearService
+    private integranteSemilleroCrearService: IntegranteSemilleroCrearService,
+    private notificationAlertService: NotificationAlertService,
   ) {
     this.respuesta = new Respuesta<false>();
     this.integranteDatos = new Respuesta<IntegranteSemillero>();
@@ -72,18 +74,14 @@ export class ActualizarIntegranteComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.idIntegrante = params['idIntegrante']
     });
-    console.log('id del integrante desde actualizar integrante-----' + this.idIntegrante);
+
     this.integranteSemilleroObtenerService.obtenerIntegrantexId(this.idIntegrante).subscribe({
       next: (respuesta) => {
 
         this.integranteDatos = respuesta;
         this.integranteDatos.data.usuario.nombre = respuesta.data.usuario.nombre;
-        console.log('respuesta de obtener integrante por id ----------')
-        console.log(this.integranteDatos)
         //this.integranteDatos.data.rolSemillero=respuesta.data.rolSemillero;
         this.formulario.get('numeroDocumento')?.setValue(this.integranteDatos.data.usuario.numeroDocumento);
-        console.log('usuario ----------------------')
-        console.log(this.integranteDatos.data.usuario);
         let nombreCompleto = this.integranteDatos.data.usuario.nombre + ' ' + this.integranteDatos.data.usuario.apellido;
         this.formulario.get('nombre')?.setValue(nombreCompleto);
         this.formulario.get('estadoIntegrante')?.setValue(this.integranteDatos.data.fechaRetiro);
@@ -111,17 +109,14 @@ export class ActualizarIntegranteComponent implements OnInit {
 
   onsubmit(): void {
     if (this.formulario.valid) {
-      console.log('formulario-----' + this.formulario);
-      console.log(this.formulario);
-      this.integranteSemilleroCrearService.actualizarIntegranteSemillero({
+       this.integranteSemilleroCrearService.actualizarIntegranteSemillero({
         id: this.idIntegrante,
         estado: this.formulario.value.estadoIntegrante,
         rolSemilleroId: this.formulario.value.rolSemilleroId,
         fechaRetiro: this.formulario.value.fechaRetiro
       }).subscribe({
         next: (respuesta) => {
-          console.log(respuesta);
-          this.respuesta = respuesta;
+           this.respuesta = respuesta;
           this.openModalOk(this.respuesta.userMessage)
            },
         // Manejar errores
@@ -138,6 +133,13 @@ export class ActualizarIntegranteComponent implements OnInit {
         }
       });
     }
+  }
+  cancelar(){
+    this.formulario.get('rolSemillero')?.setValue(this.integranteDatos.data.rolSemillero.rolSemillero);
+    this.formulario.get('fechaIngreso')?.setValue(this.integranteDatos.data.fechaIngreso);
+    this.formulario.get('fechaRetiro')?.setValue(this.integranteDatos.data.fechaRetiro);
+    this.notificationAlertService.showAlert('','integrante no actualizado',3000);
+    this.router.navigate([`/semilleros/listar-semilleros/${this.idSemillero}/listar-integrantes`]);
   }
   openModalOk(message: string) {
     this.actualizarListaService.notificarActualizarListar('actualizar');

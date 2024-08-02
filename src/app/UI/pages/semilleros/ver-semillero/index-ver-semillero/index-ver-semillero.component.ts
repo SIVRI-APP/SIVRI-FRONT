@@ -29,11 +29,8 @@ export class IndexVerSemilleroComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.id = params['id'];
-      console.log('id semilleroo ' + this.id);
       this.semilleroObtenerService.obtenerSemilleroInformacionDetallada(this.id).subscribe({
         next: (respuesta) => {
-          console.log("semillero ------------------------")
-          console.log(respuesta)
           this.semillero = respuesta;
           this.nombre=this.semillero.data.nombre;
         }

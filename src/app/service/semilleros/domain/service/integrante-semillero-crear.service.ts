@@ -28,8 +28,6 @@ export class IntegranteSemilleroCrearService {
       fechaRetiro:string
     }
   ):Observable<Respuesta<boolean>>{
-    console.log('datos del formulario que actualizara el integrante al service--------------');
-    console.log(body)
     return this.integranteSemilleroAdapter.actualizarIntegranteSemillero(body);
   }
 }

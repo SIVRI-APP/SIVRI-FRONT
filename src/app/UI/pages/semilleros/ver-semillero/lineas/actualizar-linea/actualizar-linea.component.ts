@@ -9,6 +9,7 @@ import { LineaInvestigacionCrearService } from '../../../../../../service/semill
 import { ErrorData } from '../../../../../../service/common/model/errorData';
 import { ModalOkComponent } from '../../../../../shared/modal-ok/modal-ok.component';
 import { ModalBadComponent } from '../../../../../shared/modal-bad/modal-bad.component';
+import { NotificationAlertService } from '../../../../../../service/common/notification-alert.service';
 
 @Component({
   selector: 'app-actualizar-linea',
@@ -33,6 +34,7 @@ export class ActualizarLineaComponent implements OnInit {
     private formBuilder: FormBuilder,
     private lineaInvestigacionObtenerService:LineaInvestigacionObtenerService,
     private lineaInvestigacionCrearService: LineaInvestigacionCrearService,
+    private notificationAlertService: NotificationAlertService,
   ){
     this.lineaDatos= new Respuesta<LineaInvestigacion>();
     this.respuesta = new Respuesta<false>();
@@ -46,12 +48,10 @@ export class ActualizarLineaComponent implements OnInit {
     this.route.parent?.params.subscribe(params => {
       this.idSemillero = params['id']
     });
-    console.log('id semillero para on init-------'+this.idSemillero);
     this.route.params.subscribe(params => {
       this.idLinea = params['idLinea']
     });
-    console.log('is de la linea capturada----- '+this.idLinea)
-    //obtengo los datos de la linea
+     //obtengo los datos de la linea
     this.lineaInvestigacionObtenerService.obtenerLineaxId(this.idLinea).subscribe({
       next:(respuesta)=>{
         this.lineaDatos=respuesta;
@@ -81,15 +81,19 @@ export class ActualizarLineaComponent implements OnInit {
         });
     }
   }
+  cancelar(){
+    this.formulario.get('linea')?.setValue(this.lineaDatos.data.linea);
+    this.notificationAlertService.showAlert('','Linea no actualizada',3000)
+    this.router.navigate([`semilleros/listar-semilleros/${this.idSemillero}/listar-lineas`]);
+  }
   openModalOk(message: string) {
 		const modalRef = this.modalService.open(ModalOkComponent);
 		modalRef.componentInstance.name = message;
     modalRef.result.then((result) => {
       // Este bloque se ejecutará cuando se cierre la modal
       if (result === 'navegar') {
-        console.log('id semillero para la navegacion-------'+this.idSemillero);
         // Redirige a la ruta del componente ListarLineasComponent
-      this.router.navigate([`semilleros/listar-semilleros/${this.idSemillero}/Listar-lineas`]);
+      this.router.navigate([`semilleros/listar-semilleros/${this.idSemillero}/listar-lineas`]);
 
       }
 

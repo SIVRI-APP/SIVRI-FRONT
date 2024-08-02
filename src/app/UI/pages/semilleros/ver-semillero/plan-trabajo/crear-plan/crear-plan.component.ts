@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit, inject } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -10,6 +10,8 @@ import { ErrorData } from '../../../../../../service/common/model/errorData';
 import { ModalOkComponent } from '../../../../../shared/modal-ok/modal-ok.component';
 import { ModalBadComponent } from '../../../../../shared/modal-bad/modal-bad.component';
 import { CrearActividadComponent } from '../actividad-plan-trabajo/crear-actividad/crear-actividad.component';
+import { Subscription } from 'rxjs';
+import { CommunicationComponentsService } from '../../../../../../service/common/communication-components.service';
 
 @Component({
   selector: 'app-crear-plan',
@@ -26,6 +28,7 @@ import { CrearActividadComponent } from '../actividad-plan-trabajo/crear-activid
 })
 export class CrearPlanComponent implements OnInit {
   @Input() idSemillero!: string;
+  @Output() mostrarFormularioCrear:boolean;
   //activeModal = inject(NgbActiveModal);
   // Inyeccion de Modal
   private modalService = inject(NgbModal);
@@ -33,13 +36,16 @@ export class CrearPlanComponent implements OnInit {
   protected formulario: FormGroup;
   // Respuesta del Back
   protected respuesta: Respuesta<boolean>
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     protected EnumTranslationService: EnumTranslationService,
-    private planTrabajoCrearService: PlanTrabajoCrearService
+    private planTrabajoCrearService: PlanTrabajoCrearService,
+    private actualizarListarService: CommunicationComponentsService,
   ) {
+    this.mostrarFormularioCrear=true;
     this.respuesta = new Respuesta<false>();
     this.formulario = this.formBuilder.group({
       idSemillero: [''],
@@ -49,17 +55,18 @@ export class CrearPlanComponent implements OnInit {
     });
     this.formulario.get('estado')?.disable();
   }
+
   ngOnInit(): void {
     this.route.parent?.params.subscribe(params => {
       this.idSemillero = params['id'];
 
-    })
-  }
+    });
+ }
 
   onsubmit(): void {
     // Verificar si el formulario es válido
     if (this.formulario.valid) {
-      console.log('id del semillero de crear plan----------------' + this.idSemillero);
+
       const estado = 'FORMULADO';
       this.planTrabajoCrearService.crearPlanTrabajo({
         idSemillero: this.idSemillero,
@@ -70,12 +77,10 @@ export class CrearPlanComponent implements OnInit {
         //manejar respuesta exitosa
         next: (respuesta) => {
           //TODO no me captura el estado
-          console.log(this.formulario);
-          console.log('formulario de crear ---------');
-          console.log('respuesta de crear plan-----------');
-          console.log(respuesta);
-          this.respuesta= respuesta;
+          this.respuesta = respuesta;
           this.openModalOk(respuesta.userMessage);
+          this.actualizarListarService.notificarActualizarListar('agregar');
+          this.mostrarFormularioCrear=false;
         },
         // Manejar errores
         error: (errorData) => {
@@ -89,7 +94,7 @@ export class CrearPlanComponent implements OnInit {
           }
         }
       })
-    }else{
+    } else {
       this.formulario.markAllAsTouched();
     }
   }

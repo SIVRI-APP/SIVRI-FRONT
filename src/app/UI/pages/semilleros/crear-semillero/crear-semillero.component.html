@@ -1,0 +1,82 @@
+<form [formGroup]="formulario" (submit)="onSubmit()" method="get">
+  <div class="filter-box">
+    <!--formulario de editar semillero -->
+    <div class="row">
+      <div class="col-sm">
+        <label for="nombre" class="etiqueta-form"><strong>Nombre</strong><span class="text-red-500">*</span></label>
+        <input id="nombre" name="nombre" class="form-control" type="text" placeholder="nombre" formControlName="nombre">
+        <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('nombre')?.valid && this.formulario.get('nombre')?.touched ? 'block' : 'none'">
+          Digita un Nombre valido (2 - 200 caracteres)
+      </div>
+      </div>
+      <div class="col-sm">
+        <label for="grupoId" class="etiqueta-form"><strong>Grupo </strong><span class="text-red-500">*</span></label>
+        <select id="grupoId" name="grupoId" class="form-select" (change)="listarMentores()" formControlName="grupoId">
+          <option value="" selected hidden>Seleccione Grupo</option>
+          @for (grupo of grupos; track $index) {
+          <option [value]="grupo.grupoId">{{grupo.nombre}}</option>
+          }
+        </select>
+        <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('grupoId')?.valid && this.formulario.get('grupoId')?.touched ? 'block' : 'none'">
+          Selecciona un Grupo
+        </div>
+      </div>
+
+    </div>
+    <div class="row">
+
+      <div class="col-sm">
+        <label for="mentorId" class="etiqueta-form"><strong>Mentor </strong><span class="text-red-500">*</span></label>
+        <select id="mentorId" name="mentorId" class="form-select" formControlName="mentorId">
+          <option value="" selected hidden>Seleccione el Mentor</option>
+          @for (mentor of integrantesMentores; track $index) {
+          <option [value]="mentor.id">{{mentor.nombres}}</option>
+          }
+        </select>
+        <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('mentorId')?.valid && this.formulario.get('mentorId')?.touched ? 'block' : 'none'">
+          Selecciona un mentor
+        </div>
+      </div>
+      <div class="col-sm">
+        <label for="fechaCreacion" class="etiqueta-form"><strong>Fecha Creación</strong></label>
+        <input id="fechaCreacion" name="fechaCreacion" class="form-control" type="date" placeholder="Fecha Creación"
+          formControlName="fechaCreacion">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col controls">
+        <button type="button" class="secondaryBTN">
+          <div class="button-content">
+            <span class="material-symbols-outlined secondaryBTN-icon">
+              cancel
+            </span>
+            <span class="text">Cancelar</span>
+          </div>
+        </button>
+
+        <button type="submit" class="primaryBTN">
+          <div class="button-content">
+            <span class="material-symbols-outlined primaryBTN-icon">
+              check_circle
+            </span>
+            <span class="text">Crear</span>
+          </div>
+        </button>
+
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm">
+        <span class="text-red-500">Director de Grupo de Investigación:</span> <br>
+        <span class="etiqueta-form">
+          Recuerde que la creación del Semillero a través del Sistema de Información de la Vicerrectoría de
+          Investigaciones (SIVRI), otorga al Semillero de forma automática el aval por parte del Grupo de Investigación
+          para la creación y funcionamiento del Semillero según lo establecido por la Vicerrectoría de Investigaciones.
+        </span>
+      </div>
+    </div>
+    <div class="form-guide-line"></div>
+
+  </div>
+</form>

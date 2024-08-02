@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Respuesta } from '../../../common/model/respuesta';
-import { ListarProgramas } from '../model/proyecciones/listarProgramas';
 import { Paginacion } from '../../../common/model/paginacion';
-import { SemilleroProgramasAdapter } from '../../infraestructure/semillero-programa.adapter';
+import { SemilleroProgramasAdapter } from '../../../semilleros/infraestructure/semillero-programa.adapter';
+import { ListarProgramas } from '../../../academica/domain/model/proyecciones/listarProgramas';
 
 @Injectable({
   providedIn: 'root'

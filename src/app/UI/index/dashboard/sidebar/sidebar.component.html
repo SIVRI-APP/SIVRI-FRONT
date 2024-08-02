@@ -21,14 +21,14 @@
         <span class="nav-text">Grupos</span>
       </a>
     </li>
-
+    @if (found==true) {
     <li class="nav-item">
       <a class="nav-link" routerLink="semilleros" routerLinkActive="active">
         <span class="nav-icon material-symbols-outlined">experiment</span>
         <span class="nav-text">Semilleros</span>
       </a>
     </li>
-
+  }
     <li class="nav-item">
       <a class="nav-link" routerLink="convocatorias" routerLinkActive="active">
         <span class="nav-icon material-symbols-outlined">campaign</span>

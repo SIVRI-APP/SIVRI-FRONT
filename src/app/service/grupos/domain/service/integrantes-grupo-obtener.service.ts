@@ -15,7 +15,7 @@ export class IntegrantesGrupoObtenerService {
     this.mentoresxGrupoId=new Observable;
   }
 
-  obtenerMentores(
+  obtenerMentoresxgrupo(
     idGrupo:number
   ):Observable<Respuesta<IntegrantesMentores[]>>{
      this.mentoresxGrupoId = this.integrantesGrupoAdapter.obtenerIntegrantesGrupoId(idGrupo);

@@ -21,12 +21,12 @@
         <label for="rolSemillero" class="etiqueta-form"><strong>Rol Semillero</strong></label>
         <select id="rolSemillero" name="rolSemillero" class="form-select" formControlName="rolSemilleroId">
 
-          <option value="1">COORDINADOR</option>
-          <option value="2">MENTOR</option>
-          <option value="3">MIEMBRO_ACTIVO_PROFESOR</option>
-          <option value="4">MIEMBRO_ACTIVO_ESTUDIANTE_POSGRADO</option>
-          <option value="5">MIEMBRO_ACTIVO_EGRESADO</option>
-          <option value="6">SEMILLAS</option>
+          <option value="1">Coordinador</option>
+          <option value="2">Mentor</option>
+          <option value="3">Miembro activo profesor</option>
+          <option value="4">Miembro activo estudiante posgrado</option>
+          <option value="5">Miembro activo egresado</option>
+          <option value="6">Semillas</option>
           <!-- @for (key of rolIntegranteSemillero; track $index) {
           <option [value]="key.id">{{key.rolSemillero}}</option>
           }-->
@@ -36,9 +36,9 @@
         <label for="estadoIntegrante" class="etiqueta-form"><strong>Estado</strong></label>
         <select id="estadoIntegrante" name="estadoIntegrante" class="form-select" formControlName="estadoIntegrante">
           <option value="" disabled selected hidden>Estado del integrante</option>
-          @for (key of enumTranslationService.getEnumKeys(estadoIntegranteEnum); track $index) {
-          <option [value]="key">{{enumTranslationService.getEnumValueByKey(estadoIntegranteEnum,key)}}</option>
-          }
+          <option value="ACTIVO">Activo</option>
+          <option value="INACTIVO">Inactivo</option>
+
         </select>
       </div>
     </div>
@@ -57,7 +57,7 @@
     </div>
     <div class="row">
       <div class="col controls">
-        <button type="button" class="secondaryBTN">
+        <button type="button" class="secondaryBTN" (click)="cancelar()">
           <div class="button-content">
             <span class="material-symbols-outlined secondaryBTN-icon">
               cancel

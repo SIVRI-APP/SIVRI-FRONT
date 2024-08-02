@@ -53,7 +53,6 @@ export class CrearPlanModalComponent {
   onsubmit(): void {
     // Verificar si el formulario es válido
     if (this.formulario.valid) {
-      console.log('id del semillero de crear plan----------------' + this.idSemillero);
       const estado = 'FORMULADO';
       this.planTrabajoCrearService.crearPlanTrabajo({
         idSemillero: this.idSemillero,
@@ -64,11 +63,7 @@ export class CrearPlanModalComponent {
         //manejar respuesta exitosa
         next: (respuesta) => {
           //TODO no me captura el estado
-          console.log(this.formulario);
-          console.log('formulario de crear ---------');
-          console.log('respuesta de crear plan-----------');
-          console.log(respuesta);
-          this.respuesta= respuesta;
+         this.respuesta= respuesta;
           this.openModalOk(respuesta.userMessage);
         },
         // Manejar errores

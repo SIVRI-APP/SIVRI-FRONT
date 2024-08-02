@@ -11,6 +11,42 @@
   /* Espaciado de línea */
   line-height: normal; /* Espaciado de línea normal */
 }
+/* -------------icono de la tarjeta-------------*/
+.icon-card{
+  color: var(--azul-principal, #006);
+  /* Color del texto del título */
+  font-size: 40px;
+}
+/* -------------- estilo de alerta notificacion-----------*/
+.alerta-warning{
+  position: fixed;
+  max-width: 5000px;
+  max-height: 1000px;
+  top: 80px;
+  right: 30px;
+  background: #F6F6F6;
+  border-radius: 7px;
+  border: 1px solid var( #E4E1EC);
+    /* Color del texto del enlace */
+  font-size: 15px;
+    /* Tamaño de fuente */
+  font-style: normal;
+    /* Estilo de fuente */
+  font-weight: 400;
+    /* Peso de la fuente */
+  line-height: normal;
+  margin-bottom: 5px;
+  border-left: 5px solid #FF554C;
+}
+.alert-title{
+  color: #FF554C;
+}
+.alert-icon-warning{
+  color: #FF554C;
+  width:"33";
+   height:"30";
+    fill:"none";
+}
 
 /* ---------------- Miga de Pan ---------------- */
 
@@ -49,7 +85,25 @@
 }
 
 /* ---------------- Titulo ---------------- */
-
+/* Estilos para el sub titulo */
+.sub-title{
+  color: var(--azul-principal, #006);
+  /* Color del texto del título */
+  font-size: 16px;
+  /* Tamaño de fuente */
+  font-style: normal;
+   /* Estilo de fuente */
+   font-weight: 700;
+   /* Peso de la fuente */
+   line-height: normal;
+   /* Altura de línea */
+   text-transform: capitalize;
+   /* Transformación de texto */
+   position: relative;
+   /* Posición relativa */
+   display: inline;
+   /* Visualización en línea */
+}
 /* Estilos para el título */
 .title {
   color: var(--azul-principal, #006);
@@ -127,7 +181,16 @@
   border-bottom-width: 2px;
   /* Ancho del borde inferior */
 }
+/* estilos para el enlace activo del submenu de la navegacion horizontal*/
+.nav-item.dropdown.active > .nav-link {
+  font-weight: 700;
+  /* Peso de la fuente */
+  border-bottom-color: #C00;
+  /* Color del borde inferior */
+  border-bottom-width: 2px;
+  /* Ancho del borde inferior */
 
+}
 /* Estilos para los enlaces de la navegación horizontal al pasar el mouse */
 .nav-underline .nav-item:hover .nav-link:not(.active) {
   border-bottom-width: 2px;

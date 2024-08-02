@@ -26,6 +26,7 @@ import { CommunicationComponentsService } from '../../../../../../service/common
 })
 export class ListarLineasComponent implements OnInit,OnDestroy {
   @Output() movePageEmitter = new EventEmitter<number>();
+  private changePageEmitter = new EventEmitter<number>();
   private suscripciones: Subscription[]=[];
   protected idSemillero!: string;
   protected idLinea!:number;
@@ -64,23 +65,20 @@ export class ListarLineasComponent implements OnInit,OnDestroy {
       this.idSemillero = params['id']
     });
     this.formulario.get('semilleroId')?.setValue(this.idSemillero);
-    console.log('llamar la lista de las lineas')
-    this.listarLineas(this.idSemillero,this.formulario.value.pageSize,this.formulario.value.pageNo);
-    console.log('issemillerodelineas'+this.idSemillero)
-    this.suscribirseALasActualizaciones();
+    this.listarLineas();
+   this.suscribirseALasActualizaciones();
   }
   onPageSizeChange() {
     this.mostrarCreaLinea=false;
     const newPageSize = this.formulario.value.pageSize;
-    this.listarLineas(this.idSemillero, newPageSize, 0); // Empieza en la primera página
+    this.listarLineas(); // Empieza en la primera página
   }
-  listarLineas(idSemillero:string, pageSize:number,pageNo:number){
+  listarLineas(){
 
     this.lineaInvestigacionObtenerService.obtenerLineasPaginadoxSemilleroId(
-      idSemillero,pageNo,pageSize
+      this.formulario.value.semilleroId,this.formulario.value.pageNo,this.formulario.value.pageSize
     ).subscribe({
       next:(respuesta)=>{
-        console.log(respuesta)
         this.respuesta=respuesta;
         this.datatableInputs.searchPerformed = true;
         this.datatableInputs.paginacion = this.respuesta.data;
@@ -104,10 +102,7 @@ export class ListarLineasComponent implements OnInit,OnDestroy {
         if(tipo=='agregar'){
           this.mostrarCreaLinea=false;
         }
-        this.listarLineas(this.formulario.value.semilleroId,
-          this.formulario.value.pageSize,
-          this.formulario.value.pageNo
-        );
+        this.listarLineas( );
       })
     );
   }
@@ -115,7 +110,6 @@ export class ListarLineasComponent implements OnInit,OnDestroy {
     this.mostrarCreaLinea= !this.mostrarCreaLinea;
   }
   eliminarLinea(idLinea:any){
-    console.log('id de linea'+idLinea);
     //llamar la modal de eliminar
     const modalRef = this.modalService.open(EliminarLineaModalComponent);
     modalRef.componentInstance.idLinea = idLinea;
@@ -149,19 +143,6 @@ export class ListarLineasComponent implements OnInit,OnDestroy {
     );
   }
   /**
-   * Mueve la página de resultados hacia adelante o hacia atrás según la dirección especificada.
-   * @param newPage La dirección hacia la que se debe mover la página ('adelante' o 'atras').
-   */
-  movePageTable(newPage: string): void {
-    if (newPage === 'atras') {
-        // Enviar la disminucion del valor de la pagina al componente padre
-        this.movePageEmitter.emit(-1);
-    } else {
-      // Enviar el incremento del valor de la pagina al componente padre
-      this.movePageEmitter.emit(1);
-    }
-  }
-  /**
    * Genera un array de números de página basado en el número total de páginas.
    * @returns Un array de números de página.
    */
@@ -174,10 +155,51 @@ export class ListarLineasComponent implements OnInit,OnDestroy {
      * @param pageNumber El número de página al que se debe cambiar.
      */
   changePage(pageNumber: number): void {
+    // Asegurarse de que newPage no sea menor que 0
+    const nextPage = Math.max(pageNumber - 1, 0);
+
+    // Enviar el valor de la nueva pagina al componente padre
+    this.changePageEmitter.emit(nextPage);
+    this.changePageNew(nextPage);
+  }
+  /**
+   * Cambia la página de resultados de acuerdo al número de página especificado.
+   * @param pageNumber El número de página al que se debe cambiar.
+   */
+  changePageNew(pageNumber: number): void {
     // Actualizar el valor de pageNo en el formulario
     this.formulario.get('pageNo')?.setValue(pageNumber);
 
     // Enviar el formulario para cargar los datos de la nueva página
-    this.listarLineas(this.formulario.value.semilleroId,this.formulario.value.pageSize,this.formulario.value.pageNo);
+    this.listarLineas();
   }
+  /**
+   * Mueve la página de resultados hacia adelante o hacia atrás según la dirección especificada.
+   * @param newPage La dirección hacia la que se debe mover la página ('adelante' o 'atras').
+   */
+  movePage(newPage: string): void {
+    if (newPage === 'atras') {
+        // Enviar la disminucion del valor de la pagina al componente padre
+        this.movePageEmitter.emit(-1);
+        this.movePageNew(-1);
+    } else {
+      // Enviar el incremento del valor de la pagina al componente padre
+      this.movePageEmitter.emit(1);
+      this.movePageNew(1);
+    }
+  }
+  /**
+   * Mueve la página de resultados hacia adelante o hacia atrás según la dirección especificada.
+   * @param newPage La dirección hacia la que se debe mover la página ('adelante' o 'atras').
+   */
+  movePageNew(newPage: number): void {
+    // Realizar incremento o decremento de la Pagina
+    this.formulario
+      .get('pageNo')
+      ?.setValue((this.formulario.get('pageNo')?.value ?? 0) + newPage);
+
+    // Enviar el formulario para cargar los datos de la nueva página
+    this.listarLineas();
+  }
+
 }
