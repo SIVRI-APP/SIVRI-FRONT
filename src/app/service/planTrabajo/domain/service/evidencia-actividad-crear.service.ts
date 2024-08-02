@@ -9,8 +9,9 @@ import { Observable } from 'rxjs';
 export class EvidenciaActividadCrearService {
 
   constructor(private evidenciaActividadAdapter: EvidenciaActividadAdapter) { }
-  subirEvidenciaActividad(idActividad: number,
-    formData:FormData):Observable<Respuesta<boolean>>{
-    return this.evidenciaActividadAdapter.subirEvidenciaActividad(idActividad,formData);
+
+  subirEvidenciaActividad(idActividad: number, base64File: string, fileName: string): Observable<any> {
+
+    return this.evidenciaActividadAdapter.subirEvidenciaActividad(idActividad,base64File,fileName);
   }
 }

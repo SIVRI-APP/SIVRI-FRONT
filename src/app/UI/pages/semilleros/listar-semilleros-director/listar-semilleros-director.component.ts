@@ -62,9 +62,7 @@ export class ListarSemillerosDirectorComponent {
       ).subscribe({
         // Manejar respuesta exitosa
         next: (respuesta) => {
-          console.log("Respuesta ------------------------")
-          console.log(respuesta)
-          // Actualizar la lista de solicitudes de usuario con los datos obtenidos
+         // Actualizar la lista de solicitudes de usuario con los datos obtenidos
           this.respuesta = respuesta;
           //actualiza el input del datatable
           this.datatableInputs.searchPerformed = true;
@@ -136,7 +134,6 @@ export class ListarSemillerosDirectorComponent {
 
   //metodo que no permite el ingreso de punto y la letra e
   onKeyDown(event: KeyboardEvent) {
-    console.log('tecla ' + event.key)
     const tecla = event.key;
     if (['.', ',', 'e'].includes(tecla)) {
       event.preventDefault();

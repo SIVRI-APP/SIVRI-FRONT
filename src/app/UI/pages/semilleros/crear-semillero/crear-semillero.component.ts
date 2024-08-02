@@ -67,8 +67,6 @@ export class CrearSemilleroComponent implements OnInit {
     });
   }
   onSubmit(){
-    console.log('formulario ------------');
-    console.log(this.formulario);
     this.semilleroCrearService.crearSemillero({
       nombre:this.formulario.value.nombre,
       grupoId:this.formulario.value.grupoId,

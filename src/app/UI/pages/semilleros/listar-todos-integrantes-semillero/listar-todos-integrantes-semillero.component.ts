@@ -61,7 +61,6 @@ export class ListarTodosIntegrantesSemilleroComponent implements OnInit {
     });
   }
   onsubmit(){
-    console.log(this.formulario);
     if(this.formulario.valid){
       this.integranteSemilleroObtenerService.obtenerTodosIntegrantesSemilleroPaginado(
         this.formulario.value.numeroDocumento,this.formulario.value.nombres,
@@ -69,7 +68,6 @@ export class ListarTodosIntegrantesSemilleroComponent implements OnInit {
     this.formulario.value.rolSemillero,this.formulario.value.estado,
   this.formulario.value.pageNo,this.formulario.value.pageSize).subscribe({
           next:(respuesta)=>{
-            console.log(respuesta);
             this.respuesta=respuesta;
             //actualiza el input del datatable
             this.datatableInputs.searchPerformed= true;
@@ -108,7 +106,6 @@ export class ListarTodosIntegrantesSemilleroComponent implements OnInit {
   }
   //metodo que no permite el ingreso de punto y la letra e
   onKeyDown(event: KeyboardEvent) {
-    console.log('tecla ' + event.key)
     const tecla = event.key;
     if (['.', ',', 'e'].includes(tecla)) {
       event.preventDefault();

@@ -78,7 +78,6 @@ export class ActualizarActividadComponent  implements OnInit {
     });
     this.semilleroObtenerService.obtenerSemilleroInformacionDetallada(this.idSemillero).subscribe({
       next:(respuesta)=>{
-        //console.log(respuesta);
         this.semillero=respuesta;
         this.idGrupo= this.semillero.data.grupoId;
         this.integrantesGrupoObtenerService.obtenerMentoresxgrupo(this.idGrupo).subscribe({
@@ -100,10 +99,8 @@ export class ActualizarActividadComponent  implements OnInit {
     this.obtenerActividadxId();
   }
   obtenerActividadxId(){
-    console.log('id de la actividad '+this.idActividad);
     this.actividadObtenerService.obtenerActividadxId(this.idActividad).subscribe({
       next:(respuesta)=>{
-        console.log(respuesta);
         this.actividadxid=respuesta;
         this.formulario.get('objetivo')?.setValue(this.actividadxid.data.objetivo);
         this.formulario.get('actividad')?.setValue(this.actividadxid.data.actividad);
@@ -113,7 +110,7 @@ export class ActualizarActividadComponent  implements OnInit {
        this.formulario.get('fechaFin')?.setValue(this.actividadxid.data.fechaFin);
       }
     });
-    console.log(this.formulario);
+
   }
   onsubmit(){
     if(this.formulario.valid){
@@ -127,7 +124,6 @@ export class ActualizarActividadComponent  implements OnInit {
         responsableUsuarioId: this.formulario.value.responsable
       }).subscribe({
         next:(respuesta)=>{
-          console.log(respuesta);
           this.respuesta=respuesta;
           this.openModalOk(this.respuesta.userMessage);
           this.actualizarListarService.notificarActualizarListar('actualizar');

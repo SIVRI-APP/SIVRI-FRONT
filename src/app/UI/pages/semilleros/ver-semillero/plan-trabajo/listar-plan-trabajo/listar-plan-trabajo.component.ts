@@ -86,12 +86,12 @@ export class ListarPlanTrabajoComponent implements OnInit, OnDestroy {
     this.suscripciones.push(
       this.actualizarListarService.actualizarListar$.subscribe((tipo: string) => {
         if (tipo == 'agregar') {
-          console.log('ingresa al agregar integrante de actualizar lista')
+
           this.mostrarCreaPlan = false;
           this.listarPlanesTrabajo();
         } else if ('actualizar') {
-          console.log('formulario para volver a listar los integrnates')
-          console.log(this.formulario)
+
+
         }
 
       })
@@ -114,7 +114,7 @@ export class ListarPlanTrabajoComponent implements OnInit, OnDestroy {
       this.formulario.value.estado).subscribe({
         next: (respuesta) => {
           this.respuesta=respuesta;
-          console.log(respuesta)
+
           this.searchPerformed=true;
         },
         // Manejar errores
@@ -136,7 +136,7 @@ export class ListarPlanTrabajoComponent implements OnInit, OnDestroy {
       this.formulario.markAllAsTouched();
       // Lanzar un error
       //throw new Error('Formulario no válido');
-      console.log('Formulario no valido')
+
     }
   }
 
@@ -237,14 +237,12 @@ export class ListarPlanTrabajoComponent implements OnInit, OnDestroy {
       ).subscribe({
         // Manejar respuesta exitosa
         next: (respuesta) => {
-          console.log('respuesta--------------')
-          console.log(respuesta)
+
           this.idPlan = respuesta.data.content.length > 0 ? respuesta.data.content[0].idPlan : undefined;
           if (this.idPlan != undefined) {
             this.planTrabajoObtenerService.ObtenerPlanTrabajoxId(this.idPlan).subscribe({
               next: (respuesta) => {
-                console.log('plan semillero---------------------')
-                console.log(respuesta)
+
                 this.datosPlan= respuesta;
               },
               // Manejar errores

@@ -46,8 +46,6 @@ export class EditarObservacionComponent implements OnInit {
     this.route.parent?.params.subscribe(params => {
       this.idSemillero = params['id'];
     });
-    console.log('ed del semillero desde editar observacion')
-    console.log(this.idSemillero);
     this.route.params.subscribe(params => {
       this.idObservacion = params['idObservacion'];
       this.formulario.get('idObservacion')?.setValue(this.idObservacion);

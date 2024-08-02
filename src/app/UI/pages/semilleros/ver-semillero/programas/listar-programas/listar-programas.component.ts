@@ -62,7 +62,7 @@ export class ListarProgramasComponent implements OnInit,OnDestroy {
       this.idSemillero = params['id']
     });
     this.formulario.get('semilleroId')?.setValue(this.idSemillero);
-    console.log('llamar la lista de las programas');
+
     this.listarProgramas();
 
   }
@@ -71,8 +71,7 @@ export class ListarProgramasComponent implements OnInit,OnDestroy {
     ).subscribe({
       next: (respuesta) => {
 
-        console.log('programas ------------------')
-        console.log(respuesta)
+
         // Actualizar la lista de programas con los datos obtenidos
         this.respuesta = respuesta;
         //actualiza el input del datatable
@@ -99,7 +98,7 @@ export class ListarProgramasComponent implements OnInit,OnDestroy {
     this.mostrarCreaPrograma= !this.mostrarCreaPrograma;
   }
   eliminarPrograma(idPrograma:any){
-    console.log('id de programa---'+idPrograma);
+
     const modalRef = this.modalService.open(EliminarProgramaComponent);
     modalRef.componentInstance.idPrograma = idPrograma;
     modalRef.result.then((result) =>{

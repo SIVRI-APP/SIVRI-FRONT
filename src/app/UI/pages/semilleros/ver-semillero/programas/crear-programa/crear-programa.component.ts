@@ -60,11 +60,10 @@ export class CrearProgramaComponent implements OnInit {
   }
   onsubmit() {
     if(this.formulario.valid){
-      console.log(this.formulario)
-      console.log(this.idSemillero);
+
       this.programaSemilleroCrearService.crearProgramaSemillero(this.idSemillero,this.formulario.value.programa).subscribe({
         next:(respuesta)=>{
-          console.log(respuesta)
+
           this.openModalOk(respuesta.userMessage);
           this.actualizarListarService.notificarActualizarListar('agregar');
           this.mostrarCreaPrograma = false;

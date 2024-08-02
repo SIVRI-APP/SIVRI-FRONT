@@ -14,7 +14,6 @@ export class SemilleroProgramaCrearService {
     idSemillero: string='',
     programaId: string
   ):Observable<Respuesta<boolean>>{
-    console.log(idSemillero,programaId)
     return this.semilleroProgramaAdapter.crearProgramaSemillero(idSemillero,programaId);
   }
 }

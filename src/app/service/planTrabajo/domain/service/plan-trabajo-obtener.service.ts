@@ -37,7 +37,6 @@ export class PlanTrabajoObtenerService {
     fechaInicio?: Date,
     fechaFin?: Date
   ):Observable<Respuesta<Paginacion<ObtenerPlanTrabajoxAnio>>>{
-    console.log('datos del servicio----------------'+pageNo+','+pageSize+','+anio,idSemillero+','+fechaInicio+','+fechaFin);
     return this.planTrabajoAdapter.obtenerPlanTrabajoxAnio(pageNo,pageSize,anio,idSemillero,fechaInicio,fechaFin);
   }
 

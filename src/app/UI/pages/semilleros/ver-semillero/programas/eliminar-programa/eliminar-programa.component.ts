@@ -32,7 +32,7 @@ export class EliminarProgramaComponent implements OnInit {
   }
 
   onsubmit(){
-    console.log('id programa del modal'+this.idPrograma);
+
     this.programaSemilleroEliminarService.eliminarProgramaSemillero(this.idPrograma).subscribe({
       next:(respuesta)=>{
         this.respuesta=respuesta;

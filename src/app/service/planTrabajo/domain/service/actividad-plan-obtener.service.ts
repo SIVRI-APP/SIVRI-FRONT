@@ -17,8 +17,8 @@ export class ActividadPlanObtenerService {
     idPlan: number,
     pageNo: number,
     pageSize: number,
-    fechaInicio: Date,
-    fechaFin: Date
+    fechaInicio: string,
+    fechaFin: string
   ): Observable<Respuesta<Paginacion<ListarActividadPlan>>> {
     return this.actividadPlanAdapter.obtenerActividadesPlanPaginado(idPlan,pageNo,pageSize,fechaInicio,fechaFin);
   }

@@ -22,7 +22,6 @@ export class SemilleroActualizarService {
       grupoId: number
     }
   ):Observable<Respuesta<boolean>>{
-    console.log('datos del formulario que ingreso al service--------------'+body);
     return this.semilleroAdapter.actualizarSemilleroxMentor(body);
   }
 }

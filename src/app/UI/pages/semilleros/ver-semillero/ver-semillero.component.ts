@@ -34,11 +34,10 @@ export class VerSemilleroComponent {
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.id = params['id'];
-      console.log('id semilleroo ' + this.id);
+
       this.semilleroObtenerService.obtenerSemilleroInformacionDetallada(this.id).subscribe({
         next: (respuesta) => {
-          console.log("semillero ------------------------")
-          console.log(respuesta)
+
           this.semillero = respuesta;
           this.nombre=this.semillero.data.nombre;
           //this.router.navigate([`semilleros/listar-semilleros/${this.id}/descripcion`]);
@@ -50,7 +49,7 @@ export class VerSemilleroComponent {
       (res:any) => {
         this.showAlert=true;
         this.messaje=res.messaje;
-        console.log(res)
+
         setTimeout(()=>{
           this.showAlert=false;
         },res.time)

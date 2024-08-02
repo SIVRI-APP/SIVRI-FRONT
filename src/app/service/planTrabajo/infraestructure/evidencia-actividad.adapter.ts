@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../config/environment/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Respuesta } from '../../common/model/respuesta';
 
@@ -10,10 +10,14 @@ import { Respuesta } from '../../common/model/respuesta';
 export class EvidenciaActividadAdapter {
   private apiUrl=environment.urlApi+ 'evidenciaActividad/';
   constructor(private http: HttpClient) { }
-  subirEvidenciaActividad(
-    idActividad: number,
-    formData:FormData
-  ):Observable<Respuesta<boolean>>{
-    return this.http.post<Respuesta<boolean>>(this.apiUrl+`subirEvidenciaActividad?actividadId=${idActividad}`,formData);
+
+
+    subirEvidenciaActividad(idActividad: number, base64File: string, fileName: string): Observable<any> {
+      const payload = {
+        file: base64File,
+        fileName: fileName
+      };
+
+      return this.http.post<any>(this.apiUrl + `subirEvidenciaActividad?actividadId=${idActividad}`, payload);
   }
 }

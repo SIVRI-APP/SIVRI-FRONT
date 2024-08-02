@@ -1,4 +1,4 @@
-<form [formGroup]="formulario" method="get">
+<form [formGroup]="formularioActividad" (ngSubmit)="onSubmit()" method="get">
   <div  class="filter-box">
 
     <!--filtro de busqueda por id semillero, nombre semillero y estado-->
@@ -35,7 +35,7 @@
             <span class="text">Actividad</span>
           </div>
         </button>
-        <button type="button" class="secondaryBTN" >
+        <button type="button" class="secondaryBTN" (click)="limpiarFormulario()">
           <div class="button-content">
             <span class="material-symbols-outlined secondaryBTN-icon">
               filter_alt
@@ -95,6 +95,7 @@
                                       <a (click)="triggerFileUpload(fileInput)"><span class="material-symbols-outlined dataTableActionBtn">upload</span></a>
                                       <!-- Input oculto para cargar archivos -->
                                       <input type="file" (change)="onFileSelected($event, data[datatableInputs.dataAttributes[0].name])" #fileInput style="display: none;" />
+                                      <!--app-file-uploader  [accept]="'pdf/*'" (fileContent)="fileContent($event,data[datatableInputs.dataAttributes[0].name])" ></!--app-file-uploader-->
                                     </td>
                                 </tr>
                             }

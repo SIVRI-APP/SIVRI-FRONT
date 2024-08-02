@@ -65,10 +65,8 @@ export class ListarLineasComponent implements OnInit,OnDestroy {
       this.idSemillero = params['id']
     });
     this.formulario.get('semilleroId')?.setValue(this.idSemillero);
-    console.log('llamar la lista de las lineas')
     this.listarLineas();
-    console.log('issemillerodelineas'+this.idSemillero)
-    this.suscribirseALasActualizaciones();
+   this.suscribirseALasActualizaciones();
   }
   onPageSizeChange() {
     this.mostrarCreaLinea=false;
@@ -81,7 +79,6 @@ export class ListarLineasComponent implements OnInit,OnDestroy {
       this.formulario.value.semilleroId,this.formulario.value.pageNo,this.formulario.value.pageSize
     ).subscribe({
       next:(respuesta)=>{
-        console.log(respuesta)
         this.respuesta=respuesta;
         this.datatableInputs.searchPerformed = true;
         this.datatableInputs.paginacion = this.respuesta.data;
@@ -113,7 +110,6 @@ export class ListarLineasComponent implements OnInit,OnDestroy {
     this.mostrarCreaLinea= !this.mostrarCreaLinea;
   }
   eliminarLinea(idLinea:any){
-    console.log('id de linea'+idLinea);
     //llamar la modal de eliminar
     const modalRef = this.modalService.open(EliminarLineaModalComponent);
     modalRef.componentInstance.idLinea = idLinea;

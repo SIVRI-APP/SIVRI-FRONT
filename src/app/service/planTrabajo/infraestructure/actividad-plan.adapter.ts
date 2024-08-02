@@ -18,15 +18,15 @@ export class ActividadPlanAdapter {
     idPlan: number,
     pageNo: number = 0,
     pageSize: number = 2,
-    fechaInicio: Date,
-    fechaFin: Date
+    fechaInicio: string,
+    fechaFin: string
   ): Observable<Respuesta<Paginacion<ListarActividadPlan>>> {
     let params = new HttpParams()
       .set('pageNo', pageNo.toString())
       .set('pageSize', pageSize.toString());
       // Añade condicionalmente los otros parámetros si existen.
-      if (fechaInicio != null) params = params.set('fechaInicio', fechaInicio.toDateString());
-      if (fechaFin != null) params = params.set('fechaFin', fechaFin.toISOString());
+      if (fechaInicio != null) params = params.set('fechaInicio', fechaInicio);
+      if (fechaFin != null) params = params.set('fechaFin', fechaFin);
     return this.http.get<Respuesta<Paginacion<ListarActividadPlan>>>(this.apiUrl + `listarActividadesConFiltro/${idPlan}`, { params: params });
   }
   obtenerActividadxId(idActividad:number):Observable<Respuesta<ListarActividadxId>>{

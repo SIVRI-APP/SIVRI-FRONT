@@ -80,12 +80,8 @@ export class ActualizarIntegranteComponent implements OnInit {
 
         this.integranteDatos = respuesta;
         this.integranteDatos.data.usuario.nombre = respuesta.data.usuario.nombre;
-        console.log('respuesta de obtener integrante por id ----------')
-        console.log(this.integranteDatos)
         //this.integranteDatos.data.rolSemillero=respuesta.data.rolSemillero;
         this.formulario.get('numeroDocumento')?.setValue(this.integranteDatos.data.usuario.numeroDocumento);
-        console.log('usuario ----------------------')
-        console.log(this.integranteDatos.data.usuario);
         let nombreCompleto = this.integranteDatos.data.usuario.nombre + ' ' + this.integranteDatos.data.usuario.apellido;
         this.formulario.get('nombre')?.setValue(nombreCompleto);
         this.formulario.get('estadoIntegrante')?.setValue(this.integranteDatos.data.fechaRetiro);
@@ -113,17 +109,14 @@ export class ActualizarIntegranteComponent implements OnInit {
 
   onsubmit(): void {
     if (this.formulario.valid) {
-      console.log('formulario-----' + this.formulario);
-      console.log(this.formulario);
-      this.integranteSemilleroCrearService.actualizarIntegranteSemillero({
+       this.integranteSemilleroCrearService.actualizarIntegranteSemillero({
         id: this.idIntegrante,
         estado: this.formulario.value.estadoIntegrante,
         rolSemilleroId: this.formulario.value.rolSemilleroId,
         fechaRetiro: this.formulario.value.fechaRetiro
       }).subscribe({
         next: (respuesta) => {
-          console.log(respuesta);
-          this.respuesta = respuesta;
+           this.respuesta = respuesta;
           this.openModalOk(this.respuesta.userMessage)
            },
         // Manejar errores
@@ -146,7 +139,6 @@ export class ActualizarIntegranteComponent implements OnInit {
     this.formulario.get('fechaIngreso')?.setValue(this.integranteDatos.data.fechaIngreso);
     this.formulario.get('fechaRetiro')?.setValue(this.integranteDatos.data.fechaRetiro);
     this.notificationAlertService.showAlert('','integrante no actualizado',3000);
-    console.log('id semillero del boton cancelar '+this.idSemillero);
     this.router.navigate([`/semilleros/listar-semilleros/${this.idSemillero}/listar-integrantes`]);
   }
   openModalOk(message: string) {

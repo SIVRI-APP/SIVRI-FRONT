@@ -19,9 +19,7 @@ export class ActividadPlanCrearService {
       fechaInicio: string,
       fechaFin: string
     }):Observable<Respuesta<boolean>>{
-      console.log('parametros '+idPlan);
-      console.log(body)
-      return this.actividadPlanAdapter.crearActividad(idPlan,body);
+     return this.actividadPlanAdapter.crearActividad(idPlan,body);
   }
   editarActividad(idActividad:number,body:{
     objetivo: string,

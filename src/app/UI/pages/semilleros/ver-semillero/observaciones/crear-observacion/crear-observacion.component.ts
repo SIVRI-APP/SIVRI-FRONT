@@ -46,7 +46,6 @@ export class CrearObservacionComponent implements OnInit {
     });
     }
   onsubmitCrear(){
-    console.log(this.formulario);
     this.semilleroObservacionCrearService.crearObservacionSemillero(this.formulario.value.idSemillero,
       {observacion: this.formulario.value.observacion
       }).subscribe({

@@ -18,8 +18,6 @@ export class PlanTrabajoCrearService {
       estado:string
     }
   ):Observable<Respuesta<boolean>>{
-    console.log('service de crear plan ------------')
-    console.log(body);
     return this.plantrabajoAdapter.crearPlanTrabajo(body);
   }
 

@@ -66,7 +66,7 @@ export class CrearPlanComponent implements OnInit {
   onsubmit(): void {
     // Verificar si el formulario es válido
     if (this.formulario.valid) {
-      console.log('id del semillero de crear plan----------------' + this.idSemillero);
+
       const estado = 'FORMULADO';
       this.planTrabajoCrearService.crearPlanTrabajo({
         idSemillero: this.idSemillero,

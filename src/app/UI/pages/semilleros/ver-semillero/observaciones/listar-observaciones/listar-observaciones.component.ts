@@ -64,7 +64,6 @@ export class ListarObservacionesComponent implements OnInit,OnDestroy {
       this.formulario.value.idSemillero,this.formulario.value.pageNo,this.formulario.value.pageSize
     ).subscribe({
       next:(respuesta)=>{
-        console.log(respuesta)
         this.respuesta=respuesta;
         this.datatableInputs.searchPerformed = true;
         this.datatableInputs.paginacion = this.respuesta.data;
@@ -99,9 +98,7 @@ export class ListarObservacionesComponent implements OnInit,OnDestroy {
   }
   onPageSizeChange(){
     this.mostrarFormularioCrear=false;
-    console.log('formulario con los valores')
-    console.log(this.formulario)
-    this.listarObservaciones();
+     this.listarObservaciones();
   }
   /**
    * Cambia la página de resultados de acuerdo al número de página especificado.

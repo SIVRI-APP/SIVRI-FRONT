@@ -144,7 +144,7 @@ export class DescripcionSemilleroComponent implements OnInit {
               this.formulario.get('programa')?.setValue(this.nombreProgramas)
             },
             error: (errorData) => {
-              console.log(errorData);
+            //  console.log(errorData);
               const status=errorData.status;
               if(status==400){
                 const data=errorData.error.data.error;
@@ -160,7 +160,7 @@ export class DescripcionSemilleroComponent implements OnInit {
               this.nombreLineas= this.lineas.data.map(linea => linea.linea).join(',');
               this.formulario.get('linea')?.setValue(this.nombreLineas);
             }, error: (errorData) => {
-              console.log(errorData);
+            //  console.log(errorData);
               const status=errorData.status;
               if(status==400){
                 const data=errorData.error.data.error;
@@ -177,7 +177,7 @@ export class DescripcionSemilleroComponent implements OnInit {
               this.formulario.get('disciplina')?.setValue(this.nombreDisciplinas);
 
             }, error: (errorData) => {
-              console.log(errorData);
+            //  console.log(errorData);
               const status=errorData.status;
               if(status==400){
                 const data=errorData.error.data.error;
@@ -196,7 +196,6 @@ export class DescripcionSemilleroComponent implements OnInit {
   }
 
   onSubmit():void{
-    //console.log('entra al metodo onsubmit de la descripcion')
 
     // Verificar si el formulario es válido
     if(this.formulario.valid){
@@ -232,7 +231,6 @@ export class DescripcionSemilleroComponent implements OnInit {
         }
       });
     }else {
-      console.log('no me esta dando valido el formulario')
       // Marcar todos los campos del formulario como tocados si el formulario no es válido
       this.formulario.markAllAsTouched();
     }

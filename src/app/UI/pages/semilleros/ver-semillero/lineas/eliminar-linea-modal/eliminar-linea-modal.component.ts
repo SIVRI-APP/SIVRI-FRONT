@@ -28,10 +28,9 @@ export class EliminarLineaModalComponent implements OnInit {
     this.respuesta=new Respuesta<false>();
   }
   ngOnInit(): void {
-   // console.log('id linea desde el modal------'+this.idLinea);
+
   }
   onsubmit(){
-    console.log('id linea desde el modal------'+this.idLinea);
     this.lineaInvetigacionEliminarservice.eliminarLinea(this.idLinea).subscribe({
       next:(respuesta)=>{
         this.respuesta=respuesta;

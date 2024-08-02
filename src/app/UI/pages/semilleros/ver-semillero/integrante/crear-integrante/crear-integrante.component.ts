@@ -69,11 +69,11 @@ export class CrearIntegranteComponent implements OnInit {
     this.route.parent?.params.subscribe(params => {
       this.idSemillero = params['id'];
     });
-    console.log('id semillero desde integrante crear--------' + this.idSemillero)
+
   }
   onsubmitConsultar() {
-    console.log('ingresa a consultar el usuario para traer el id del usuario y el nombre y el programa')
-    console.log(this.formularioConsultar);
+   // console.log('ingresa a consultar el usuario para traer el id del usuario y el nombre y el programa')
+   // console.log(this.formularioConsultar);
   }
   onsubmitCrear() {
 
@@ -90,8 +90,6 @@ export class CrearIntegranteComponent implements OnInit {
       }).subscribe({
         //manejar respuesta exitosa
         next: (respuesta) => {
-          console.log('formulario crear-----------------')
-          console.log(respuesta)
           this.respuestaCrear=respuesta;
           this.openModalOk(respuesta.userMessage);
           this.actualizarListarService.notificarActualizarListar('agregar');
@@ -109,8 +107,6 @@ export class CrearIntegranteComponent implements OnInit {
           }
         }
       })
-      console.log('datos capturados de crear integrante-------------');
-      console.log(this.formularioCrear);
 
 
     }

@@ -74,7 +74,7 @@ export class CrearActividadComponent implements OnInit {
     });
     this.semilleroObtenerService.obtenerSemilleroInformacionDetallada(this.idSemillero).subscribe({
       next:(respuesta)=>{
-        //console.log(respuesta);
+
         this.semillero=respuesta;
         this.idGrupo= this.semillero.data.grupoId;
         this.integrantesGrupoObtenerService.obtenerMentoresxgrupo(this.idGrupo).subscribe({
@@ -98,7 +98,7 @@ export class CrearActividadComponent implements OnInit {
   onsubmit(){
 
     if(this.formulario.valid){
-      console.log(this.formulario);
+
       this.actividadPlanCrearService.crearActividad(this.idPlan,{
         objetivo:this.formulario.value.objetivo,
         actividad:this.formulario.value.actividad,

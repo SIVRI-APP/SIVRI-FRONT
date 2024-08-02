@@ -16,6 +16,7 @@ import { ErrorData } from '../../../../../../../service/common/model/errorData';
 import { ModalBadComponent } from '../../../../../../shared/modal-bad/modal-bad.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalOkComponent } from '../../../../../../shared/modal-ok/modal-ok.component';
+import { FileUploaderComponent } from '../../../../../../shared/file-uploader/file-uploader.component';
 
 @Component({
   selector: 'app-listar-actividades',
@@ -25,6 +26,7 @@ import { ModalOkComponent } from '../../../../../../shared/modal-ok/modal-ok.com
     RouterLink,
     CrearActividadComponent,
     ActualizarActividadComponent,
+    FileUploaderComponent
   ],
   templateUrl: './listar-actividades.component.html',
   styleUrl: './listar-actividades.component.css'
@@ -35,7 +37,7 @@ export class ListarActividadesComponent implements OnInit,OnDestroy {
   @Input() idPlan!: number;
   protected idActividad!: number;
   protected datatableInputs: DatatableInput;
-  protected formulario: FormGroup;
+  protected formularioActividad: FormGroup;
   private suscripciones: Subscription[]=[];
   protected respuesta: Respuesta<Paginacion<ListarActividadPlan>>;
   protected respuestaEvidencia: Respuesta<boolean>;
@@ -52,12 +54,14 @@ export class ListarActividadesComponent implements OnInit,OnDestroy {
     protected enumTranslationService: EnumTranslationService,
     private evidenciaActividadCrearService: EvidenciaActividadCrearService,
   ){
-    this.formulario = this.formBuilder.group({
+
+    this.formularioActividad = this.formBuilder.group({
       pageNo: [0],
       pageSize: ['2'],
       fechaInicio: [null],
       fechaFin: [null]
     });
+
     this.respuesta= new Respuesta<Paginacion<ListarActividadPlan>>();
     this.respuestaEvidencia = new Respuesta<false>();
     this.datatableInputs = new DatatableInput('Actividad del plan de trabajo',
@@ -68,21 +72,28 @@ export class ListarActividadesComponent implements OnInit,OnDestroy {
     this.suscripciones.forEach(subcription => subcription.unsubscribe());
   }
   ngOnInit(): void {
+
     this.mostrarCreaActividad=false;
     this.listarActividadesxplan();
     this.suscribirseALasActualizaciones();
   }
+  onSubmit(){
 
+    if(this.formularioActividad.valid){
+
+      this.listarActividadesxplan();
+    }
+
+  }
   listarActividadesxplan(){
-    //console.log(this.formulario)
+
     this.actividadPlanObtenerService.listarActividadxPlan(
-      this.idPlan,this.formulario.value.pageNo,
-      this.formulario.value.pageSize,this.formulario.value.fechaInicio,
-      this.formulario.value.fechaFin
+      this.idPlan,this.formularioActividad.value.pageNo,
+      this.formularioActividad.value.pageSize,this.formularioActividad.value.fechaInicio,
+      this.formularioActividad.value.fechaFin
     ).subscribe({
       next:(respuesta)=>{
-        //console.log('respuesta de la lista de actividades')
-        //console.log(respuesta);
+
         // Actualizar la lista de actividades del plan con los datos obtenidos
         this.respuesta=respuesta;
         this.datatableInputs.searchPerformed = true;
@@ -104,6 +115,14 @@ export class ListarActividadesComponent implements OnInit,OnDestroy {
       },
     });
   }
+  limpiarFormulario(){
+    this.formularioActividad = this.formBuilder.group({
+      pageNo: [0],
+      pageSize: ['2'],
+      fechaInicio: [null],
+      fechaFin: [null]
+    });
+  }
   suscribirseALasActualizaciones(){
     // Suscribirse a las notificaciones de actualización para cada tipo
     this.suscripciones.push(
@@ -123,7 +142,7 @@ export class ListarActividadesComponent implements OnInit,OnDestroy {
     this.mostrarCreaActividad= !this.mostrarCreaActividad;
   }
   editarActividad(idActividad: number){
-   // console.log(`Editar actividad con ID: ${idActividad}`);
+
     this.idActividad = idActividad;
     this.mostrarCreaActividad = false;
     this.mostrarEditarActividad = true;
@@ -136,39 +155,42 @@ export class ListarActividadesComponent implements OnInit,OnDestroy {
     if (input.files && input.files.length > 0) {
       this.selectedFile = input.files[0];
       if (this.selectedFile.type === 'application/pdf') {
-       this.uploadFile(id);
+       this.fileContent(this.selectedFile,id);
       } else {
         alert('El archivo debe ser un PDF.');
       }
     }
   }
-  uploadFile(idActividad: number) {
-    // Aquí deberías implementar la lógica para enviar el archivo al servidor.
-    const formData = new FormData();
-    formData.append('file',this.selectedFile);
-    // Iterar sobre las entradas de FormData y mostrarlas en la consola
-  formData.forEach((value, key) => {
-    console.log(`${key}:`, value);
-  });
-    this.evidenciaActividadCrearService.subirEvidenciaActividad(idActividad,formData).subscribe({
-      next: (respuesta)=>{
-        console.log(respuesta);
-        this.respuestaEvidencia=respuesta;
-        this.openModalOk(this.respuestaEvidencia.userMessage);
-      },
-      // Manejar errores
-      error: (errorData) => {
-        // Verificar si el error es del tipo esperado
-        if (errorData.error && errorData.error.data) {
-          let respuesta: Respuesta<ErrorData> = errorData.error;
-          this.openModalBad(respuesta.data);
-        } else {
-          // Manejar errores inesperados
-          this.openModalBad(new ErrorData({ error: "Error inseperado, contactar a soporte" }));
+  fileContent(selectedFile:any,id:number){
+   // let selectedFile = event.target.files[0] as File;
+
+    const reader = new FileReader();
+    reader.readAsDataURL(selectedFile);
+    reader.onload = () => {
+      const base64File = reader.result?.toString().split(',')[1]; // Obtener la parte base64 sin el prefijo
+
+      this.evidenciaActividadCrearService.subirEvidenciaActividad(id, base64File!, selectedFile.name).subscribe({
+        next: (respuesta) => {
+
+          this.respuestaEvidencia=respuesta;
+          this.openModalOk(this.respuestaEvidencia.userMessage);
+        },
+        // Manejar errores
+        error: (errorData) => {
+          // Verificar si el error es del tipo esperado
+          if (errorData.error && errorData.error.data) {
+            let respuesta: Respuesta<ErrorData> = errorData.error;
+            this.openModalBad(respuesta.data);
+          } else {
+            // Manejar errores inesperados
+            this.openModalBad(new ErrorData({ error: "Error inseperado, contactar a soporte" }));
+          }
         }
-      }
-    });
-  }
+      });
+    };
+    }
+
+
   openModalOk(message: string) {
     const modalRef = this.modalService.open(ModalOkComponent);
     modalRef.componentInstance.name = message;
@@ -236,9 +258,9 @@ export class ListarActividadesComponent implements OnInit,OnDestroy {
    */
   movePageNew(newPage: number): void {
     // Realizar incremento o decremento de la Pagina
-    this.formulario
+    this.formularioActividad
       .get('pageNo')
-      ?.setValue((this.formulario.get('pageNo')?.value ?? 0) + newPage);
+      ?.setValue((this.formularioActividad.get('pageNo')?.value ?? 0) + newPage);
 
     // Enviar el formulario para cargar los datos de la nueva página
     //this.listarLineas();
@@ -271,7 +293,7 @@ export class ListarActividadesComponent implements OnInit,OnDestroy {
      */
   changePageNew(pageNumber: number): void {
     // Actualizar el valor de pageNo en el formulario
-    this.formulario.get('pageNo')?.setValue(pageNumber);
+    this.formularioActividad.get('pageNo')?.setValue(pageNumber);
 
     // Enviar el formulario para cargar los datos de la nueva página
    this.listarActividadesxplan();

@@ -11,7 +11,6 @@ export class SemilleroProgramaEliminarService {
   constructor(private programaSemilleroAdapter: SemilleroProgramasAdapter) { }
 
   eliminarProgramaSemillero(idPrograma:number):Observable<Respuesta<boolean>>{
-    console.log('service de semillero programa '+idPrograma)
     return this.programaSemilleroAdapter.eliminarProgramaSemillero(idPrograma);
   }
 }

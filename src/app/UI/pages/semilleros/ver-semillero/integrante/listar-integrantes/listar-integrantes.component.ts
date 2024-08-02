@@ -69,12 +69,10 @@ export class ListarIntegrantesComponent implements OnInit, OnDestroy {
     this.rolSemilleroObtenerService.obtenerRolesSemillero().subscribe({
       // Manejar respuesta exitosa
       next: (respueta) => {
-        console.log('respuesta de roles -----------')
 
         this.rolIntegranteSemillero = respueta.data;
         this.integranteSemilleroObtenerService.setRolIntegranteSemillero(this.rolIntegranteSemillero);
-        console.log(this.rolIntegranteSemillero);
-      },// Manejar errores
+       },// Manejar errores
       error: (errorData) => {
         console.error(errorData);
       },
@@ -98,8 +96,6 @@ export class ListarIntegrantesComponent implements OnInit, OnDestroy {
       this.formulario.value.rolSemillero, this.formulario.value.estado,
       this.formulario.value.pageNo, this.formulario.value.pageSize).subscribe({
         next: (respuesta) => {
-          console.log('respuesta de la lista de los integrantes-----')
-          console.log(respuesta);
           // Actualizar la lista de integrantes con los datos obtenidos
           this.respuesta = respuesta;
           //actualiza el input del datatable
@@ -128,15 +124,12 @@ export class ListarIntegrantesComponent implements OnInit, OnDestroy {
       this.actualizarListarService.actualizarListar$.subscribe((tipo: string) => {
 
         if (tipo == 'agregar') {
-          console.log('ingresa al agregar integrante de actualizar lista')
-          this.mostrarFormularioCrear = false;
+           this.mostrarFormularioCrear = false;
         } else if ('actualizar') {
-          console.log('formulario para volver a listar los integrnates')
-          console.log(this.formulario)
+
+
         }
-        console.log('formulario en la suscripcion *************')
-        console.log(this.formulario);
-        this.listarIntegrantes();
+         this.listarIntegrantes();
       })
     );
 

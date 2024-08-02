@@ -48,12 +48,10 @@ export class ActualizarLineaComponent implements OnInit {
     this.route.parent?.params.subscribe(params => {
       this.idSemillero = params['id']
     });
-    console.log('id semillero para on init-------'+this.idSemillero);
     this.route.params.subscribe(params => {
       this.idLinea = params['idLinea']
     });
-    console.log('is de la linea capturada----- '+this.idLinea)
-    //obtengo los datos de la linea
+     //obtengo los datos de la linea
     this.lineaInvestigacionObtenerService.obtenerLineaxId(this.idLinea).subscribe({
       next:(respuesta)=>{
         this.lineaDatos=respuesta;
