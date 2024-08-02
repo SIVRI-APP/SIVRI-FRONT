@@ -17,7 +17,7 @@ const verProyectoRoutes: Routes = [
         loadComponent: () => import('./proyecto-informacion-general/proyecto-informacion-general.component').then((c) => c.ProyectoInformacionGeneralComponent),
       },
       {
-        path: 'documentos',
+        path: 'convocatoria',
         loadComponent: () => import('./documentos-proyecto/documentos-proyecto.component').then((c) => c.DocumentosProyectoComponent),
       },
       {
