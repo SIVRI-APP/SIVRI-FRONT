@@ -193,9 +193,12 @@ export class DocumentosProyectoComponent implements OnInit, AfterViewInit{
   }
 
   accion(accion: any): void {
-    alert("Desplegar Docs")
-    console.log(accion);
-    if (accion.accion.accion == 'verDocs') {      
+    
+    if (accion.accion.accion == 'verDocs') {  
+      alert("Desplegar Docs")
+    }
+    if (accion.accion.accion == 'agregar') { 
+      this.agregarConvocatoria(accion);
     }
   }
 
