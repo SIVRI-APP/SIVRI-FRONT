@@ -7,7 +7,7 @@
                 @for (campo of fila.filtroFields; track $index) {
                     <!-- Si es Enum -->
                     @if (campo.inputTipo == filtroFieldTipo.ENUM) {
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
                             <label [for]="campo.inputId" class="etiqueta-form"><strong>{{campo.label}}</strong></label>
                             <select [id]="campo.inputId" class="form-select" [formControlName]="campo.inputId">
                                 <option value="" disabled hidden selected>{{campo.inputPlaceholder}}</option>
@@ -24,7 +24,7 @@
                     }
                     <!-- Si es Input -->
                     @if (campo.inputTipo == filtroFieldTipo.INPUT) {
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
                             <label [for]="campo.inputId" class="etiqueta-form"><strong>{{campo.label}}</strong></label>
                             <input [id]="campo.inputId" class="form-control" [type]="campo.inputType" [placeholder]="campo.inputPlaceholder" [formControlName]="campo.inputId">
                             @if (campo.editable) {

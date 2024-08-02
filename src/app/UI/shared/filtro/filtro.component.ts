@@ -104,7 +104,7 @@ export class FiltroComponent {
       // Obtener los valores del filtro
       this.filtrarEmitter.emit(this.filtro);
     } else {
-      console.log('El filtro no es válido');
+      console.error('El filtro no es válido');
     }
   }
 

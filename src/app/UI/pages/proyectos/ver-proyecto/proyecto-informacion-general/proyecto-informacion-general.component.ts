@@ -44,10 +44,10 @@ export class ProyectoInformacionGeneralComponent implements OnInit{
     this.filtroInput.accionesSecundarias = [new DatatableInputAction('save', 'Guardar cambios')]
     
     this.filtroInput.filtroFields.push(new FiltroField('ID Proyecto', 'id', 'ID', FiltroFieldTipo.INPUT, 'text', null, "ID no valido", [Validators.required], false, ''));
-    this.filtroInput.filtroFields.push(new FiltroField('Estado', 'estado', 'Estado de la Convocatoria', FiltroFieldTipo.ENUM, '', EstadoProyecto, "Digite una Estado de la Lista", [Validators.required, Validators.minLength(5), Validators.maxLength(256)], false, ''));
+    this.filtroInput.filtroFields.push(new FiltroField('Estado', 'estado', 'Estado del Proyecto', FiltroFieldTipo.ENUM, '', EstadoProyecto, "Digite una Estado de la Lista", [Validators.required, Validators.minLength(5), Validators.maxLength(256)], false, ''));
     this.filtroInput.filtroFields.push(new FiltroField('Fecha Inicio', 'fechaInicio', 'Fecha Inicio', FiltroFieldTipo.INPUT, 'date', null, "Digite una Fecha de Inicio valida", [Validators.required], true, ''));
     this.filtroInput.filtroFields.push(new FiltroField('Fecha Fin', 'fechaFin', 'Fecha Fin', FiltroFieldTipo.INPUT, 'date', null, "Digite una Fecha de Fin valida", [Validators.required], true, ''));
-    this.filtroInput.filtroFields.push(new FiltroField('Nombre', 'nombre', 'Nombre', FiltroFieldTipo.INPUT, 'text', null, "Digite un Nombre valido (5 - 256 caracteres)", [Validators.required, Validators.minLength(5), Validators.maxLength(256)], true, ''));
+    this.filtroInput.filtroFields.push(new FiltroField('Nombre', 'nombre', 'Nombre', FiltroFieldTipo.TEXTAREA, '', null, "Digite un Nombre valido (5 - 256 caracteres)", [Validators.required, Validators.minLength(5), Validators.maxLength(256)], true, ''));
     this.filtroInput.filtroFields.push(new FiltroField('Planteamiento', 'planteamiento', 'Planteamiento', FiltroFieldTipo.TEXTAREA, '', null, "Digite una Planteamiento valido (5 - 256 caracteres)", [Validators.required, Validators.minLength(5), Validators.maxLength(256)], true, ''));
     this.filtroInput.filtroFields.push(new FiltroField('Objetivo General', 'objetivoGeneral', 'Objetivo General', FiltroFieldTipo.TEXTAREA, '', null, "Digite un Objetivo General valido (5 - 256 caracteres)", [Validators.required, Validators.minLength(5), Validators.maxLength(256)], true, ''));
     this.filtroInput.filtroFields.push(new FiltroField('Objetivos Especificos', 'objetivosEspecificos', 'Objetivos Especificos', FiltroFieldTipo.TEXTAREA, '', null, "Digite un Objetivo Especifico valido (5 - 256 caracteres)", [Validators.required, Validators.minLength(5), Validators.maxLength(256)], true, ''));
@@ -63,13 +63,7 @@ export class ProyectoInformacionGeneralComponent implements OnInit{
   ngOnInit(): void {
     this.proyectoObtenerService.getRegistroInformacionDetallada().subscribe({
         next: (respuesta) => {
-
-          if (respuesta) {
-            this.filtroValues = respuesta;
-
-          }else{
-            this.filtroValues = {}; // Inicializa specificInfo según tu lógica
-          }
+          this.filtroValues = respuesta.data;
         },
         // Manejar errores
         error: (errorData) => {

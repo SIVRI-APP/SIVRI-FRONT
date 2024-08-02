@@ -31,8 +31,6 @@ export class IndexVerSolicitudUsuarioComponent implements OnInit{
           // Manejar respuesta exitosa
           next: (respuesta) => {
             this.nombre = respuesta.data.nombre + ' ' + respuesta.data.apellido;
-
-            console.log(respuesta)
           },
           // Manejar errores
           error: (errorData) => {

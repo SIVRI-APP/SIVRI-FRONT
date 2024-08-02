@@ -11,8 +11,8 @@ import { DatatableCustomComponent } from '../../../../shared/datatableCustomizab
 import { ConvocatoriaInformaciónDetalladaProyección } from '../../../../../service/convocatoria/domain/model/proyecciones/convocatoriaInformaciónDetalladaProyección';
 import { CrearChecklistDTO } from '../../../../../service/convocatoria/domain/model/DTO/crearConvocatoriaDTO';
 import { DatatableInput } from '../../../../../service/common/model/datatableInput';
-import { DatatableInputAction } from '../../../../../service/common/model/datatableAction';
 import { Paginacion } from '../../../../../service/common/model/paginacion';
+import { SiNo } from '../../../../../service/common/model/enum/siNO';
 
 @Component({
   selector: 'app-convocatoria-informacion-general',
@@ -106,7 +106,7 @@ export class ConvocatoriaInformacionGeneralComponent implements OnInit{
       {name:'nombre', type:String}, 
       {name:'responsableDocumento', type:ResponsableDocumento}, 
       {name:'cantidad', type:String}, 
-      {name:'obligatorio', type:String}, 
+      {name:'obligatorio', type:SiNo}, 
     ]  
     this.datatableInputsDocEjecucion.mensajeNoHayElementos = 'No hay Docuementos asociados para esta Etapa'
     this.datatableInputsDocEjecucion.quieresPaginar = false;
@@ -123,7 +123,7 @@ export class ConvocatoriaInformacionGeneralComponent implements OnInit{
       {name:'nombre', type:String}, 
       {name:'responsableDocumento', type:ResponsableDocumento}, 
       {name:'cantidad', type:String}, 
-      {name:'obligatorio', type:String}, 
+      {name:'obligatorio', type:SiNo}, 
     ] 
     this.datatableInputsDocPreEjecucion.mensajeNoHayElementos = 'No hay Docuementos asociados para esta Etapa'
     this.datatableInputsDocPreEjecucion.quieresPaginar = false;
@@ -140,7 +140,7 @@ export class ConvocatoriaInformacionGeneralComponent implements OnInit{
       {name:'nombre', type:String}, 
       {name:'responsableDocumento', type:ResponsableDocumento}, 
       {name:'cantidad', type:String}, 
-      {name:'obligatorio', type:String}, 
+      {name:'obligatorio', type:SiNo}, 
     ] 
     this.datatableInputsDocPostEjecucion.mensajeNoHayElementos = 'No hay Docuementos asociados para esta Etapa'
     this.datatableInputsDocPostEjecucion.quieresPaginar = false;
@@ -166,7 +166,6 @@ export class ConvocatoriaInformacionGeneralComponent implements OnInit{
             });
 
             // Agregar Doc Checklist
-            console.log(respuesta.data.checklist)
             respuesta.data.checklist.forEach(doc => {
               this.setDocumento(doc);
             });
@@ -193,8 +192,6 @@ export class ConvocatoriaInformacionGeneralComponent implements OnInit{
   }
 
   setDocumento(doc: any){
-    console.log(doc.documentoConvocatoria.nombre)
-    console.log(doc.documentoConvocatoria.id)
 
     let saveDoc = new CrearChecklistDTO();
     saveDoc.nombre = doc.documentoConvocatoria.nombre;

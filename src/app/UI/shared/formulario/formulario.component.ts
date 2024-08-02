@@ -17,7 +17,7 @@ export class FormularioComponent {
   // Contine la informacion necesaria para crear los campos del formulario
   @Input() filtroInput!: FiltroInput;
 
-  // Continen los valores para popular los campos del formulario
+  // Continen los valores para popular los campos del formulario debes pasarle el objeto clave valor
   @Input() specificInfo: any;
 
   // Accion emitida
@@ -50,13 +50,12 @@ export class FormularioComponent {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['specificInfo'] && changes['specificInfo'].currentValue) {
-      this.updateFormWithSpecificInfo(changes['specificInfo'].currentValue.data);
+      this.updateFormWithSpecificInfo(changes['specificInfo'].currentValue);
     }
   }
 
   private updateFormWithSpecificInfo(data: any): void {
-    // Check if form controls exist and update their values
-    Object.keys(data).forEach(key => {
+    Object.keys(data).forEach(key => {      
       if (this.filtro.controls[key]) {
         this.filtro.controls[key].patchValue(data[key]);
       }
@@ -64,68 +63,48 @@ export class FormularioComponent {
   }
 
   formatearFiltro() {
-    let count = 0;
-    let inputTmp: FiltroInput;
-    this.filtroInput.filtroFields.forEach((filtroField, index) => {
-      // Si el contador es cero debemos crear un nuevo filtro temporal
-      if (count == 0) {
-        inputTmp = new FiltroInput();
-      }
+    let limit = 0;
+    let limitTextArea = 0;
+    let inputTmp: FiltroInput = new FiltroInput();
+    let inputTmpTextArea: FiltroInput = new FiltroInput();
 
-      // Si no es TEXTAREA
+    this.filtroInput.filtroFields.forEach((filtroField, index) => {
+      // Si el elemento es ENUM || INPUT
       if (
-        filtroField.inputTipo == this.filtroFieldTipo.ENUM ||
-        filtroField.inputTipo == this.filtroFieldTipo.INPUT
-      ) {
+        filtroField.inputTipo == this.filtroFieldTipo.ENUM || filtroField.inputTipo == this.filtroFieldTipo.INPUT) {
         inputTmp.filtroFields.push(filtroField);
+        limit++;
       }
-
-      // Si alcanzamos el ultimo elemento de la lista y aun no estamos en el limite de la fila
-      if (index + 1 == this.filtroInput.filtroFields.length) {
-        if (inputTmp.filtroFields.length > 0) {
-          this.filtroFormateadoParaAjustarFilas.push(inputTmp); 
-        }         
-        count = -1;
-      } else if (count == 2) {
-        // Si alcanzamos el limite de elementos por fila
-        if (inputTmp.filtroFields.length > 0) {
-          this.filtroFormateadoParaAjustarFilas.push(inputTmp); 
-        } 
-        count = -1;
-      }
-
-      count++;
-    });
-
-    let countTextArea = 0;
-    let inputTmpTextArea: FiltroInput;
-
-    this.filtroInput.filtroFields.forEach((filtroField, index) => {
-      // Si el contador es cero debemos crear un nuevo filtro temporal
-      if (countTextArea == 0) {
-        inputTmpTextArea = new FiltroInput();
-      }
-
       // Si es TEXTAREA
       if (filtroField.inputTipo == this.filtroFieldTipo.TEXTAREA) {
         inputTmpTextArea.filtroFields.push(filtroField);
+        limitTextArea++;
       }
 
       // Si alcanzamos el ultimo elemento de la lista y aun no estamos en el limite de la fila
       if (index + 1 == this.filtroInput.filtroFields.length) {
-        if (inputTmpTextArea.filtroFields.length > 0) {
-          this.filtroFormateadoParaAjustarFilasTextArea.push(inputTmpTextArea);  
-        }        
-
-      } else if (countTextArea == 1) {
-        // Si alcanzamos el limite de elementos por fila
-        if (inputTmpTextArea.filtroFields.length > 0) {
-          this.filtroFormateadoParaAjustarFilasTextArea.push(inputTmpTextArea);  
+        if (inputTmp.filtroFields.length > 0) {
+          this.filtroFormateadoParaAjustarFilas.push(inputTmp); 
         }
+        if (inputTmpTextArea.filtroFields.length > 0) {
+          this.filtroFormateadoParaAjustarFilasTextArea.push(inputTmpTextArea);  
+        }           
+      } else {
+        if (limit == 4){ // Si alcanzamos el limite de elementos por fila del input y del enum          
+          this.filtroFormateadoParaAjustarFilas.push(inputTmp);
+          inputTmp = new FiltroInput();
+          limit = 0;
+        }
+        
+        if (limitTextArea == 2){ // Si alcanzamos el limite de elementos por fila del textArea  
+          this.filtroFormateadoParaAjustarFilasTextArea.push(inputTmpTextArea); 
+          inputTmpTextArea = new FiltroInput();
+          limitTextArea = 0;
+        }
+        
       }
-
-      countTextArea++;
     });
+
   }
 
   // Agregar campos el filtro de manera dinamica
