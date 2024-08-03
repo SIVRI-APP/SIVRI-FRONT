@@ -91,7 +91,7 @@
                                     }
                                     <!--[routerLink]="[data[datatableInputs.dataAttributes[0].name]]"-->
                                     <td><a (click)="editarActividad(data[datatableInputs.dataAttributes[0].name])"><span class="material-symbols-outlined dataTableActionBtn">visibility</span></a>
-                                      <a><span class="material-symbols-outlined dataTableActionBtn">download</span></a>
+                                      <a (click)="download(data[datatableInputs.dataAttributes[0].name])"><span class="material-symbols-outlined dataTableActionBtn">download</span></a>
                                       <a (click)="triggerFileUpload(fileInput)"><span class="material-symbols-outlined dataTableActionBtn">upload</span></a>
                                       <!-- Input oculto para cargar archivos -->
                                       <input type="file" (change)="onFileSelected($event, data[datatableInputs.dataAttributes[0].name])" #fileInput style="display: none;" />

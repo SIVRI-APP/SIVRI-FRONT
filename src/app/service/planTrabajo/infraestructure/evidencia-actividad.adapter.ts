@@ -20,4 +20,10 @@ export class EvidenciaActividadAdapter {
 
       return this.http.post<any>(this.apiUrl + `subirEvidenciaActividad?actividadId=${idActividad}`, payload);
   }
+
+  descargarArchivo(id: number): Observable<Blob> {
+    const url = `${this.apiUrl}descargarEvidenciaActividad/${id}`;
+    return this.http.get(url, { responseType: 'blob' });
+  }
+
 }

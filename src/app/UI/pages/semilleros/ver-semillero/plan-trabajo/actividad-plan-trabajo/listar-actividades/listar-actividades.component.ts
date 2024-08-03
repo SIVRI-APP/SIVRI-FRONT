@@ -93,7 +93,6 @@ export class ListarActividadesComponent implements OnInit,OnDestroy {
       this.formularioActividad.value.fechaFin
     ).subscribe({
       next:(respuesta)=>{
-
         // Actualizar la lista de actividades del plan con los datos obtenidos
         this.respuesta=respuesta;
         this.datatableInputs.searchPerformed = true;
@@ -113,6 +112,19 @@ export class ListarActividadesComponent implements OnInit,OnDestroy {
       error: (errorData) => {
         console.error(errorData);
       },
+    });
+  }
+  download(idActividad: number){
+    console.log('id de la actividad '+idActividad);
+    this.evidenciaActividadCrearService.descargarArchivo(idActividad).subscribe(blob=>{
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `archivo_${idActividad}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
     });
   }
   limpiarFormulario(){

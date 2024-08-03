@@ -14,4 +14,8 @@ export class EvidenciaActividadCrearService {
 
     return this.evidenciaActividadAdapter.subirEvidenciaActividad(idActividad,base64File,fileName);
   }
+
+  descargarArchivo(id: number): Observable<Blob> {
+    return this.evidenciaActividadAdapter.descargarArchivo(id);
+  }
 }
