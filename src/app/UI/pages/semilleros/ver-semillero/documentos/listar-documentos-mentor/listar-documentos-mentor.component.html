@@ -72,9 +72,10 @@
                       <a href="#"  data-bs-toggle="dropdown"><span class="material-symbols-outlined dataTableActionBtn">more_vert</span></a>
                       <ul class="dropdown-menu">
                         <li>
-                          <a class="dropdown-item " href="#" ><span class="material-symbols-outlined dataTableActionBtn">upload</span>Cargar documento</a></li>
+                          <a (click)="triggerFileUpload(fileInputAval)" class="dropdown-item " ><span class="material-symbols-outlined dataTableActionBtn">upload</span>Cargar documento</a></li>
+                          <input type="file" (change)="onFileSelectedAval($event)" #fileInputAval style="display: none;" />
                         <li>
-                          <a class="dropdown-item" href="#" ><span class="material-symbols-outlined dataTableActionBtn">download</span>Descargar documento</a></li>
+                          <a class="dropdown-item" (click)="downloadAval()" ><span class="material-symbols-outlined dataTableActionBtn">download</span>Descargar documento</a></li>
                       </ul>
                     </div>
                   </td>
@@ -92,20 +93,15 @@
                       <a href="#"  data-bs-toggle="dropdown"><span class="material-symbols-outlined dataTableActionBtn">more_vert</span></a>
                       <ul class="dropdown-menu">
                         <li>
-                          <a class="dropdown-item " href="#" ><span class="material-symbols-outlined dataTableActionBtn">upload</span>Cargar documento</a></li>
+                          <a class="dropdown-item " (click)="triggerFileUpload(fileInputOtro)"><span class="material-symbols-outlined dataTableActionBtn">upload</span>Cargar documento</a></li>
+                          <input type="file" (change)="onFileSelectedOtro($event)" #fileInputOtro style="display: none;" />
                         <li>
-                          <a class="dropdown-item" href="#" ><span class="material-symbols-outlined dataTableActionBtn">download</span>Descargar documento</a></li>
+                          <a class="dropdown-item" (click)="downloadOtro()"><span class="material-symbols-outlined dataTableActionBtn">download</span>Descargar documento</a></li>
                       </ul>
                     </div>
                   </td>
                 </tr>
-                <tr><td>
 
-                </td>
-              <td>
-
-              </td>
-              <td></td></tr>
               </tbody>
 
           </table>
@@ -113,7 +109,7 @@
       </div>
       <div>
         <span>Botón para finalizar el registro del semillero de Investigación </span>
-          <button type="submit" class="primaryBTN">
+          <button  class="primaryBTN">
             <div class="button-content">
               <span class="material-symbols-outlined primaryBTN-icon">
                 done_all
