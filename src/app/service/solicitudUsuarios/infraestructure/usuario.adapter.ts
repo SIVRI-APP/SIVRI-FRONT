@@ -6,6 +6,7 @@ import { Respuesta } from '../../common/model/respuesta';
 import { Paginacion } from '../../common/model/paginacion';
 import { UsuarioListarConFiltroProyeccion } from '../domain/model/proyecciones/usuarioListarConFiltroProyeccion';
 import { UsuarioInformaciónDetalladaProyección } from '../domain/model/proyecciones/usuarioInformaciónDetalladaProyección';
+import { TipoDocumento } from '../domain/model/enum/tipoDocumento';
 
 @Injectable({
   providedIn: 'root',
@@ -49,6 +50,18 @@ export class UsuarioAdapter {
     .set('usuarioId', usuarioId)
   
     return this.http.get<Respuesta<UsuarioInformaciónDetalladaProyección>>(this.apiUrl + 'obtenerUsuario', { params: params });
+  }
+
+  obtenerUsuarioInformaciónDetalladaPorDoc(
+    usuarioNumDoc: string,
+    tipoDocumento: TipoDocumento,
+  ): Observable<Respuesta<UsuarioInformaciónDetalladaProyección>> {
+
+    let params = new HttpParams()
+    .set('usuarioNumDoc', usuarioNumDoc)
+    .set('tipoDocumento', tipoDocumento)
+  
+    return this.http.get<Respuesta<UsuarioInformaciónDetalladaProyección>>(this.apiUrl + 'obtenerUsuarioPorDoc', { params: params });
   }
 
 }
