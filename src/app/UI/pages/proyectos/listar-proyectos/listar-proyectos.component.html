@@ -53,6 +53,6 @@
     </div>
 
     <!-- Tabla Paginada  -->
-    <app-datatable-custom [datatableInputs]="datatableInputs" (accionEmitter)="accion($event)"></app-datatable-custom>
+    <app-datatable-custom [datatableInputs]="datatableInputs" (accionEmitter)="accion($event)" (movePageEmitter)="movePage($event)" (changePageEmitter)="changePage($event)"></app-datatable-custom>
 
 </form>

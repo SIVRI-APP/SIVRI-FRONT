@@ -11,19 +11,24 @@ import { NgIf } from '@angular/common';
   styleUrl: './sidebar.component.css'
 })
 export class SidebarComponent implements OnInit {
+
   protected found:boolean=false;
+  
   roles: string[] = []
+  
   constructor(
     protected informacionUsuarioAutenticadoService: InformacionUsuarioAutenticadoService
   ) {
-    // Aqui Yurani puede acceder a los roles
-    this.roles=informacionUsuarioAutenticadoService.retornarRoles();
+    
+    this.roles = informacionUsuarioAutenticadoService.retornarRoles();
     console.log(this.roles);
   }
+
   ngOnInit(){
     this.showSemillero();
 
   }
+
   showSemillero():boolean{
     for(const rol of this.roles ){
       if(rol === 'SEMILLERO:MENTOR' || rol === 'FUNCIONARIO:SEMILLEROS' || rol === 'GRUPO:DIRECTOR'){
@@ -31,6 +36,5 @@ export class SidebarComponent implements OnInit {
       }
     }
     return this.found=false;
-
   }
 }

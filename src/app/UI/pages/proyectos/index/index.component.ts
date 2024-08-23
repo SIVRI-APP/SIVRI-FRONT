@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { InformacionUsuarioAutenticadoService } from '../../../../service/auth/domain/service/informacionUsuarioAutenticado.service';
 
 @Component({
   selector: 'app-index',
@@ -8,6 +9,17 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
   templateUrl: './index.component.html',
   styleUrl: './index.component.css'
 })
-export class IndexComponent {
+export class IndexComponent implements OnInit{
 
+  protected showCrearProyecto = false;
+
+  constructor(
+    protected informacionUsuarioAutenticadoService: InformacionUsuarioAutenticadoService
+  ) {
+    console.log("Roles: " + informacionUsuarioAutenticadoService.retornarRoles());
+  }
+
+  ngOnInit(): void {
+    
+  }
 }

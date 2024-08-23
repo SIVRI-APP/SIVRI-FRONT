@@ -153,6 +153,14 @@ export class ListarProyectosComponent implements OnInit{
       this.obtenerService.obtenerInformaciónDetallada(accion.data.id);
       this.router.navigate(['/proyectos/listar', accion.data.id]);
     }
+
+    if (accion.accion.accion == 'adelante') {
+      alert("Adelante")
+    }
+
+    if (accion.accion.accion == 'atras') {
+      alert("Adelante")
+    }
   }
 
   /**
