@@ -50,7 +50,7 @@ export class IntegrantesProyectoComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.proyectoObtenerService.getRegistroInformacionDetallada().subscribe({
+    this.proyectoObtenerService.informacionDetalladaProyecto.subscribe({
       next: (respuesta) => {
         if (respuesta.data.integrantes != null) {
           this.proyectoInformacionIntegrante = respuesta.data.integrantes;

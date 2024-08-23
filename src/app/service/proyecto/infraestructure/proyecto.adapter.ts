@@ -8,6 +8,7 @@ import { ProyectoListarConFiltroProyeccion } from '../domain/model/proyecciones/
 import { ProyectoInformaciónDetalladaProyección } from '../domain/model/proyecciones/proyectoInformaciónDetalladaProyección';
 import { CrearProyectoDTO } from '../domain/model/DTO/crearProyectoDTO';
 import { FormalizarProyectoDTO } from '../domain/model/DTO/formalizarProyectoDTO';
+import { GuardarProyectoDTO } from '../domain/model/DTO/guardarProyectoDTO';
 
 
 @Injectable({
@@ -56,6 +57,12 @@ export class ProyectoAdapter {
     body: FormalizarProyectoDTO
   ): Observable<Respuesta<boolean>> {
     return this.http.post<Respuesta<boolean>>(this.apiUrl + 'formalizar', body);
+  }
+
+  guardar(
+    body: GuardarProyectoDTO
+  ): Observable<Respuesta<boolean>> {
+    return this.http.post<Respuesta<boolean>>(this.apiUrl + 'guardar', body);
   }
 
   asociarConvocatoria(

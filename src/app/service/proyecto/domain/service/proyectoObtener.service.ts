@@ -5,84 +5,56 @@ import { Paginacion } from '../../../common/model/paginacion';
 import { Respuesta } from '../../../common/model/respuesta';
 import { ProyectoAdapter } from '../../infraestructure/proyecto.adapter';
 import { ProyectoInformaciónDetalladaProyección } from '../model/proyecciones/proyectoInformaciónDetalladaProyección';
-import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProyectoObtenerService {
 
-  // Variable para guardar la informacion de detallada del registro
-  private registroInformacionDetallada: Observable<Respuesta<ProyectoInformaciónDetalladaProyección>>;
-  // Variable para guardar un listado
-  private registroListarConFiltro: Observable<Respuesta<Paginacion<ProyectoListarConFiltroProyeccion>>>; 
-  // Variable para guardar un formulario
-  protected formularioListarConFiltro: FormGroup;
+  // Variables para la informacion de un Proyecto
+  private _informacionDetalladaProyecto: Observable<Respuesta<ProyectoInformaciónDetalladaProyección>>;
+
+  // Variables para listar con filtro Proyectos
+  private _listarConFiltroProyectos: Observable<Respuesta<Paginacion<ProyectoListarConFiltroProyeccion>>>; 
 
   constructor(
-    private formBuilder: FormBuilder,
     private proyectoAdapter: ProyectoAdapter
   ) {
 
-    this.registroInformacionDetallada = new Observable;
-    this.registroListarConFiltro = new Observable;
-    this.formularioListarConFiltro = this.formBuilder.group({
-      pageNo: [0],
-      pageSize: ['10'],
-      id: [''],
-      nombre: ['']
-    });
+    this._informacionDetalladaProyecto = new Observable;
+    this._listarConFiltroProyectos = new Observable;
   }
 
+  // Metodos
   listarConFiltro(
     pageNo?: number,
     pageSize?: number,
     id?: string,
     nombre?: string
   ): void{
-    this.registroListarConFiltro = this.proyectoAdapter.listarConFiltro(
+    this._listarConFiltroProyectos = this.proyectoAdapter.listarConFiltro(
       pageNo,
       pageSize,
       id,
       nombre
     );
-    // return this.registroListarConFiltro;
   }
 
   obtenerInformaciónDetallada(
     proyectoId?: string
   ): void {
-    this.registroInformacionDetallada = this.proyectoAdapter.obtenerInformaciónDetallada(
+    this._informacionDetalladaProyecto = this.proyectoAdapter.obtenerInformaciónDetallada(
       proyectoId
     );
-
-    // return this.registroInformacionDetallada;
   }
 
-  getRegistroListarConFiltro(){
-    return this.registroListarConFiltro;
+  // Getters
+  get informacionDetalladaProyecto(): Observable<Respuesta<ProyectoInformaciónDetalladaProyección>> {
+    return this._informacionDetalladaProyecto;
   }
 
-  getRegistroInformacionDetallada(){
-    return this.registroInformacionDetallada;
-  }
-
-  getFormularioListarConFiltro(){
-    return this.formularioListarConFiltro;
-  }
-
-  setFormularioListarConFiltro(formulario: FormGroup){
-    this.formularioListarConFiltro = formulario;
-  }
-
-  limpiarSolicitudUsuarioListarConFilrtro(){
-    this.registroListarConFiltro = new Observable;
-    this.formularioListarConFiltro = this.formBuilder.group({
-      pageNo: [0],
-      pageSize: ['10'],
-      id: [''],
-      nombre: ['']
-    });
+  get listarConFiltroProyectos(): Observable<Respuesta<Paginacion<ProyectoListarConFiltroProyeccion>>> {
+    return this._listarConFiltroProyectos;
   }
 
 }

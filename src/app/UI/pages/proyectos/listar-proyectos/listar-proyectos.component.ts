@@ -58,33 +58,22 @@ export class ListarProyectosComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    // Recuperar el estado del listado en el servicio
-    this.obtenerService.getRegistroListarConFiltro()
-      .subscribe({
-        next: (respuesta) => {
-          // Actualiar el Input del datatable
-          this.datatableInputs.searchPerformed = true;
-          this.datatableInputs.paginacion = respuesta.data;    
-        }
-      })
-    // Recuperar el estado del formulario en el servicio
-    this.formulario = this.obtenerService.getFormularioListarConFiltro(); 
+    // // Recuperar el estado del listado en el servicio
+    // this.obtenerService.getRegistroListarConFiltro()
+    //   .subscribe({
+    //     next: (respuesta) => {
+    //       // Actualiar el Input del datatable
+    //       this.datatableInputs.searchPerformed = true;
+    //       this.datatableInputs.paginacion = respuesta.data;    
+    //     }
+    //   })
+    // // Recuperar el estado del formulario en el servicio
+    // this.formulario = this.obtenerService.getFormularioListarConFiltro(); 
   }
 
-  /**
-   * Maneja el envío del formulario de búsqueda.
-   *
-   * Si el formulario es válido, realiza una solicitud para obtener la respuesta.
-   * Actualiza la lista y el texto de visualización en consecuencia.
-   *
-   * Si el formulario no es válido, marca todos los campos como tocados y lanza un error.
-   */
-  onSubmit(): void {
-    // Verificar si el formulario es válido
-    if (this.formulario.valid) {
-      //Guardamos el estado actual del formulario
-      this.obtenerService.setFormularioListarConFiltro(this.formulario)
 
+  onSubmit(): void {
+    if (this.formulario.valid) {
       // Realizar solicitud para obtener la respuesta
       this.obtenerService.listarConFiltro(
           this.formulario.value.pageNo,
@@ -93,23 +82,15 @@ export class ListarProyectosComponent implements OnInit{
           this.formulario.value.nombre
       );
 
-      this.obtenerService.getRegistroListarConFiltro()
-        .subscribe({
-          // Manejar respuesta exitosa
-          next: (respuesta) => {        
-            // Actualiar el Input del datatable
-            this.datatableInputs.searchPerformed = true;
-            this.datatableInputs.paginacion = respuesta.data
-          },
-          // Manejar errores
-          error: (errorData) => {
-            console.error(errorData);
-          }
-        });
+      this.obtenerService.listarConFiltroProyectos.subscribe({
+        next: (respuesta) => {        
+          // Actualiar el Input del datatable
+          this.datatableInputs.searchPerformed = true;
+          this.datatableInputs.paginacion = respuesta.data
+        }
+      });
     } else {
-      // Marcar todos los campos del formulario como tocados si el formulario no es válido
       this.formulario.markAllAsTouched();
-      // Lanzar un error
       throw new Error('Formulario no válido');
     }
   }
@@ -142,9 +123,6 @@ export class ListarProyectosComponent implements OnInit{
       {name:'estado', type:EstadoProyecto}, 
       {name:'tipoFinanciacion', type:TipoFinanciacion} 
     ]
-
-    // Limpiamos los datos en el servicio
-    this.obtenerService.limpiarSolicitudUsuarioListarConFilrtro();
   }
 
   accion(accion: any): void {

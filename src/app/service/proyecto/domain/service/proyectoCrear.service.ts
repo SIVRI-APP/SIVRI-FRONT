@@ -4,6 +4,7 @@ import { Respuesta } from '../../../common/model/respuesta';
 import { ProyectoAdapter } from '../../infraestructure/proyecto.adapter';
 import { CrearProyectoDTO } from '../model/DTO/crearProyectoDTO';
 import { FormalizarProyectoDTO } from '../model/DTO/formalizarProyectoDTO';
+import { GuardarProyectoDTO } from '../model/DTO/guardarProyectoDTO';
 
 @Injectable({
   providedIn: 'root',
@@ -21,6 +22,12 @@ export class ProyectoCrearService {
     body: FormalizarProyectoDTO
   ): Observable<Respuesta<boolean>> {
     return this.proyectoAdapter.formalizar(body);
+  }
+
+  guardar(
+    body: GuardarProyectoDTO
+  ): Observable<Respuesta<boolean>> {
+    return this.proyectoAdapter.guardar(body);
   }
 
   asociarConvocatoria(

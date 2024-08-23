@@ -1,1 +1,137 @@
-<app-formulario [filtroInput]="filtroInput" [specificInfo]="filtroValues" (accionEmitter)="accion($event)" (submitEmitter)="submit($event)"></app-formulario>
+@if (informacionGeneral) {
+    <form [formGroup]="informacionGeneral">
+        <div class="filter-box">
+
+            <div class="row">
+                <div class="col-sm-3">
+                    <label for="fechaInicio" class="etiqueta-form"><strong>Fecha de Inicio</strong></label>
+                    <input id="fechaInicio" class="form-control" type="date" placeholder="Fecha de Inicio" formControlName="fechaInicio">
+                    @if (informacionGeneral.get('fechaInicio')?.enabled) {
+                        <div id="badFeedback" class="invalid-feedback" [style.display]="!this.informacionGeneral.get('fechaInicio')?.valid && this.informacionGeneral.get('fechaInicio')?.touched ? 'block' : 'none'"> 
+                            Ingrese una fecha de inicio válida.
+                        </div>
+                    }
+                </div>
+                <div class="col-sm-3">
+                    <label for="fechaFin" class="etiqueta-form"><strong>Fecha de Fin</strong></label>
+                    <input id="fechaFin" class="form-control" type="date" placeholder="Fecha de Fin" formControlName="fechaFin">
+                    @if (informacionGeneral.get('fechaFin')?.enabled) {
+                        <div id="badFeedback" class="invalid-feedback" [style.display]="!this.informacionGeneral.get('fechaFin')?.valid && this.informacionGeneral.get('fechaFin')?.touched ? 'block' : 'none'"> 
+                            Ingrese una fecha de fin válida.
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <label for="objetivoGeneral" class="etiqueta-form"><strong>Objetivo General</strong></label>
+                    <textarea id="objetivoGeneral" class="form-control" placeholder="Ojetivo General" formControlName="objetivoGeneral"></textarea>
+                    @if (informacionGeneral.get('objetivoGeneral')?.enable) {
+                        <div id="badFeedback" class="invalid-feedback" [style.display]="!this.informacionGeneral.get('objetivoGeneral')?.valid && this.informacionGeneral.get('objetivoGeneral')?.touched ? 'block' : 'none'"> 
+                            Ingrese un Objetivo General válido.
+                        </div>
+                    }
+                </div>  
+                <div class="col-sm-6">
+                    <label for="objetivosEspecificos" class="etiqueta-form"><strong>Objetivos Especificos</strong></label>
+                    <textarea id="objetivosEspecificos" class="form-control" placeholder="Objetivos Especificos" formControlName="objetivosEspecificos"></textarea>
+                    @if (informacionGeneral.get('objetivosEspecificos')?.enable) {
+                        <div id="badFeedback" class="invalid-feedback" [style.display]="!this.informacionGeneral.get('objetivosEspecificos')?.valid && this.informacionGeneral.get('objetivosEspecificos')?.touched ? 'block' : 'none'"> 
+                            Ingrese Objetivos Especificos válidos.
+                        </div>
+                    }
+                </div>       
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <label for="planteamiento" class="etiqueta-form"><strong>Planteamiento</strong></label>
+                    <textarea id="planteamiento" class="form-control" placeholder="Planteamiento" formControlName="planteamiento"></textarea>
+                    @if (informacionGeneral.get('planteamiento')?.enable) {
+                        <div id="badFeedback" class="invalid-feedback" [style.display]="!this.informacionGeneral.get('planteamiento')?.valid && this.informacionGeneral.get('planteamiento')?.touched ? 'block' : 'none'"> 
+                            Ingrese un planteamiento válido.
+                        </div>
+                    }
+                </div>  
+                <div class="col-sm-6">
+                    <label for="justificacion" class="etiqueta-form"><strong>Justificación</strong></label>
+                    <textarea id="justificacion" class="form-control" placeholder="Justificación" formControlName="justificacion"></textarea>
+                    @if (informacionGeneral.get('justificacion')?.enable) {
+                        <div id="badFeedback" class="invalid-feedback" [style.display]="!this.informacionGeneral.get('justificacion')?.valid && this.informacionGeneral.get('justificacion')?.touched ? 'block' : 'none'"> 
+                            Ingrese una Justificación válida.
+                        </div>
+                    }
+                </div>       
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <label for="enfoqueMetodologico" class="etiqueta-form"><strong>Enfoque Metodológico</strong></label>
+                    <textarea id="enfoqueMetodologico" class="form-control" placeholder="Enfoque Metodológico" formControlName="enfoqueMetodologico"></textarea>
+                    @if (informacionGeneral.get('enfoqueMetodologico')?.enable) {
+                        <div id="badFeedback" class="invalid-feedback" [style.display]="!this.informacionGeneral.get('enfoqueMetodologico')?.valid && this.informacionGeneral.get('enfoqueMetodologico')?.touched ? 'block' : 'none'"> 
+                            Ingrese un Enfoque Metodológico válido.
+                        </div>
+                    }
+                </div>  
+                <div class="col-sm-6">
+                    <label for="aspectosEticosLegales" class="etiqueta-form"><strong>Aspectos Éticos y Legales</strong></label>
+                    <textarea id="aspectosEticosLegales" class="form-control" placeholder="Aspectos Éticos y Legales" formControlName="aspectosEticosLegales"></textarea>
+                    @if (informacionGeneral.get('aspectosEticosLegales')?.enable) {
+                        <div id="badFeedback" class="invalid-feedback" [style.display]="!this.informacionGeneral.get('aspectosEticosLegales')?.valid && this.informacionGeneral.get('aspectosEticosLegales')?.touched ? 'block' : 'none'"> 
+                            Ingrese Aspectos Éticos y Legales válidos.
+                        </div>
+                    }
+                </div>       
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <label for="impactosResultadosEsperados" class="etiqueta-form"><strong>Impactos y Resultados Esperados</strong></label>
+                    <textarea id="impactosResultadosEsperados" class="form-control" placeholder="Impactos y Resultados Esperados" formControlName="impactosResultadosEsperados"></textarea>
+                    @if (informacionGeneral.get('impactosResultadosEsperados')?.enable) {
+                        <div id="badFeedback" class="invalid-feedback" [style.display]="!this.informacionGeneral.get('impactosResultadosEsperados')?.valid && this.informacionGeneral.get('impactosResultadosEsperados')?.touched ? 'block' : 'none'"> 
+                            Ingrese Impactos y Resultados Esperados válidos.
+                        </div>
+                    }
+                </div>  
+                <div class="col-sm-6">
+                    <label for="confidencialidadDeInformacion" class="etiqueta-form"><strong>Confidencialidad de la Información</strong></label>
+                    <textarea id="confidencialidadDeInformacion" class="form-control" placeholder="Confidencialidad de la Información" formControlName="confidencialidadDeInformacion"></textarea>
+                    @if (informacionGeneral.get('confidencialidadDeInformacion')?.enable) {
+                        <div id="badFeedback" class="invalid-feedback" [style.display]="!this.informacionGeneral.get('confidencialidadDeInformacion')?.valid && this.informacionGeneral.get('confidencialidadDeInformacion')?.touched ? 'block' : 'none'"> 
+                            Ingrese la Confidencialidad de la Información.
+                        </div>
+                    }
+                </div>       
+            </div>
+
+            <div class="row">                 
+                <div class="col-sm-6">
+                    <label for="consideraciones" class="etiqueta-form"><strong>Consideraciones</strong></label>
+                    <textarea id="consideraciones" class="form-control" placeholder="Consideraciones" formControlName="consideraciones"></textarea>
+                    @if (informacionGeneral.get('consideraciones')?.enable) {
+                        <div id="badFeedback" class="invalid-feedback" [style.display]="!this.informacionGeneral.get('consideraciones')?.valid && this.informacionGeneral.get('consideraciones')?.touched ? 'block' : 'none'"> 
+                            Ingrese Consideraciones válidas.
+                        </div>
+                    }
+                </div>   
+                
+                <div class="col-sm-6">
+                    <label for="efectosAdversos" class="etiqueta-form"><strong>Efectos Adversos</strong></label>
+                    <textarea id="efectosAdversos" class="form-control" placeholder="Efectos Adversos" formControlName="efectosAdversos"></textarea>
+                    @if (informacionGeneral.get('efectosAdversos')?.enable) {
+                        <div id="badFeedback" class="invalid-feedback" [style.display]="!this.informacionGeneral.get('efectosAdversos')?.valid && this.informacionGeneral.get('efectosAdversos')?.touched ? 'block' : 'none'"> 
+                            Ingrese Efectos Adversos válidos.
+                        </div>
+                    }
+                </div> 
+            </div>
+
+
+
+            <div class="form-guide-line"></div>
+        </div>
+    </form>
+}

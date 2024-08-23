@@ -129,7 +129,7 @@ export class DocumentosProyectoComponent implements OnInit, AfterViewInit{
   }
 
   ngOnInit(): void {
-    this.proyectoObtenerService.getRegistroInformacionDetallada().subscribe({
+    this.proyectoObtenerService.informacionDetalladaProyecto.subscribe({
       next: (respuesta) => {
         if (respuesta.data.convocatoria != null) {
           this.proyectoInformacionConvocatoria = respuesta.data.convocatoria;
@@ -141,7 +141,7 @@ export class DocumentosProyectoComponent implements OnInit, AfterViewInit{
   }
 
   ngAfterViewInit(): void {
-    this.proyectoObtenerService.getRegistroInformacionDetallada().subscribe({
+    this.proyectoObtenerService.informacionDetalladaProyecto.subscribe({
       next: (respuesta) => {
         if (respuesta.data.convocatoria != null) {
           this.proyectoInformacionConvocatoria = respuesta.data.convocatoria;

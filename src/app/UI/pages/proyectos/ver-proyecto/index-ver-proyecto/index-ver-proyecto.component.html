@@ -2,12 +2,12 @@
     <ol class="breadcrumb">
         <li class="breadcrumb-item" routerLink="/inicio"><a>Inicio</a></li>
         <li class="breadcrumb-item" routerLink="/proyectos/listar"><a>Proyectos</a></li>
-        <li class="breadcrumb-item" routerLink="/proyectos/listar/{{this.registroInformacionDetallada.data.id}}"><a>Proyectos ID:{{this.registroInformacionDetallada.data.id}}</a>
+        <li class="breadcrumb-item" routerLink="/proyectos/listar/{{this.informacionDetalladaProyecto.data.id}}"><a>Proyectos ID:{{this.informacionDetalladaProyecto.data.id}}</a>
         </li>
     </ol>
 </nav>
 
-<h1 class="title">Proyecto: {{this.registroInformacionDetallada.data.nombre}}</h1>
+<h1 class="title">Proyecto: {{this.informacionDetalladaProyecto.data.nombre}}</h1>
 
 <div class="nav-container">
     <ul class="nav nav-underline">
@@ -30,11 +30,11 @@
         <div class="d-flex flex-column ">
             <!-- Primera fila: Proyecto ID y valor -->
             <div class="d-flex align-items-center mb-2">
-                <h6 class="mb-0" style="font-size: 15px; color: #006;">Información Detallada del Proyecto</h6>
+                <h6 class="mb-0" style="font-size: 15px; color: #006;">{{this.verProyectoService._tituloInstruccion}}</h6>
             </div>
             <!-- Segunda fila: Estado y valor -->
             <div class="d-flex align-items-center">
-                <h6 class="mb-0" style="font-size: 15px; font-weight: lighter;">En esta sección se presentan los detalles clave del proyecto, como objetivos, alcance, especificaciones y plazos. Es fundamental para alinear expectativas y asegurar que todos los aspectos estén claros. Recuerde guardar los cambios regularmente y, cuando el proyecto esté listo, actualizar su estado.</h6>
+                <h6 class="mb-0" style="font-size: 15px; font-weight: lighter;">{{this.verProyectoService._instruccion}}</h6>
             </div>
         </div>
     </div>
@@ -52,12 +52,12 @@
                         <!-- Primera fila: Proyecto ID y valor -->
                         <div class="d-flex align-items-center mb-2">
                             <h6 class="mb-0" style="font-size: 15px; color: #006; font-weight: bold;">Proyecto ID:</h6>
-                            <h6 class="mb-0 ms-2" style="font-size: 15px;">{{this.registroInformacionDetallada.data.id}}</h6>
+                            <h6 class="mb-0 ms-2" style="font-size: 15px;">{{this.informacionDetalladaProyecto.data.id}}</h6>
                         </div>
                         <!-- Segunda fila: Estado y valor -->
                         <div class="d-flex align-items-center">
                             <h6 class="mb-0" style="font-size: 15px; color: #006; font-weight: bold;">Estado:</h6>
-                            <h6 class="mb-0 ms-2" style="font-size: 15px;">{{enumTranslationService.getEnumValueByKey(this.estadoProyectoEnum, this.registroInformacionDetallada.data.estado)}}</h6>
+                            <h6 class="mb-0 ms-2" style="font-size: 15px;">{{enumTranslationService.getEnumValueByKey(this.estadoProyectoEnum, this.informacionDetalladaProyecto.data.estado)}}</h6>
                         </div>
                     </div>
                 </div>
@@ -74,7 +74,7 @@
                         <li><a class="dropdown-item" href="#">Revisión VRI</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li>                            
-                            <a class="dropdown-item d-flex align-items-center" href="#"><span class="material-symbols-outlined" style="margin-right: 5px;">save</span>Guardar Cambios</a>
+                            <a class="dropdown-item d-flex align-items-center" (click)="guardarCambios()"><span class="material-symbols-outlined" style="margin-right: 5px;">save</span>Guardar Cambios</a>
                         </li>
                     </ul>
                 </div>

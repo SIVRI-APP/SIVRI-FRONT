@@ -4,27 +4,50 @@ import { TipoFinanciacion } from "../../../../convocatoria/domain/model/enum/tip
 import { EstadoProyecto } from "../enum/estadoProyecto";
 import { RolProyecto } from "../enum/rolProyecto";
 
-export interface ProyectoInformaciónDetalladaProyección {
+export class ProyectoInformaciónDetalladaProyección {
   id: number;
   enfoqueMetodologico: string;
-  objetivosEspecificos: string;
-  lineasDeInvestigacion: any[]; // Si conoces la estructura exacta podrías definir un tipo más específico
-  aspectosEticosLegales: string;
-  enfoquesDiferenciales: any[]; // Similar a lineasDeInvestigacion, define un tipo específico si es posible
+  objetivosEspecificos: string;  
+  aspectosEticosLegales: string;  
   impactosResultadosEsperados: string;
   confidencialidadDeInformacion: string;
   nombre: string;
   fechaFin: string; // O cambiar a tipo Date si prefieres manejar fechas directamente
-  fechaInicio: string; // O cambiar a tipo Date
-  estado: EstadoProyecto; // Podría ser un enum si tienes definido un conjunto fijo de estados
-  convocatoria: ProyectoInformacionConvocatoria
+  fechaInicio: string; // O cambiar a tipo Date  
   consideraciones: string;
   justificacion: string;
   planteamiento: string;
   objetivoGeneral: string;
   eliminadoLogico: boolean;
   efectosAdversos: string;
+  estado: EstadoProyecto; // Podría ser un enum si tienes definido un conjunto fijo de estados
+  convocatoria: ProyectoInformacionConvocatoria
   integrantes: IntegrantesProyeccion[]; // Define un tipo específico si es posible
+  enfoquesDiferenciales: any[]; // Similar a lineasDeInvestigacion, define un tipo específico si es posible
+  lineasDeInvestigacion: any[]; // Si conoces la estructura exacta podrías definir un tipo más específico
+
+  constructor() {
+    this.id = 0;
+    this.enfoqueMetodologico = '';
+    this.objetivosEspecificos = '';
+    this.aspectosEticosLegales = '';
+    this.impactosResultadosEsperados = '';
+    this.confidencialidadDeInformacion = '';
+    this.nombre = '';
+    this.fechaFin = '';
+    this.fechaInicio = '';
+    this.consideraciones = '';
+    this.justificacion = '';
+    this.planteamiento = '';
+    this.objetivoGeneral = '';
+    this.eliminadoLogico = false;
+    this.efectosAdversos = '';
+    this.estado = EstadoProyecto.FORMULADO; // Suponiendo que INDEFINIDO es un valor en el enum EstadoProyecto
+    this.convocatoria = new ProyectoInformacionConvocatoria();
+    this.integrantes = [];
+    this.enfoquesDiferenciales = [];
+    this.lineasDeInvestigacion = [];
+  }
   
 }
 
