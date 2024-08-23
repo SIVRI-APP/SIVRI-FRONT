@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { ProyectoObtenerService } from '../../../../../service/proyecto/domain/service/proyectoObtener.service';
 import { ProyectoInformaciónDetalladaProyección } from '../../../../../service/proyecto/domain/model/proyecciones/proyectoInformaciónDetalladaProyección';
@@ -24,11 +24,16 @@ export class IndexVerProyectoComponent implements OnInit{
   // Inyeccion de Modal
   private modalService = inject(NgbModal);
 
+  // Mensaje al usuario
+  public tituloInstruccion: string = '';
+  public instruccion: string = '';
+
   // Informacion del Proyecto proveniente del Back
   protected informacionDetalladaProyecto: Respuesta<ProyectoInformaciónDetalladaProyección>;
   protected estadoProyectoEnum = EstadoProyecto;
 
   constructor(
+    private cdr: ChangeDetectorRef,
     private router: Router,
     private route: ActivatedRoute,
     protected verProyectoService: VerProyectoService,
@@ -40,8 +45,8 @@ export class IndexVerProyectoComponent implements OnInit{
   }
 
   ngOnInit() {
+    // Suscribirse a los observables
     this.route.params.subscribe(params => {
-
       this.proyectoObtenerService.obtenerInformaciónDetallada(params['id']);
       this.proyectoObtenerService.informacionDetalladaProyecto.subscribe({
         next: (respuesta) => {
@@ -50,7 +55,17 @@ export class IndexVerProyectoComponent implements OnInit{
         }
       });
 
-    });   
+    });  
+        
+    this.verProyectoService.tituloInstruccion$.subscribe(titulo => {
+      this.tituloInstruccion = titulo;
+      this.cdr.detectChanges(); // Forzar detección de cambios
+    });
+
+    this.verProyectoService.instruccion$.subscribe(instruccion => {
+      this.instruccion = instruccion;
+      this.cdr.detectChanges(); // Forzar detección de cambios
+    });
   }
 
   guardarCambios() {

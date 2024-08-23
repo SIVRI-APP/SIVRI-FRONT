@@ -1,5 +1,6 @@
-@if (this.proyectoInformacionConvocatoria.nombre != '') {
-    <app-formulario [filtroInput]="filtroInput" [specificInfo]="filtroValues" (accionEmitter)="accion($event)" (submitEmitter)="submit($event)"></app-formulario>
+@if (this.convocatoria) {
+  @if (this.convocatoria.get('nombre')?.value != '') {
+    
 
     <!-- DOCUMENTOS -->
     <div class="row text-center"><h5 class="">Documentos Requeridos</h5></div>
@@ -14,7 +15,7 @@
           </h2>
           <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
             <div class="accordion-body">
-                <app-datatable-custom [datatableInputs]="datatableInputsDocPreEjecucion" (accionEmitter)="accion($event)"></app-datatable-custom>
+                <!-- <app-datatable-custom [datatableInputs]="datatableInputsDocPreEjecucion" (accionEmitter)="accion($event)"></app-datatable-custom> -->
             </div>
           </div>
         </div>
@@ -27,7 +28,7 @@
           </h2>
           <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
             <div class="accordion-body">
-                <app-datatable-custom [datatableInputs]="datatableInputsDocEjecucion" (accionEmitter)="accion($event)"></app-datatable-custom>
+                <!-- <app-datatable-custom [datatableInputs]="datatableInputsDocEjecucion" (accionEmitter)="accion($event)"></app-datatable-custom> -->
             </div>
           </div>
         </div>
@@ -40,21 +41,22 @@
           </h2>
           <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
             <div class="accordion-body">
-                <app-datatable-custom [datatableInputs]="datatableInputsDocPostEjecucion" (accionEmitter)="accion($event)"></app-datatable-custom>
+                <!-- <app-datatable-custom [datatableInputs]="datatableInputsDocPostEjecucion" (accionEmitter)="accion($event)"></app-datatable-custom> -->
             </div>
           </div>
         </div>
     </div>
     
-}@else {
-    <div class="d-flex align-items-center">
-        <span class="material-symbols-outlined inl" style="color: #ED7D31;">
-            error
-        </span>
-        <p class="d-inline ml-2 mb-0">El proyecto aun no tiene una Convocatoria Asociada. Usa el filtro a continuacion para vincular una Convocatoria</p>
-        <p class="d-inline ml-2 mb-0"></p>
-    </div>
+  }@else {
+      <div class="d-flex align-items-center">
+          <span class="material-symbols-outlined inl" style="color: #ED7D31;">
+              error
+          </span>
+          <p class="d-inline ml-2 mb-0">El proyecto aun no tiene una Convocatoria Asociada. Usa el filtro a continuacion para vincular una Convocatoria</p>
+          <p class="d-inline ml-2 mb-0"></p>
+      </div>
 
-    <app-listar-convocatorias [obtenerRegistroId]="true" (filtrarEmitter)="accion($event)"></app-listar-convocatorias>
+      <app-listar-convocatorias [obtenerRegistroId]="true" (filtrarEmitter)="accion($event)"></app-listar-convocatorias>
+  }
 }
     

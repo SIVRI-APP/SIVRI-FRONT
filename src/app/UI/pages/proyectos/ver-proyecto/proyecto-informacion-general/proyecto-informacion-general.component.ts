@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { VerProyectoService } from '../ver-proyecto.service';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, Subscription } from 'rxjs';
@@ -10,7 +10,7 @@ import { debounceTime, Subscription } from 'rxjs';
   templateUrl: './proyecto-informacion-general.component.html',
   styleUrl: './proyecto-informacion-general.component.css'
 })
-export class ProyectoInformacionGeneralComponent implements OnInit, AfterViewInit {
+export class ProyectoInformacionGeneralComponent implements OnInit {
 
   private formularioSubscription: Subscription | null = null;
   protected informacionGeneral: FormGroup | null = null;
@@ -19,12 +19,10 @@ export class ProyectoInformacionGeneralComponent implements OnInit, AfterViewIni
     private verProyectoService: VerProyectoService,
   ) {}
 
-  ngAfterViewInit(): void {
-    this.verProyectoService._tituloInstruccion = "Información Detallada del Proyecto";
-    this.verProyectoService._instruccion = "En esta sección se presenta la información general del proyecto, incluyendo objetivos, alcance, especificaciones y plazos. Es fundamental para formalizar el proyecto y asegurar que todos los aspectos estén claros. Recuerde guardar los cambios regularmente y, cuando el proyecto esté listo, actualizar su estado.";
-  }
-
   ngOnInit() {    
+    this.verProyectoService.setTituloInstruccion("Información Detallada del Proyecto");
+    this.verProyectoService.setInstruccion("En esta sección se presenta la información general del proyecto, incluyendo objetivos, alcance, especificaciones y plazos. Es fundamental para formalizar el proyecto y asegurar que todos los aspectos estén claros. Recuerde guardar los cambios regularmente y cuando sea necesario actualizar el estado.");
+
     this.formularioSubscription = this.verProyectoService.formularioListo.subscribe(formulario => {
       if (formulario) {
         this.informacionGeneral = formulario.get('informacionGeneral') as FormGroup;

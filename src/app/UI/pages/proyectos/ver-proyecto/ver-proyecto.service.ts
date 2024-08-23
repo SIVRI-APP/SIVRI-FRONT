@@ -8,8 +8,21 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class VerProyectoService {
 
-  public _tituloInstruccion: string;
-  public _instruccion: string;
+  private tituloInstruccionSubject = new BehaviorSubject<string>('');
+  private instruccionSubject = new BehaviorSubject<string>('');
+
+  // Observable streams
+  public readonly tituloInstruccion$ = this.tituloInstruccionSubject.asObservable();
+  public readonly instruccion$ = this.instruccionSubject.asObservable();
+
+  // Setters
+  setTituloInstruccion(titulo: string) {
+    this.tituloInstruccionSubject.next(titulo);
+  }
+
+  setInstruccion(instruccion: string) {
+    this.instruccionSubject.next(instruccion);
+  }
 
   // Formulario reactivo con la información del Proyecto
   private _formularioinformacionDetalladaProyecto: FormGroup;
@@ -19,8 +32,6 @@ export class VerProyectoService {
     private formBuilder: FormBuilder,
   ) {
     this._formularioinformacionDetalladaProyecto = this.formBuilder.group({});
-    this._tituloInstruccion = '';
-    this._instruccion = '';
   }
 
   // Getter para el formulario
@@ -55,11 +66,11 @@ export class VerProyectoService {
         efectosAdversos: [informacion.efectosAdversos, Validators.required],        
       }),      
       convocatoria: this.formBuilder.group({
-        id: [informacion.convocatoria.id, Validators.required],
-        tipoFinanciacion: [informacion.convocatoria.tipoFinanciacion, Validators.required],
-        nombre: [informacion.convocatoria.nombre, Validators.required],
+        id: [informacion.convocatoria?.id || '', Validators.required],
+        tipoFinanciacion: [informacion.convocatoria?.tipoFinanciacion || '', Validators.required],
+        nombre: [informacion.convocatoria?.nombre || '', Validators.required],
         checklist: this.formBuilder.array(
-          informacion.convocatoria.checklist.map(item => this.formBuilder.group({
+          (informacion.convocatoria?.checklist || []).map(item => this.formBuilder.group({
             id: [item.id, Validators.required],
             etapaDocumento: [item.etapaDocumento, Validators.required],
             responsableDocumento: [item.responsableDocumento, Validators.required],
@@ -74,7 +85,7 @@ export class VerProyectoService {
         )
       }),
       integrantes: this.formBuilder.array(
-        informacion.integrantes.map(integrante => this.formBuilder.group({
+        (informacion.integrantes || []).map(integrante => this.formBuilder.group({
           id: [integrante.id, Validators.required],
           usuario: this.formBuilder.group({
             id: [integrante.usuario.id, Validators.required],
@@ -88,10 +99,10 @@ export class VerProyectoService {
         }))
       ),
       enfoquesDiferenciales: this.formBuilder.array(
-        informacion.enfoquesDiferenciales.map(enfoque => new FormControl(enfoque))
+        (informacion.enfoquesDiferenciales || []).map(enfoque => new FormControl(enfoque))
       ),
       lineasDeInvestigacion: this.formBuilder.array(
-        informacion.lineasDeInvestigacion.map(linea => new FormControl(linea))
+        (informacion.lineasDeInvestigacion || []).map(linea => new FormControl(linea))
       ),
     });
 
