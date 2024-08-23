@@ -2,12 +2,12 @@
     <ol class="breadcrumb">
         <li class="breadcrumb-item" routerLink="/inicio"><a>Inicio</a></li>
         <li class="breadcrumb-item" routerLink="/proyectos/listar"><a>Proyectos</a></li>
-        <li class="breadcrumb-item" routerLink="/proyectos/listar/{{id}}"><a>Proyectos ID:{{id}}</a>
+        <li class="breadcrumb-item" routerLink="/proyectos/listar/{{this.registroInformacionDetallada.data.id}}"><a>Proyectos ID:{{this.registroInformacionDetallada.data.id}}</a>
         </li>
     </ol>
 </nav>
 
-<h1 class="title">Proyecto: {{this.nombre}}</h1>
+<h1 class="title">Proyecto: {{this.registroInformacionDetallada.data.nombre}}</h1>
 
 <div class="nav-container">
     <ul class="nav nav-underline">
@@ -22,6 +22,66 @@
         </li>
     </ul>
     <div class="guide-line"></div>
+</div>
+
+<div class="row" style="margin-top: 15px; margin-bottom: 30px;">
+
+    <div class="col-sm-6">
+        <div class="d-flex flex-column ">
+            <!-- Primera fila: Proyecto ID y valor -->
+            <div class="d-flex align-items-center mb-2">
+                <h6 class="mb-0" style="font-size: 15px; color: #006;">Información Detallada del Proyecto</h6>
+            </div>
+            <!-- Segunda fila: Estado y valor -->
+            <div class="d-flex align-items-center">
+                <h6 class="mb-0" style="font-size: 15px; font-weight: lighter;">En esta sección se presentan los detalles clave del proyecto, como objetivos, alcance, especificaciones y plazos. Es fundamental para alinear expectativas y asegurar que todos los aspectos estén claros. Recuerde guardar los cambios regularmente y, cuando el proyecto esté listo, actualizar su estado.</h6>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-6">
+        <div class="card proyecto-card-sivri">
+            <div class="row g-0 align-items-center">
+                
+                <div class="col-sm-2 d-flex justify-content-center align-items-center">
+                    <span class="material-symbols-outlined" style="font-size: 36px; color: #006;">experiment</span>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="d-flex flex-column align-items-center" style="margin-top: 20px; margin-bottom: 20px;">
+                        <!-- Primera fila: Proyecto ID y valor -->
+                        <div class="d-flex align-items-center mb-2">
+                            <h6 class="mb-0" style="font-size: 15px; color: #006; font-weight: bold;">Proyecto ID:</h6>
+                            <h6 class="mb-0 ms-2" style="font-size: 15px;">{{this.registroInformacionDetallada.data.id}}</h6>
+                        </div>
+                        <!-- Segunda fila: Estado y valor -->
+                        <div class="d-flex align-items-center">
+                            <h6 class="mb-0" style="font-size: 15px; color: #006; font-weight: bold;">Estado:</h6>
+                            <h6 class="mb-0 ms-2" style="font-size: 15px;">{{enumTranslationService.getEnumValueByKey(this.estadoProyectoEnum, this.registroInformacionDetallada.data.estado)}}</h6>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-4 d-flex justify-content-center align-items-center">
+                    <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-sivri" data-bs-toggle="dropdown" aria-expanded="false">
+                        Cambiar Estado
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Aprobado</a></li>
+                        <li><a class="dropdown-item" href="#">Ejecución</a></li>
+                        <li><a class="dropdown-item" href="#">Formulado</a></li>
+                        <li><a class="dropdown-item" href="#">Formulado con Observaciones</a></li>
+                        <li><a class="dropdown-item" href="#">Revisión VRI</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>                            
+                            <a class="dropdown-item d-flex align-items-center" href="#"><span class="material-symbols-outlined" style="margin-right: 5px;">save</span>Guardar Cambios</a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
 </div>
 
 

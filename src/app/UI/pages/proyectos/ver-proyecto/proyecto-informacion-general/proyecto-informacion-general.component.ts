@@ -5,7 +5,6 @@ import { FiltroInput } from '../../../../../service/common/model/filtro/filtroIn
 import { FiltroField } from '../../../../../service/common/model/filtro/filtroField';
 import { FiltroFieldTipo } from '../../../../../service/common/model/filtro/filtroFieldTipo';
 import { EstadoProyecto } from '../../../../../service/proyecto/domain/model/enum/estadoProyecto';
-import { DatatableInputAction } from '../../../../../service/common/model/datatableAction';
 import { ProyectoCrearService } from '../../../../../service/proyecto/domain/service/proyectoCrear.service';
 import { Respuesta } from '../../../../../service/common/model/respuesta';
 import { ErrorData } from '../../../../../service/common/model/errorData';
@@ -40,8 +39,6 @@ export class ProyectoInformacionGeneralComponent implements OnInit{
   ){
     // Inicialización de los datos para crear los campos del formulario
     this.filtroInput = new FiltroInput();
-    this.filtroInput.accionPrimaria = new DatatableInputAction('done_all', 'Enviar a revisión VRI')
-    this.filtroInput.accionesSecundarias = [new DatatableInputAction('save', 'Guardar cambios')]
     
     this.filtroInput.filtroFields.push(new FiltroField('ID Proyecto', 'id', 'ID', FiltroFieldTipo.INPUT, 'text', null, "ID no valido", [Validators.required], false, ''));
     this.filtroInput.filtroFields.push(new FiltroField('Estado', 'estado', 'Estado del Proyecto', FiltroFieldTipo.ENUM, '', EstadoProyecto, "Digite una Estado de la Lista", [Validators.required, Validators.minLength(5), Validators.maxLength(256)], false, ''));
