@@ -1,5 +1,6 @@
 import { Component, HostListener } from '@angular/core';
 import { NgClass } from '@angular/common';
+import { InformacionUsuarioAutenticadoService } from '../../../../service/auth/domain/service/informacionUsuarioAutenticado.service';
 
 @Component({
   selector: 'app-header',
@@ -10,11 +11,18 @@ import { NgClass } from '@angular/common';
 })
 export class HeaderComponent {
 
+  protected nombre: string = '';
+
   protected title: string = 'Sistema de Información Vicerrectoría de Investigaciones - SIVRI';
   protected isMobile: boolean = false;
   protected notifications = false;
 
-  constructor(){}
+  constructor(
+    protected informacionUsuarioAutenticadoService: InformacionUsuarioAutenticadoService
+  ) {
+    // Aqui Yurani puede acceder a los roles
+    this.nombre = informacionUsuarioAutenticadoService.retornarNombre();
+  }
 
   @HostListener('window:resize', ['$event'])
   onResize() {
