@@ -37,7 +37,7 @@ export class DocumentosProyectoComponent implements OnInit{
 
   ngOnInit() {    
     this.verProyectoService.setTituloInstruccion("Convocatoria Asociada al Proyecto");
-    this.verProyectoService.setInstruccion("En esta sección se presenta la información general del proyecto, incluyendo objetivos, alcance, especificaciones y plazos. Es fundamental para formalizar el proyecto y asegurar que todos los aspectos estén claros. Recuerde guardar los cambios regularmente y cuando sea necesario actualizar el estado.");
+    this.verProyectoService.setInstruccion("En esta sección se presenta la información de la convocatoria asociada al proyecto, junto con la gestión de los documentos requeridos.");
 
     this.formularioSubscription = this.verProyectoService.formularioListo.subscribe(formulario => {
       if (formulario) {

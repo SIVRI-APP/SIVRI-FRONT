@@ -11,6 +11,7 @@ import { ErrorData } from '../../../../../service/common/model/errorData';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalOkComponent } from '../../../../shared/modal-ok/modal-ok.component';
 import { ModalBadComponent } from '../../../../shared/modal-bad/modal-bad.component';
+import { InformacionUsuarioAutenticadoService } from '../../../../../service/auth/domain/service/informacionUsuarioAutenticado.service';
 
 @Component({
   selector: 'app-index-ver-proyecto',
@@ -20,6 +21,7 @@ import { ModalBadComponent } from '../../../../shared/modal-bad/modal-bad.compon
   styleUrl: './index-ver-proyecto.component.css'
 })
 export class IndexVerProyectoComponent implements OnInit{
+  roles: string[] = [];
 
   // Inyeccion de Modal
   private modalService = inject(NgbModal);
@@ -39,9 +41,11 @@ export class IndexVerProyectoComponent implements OnInit{
     protected verProyectoService: VerProyectoService,
     private proyectoObtenerService: ProyectoObtenerService,
     private proyectoCrearService: ProyectoCrearService,
-    protected enumTranslationService: EnumTranslationService
+    protected enumTranslationService: EnumTranslationService,
+    protected informacionUsuarioAutenticadoService: InformacionUsuarioAutenticadoService
   ){
     this.informacionDetalladaProyecto = new Respuesta(0, '', '', new ProyectoInformaciónDetalladaProyección());
+    this.roles = informacionUsuarioAutenticadoService.retornarRoles();
   }
 
   ngOnInit() {

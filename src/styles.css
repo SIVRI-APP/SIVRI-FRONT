@@ -505,3 +505,17 @@ a:hover{
   border-radius: 13px;
   box-shadow: 2px 4px 4px 0px rgba(10, 10, 105, 0.22);
 }
+
+@media (max-width: 1300px) {
+  /* Oculta el texto original del botón */
+  .btn.btn-primary.dropdown-toggle.dropdown-toggle-sivri {
+      font-size: 0; /* Oculta el texto original reduciendo el tamaño de fuente a 0 */
+  }
+
+  /* Muestra el nuevo texto */
+  .btn.btn-primary.dropdown-toggle.dropdown-toggle-sivri::before {
+      content: "Estado ↓"; /* Texto más corto */
+      font-size: 14px; /* Ajusta el tamaño de la fuente para el nuevo texto */
+      display: inline-block;
+  }
+}
