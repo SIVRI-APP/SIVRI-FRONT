@@ -31,6 +31,7 @@ export class IntegranteSemilleroAdapter {
     if(numeroDocumento!=null) params = params.set('numeroDocumento',numeroDocumento);
     if(rolSemillero!=null) params= params.set('rolSemillero',rolSemillero);
     if(estado!=null) params = params.set('estado',estado);
+
     return this.http.get<Respuesta<Paginacion<IntegranteSemilleroListar>>>(this.apiUrl+'listarIntegrantesSemilleroPorSemilleroId',{params:params});
   }
 

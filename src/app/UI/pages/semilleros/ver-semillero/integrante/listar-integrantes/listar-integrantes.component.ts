@@ -91,6 +91,7 @@ export class ListarIntegrantesComponent implements OnInit, OnDestroy {
   }
   listarIntegrantes() {
     //realiza la peticion para obtener los datos filtrados
+
     this.integranteSemilleroObtenerService.obtenerIntegrantesxSemilleroIdPaginado(
       this.idSemillero, this.formulario.value.numeroDocumento,
       this.formulario.value.rolSemillero, this.formulario.value.estado,
@@ -125,9 +126,12 @@ export class ListarIntegrantesComponent implements OnInit, OnDestroy {
 
         if (tipo == 'agregar') {
            this.mostrarFormularioCrear = false;
-        } else if ('actualizar') {
+        } else if (tipo == 'actualizar') {
 
 
+        }else if(tipo == 'cancelar'){
+          this.mostrarFormularioCrear=false;
+          this.listarIntegrantes();
         }
          this.listarIntegrantes();
       })

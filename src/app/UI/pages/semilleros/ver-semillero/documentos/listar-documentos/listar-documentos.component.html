@@ -1,3 +1,4 @@
+<form [formGroup]="formulario" method="get">
 <div class="row">
   <div class="col-sm">
     <span class="sub-title">Documentación del semillero</span><br>
@@ -11,12 +12,12 @@
         </div>
         <div class="col-md-6">
           <div class="card-body">
-            <h6 class="card-title  sub-title">ID </h6>
-            <p class="card-text">Fecha de creación: </p>
+            <h6 class="card-title  sub-title">ID {{respuestaSemilleroInfo?.semilleroId}}</h6>
+            <p class="card-text">Fecha de creación: <br> {{respuestaSemilleroInfo?.fechaCreacion}}</p>
             </div>
         </div>
         <div class="col-md-4 card-title  text-center">
-            <p >estado </p>
+            <p >{{respuestaSemilleroInfo?.estado}} </p>
         </div>
       </div>
     </div>
@@ -61,39 +62,57 @@
                     <span >Validada y suscrita por el departamento</span>
                   </td>
                   <td>
-                    <select class="form-select" name="" id="">
-                      <option value="" hidden selected>Estado </option>
+                    <!--todo falta editar el estado para que muestre el estado actual-->
+                    <select class="form-select" name="estadoAval" id="estadoAval" formControlName="estadoAval">
                       <option value="AJUSTES">Ajustes</option>
                       <option value="APROBADO">Aprobado</option>
                       <option value="REVISION">Revisión</option>
-                      <option value="NO_ANEXADO">No anexado</option>
+                      <option value="NO_ANEXADO" selected>No anexado</option>
                     </select>
                   </td>
                   <td>
                     <input type="checkbox" id="vehicle1" name="vehicle1" value="">
                   </td>
                   <td>
-                    <a href=""><span class="material-symbols-outlined dataTableActionBtn"> chat_bubble </span></a>
-                    <a href=""><span class="material-symbols-outlined  dataTableActionBtn"> more_vert </span></a>
+                    <div class="dropdown">
+                      <a (click)="openObservacion(respuestaInfoDocuemntoSemilleroAval.data.observacion)" class="dropdown-item"><span class="material-symbols-outlined dataTableActionBtn"> chat_bubble </span></a>
+                      <a href="#" data-bs-toggle="dropdown"><span class="material-symbols-outlined  dataTableActionBtn"> more_vert </span></a>
+                      <ul class="dropdown-menu">
+                        <li>
+                          <a (click)="triggerFileUpload(fileInputAval)" class="dropdown-item " ><span class="material-symbols-outlined dataTableActionBtn">upload</span>Cargar documento</a></li>
+                          <input type="file" (change)="onFileSelectedAval($event)" #fileInputAval style="display: none;" />
+                        <li>
+                          <a class="dropdown-item" (click)="downloadAval()" ><span class="material-symbols-outlined dataTableActionBtn">download</span>Descargar documento</a></li>
+                      </ul>
+                    </div>
                   </td>
                 </tr>
                 <tr>
                   <td>Otros</td>
                   <td>
-                    <select class="form-select" name="" id="">
-                      <option value="" hidden selected>Estado </option>
+                    <select class="form-select" name="estadoOtro" id="estadoOtro" formControlName="estadoOtro">
+
                       <option value="AJUSTES">Ajustes</option>
                       <option value="APROBADO">Aprobado</option>
                       <option value="REVISION">Revisión</option>
-                      <option value="NO_ANEXADO">No anexado</option>
+                      <option value="NO_ANEXADO" selected>No anexado</option>
                     </select>
                   </td>
                   <td>
                     <input type="checkbox" id="vehicle1" name="vehicle1" value="">
                   </td>
                   <td>
+                    <div class="dropdown">
                     <a href=""><span class="material-symbols-outlined dataTableActionBtn"> chat_bubble </span></a>
                     <a href=""><span class="material-symbols-outlined  dataTableActionBtn"> more_vert </span></a>
+                    <ul class="dropdown-menu">
+                      <li>
+                        <a class="dropdown-item " (click)="triggerFileUpload(fileInputOtro)"><span class="material-symbols-outlined dataTableActionBtn">upload</span>Cargar documento</a></li>
+                        <input type="file" (change)="onFileSelectedOtro($event)" #fileInputOtro style="display: none;" />
+                      <li>
+                        <a class="dropdown-item" (click)="downloadOtro()"><span class="material-symbols-outlined dataTableActionBtn">download</span>Descargar documento</a></li>
+                    </ul>
+                  </div>
                   </td>
                 </tr>
                   <!--@for (data of datatableInputs.paginacion.content; track data[datatableInputs.dataAttributes[0].name]) {
@@ -114,5 +133,23 @@
       </div>
 
 
+  </div>
+</div>
+</form>
+<!-- Modal para Observación -->
+<div class="modal fade" id="observacionModal" tabindex="-1" aria-labelledby="observacionModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="observacionModalLabel">Observación</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <textarea class="form-control" readonly rows="5">{{ currentObservacion }}</textarea>
+      </div>
+      <!--div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </!--div-->
+    </div>
   </div>
 </div>

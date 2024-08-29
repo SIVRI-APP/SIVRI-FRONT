@@ -8,6 +8,7 @@ import { ModalBadComponent } from '../../../../../shared/modal-bad/modal-bad.com
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalOkComponent } from '../../../../../shared/modal-ok/modal-ok.component';
 import { CommunicationComponentsService } from '../../../../../../service/common/communication-components.service';
+import { NotificationAlertService } from '../../../../../../service/common/notification-alert.service';
 
 @Component({
   selector: 'app-crear-observacion',
@@ -31,6 +32,7 @@ export class CrearObservacionComponent implements OnInit {
     private route: ActivatedRoute,
     private semilleroObservacionCrearService: SemilleroObservacionCrearService,
     private actualizarListarService: CommunicationComponentsService,
+    private notificationAlertService: NotificationAlertService,
   ){
     this.mostrarFormularioCrear=true;
     this.formulario = this.formBuilder.group({
@@ -67,6 +69,11 @@ export class CrearObservacionComponent implements OnInit {
           }
         }
       });
+  }
+  cancelar(){
+    this.mostrarFormularioCrear=false;
+    this.actualizarListarService.notificarActualizarListar('cancelar');
+    this.notificationAlertService.showAlert('','Accion Cancelada',3000);
   }
   openModalOk(message: string) {
     const modalRef = this.modalService.open(ModalOkComponent);

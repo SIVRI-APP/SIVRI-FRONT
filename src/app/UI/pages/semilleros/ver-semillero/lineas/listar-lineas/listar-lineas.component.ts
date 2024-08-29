@@ -101,6 +101,8 @@ export class ListarLineasComponent implements OnInit,OnDestroy {
       this.actualizarListarService.actualizarListar$.subscribe((tipo:string)=>{
         if(tipo=='agregar'){
           this.mostrarCreaLinea=false;
+        }else if(tipo=='cancelar'){
+          this.mostrarCreaLinea=false;
         }
         this.listarLineas( );
       })

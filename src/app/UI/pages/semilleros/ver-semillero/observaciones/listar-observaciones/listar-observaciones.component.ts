@@ -1,20 +1,22 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ListarObservacionSemilleroProyeccion } from '../../../../../../service/semilleros/domain/model/proyecciones/listarObservacionSemilleroProyeccion';
 import { Paginacion } from '../../../../../../service/common/model/paginacion';
 import { Respuesta } from '../../../../../../service/common/model/respuesta';
 import { SemilleroObservacionObtenerService } from '../../../../../../service/semilleros/domain/service/semillero-observacion-obtener.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { DatatableInput } from '../../../../../../service/common/model/datatableInput';
 import { DatatableComponent } from '../../../../../shared/datatable/datatable.component';
 import { CrearObservacionComponent } from '../crear-observacion/crear-observacion.component';
 import { Subscription } from 'rxjs';
 import { CommunicationComponentsService } from '../../../../../../service/common/communication-components.service';
+import { EnumTranslationService } from '../../../../../../service/common/enum-translation.service';
 
 @Component({
   selector: 'app-listar-observaciones',
   standalone: true,
   imports: [
+    RouterLink,
     ReactiveFormsModule,
     DatatableComponent,
     CrearObservacionComponent,
@@ -23,6 +25,7 @@ import { CommunicationComponentsService } from '../../../../../../service/common
   styleUrl: './listar-observaciones.component.css'
 })
 export class ListarObservacionesComponent implements OnInit,OnDestroy {
+  @Output() movePageEmitter = new EventEmitter<number>();
   paginas: number[] = [2, 3, 5];
   protected idSemillero!: string;
   protected formulario: FormGroup;
@@ -35,6 +38,7 @@ export class ListarObservacionesComponent implements OnInit,OnDestroy {
     private route: ActivatedRoute,
     private semilleroObservacionObtenerService: SemilleroObservacionObtenerService,
     private actualizarListarService: CommunicationComponentsService,
+    protected enumTranslationService: EnumTranslationService,
   ){
     this.formulario = this.formBuilder.group({
       pageNo: [0],
@@ -91,6 +95,9 @@ export class ListarObservacionesComponent implements OnInit,OnDestroy {
         if(tipo=='agregar'){
           this.mostrarFormularioCrear=false;
           this.listarObservaciones();
+        }else if(tipo=='cancelar'){
+          this.mostrarFormularioCrear=false;
+          this.listarObservaciones();
         }
 
       })
@@ -116,11 +123,65 @@ export class ListarObservacionesComponent implements OnInit,OnDestroy {
    * Mueve la página de resultados hacia adelante o hacia atrás según la dirección especificada.
    * @param newPage La dirección hacia la que se debe mover la página ('adelante' o 'atras').
    */
-  movePage(newPage: number): void {
+  movePage(newPage: string): void {
+    if (newPage === 'atras') {
+        // Enviar la disminucion del valor de la pagina al componente padre
+        this.movePageEmitter.emit(-1);
+        this.movePageNew(-1);
+    } else {
+      // Enviar el incremento del valor de la pagina al componente padre
+      this.movePageEmitter.emit(1);
+      this.movePageNew(1);
+    }
+  }
+  /**
+   * Mueve la página de resultados hacia adelante o hacia atrás según la dirección especificada.
+   * @param newPage La dirección hacia la que se debe mover la página ('adelante' o 'atras').
+   */
+  movePageNew(newPage: number): void {
     // Realizar incremento o decremento de la Pagina
-    this.formulario.get('pageNo')?.setValue((this.formulario.get('pageNo')?.value ?? 0) + newPage);
+    this.formulario
+      .get('pageNo')
+      ?.setValue((this.formulario.get('pageNo')?.value ?? 0) + newPage);
 
     // Enviar el formulario para cargar los datos de la nueva página
     this.listarObservaciones();
+    //this.listarLineas();
+  }
+  /**
+   * Calcula el texto que indica qué elementos se están visualizando actualmente.
+   * @param pageNumber El número de página actual.
+   * @param pageSize El tamaño de página actual.
+   * @param totalElements El número total de elementos.
+   * @returns El texto que describe qué elementos se están visualizando.
+   */
+  calcularTextoVisualizacion(): string {
+    let pageNumber = this.datatableInputs.paginacion.number + 1;
+    let pageSize = this.datatableInputs.paginacion.size;
+    let totalElements = this.datatableInputs.paginacion.totalElements;
+
+    let elementosVisualizadosHasta = pageNumber * pageSize - (pageSize - 1);
+    let elementosVisualizadosHastaFinal = Math.min(
+      elementosVisualizadosHasta + pageSize - 1,
+      totalElements
+    );
+
+    return (
+      'Visualizando ' +
+      elementosVisualizadosHasta +
+      ' a ' +
+      elementosVisualizadosHastaFinal +
+      ' de ' +
+      totalElements +
+      ' Registros'
+    );
+  }
+  /**
+   * Genera un array de números de página basado en el número total de páginas.
+   * @returns Un array de números de página.
+   */
+  getPageNumbers(): number[] {
+    const totalPages = this.datatableInputs.paginacion.totalPages;
+    return Array.from({ length: totalPages }, (_, index) => index + 1);
   }
 }

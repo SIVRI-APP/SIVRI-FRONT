@@ -17,6 +17,8 @@ export class SemilleroProgramaObtenerService {
     pageNo?: number ,
     pageSize?: number ,
   ):Observable<Respuesta<Paginacion<ListarProgramas>>>{
+    console.log('semillero id '+semilleroId+' pageno '+pageNo+' pagesize '+pageSize);
+
     return this.semilleroProgramaAdapter.obtenerProgramasxSemilleroId(semilleroId,pageNo,pageSize);
   }
 

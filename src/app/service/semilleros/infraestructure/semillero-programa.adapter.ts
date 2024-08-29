@@ -24,6 +24,7 @@ export class SemilleroProgramasAdapter {
       .set('pageNo', pageNo.toString())
       .set('pageSize', pageSize.toString())
       .set('semilleroId', semilleroId);
+
      return this.http.get<Respuesta<Paginacion<ListarProgramas>>>(this.apiUrl + 'obtenerProgramasPorSemilleroId', { params: params });
   }
   crearProgramaSemillero(

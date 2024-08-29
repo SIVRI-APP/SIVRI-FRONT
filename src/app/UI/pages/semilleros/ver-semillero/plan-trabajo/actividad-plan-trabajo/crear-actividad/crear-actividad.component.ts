@@ -15,6 +15,7 @@ import { ModalBadComponent } from '../../../../../../shared/modal-bad/modal-bad.
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalOkComponent } from '../../../../../../shared/modal-ok/modal-ok.component';
 import { CommunicationComponentsService } from '../../../../../../../service/common/communication-components.service';
+import { NotificationAlertService } from '../../../../../../../service/common/notification-alert.service';
 
 @Component({
   selector: 'app-crear-actividad',
@@ -48,6 +49,7 @@ export class CrearActividadComponent implements OnInit {
     private integrantesGrupoObtenerService: IntegrantesGrupoObtenerService,
     private actividadPlanCrearService: ActividadPlanCrearService,
     private actualizarListarService: CommunicationComponentsService,
+    private notificationAlertService: NotificationAlertService,
   ){
     this.mostrarCrear= true;
     this.formulario= this.formBuilder.group({
@@ -131,15 +133,10 @@ export class CrearActividadComponent implements OnInit {
     }
   }
   //borrar los datos ingresados en el filtro
-  limpiarCampos(): void {
-    this.formulario= this.formBuilder.group({
-      objetivo: ['',[Validators.required,Validators.minLength(2),Validators.maxLength(1450)]],
-      actividad: ['',[Validators.required]],
-      compromiso: ['',[Validators.required]],
-      responsable:['',[Validators.required]],
-      fechaInicio:['',[Validators.required]],
-      fechaFin:['',[Validators.required]]
-    });
+  cancelar(): void {
+    this.mostrarCrear=false;
+    this.actualizarListarService.notificarActualizarListar('cancelado');
+    this.notificationAlertService.showAlert('','Actividad no Creada',3000);
   }
   openModalOk(message: string) {
     const modalRef = this.modalService.open(ModalOkComponent);

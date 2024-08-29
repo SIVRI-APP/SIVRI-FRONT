@@ -11,29 +11,15 @@
         </div>
         <div class="col-md-6">
           <div class="card-body">
-            <h6 class="card-title  sub-title">ID 2</h6>
-            <p class="card-text">Fecha de creación: <br> 2023-03-08</p>
+            <h6 class="card-title  sub-title">ID {{respuestaSemilleroInfo?.semilleroId}}</h6>
+            <p class="card-text">Fecha de creación: <br> {{respuestaSemilleroInfo?.fechaCreacion}}</p>
             </div>
         </div>
         <div class="col-md-4 card-title  text-center">
-            <p >Activo </p>
+            <p >{{respuestaSemilleroInfo?.estado}} </p>
         </div>
       </div>
     </div>
-  </div>
-</div>
-<div class="form-guide-line"></div>
-<div class="row">
-  <div class="col controls">
-
-    <button type="submit" class="primaryBTN">
-      <div class="button-content">
-        <span class="material-symbols-outlined primaryBTN-icon">
-          history_edu
-        </span>
-        <span class="text">Historial   de archivos</span>
-      </div>
-    </button>
   </div>
 </div>
 <div class="form-guide-line"></div>
@@ -50,25 +36,20 @@
                   <tr>
                     <th>Documentos</th>
                     <th>Estado</th>
-
                     <th>Acciones</th>
                   </tr>
               </thead>
 
               <tbody>
                 <tr>
-                  <td>Aval Departamento <br>
+                  <td>Aval Departamento<br>
                     <span >Validada y suscrita por el departamento</span>
                   </td>
-                  <td>Revisión <br>
-
+                  <td>{{estadoDocumentoAval}} <br>
                   </td>
-
                   <td>
-
-
                     <div class="dropdown">
-                      <a href=""><span class="material-symbols-outlined dataTableActionBtn"> chat_bubble </span></a>
+                      <a (click)="openObservacion(respuestaInfoDocuemntoSemilleroAval.data.observacion)" class="dropdown-item"><span class="material-symbols-outlined dataTableActionBtn"> chat_bubble </span></a>
                       <a href="#"  data-bs-toggle="dropdown"><span class="material-symbols-outlined dataTableActionBtn">more_vert</span></a>
                       <ul class="dropdown-menu">
                         <li>
@@ -82,14 +63,11 @@
                 </tr>
                 <tr>
                   <td>Otros</td>
-                  <td> Revisión
-
+                  <td> {{estadoDocumentoOtro}}
                   </td>
-
                   <td>
-
                     <div class="dropdown">
-                      <a href=""><span class="material-symbols-outlined dataTableActionBtn"> chat_bubble </span></a>
+                      <a (click)="openObservacion(respuestaInfoDocuemntoSemilleroOtros.data.observacion)" class="dropdown-item"><span class="material-symbols-outlined dataTableActionBtn"> chat_bubble </span></a>
                       <a href="#"  data-bs-toggle="dropdown"><span class="material-symbols-outlined dataTableActionBtn">more_vert</span></a>
                       <ul class="dropdown-menu">
                         <li>
@@ -109,7 +87,7 @@
       </div>
       <div>
         <span>Botón para finalizar el registro del semillero de Investigación </span>
-          <button  class="primaryBTN">
+          <button  class="primaryBTN" (click)="enviarEmailRevisionVri()">
             <div class="button-content">
               <span class="material-symbols-outlined primaryBTN-icon">
                 done_all
@@ -119,5 +97,22 @@
           </button>
       </div>
 
+  </div>
+</div>
+<!-- Modal para Observación -->
+<div class="modal fade" id="observacionModal" tabindex="-1" aria-labelledby="observacionModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="observacionModalLabel">Observación</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <textarea class="form-control" readonly rows="5">{{ currentObservacion }}</textarea>
+      </div>
+      <!--div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </!--div-->
+    </div>
   </div>
 </div>

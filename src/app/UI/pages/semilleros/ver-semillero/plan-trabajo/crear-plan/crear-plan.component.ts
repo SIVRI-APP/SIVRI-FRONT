@@ -12,6 +12,7 @@ import { ModalBadComponent } from '../../../../../shared/modal-bad/modal-bad.com
 import { CrearActividadComponent } from '../actividad-plan-trabajo/crear-actividad/crear-actividad.component';
 import { Subscription } from 'rxjs';
 import { CommunicationComponentsService } from '../../../../../../service/common/communication-components.service';
+import { NotificationAlertService } from '../../../../../../service/common/notification-alert.service';
 
 @Component({
   selector: 'app-crear-plan',
@@ -44,6 +45,7 @@ export class CrearPlanComponent implements OnInit {
     protected EnumTranslationService: EnumTranslationService,
     private planTrabajoCrearService: PlanTrabajoCrearService,
     private actualizarListarService: CommunicationComponentsService,
+    private notificationAlertService: NotificationAlertService,
   ) {
     this.mostrarFormularioCrear=true;
     this.respuesta = new Respuesta<false>();
@@ -98,14 +100,11 @@ export class CrearPlanComponent implements OnInit {
       this.formulario.markAllAsTouched();
     }
   }
-  limpiarCampos() {
-    this.formulario = this.formBuilder.group({
-      idSemillero: [''],
-      nombrePlan: ['', Validators.required],
-      estado: ['FORMULADO'],
-      anio: [undefined, Validators.required]
-    });
-    this.formulario.get('estado')?.disable();
+  cancelar() {
+    this.notificationAlertService.showAlert('','Plan no Creado',3000);
+    this.mostrarFormularioCrear=false;
+    this.actualizarListarService.notificarActualizarListar('agregar');
+
   }
 
   openModalOk(message: string) {
@@ -117,7 +116,6 @@ export class CrearPlanComponent implements OnInit {
         //cierra todas las modales
         this.modalService.dismissAll();
       }
-
     });
   }
 

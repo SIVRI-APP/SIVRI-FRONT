@@ -4,6 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { TipoDocumento } from '../../solicitudUsuarios/domain/model/enum/tipoDocumento';
 import { TipoDocumentoSemillero } from '../domain/model/enum/tipoDocumentoSemillero';
+import { Respuesta } from '../../common/model/respuesta';
+import { ListarDocumentoSemilleroProyeccion } from '../domain/model/proyecciones/ListarDocumentoSemilleroProyeccion';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +13,11 @@ import { TipoDocumentoSemillero } from '../domain/model/enum/tipoDocumentoSemill
 export class DocumentoSemilleroAdapter {
   private apiUrl =environment.urlApi+'documentoSemillero/';
   constructor(private http:HttpClient) { }
-
+  obtenerDocumentoSemilleroxsemilleroIdyTipo(
+    semilleroId: string,tipo:string
+  ):Observable<Respuesta<ListarDocumentoSemilleroProyeccion>>{
+    return this.http.get<Respuesta<ListarDocumentoSemilleroProyeccion>>(this.apiUrl+`obtenerDocumentoActivo?semilleroId=${semilleroId}&tipo=${tipo}`);
+  }
   subirDocumentosSemillero(idSemillero: string,tipoDocumento:string,base64File: string, fileName: string): Observable<any>{
     const payload = {
       file: base64File,

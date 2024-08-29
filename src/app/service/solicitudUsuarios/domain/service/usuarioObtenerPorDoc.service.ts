@@ -19,6 +19,7 @@ export class UsuarioObtenerPorDocService {
     usuarioNumDoc: string,
     tipoDocumento: TipoDocumento
   ): Observable<Respuesta<UsuarioInformaciónDetalladaProyección>> {
+
     return this.usuarioAdapter.obtenerUsuarioInformaciónDetalladaPorDoc(
       usuarioNumDoc,
       tipoDocumento

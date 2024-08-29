@@ -145,6 +145,7 @@ export class ListarActividadesComponent implements OnInit,OnDestroy {
           this.mostrarEditarActividad=false;
         } else if(tipo=='cancelado'){
           this.mostrarEditarActividad=false;
+          this.mostrarCreaActividad=false;
         }
         this.listarActividadesxplan();
       })
@@ -201,7 +202,6 @@ export class ListarActividadesComponent implements OnInit,OnDestroy {
       });
     };
     }
-
 
   openModalOk(message: string) {
     const modalRef = this.modalService.open(ModalOkComponent);

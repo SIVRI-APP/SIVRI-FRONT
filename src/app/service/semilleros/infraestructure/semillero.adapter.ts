@@ -96,4 +96,9 @@ export class SemilleroAdapter {
   }): Observable<Respuesta<boolean>> {
     return this.http.post<Respuesta<boolean>>(this.apiUrl + 'crearSemillero', body);
   }
+  enviarEmailRevisionVri(semilleroId:string
+   ):Observable<Respuesta<boolean>>{
+      return this.http.get<Respuesta<boolean>>(this.apiUrl+`emailRevisionVri?semilleroId=${semilleroId}`)
+  }
+
 }

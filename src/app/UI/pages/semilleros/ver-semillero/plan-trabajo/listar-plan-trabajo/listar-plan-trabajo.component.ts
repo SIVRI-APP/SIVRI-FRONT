@@ -92,6 +92,9 @@ export class ListarPlanTrabajoComponent implements OnInit, OnDestroy {
         } else if ('actualizar') {
 
 
+        } else if('cancelar'){
+          this.mostrarCreaPlan = false;
+          this.listarPlanesTrabajo();
         }
 
       })

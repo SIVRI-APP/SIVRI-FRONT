@@ -244,7 +244,7 @@ export class DescripcionSemilleroComponent implements OnInit {
     this.formulario.get('objetivo')?.setValue(this.semillero.data.objetivo);
     this.formulario.get('mision')?.setValue(this.semillero.data.mision);
     this.formulario.get('vision')?.setValue(this.semillero.data.vision);
-    this.notificationAlertService.showAlert('titulo','accion cancelada',3000);
+    this.notificationAlertService.showAlert('titulo','Accion Cancelada',3000);
 
 
   }

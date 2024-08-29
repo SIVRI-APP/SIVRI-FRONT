@@ -27,8 +27,103 @@
 
   <!-- Tabla Paginada  -->
    @if (mostrarFormularioCrear==false) {
-  <app-datatable [datatableInputs]="datatableInputs" (changePageEmitter)="changePage($event)"
-  (movePageEmitter)="movePage($event)"></app-datatable>
+  <!--app-datatable-- [datatableInputs]="datatableInputs" (changePageEmitter)="changePage($event)"
+  (movePageEmitter)="movePage($event)"></!--app-datatable-->
+  @if (datatableInputs.searchPerformed == true ) {
+    @if (datatableInputs.paginacion.content.length > 0) {
+
+      <div class="card shadow datatable">
+
+        <div class="card-body">
+
+          <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
+            <table class="table my-0 table-striped" id="dataTable">
+
+              <thead>
+                <tr>
+                  @for (tableHeader of datatableInputs.tableHeaders; track $index) {
+                  <th>{{tableHeader}}</th>
+                  }
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                @for (data of datatableInputs.paginacion.content; track data[datatableInputs.dataAttributes[0].name]) {
+                <tr>
+                  @for (attribute of datatableInputs.dataAttributes; track $index) {
+                  @if (enumTranslationService.isEnumType(attribute.type)) {
+                  <td>{{enumTranslationService.getEnumValueByKey(attribute.type, data[attribute.name])}}</td>
+                  }@else {
+                  <td>{{data[attribute.name]}}</td>
+                  }
+                  }
+                  <td><a [routerLink]="[data[datatableInputs.dataAttributes[0].name]]"><span
+                        class="material-symbols-outlined dataTableActionBtn">visibility</span></a>
+                  </td>
+                </tr>
+                }
+              </tbody>
+
+            </table>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 align-self-center">
+              <p id="dataTable_info" class="dataTables_info" role="status" aria-live="polite">{{calcularTextoVisualizacion()}}
+              </p>
+            </div>
+            <div class="col-md-6">
+              <nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
+                <ul class="pagination">
+
+                  <!-- Atras -->
+                  @if (datatableInputs.paginacion.first) {
+                  <li class="page-item disabled"><a class="page-link" aria-label="Previous"
+                      (click)="movePage('atras')"><span aria-hidden="true">«</span></a></li>
+                  }@else {
+                  <li class="page-item"><a class="page-link" aria-label="Previous" (click)="movePage('atras')"><span
+                        aria-hidden="true">«</span></a></li>
+                  }
+
+                  <!-- Paginas -->
+
+                  @for (pageNumber of getPageNumbers(); track $index) {
+                  <li class="page-item pagina" [class.active]="pageNumber === datatableInputs.paginacion.number + 1"><a
+                      class="page-link" (click)="changePage(pageNumber)">{{ pageNumber }}</a></li>
+                  }
+
+                  <!-- Adelante -->
+                  @if (datatableInputs.paginacion.last) {
+                  <li class="page-item disabled"><a class="page-link" aria-label="Next"
+                      (click)="movePage('adelante')"><span aria-hidden="true">»</span></a></li>
+                  }@else {
+                  <li class="page-item"><a class="page-link" aria-label="Next" (click)="movePage('adelante')"><span
+                        aria-hidden="true">»</span></a></li>
+                  }
+
+                </ul>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    }@else {
+    <div class="icon-container">
+      <span class="material-symbols-outlined giant-icon">
+        scan_delete
+      </span>
+      <p class="file-description">No hay {{datatableInputs.domain}} disponibles asociados a esta busqueda.</p>
+    </div>
+    }
+  }<!--@else {
+  <div class="icon-container">
+    <span class="material-symbols-outlined giant-icon">
+      description
+    </span>
+    <p class="file-description">Visualiza registros de {{datatableInputs.domain}} llenando los campos del formulario.</p>
+  </div>
+  }-->
    }@else {
     <div>
       <app-crear-observacion></app-crear-observacion>

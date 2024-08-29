@@ -49,4 +49,9 @@ export class SemilleroObtenerService {
   ):Observable<Respuesta<SemilleroProyeccion>>{
     return this.semilleroAdapter.obtenerSemilleroInformacionDetallada(semilleroId);
   }
+
+  envioEmailRevisionVri(semilleroId:string
+    ):Observable<Respuesta<boolean>>{
+      return this.semilleroAdapter.enviarEmailRevisionVri(semilleroId);
+  }
 }
