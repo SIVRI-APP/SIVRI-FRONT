@@ -1,5 +1,6 @@
 import { Component, HostListener } from '@angular/core';
 import { NgClass } from '@angular/common';
+import { InformacionUsuarioAutenticadoService } from '../../../../service/auth/domain/service/informacionUsuarioAutenticado.service';
 
 @Component({
   selector: 'app-header',
@@ -14,7 +15,14 @@ export class HeaderComponent {
   protected isMobile: boolean = false;
   protected notifications = false;
 
-  constructor(){}
+  protected nombre: string = '';
+  
+  constructor(
+    protected informacionUsuarioAutenticadoService: InformacionUsuarioAutenticadoService
+  ) {
+    
+    this.nombre = informacionUsuarioAutenticadoService.retornarNombre();
+  }
 
   @HostListener('window:resize', ['$event'])
   onResize() {

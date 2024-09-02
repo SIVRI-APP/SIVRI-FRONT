@@ -72,6 +72,7 @@ export class ChecklistProyeccion {
   cantidad: number;
   obligatorio: boolean;
   completado: boolean;
+  url: string;
   documentoConvocatoria: DocumentoProyeccion = new DocumentoProyeccion();
 
   constructor() {
@@ -81,6 +82,7 @@ export class ChecklistProyeccion {
     this.cantidad = 0;
     this.obligatorio = false;
     this.completado = false;
+    this.url = '';
     this.documentoConvocatoria = new DocumentoProyeccion();
   }
 }

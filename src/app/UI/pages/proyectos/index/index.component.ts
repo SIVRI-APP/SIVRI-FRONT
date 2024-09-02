@@ -9,7 +9,7 @@ import { InformacionUsuarioAutenticadoService } from '../../../../service/auth/d
   templateUrl: './index.component.html',
   styleUrl: './index.component.css'
 })
-export class IndexComponent implements OnInit{
+export class IndexComponent {
 
   protected showCrearProyecto = false;
 
@@ -19,7 +19,5 @@ export class IndexComponent implements OnInit{
     console.log("Roles: " + informacionUsuarioAutenticadoService.retornarRoles());
   }
 
-  ngOnInit(): void {
-    
-  }
+
 }

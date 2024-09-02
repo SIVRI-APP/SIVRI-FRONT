@@ -78,4 +78,10 @@ export class ProyectoAdapter {
     return this.http.post<Respuesta<boolean>>(this.apiUrl + 'asociarConvocatoria', null, { params: params });
   }
 
+  cargarDocConvocatoria(
+    formData: FormData
+  ): Observable<Respuesta<any>> {
+    return this.http.post<Respuesta<boolean>>(environment.urlApi + 'file/upload', formData);
+  }
+
 }

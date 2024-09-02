@@ -1,62 +1,147 @@
 @if (this.convocatoria) {
-  @if (this.convocatoria.get('nombre')?.value != '') {
-    
+@if (this.convocatoria.get('nombre')?.value != '') {
 
-    <!-- DOCUMENTOS -->
-    <div class="row text-center"><h5 class="">Documentos Requeridos</h5></div>
-        
-    <div class="accordion" id="accordionExample">
-
-        <div class="accordion-item">
-          <h2 class="accordion-header">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                Previos a la Ejecución
-            </button>
-          </h2>
-          <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-            <div class="accordion-body">
-                <!-- <app-datatable-custom [datatableInputs]="datatableInputsDocPreEjecucion" (accionEmitter)="accion($event)"></app-datatable-custom> -->
-            </div>
-          </div>
-        </div>
-
-        <div class="accordion-item">
-          <h2 class="accordion-header">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                Durante la Ejecución
-            </button>
-          </h2>
-          <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-            <div class="accordion-body">
-                <!-- <app-datatable-custom [datatableInputs]="datatableInputsDocEjecucion" (accionEmitter)="accion($event)"></app-datatable-custom> -->
-            </div>
-          </div>
-        </div>
-
-        <div class="accordion-item">
-          <h2 class="accordion-header">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                Posteriores a la Ejecución
-            </button>
-          </h2>
-          <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-            <div class="accordion-body">
-                <!-- <app-datatable-custom [datatableInputs]="datatableInputsDocPostEjecucion" (accionEmitter)="accion($event)"></app-datatable-custom> -->
-            </div>
-          </div>
-        </div>
+<div class="col-sm-6">
+  <div class="d-flex flex-column ">
+    <div class="d-flex align-items-center mb-2">
+      <h6 class="mb-0" style="font-size: 15px; color: #006;">Convocatoria ID:</h6>
+      <h6 class="mb-0 ms-2" style="font-size: 15px; font-weight: lighter;">{{convocatoria.get('id')?.value}}</h6>
     </div>
-    
-  }@else {
-      <div class="d-flex align-items-center">
-          <span class="material-symbols-outlined inl" style="color: #ED7D31;">
-              error
-          </span>
-          <p class="d-inline ml-2 mb-0">El proyecto aun no tiene una Convocatoria Asociada. Usa el filtro a continuacion para vincular una Convocatoria</p>
-          <p class="d-inline ml-2 mb-0"></p>
-      </div>
+    <!-- Primera fila: Proyecto ID y valor -->
+    <div class="d-flex align-items-center mb-2">
+      <h6 class="mb-0" style="font-size: 15px; color: #006;">Nombre:</h6>
+      <h6 class="mb-0 ms-2" style="font-size: 15px; font-weight: lighter;">{{convocatoria.get('nombre')?.value}}</h6>
+    </div>
+    <!-- Segunda fila: Estado y valor -->
+    <div class="d-flex align-items-center">
+      <h6 class="mb-0" style="font-size: 15px; color: #006;">Tipo de Financiación:</h6>
+      <h6 class="mb-0 ms-2" style="font-size: 15px; font-weight: lighter;">
+        {{enumTranslationService.getEnumValueByKey(tipoFinanciacionEnum, convocatoria.get('tipoFinanciacion')?.value)}}
+      </h6>
+    </div>
+  </div>
+</div>
 
-      <app-listar-convocatorias [obtenerRegistroId]="true" (filtrarEmitter)="accion($event)"></app-listar-convocatorias>
-  }
+<!-- DOCUMENTOS -->
+<div class="row text-center">
+  <h5 class="">Documentos Requeridos</h5>
+</div>
+
+<div class="accordion" id="accordionExample">
+
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+        aria-expanded="false" aria-controls="collapseOne">
+        Previos a la Ejecución
+      </button>
+    </h2>
+    <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+      <div class="accordion-body">
+        @for (item of this.verProyectoService.checklistControls; track $index) {
+          @if (item.get('etapaDocumento')?.value == 'PRE_EJECUCION') {
+          <div class="card shadow datatable">
+            <div class="card-body">
+
+              <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
+                <table class="table my-0 table-striped" id="dataTable">
+                  <thead>
+                    <tr>
+                      <th colspan="4">
+                        <h6 style="font-size: 15px; color: #006; text-align: center;">
+                          {{ item.get('documentoConvocatoria.nombre')?.value }}
+                        </h6>
+
+                        <!-- Contenedor de Cargar Documento -->
+                        <div
+                          style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                          <div style="display: flex; align-items: center;">
+                            <h6 style="font-size: 15px; color: #006; margin-right: 8px;">Cargar Documento:</h6>
+                            <input type="file" class="form-control" style="flex: 1;" accept="image/*" (change) = "agregarDoc($event, item.get('documentoConvocatoria.id')?.value)">
+                          </div>
+                        </div>
+
+                        <!-- Contenedor de Responsable -->
+                        <div
+                          style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                          <div style="display: flex; align-items: center;">
+                            <h6 style="font-size: 15px; color: #006; margin-right: 8px;">Responsable:</h6>
+                            <h6 style="font-size: 15px; font-weight: lighter;">
+                              {{ enumTranslationService.getEnumValueByKey(responsableDocumentoEnum,
+                              item.get('responsableDocumento')?.value) }}
+                            </h6>
+                          </div>
+                        </div>
+
+                        <!-- Contenedor de Cantidad -->
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                          <div style="display: flex; align-items: center;">
+                            <h6 style="font-size: 15px; color: #006; margin-right: 8px;">Cantidad:</h6>
+                            <h6 style="font-size: 15px; font-weight: lighter;">
+                              {{ item.get('cantidad')?.value }}
+                            </h6>
+                          </div>
+                        </div>
+                      </th>
+                    </tr>
+                    <tr>
+                      <th>ID Doc</th>
+                      <th>Documento</th>
+                      <th>Acciones</th>
+                    </tr>
+                  </thead>
+
+                </table>
+              </div>
+
+            </div>
+          </div>
+          }
+
+        }
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo"
+        aria-expanded="false" aria-controls="collapseTwo">
+        Durante la Ejecución
+      </button>
+    </h2>
+    <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+      <div class="accordion-body">
+        <!-- <app-datatable-custom [datatableInputs]="datatableInputsDocEjecucion" (accionEmitter)="accion($event)"></app-datatable-custom> -->
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree"
+        aria-expanded="false" aria-controls="collapseThree">
+        Posteriores a la Ejecución
+      </button>
+    </h2>
+    <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+      <div class="accordion-body">
+        <!-- <app-datatable-custom [datatableInputs]="datatableInputsDocPostEjecucion" (accionEmitter)="accion($event)"></app-datatable-custom> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+}@else {
+<div class="d-flex align-items-center">
+  <span class="material-symbols-outlined inl" style="color: #ED7D31;">
+    error
+  </span>
+  <p class="d-inline ml-2 mb-0">El proyecto aun no tiene una Convocatoria Asociada. Usa el filtro a continuacion para
+    vincular una Convocatoria</p>
+  <p class="d-inline ml-2 mb-0"></p>
+</div>
+
+<app-listar-convocatorias [obtenerRegistroId]="true" (filtrarEmitter)="accion($event)"></app-listar-convocatorias>
 }
-    
+}

@@ -514,7 +514,7 @@ a:hover{
 
   /* Muestra el nuevo texto */
   .btn.btn-primary.dropdown-toggle.dropdown-toggle-sivri::before {
-      content: "Estado ↓"; /* Texto más corto */
+      content: "Guardar ↓"; /* Texto más corto */
       font-size: 14px; /* Ajusta el tamaño de la fuente para el nuevo texto */
       display: inline-block;
   }

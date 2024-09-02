@@ -10,6 +10,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalOkComponent } from '../../../../shared/modal-ok/modal-ok.component';
 import { ModalBadComponent } from '../../../../shared/modal-bad/modal-bad.component';
 import { Router } from '@angular/router';
+import { TipoFinanciacion } from '../../../../../service/convocatoria/domain/model/enum/tipoFinanciacion';
+import { EnumTranslationService } from '../../../../../service/common/enum-translation.service';
+import { ResponsableDocumento } from '../../../../../service/convocatoria/domain/model/enum/responsableDocumento';
 
 @Component({
   selector: 'app-documentos-proyecto',
@@ -28,10 +31,14 @@ export class DocumentosProyectoComponent implements OnInit{
   private formularioSubscription: Subscription | null = null;
   protected convocatoria: FormGroup | null = null;
 
+  protected tipoFinanciacionEnum = TipoFinanciacion;
+  protected responsableDocumentoEnum = ResponsableDocumento;
+
   constructor(
     private router: Router,
-    private verProyectoService: VerProyectoService,
-    protected proyectoCrearService: ProyectoCrearService
+    protected verProyectoService: VerProyectoService,
+    protected proyectoCrearService: ProyectoCrearService,
+    protected enumTranslationService:EnumTranslationService
   ) {
   }
 
@@ -46,6 +53,9 @@ export class DocumentosProyectoComponent implements OnInit{
         this.subscribeToFormChanges();
       }
     });
+  }
+
+  setDocumento(doc: any){
   }
 
   ngOnDestroy() {
@@ -77,13 +87,43 @@ export class DocumentosProyectoComponent implements OnInit{
     this.verProyectoService.updateCampo(path, valor);
   }
 
-  accion(accion: any): void {
-    
-    if (accion.accion.accion == 'verDocs') {  
-      alert("Desplegar Docs")
+  accion(accion: any): void {    
+    if (accion.accion.accion == 'descargar') {  
+      alert("Descargar Doc")
     }
     if (accion.accion.accion == 'agregar') { 
       this.agregarConvocatoria(accion);
+    }
+  }
+
+  agregarDoc(event: any, docId: any) {
+    const file = event.target.files[0];
+
+    if(file) {
+      const formData = new FormData();
+
+      formData.append('file', file);
+      formData.append('organismo', "proyecto");
+      formData.append('organismoId', this.proyectoId);
+      formData.append('documentoConvocatoriaId', docId);
+
+      this.proyectoCrearService.cargarDocConvocatoria(formData).subscribe({
+        next: (respuesta) => {
+          this.openModalOk(respuesta.userMessage, "/proyectos/listar/"+ this.proyectoId +"/informacion-general");
+        },
+        error: (errorData) => {
+          if (errorData.error && errorData.error.data) {
+            let respuesta: Respuesta<ErrorData> = errorData.error;
+            this.openModalBad(respuesta.data);
+          } else {
+            this.openModalBad(
+              new ErrorData({
+                error: 'Error inseperado, contactar a soporte',
+              })
+            );
+          }
+        }
+      });
     }
   }
 

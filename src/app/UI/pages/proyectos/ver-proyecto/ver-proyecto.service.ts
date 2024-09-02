@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ProyectoInformaciónDetalladaProyección } from '../../../../service/proyecto/domain/model/proyecciones/proyectoInformaciónDetalladaProyección';
 import { BehaviorSubject } from 'rxjs';
 
@@ -77,6 +77,7 @@ export class VerProyectoService {
             cantidad: [item.cantidad, Validators.required],
             obligatorio: [item.obligatorio],
             completado: [item.completado],
+            url: [item.url],
             documentoConvocatoria: this.formBuilder.group({
               id: [item.documentoConvocatoria.id, Validators.required],
               nombre: [item.documentoConvocatoria.nombre, Validators.required],
@@ -118,6 +119,10 @@ export class VerProyectoService {
     } else {
       console.warn(`El campo ${path} no existe en el formulario.`);
     }
+  }
+
+  get checklistControls() {
+    return (this._formularioinformacionDetalladaProyecto.get('convocatoria.checklist') as FormArray).controls;
   }
 
 }

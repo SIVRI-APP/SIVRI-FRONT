@@ -37,4 +37,10 @@ export class ProyectoCrearService {
     return this.proyectoAdapter.asociarConvocatoria(proyectoId, convocatoriaId);
   }
 
+  cargarDocConvocatoria(
+    formData: FormData
+  ): Observable<Respuesta<any>> {
+    return this.proyectoAdapter.cargarDocConvocatoria(formData);
+  }
+
 }
