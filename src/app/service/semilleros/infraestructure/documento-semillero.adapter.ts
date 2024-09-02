@@ -18,6 +18,16 @@ export class DocumentoSemilleroAdapter {
   ):Observable<Respuesta<ListarDocumentoSemilleroProyeccion>>{
     return this.http.get<Respuesta<ListarDocumentoSemilleroProyeccion>>(this.apiUrl+`obtenerDocumentoActivo?semilleroId=${semilleroId}&tipo=${tipo}`);
   }
+  actualizarDocumentoSemillero(
+    idDocumentoSemillero:number,
+    body:{
+      observacion:string,
+      estado:string
+    }
+  ):Observable<Respuesta<boolean>>{
+    console.log('id docum '+idDocumentoSemillero+" cuerpo "+body);
+    return this.http.patch<Respuesta<boolean>>(this.apiUrl+`actualizarDocumentoSemillero/${idDocumentoSemillero}`,body);
+  }
   subirDocumentosSemillero(idSemillero: string,tipoDocumento:string,base64File: string, fileName: string): Observable<any>{
     const payload = {
       file: base64File,

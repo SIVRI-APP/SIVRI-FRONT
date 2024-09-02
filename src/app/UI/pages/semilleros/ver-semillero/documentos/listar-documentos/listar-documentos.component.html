@@ -51,7 +51,6 @@
                   <tr>
                     <th>Documentos</th>
                     <th>Estado</th>
-                    <th>Revisar VRI</th>
                     <th>Acciones</th>
                   </tr>
               </thead>
@@ -63,19 +62,17 @@
                   </td>
                   <td>
                     <!--todo falta editar el estado para que muestre el estado actual-->
-                    <select class="form-select" name="estadoAval" id="estadoAval" formControlName="estadoAval">
+                    <select class="form-select" name="estado" id="estado" (change)="actualizarDocumentoSemillero()" formControlName="estadoAval">
                       <option value="AJUSTES">Ajustes</option>
                       <option value="APROBADO">Aprobado</option>
                       <option value="REVISION">Revisión</option>
                       <option value="NO_ANEXADO" selected>No anexado</option>
                     </select>
                   </td>
-                  <td>
-                    <input type="checkbox" id="vehicle1" name="vehicle1" value="">
-                  </td>
+
                   <td>
                     <div class="dropdown">
-                      <a (click)="openObservacion(respuestaInfoDocuemntoSemilleroAval.data.observacion)" class="dropdown-item"><span class="material-symbols-outlined dataTableActionBtn"> chat_bubble </span></a>
+                      <a (click)="openObservacionAval(respuestaInfoDocuemntoSemilleroAval.data.observacion)" class="dropdown-item"><span class="material-symbols-outlined dataTableActionBtn"> chat_bubble </span></a>
                       <a href="#" data-bs-toggle="dropdown"><span class="material-symbols-outlined  dataTableActionBtn"> more_vert </span></a>
                       <ul class="dropdown-menu">
                         <li>
@@ -90,7 +87,7 @@
                 <tr>
                   <td>Otros</td>
                   <td>
-                    <select class="form-select" name="estadoOtro" id="estadoOtro" formControlName="estadoOtro">
+                    <select class="form-select" name="estado" id="estado" (change)="actualizarDocumentoSemillero()" formControlName="estadoOtro">
 
                       <option value="AJUSTES">Ajustes</option>
                       <option value="APROBADO">Aprobado</option>
@@ -98,13 +95,11 @@
                       <option value="NO_ANEXADO" selected>No anexado</option>
                     </select>
                   </td>
-                  <td>
-                    <input type="checkbox" id="vehicle1" name="vehicle1" value="">
-                  </td>
+
                   <td>
                     <div class="dropdown">
-                    <a href=""><span class="material-symbols-outlined dataTableActionBtn"> chat_bubble </span></a>
-                    <a href=""><span class="material-symbols-outlined  dataTableActionBtn"> more_vert </span></a>
+                    <a (click)="openObservacionOtro(respuestaInfoDocuemntoSemilleroOtros.data.observacion)" class="dropdown-item"><span class="material-symbols-outlined dataTableActionBtn"> chat_bubble </span></a>
+                    <a href="#" data-bs-toggle="dropdown"><span class="material-symbols-outlined  dataTableActionBtn"> more_vert </span></a>
                     <ul class="dropdown-menu">
                       <li>
                         <a class="dropdown-item " (click)="triggerFileUpload(fileInputOtro)"><span class="material-symbols-outlined dataTableActionBtn">upload</span>Cargar documento</a></li>
@@ -135,21 +130,75 @@
 
   </div>
 </div>
-</form>
-<!-- Modal para Observación -->
-<div class="modal fade" id="observacionModal" tabindex="-1" aria-labelledby="observacionModalLabel" aria-hidden="true">
+<!-- Modal para Observación aval-->
+<div class="modal fade" id="observacionModalAval" tabindex="-1" aria-labelledby="observacionModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="observacionModalLabel">Observación</h1>
+        <h1 class="modal-title fs-5" id="observacionModalLabel">Observación aval</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
       </div>
       <div class="modal-body">
-        <textarea class="form-control" readonly rows="5">{{ currentObservacion }}</textarea>
+        <textarea class="form-control" formControlName="observacionAval" rows="5"></textarea>
       </div>
-      <!--div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-      </!--div-->
+      <div class="modal-footer">
+        <div class="col controls">
+          <button type="button" class="secondaryBTN" (click)="cancelar()">
+            <div class="button-content">
+              <span class="material-symbols-outlined secondaryBTN-icon">
+                cancel
+              </span>
+              <span class="text">Cancelar</span>
+            </div>
+          </button>
+
+          <button type="submit" class="primaryBTN" (click)="actualizarDocumentoSemillero()">
+            <div class="button-content">
+              <span class="material-symbols-outlined primaryBTN-icon">
+                check_circle
+              </span>
+              <span class="text">Actualizar</span>
+            </div>
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </div>
+<!-- Modal para Observación otro-->
+<div class="modal fade" id="observacionModalOtro" tabindex="-1" aria-labelledby="observacionModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="observacionModalLabel">Observación otro</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <textarea class="form-control" formControlName="observacionOtro" rows="5"></textarea>
+      </div>
+      <div class="modal-footer">
+        <div class="col controls">
+          <button type="button" class="secondaryBTN" (click)="cancelar()">
+            <div class="button-content">
+              <span class="material-symbols-outlined secondaryBTN-icon">
+                cancel
+              </span>
+              <span class="text">Cancelar</span>
+            </div>
+          </button>
+
+          <button type="submit" class="primaryBTN" (click)="actualizarDocumentoSemillero()">
+            <div class="button-content">
+              <span class="material-symbols-outlined primaryBTN-icon">
+                check_circle
+              </span>
+              <span class="text">Actualizar</span>
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</form>
