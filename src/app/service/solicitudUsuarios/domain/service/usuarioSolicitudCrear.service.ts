@@ -5,6 +5,7 @@ import { UsuarioSolicitudAdapter } from '../../infraestructure/usuarioSolicitud.
 
 
 
+
 @Injectable({
   providedIn: 'root',
 })
