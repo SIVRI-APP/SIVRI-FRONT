@@ -1,11 +1,11 @@
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../config/environment/environment';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Respuesta } from '../../common/model/respuesta';
 import { Paginacion } from '../../common/model/paginacion';
 import { ProyectoListarConFiltroProyeccion } from '../domain/model/proyecciones/proyectoListarConFiltroProyeccion';
-import { ProyectoInformaciónDetalladaProyección } from '../domain/model/proyecciones/proyectoInformaciónDetalladaProyección';
+import { ProyectoDetalladoDTO } from '../domain/model/proyecciones/proyectoDetalladoDTO';
 import { CrearProyectoDTO } from '../domain/model/DTO/crearProyectoDTO';
 import { FormalizarProyectoDTO } from '../domain/model/DTO/formalizarProyectoDTO';
 import { GuardarProyectoDTO } from '../domain/model/DTO/guardarProyectoDTO';
@@ -39,12 +39,12 @@ export class ProyectoAdapter {
 
   obtenerInformaciónDetallada(
     proyectoId: string = '0'
-  ): Observable<Respuesta<ProyectoInformaciónDetalladaProyección>> {
+  ): Observable<Respuesta<ProyectoDetalladoDTO>> {
 
     let params = new HttpParams()
     .set('proyectoId', proyectoId)
   
-    return this.http.get<Respuesta<ProyectoInformaciónDetalladaProyección>>(this.apiUrl + 'obtenerInformacionDetallada', { params: params });
+    return this.http.get<Respuesta<ProyectoDetalladoDTO>>(this.apiUrl + 'obtenerInformacionDetallada', { params: params });
   }
 
   crear(
@@ -82,6 +82,12 @@ export class ProyectoAdapter {
     formData: FormData
   ): Observable<Respuesta<any>> {
     return this.http.post<Respuesta<boolean>>(environment.urlApi + 'file/upload', formData);
+  }
+
+  descargarDocConvocatoria(ruta: string): Observable<HttpResponse<Blob>> {
+    const url = `${environment.urlApi}/file/files/proyecto/${ruta}`;
+  
+    return this.http.get<Blob>(url, { observe: 'response' });
   }
 
 }

@@ -55,9 +55,6 @@ export class DocumentosProyectoComponent implements OnInit{
     });
   }
 
-  setDocumento(doc: any){
-  }
-
   ngOnDestroy() {
     if (this.formularioSubscription) {
       this.formularioSubscription.unsubscribe();
@@ -94,6 +91,27 @@ export class DocumentosProyectoComponent implements OnInit{
     if (accion.accion.accion == 'agregar') { 
       this.agregarConvocatoria(accion);
     }
+  }
+
+  manipularEvidencia(accion: any, evidencia: any){
+
+    let ruta: string = this.proyectoId + "/" + evidencia.get('nombre')?.value;
+    this.proyectoCrearService.descargarDocConvocatoria(ruta).subscribe({
+      next: (blob) => {
+      },
+      error: (errorData) => {
+        if (errorData.error && errorData.error.data) {
+          let respuesta: Respuesta<ErrorData> = errorData.error;
+          this.openModalBad(respuesta.data);
+        } else {
+          this.openModalBad(
+            new ErrorData({
+              error: 'Error inseperado, contactar a soporte',
+            })
+          );
+        }
+      }
+    });
   }
 
   agregarDoc(event: any, docId: any) {

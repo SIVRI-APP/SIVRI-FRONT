@@ -5,6 +5,7 @@ import { ProyectoAdapter } from '../../infraestructure/proyecto.adapter';
 import { CrearProyectoDTO } from '../model/DTO/crearProyectoDTO';
 import { FormalizarProyectoDTO } from '../model/DTO/formalizarProyectoDTO';
 import { GuardarProyectoDTO } from '../model/DTO/guardarProyectoDTO';
+import { HttpResponse } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -41,6 +42,10 @@ export class ProyectoCrearService {
     formData: FormData
   ): Observable<Respuesta<any>> {
     return this.proyectoAdapter.cargarDocConvocatoria(formData);
+  }
+
+  descargarDocConvocatoria(ruta: string): Observable<HttpResponse<Blob>> {
+    return this.proyectoAdapter.descargarDocConvocatoria(ruta);
   }
 
 }

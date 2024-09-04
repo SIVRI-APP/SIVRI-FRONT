@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ProyectoInformaciónDetalladaProyección } from '../../../../service/proyecto/domain/model/proyecciones/proyectoInformaciónDetalladaProyección';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ProyectoDetalladoDTO } from '../../../../service/proyecto/domain/model/proyecciones/proyectoDetalladoDTO';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
@@ -45,39 +45,40 @@ export class VerProyectoService {
   }
 
   // Método para construir el formulario en base a la respuesta del back
-  construirFormulario(informacion: ProyectoInformaciónDetalladaProyección) {
+  construirFormulario(informacion: ProyectoDetalladoDTO) {
     this._formularioinformacionDetalladaProyecto = this.formBuilder.group({
+
       informacionGeneral: this.formBuilder.group({
-        id: [{value: informacion.id, disabled: true}, Validators.required],
-        estado: [informacion.estado, Validators.required],
-        nombre: [informacion.nombre, Validators.required],
-        fechaFin: [informacion.fechaFin, Validators.required],
-        fechaInicio: [informacion.fechaInicio, Validators.required],
-        objetivoGeneral: [informacion.objetivoGeneral, Validators.required],
-        objetivosEspecificos: [informacion.objetivosEspecificos, Validators.required],
-        planteamiento: [informacion.planteamiento, Validators.required],
-        justificacion: [informacion.justificacion, Validators.required],
-        enfoqueMetodologico: [informacion.enfoqueMetodologico, Validators.required],        
-        aspectosEticosLegales: [informacion.aspectosEticosLegales, Validators.required],
-        impactosResultadosEsperados: [informacion.impactosResultadosEsperados, Validators.required],
-        confidencialidadDeInformacion: [informacion.confidencialidadDeInformacion, Validators.required],                
-        consideraciones: [informacion.consideraciones, Validators.required],        
-        eliminadoLogico: [informacion.eliminadoLogico],
-        efectosAdversos: [informacion.efectosAdversos, Validators.required],        
-      }),      
+        id: [{value: informacion.informacionDetalladaProyecto.id, disabled: true}, Validators.required],
+        estado: [informacion.informacionDetalladaProyecto.estado, Validators.required],
+        nombre: [informacion.informacionDetalladaProyecto.nombre, Validators.required],
+        fechaFin: [informacion.informacionDetalladaProyecto.fechaFin, Validators.required],
+        fechaInicio: [informacion.informacionDetalladaProyecto.fechaInicio, Validators.required],
+        objetivoGeneral: [informacion.informacionDetalladaProyecto.objetivoGeneral, Validators.required],
+        objetivosEspecificos: [informacion.informacionDetalladaProyecto.objetivosEspecificos, Validators.required],
+        planteamiento: [informacion.informacionDetalladaProyecto.planteamiento, Validators.required],
+        justificacion: [informacion.informacionDetalladaProyecto.justificacion, Validators.required],
+        enfoqueMetodologico: [informacion.informacionDetalladaProyecto.enfoqueMetodologico, Validators.required],        
+        aspectosEticosLegales: [informacion.informacionDetalladaProyecto.aspectosEticosLegales, Validators.required],
+        impactosResultadosEsperados: [informacion.informacionDetalladaProyecto.impactosResultadosEsperados, Validators.required],
+        confidencialidadDeInformacion: [informacion.informacionDetalladaProyecto.confidencialidadDeInformacion, Validators.required],                
+        consideraciones: [informacion.informacionDetalladaProyecto.consideraciones, Validators.required],        
+        eliminadoLogico: [informacion.informacionDetalladaProyecto.eliminadoLogico],
+        efectosAdversos: [informacion.informacionDetalladaProyecto.efectosAdversos, Validators.required],        
+      }),   
+
       convocatoria: this.formBuilder.group({
-        id: [informacion.convocatoria?.id || '', Validators.required],
-        tipoFinanciacion: [informacion.convocatoria?.tipoFinanciacion || '', Validators.required],
-        nombre: [informacion.convocatoria?.nombre || '', Validators.required],
+        id: [informacion.convocatoriaProyecto.convocatoria?.id || '', Validators.required],
+        tipoFinanciacion: [informacion.convocatoriaProyecto.convocatoria?.tipoFinanciacion || '', Validators.required],
+        nombre: [informacion.convocatoriaProyecto.convocatoria?.nombre || '', Validators.required],
         checklist: this.formBuilder.array(
-          (informacion.convocatoria?.checklist || []).map(item => this.formBuilder.group({
+          (informacion.convocatoriaProyecto.convocatoria?.checklist || []).map(item => this.formBuilder.group({
             id: [item.id, Validators.required],
             etapaDocumento: [item.etapaDocumento, Validators.required],
             responsableDocumento: [item.responsableDocumento, Validators.required],
             cantidad: [item.cantidad, Validators.required],
             obligatorio: [item.obligatorio],
             completado: [item.completado],
-            url: [item.url],
             documentoConvocatoria: this.formBuilder.group({
               id: [item.documentoConvocatoria.id, Validators.required],
               nombre: [item.documentoConvocatoria.nombre, Validators.required],
@@ -85,8 +86,9 @@ export class VerProyectoService {
           }))
         )
       }),
+
       integrantes: this.formBuilder.array(
-        (informacion.integrantes || []).map(integrante => this.formBuilder.group({
+        (informacion.integrantesProyecto.integrantes || []).map(integrante => this.formBuilder.group({
           id: [integrante.id, Validators.required],
           usuario: this.formBuilder.group({
             id: [integrante.usuario.id, Validators.required],
@@ -99,12 +101,18 @@ export class VerProyectoService {
           })
         }))
       ),
-      enfoquesDiferenciales: this.formBuilder.array(
-        (informacion.enfoquesDiferenciales || []).map(enfoque => new FormControl(enfoque))
+
+      EvidenciasDocumentosConvocatoria: this.formBuilder.array(
+        (informacion.evidenciasDocumentosProyecto.evidenciasDocumentosConvocatoria || []).map(evidencia => this.formBuilder.group({
+          id: [evidencia.id, Validators.required],
+          nombre: [evidencia.nombre, Validators.required],
+          documentoConvocatoria: this.formBuilder.group({
+            id: [evidencia.documentoConvocatoria.id, Validators.required],
+            nombre: [evidencia.documentoConvocatoria.nombre, Validators.required],
+          })
+        }))
       ),
-      lineasDeInvestigacion: this.formBuilder.array(
-        (informacion.lineasDeInvestigacion || []).map(linea => new FormControl(linea))
-      ),
+
     });
 
     // Emitir el formulario cuando esté listo
@@ -123,6 +131,10 @@ export class VerProyectoService {
 
   get checklistControls() {
     return (this._formularioinformacionDetalladaProyecto.get('convocatoria.checklist') as FormArray).controls;
+  }
+
+  get evidenciasDocumentosConvocatoriaControls() {
+    return (this._formularioinformacionDetalladaProyecto.get('EvidenciasDocumentosConvocatoria') as FormArray).controls;
   }
 
 }

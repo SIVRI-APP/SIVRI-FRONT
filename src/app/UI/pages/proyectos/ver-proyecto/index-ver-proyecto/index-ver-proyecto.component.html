@@ -2,12 +2,12 @@
     <ol class="breadcrumb">
         <li class="breadcrumb-item" routerLink="/inicio"><a>Inicio</a></li>
         <li class="breadcrumb-item" routerLink="/proyectos/listar"><a>Proyectos</a></li>
-        <li class="breadcrumb-item" routerLink="/proyectos/listar/{{this.informacionDetalladaProyecto.data.id}}"><a>Proyectos ID:{{this.informacionDetalladaProyecto.data.id}}</a>
+        <li class="breadcrumb-item" routerLink="/proyectos/listar/{{this.informacionDetalladaProyecto.data.informacionDetalladaProyecto.id}}"><a>Proyectos ID:{{this.informacionDetalladaProyecto.data.informacionDetalladaProyecto.id}}</a>
         </li>
     </ol>
 </nav>
 
-<h1 class="title">Proyecto: {{this.informacionDetalladaProyecto.data.nombre}}</h1>
+<h1 class="title">Proyecto: {{this.informacionDetalladaProyecto.data.informacionDetalladaProyecto.nombre}}</h1>
 
 <div class="nav-container">
     <ul class="nav nav-underline">
@@ -52,12 +52,12 @@
                         <!-- Primera fila: Proyecto ID y valor -->
                         <div class="d-flex align-items-center mb-2">
                             <h6 class="mb-0" style="font-size: 15px; color: #006; font-weight: bold;">Proyecto ID:</h6>
-                            <h6 class="mb-0 ms-2" style="font-size: 15px;">{{this.informacionDetalladaProyecto.data.id}}</h6>
+                            <h6 class="mb-0 ms-2" style="font-size: 15px;">{{this.informacionDetalladaProyecto.data.informacionDetalladaProyecto.id}}</h6>
                         </div>
                         <!-- Segunda fila: Estado y valor -->
                         <div class="d-flex align-items-center">
                             <h6 class="mb-0" style="font-size: 15px; color: #006; font-weight: bold;">Estado:</h6>
-                            <h6 class="mb-0 ms-2" style="font-size: 15px;">{{enumTranslationService.getEnumValueByKey(this.estadoProyectoEnum, this.informacionDetalladaProyecto.data.estado)}}</h6>
+                            <h6 class="mb-0 ms-2" style="font-size: 15px;">{{enumTranslationService.getEnumValueByKey(this.estadoProyectoEnum, this.informacionDetalladaProyecto.data.informacionDetalladaProyecto.estado)}}</h6>
                         </div>
                     </div>
                 </div>

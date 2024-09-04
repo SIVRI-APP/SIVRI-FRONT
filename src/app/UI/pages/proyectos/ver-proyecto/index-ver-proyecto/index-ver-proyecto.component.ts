@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { ProyectoObtenerService } from '../../../../../service/proyecto/domain/service/proyectoObtener.service';
-import { ProyectoInformaciónDetalladaProyección } from '../../../../../service/proyecto/domain/model/proyecciones/proyectoInformaciónDetalladaProyección';
+import { ProyectoDetalladoDTO } from '../../../../../service/proyecto/domain/model/proyecciones/proyectoDetalladoDTO';
 import { Respuesta } from '../../../../../service/common/model/respuesta';
 import { EnumTranslationService } from '../../../../../service/common/enum-translation.service';
 import { EstadoProyecto } from '../../../../../service/proyecto/domain/model/enum/estadoProyecto';
@@ -31,7 +31,7 @@ export class IndexVerProyectoComponent implements OnInit{
   public instruccion: string = '';
 
   // Informacion del Proyecto proveniente del Back
-  protected informacionDetalladaProyecto: Respuesta<ProyectoInformaciónDetalladaProyección>;
+  protected informacionDetalladaProyecto: Respuesta<ProyectoDetalladoDTO>;
   protected estadoProyectoEnum = EstadoProyecto;
 
   constructor(
@@ -44,7 +44,7 @@ export class IndexVerProyectoComponent implements OnInit{
     protected enumTranslationService: EnumTranslationService,
     protected informacionUsuarioAutenticadoService: InformacionUsuarioAutenticadoService
   ){
-    this.informacionDetalladaProyecto = new Respuesta(0, '', '', new ProyectoInformaciónDetalladaProyección());
+    this.informacionDetalladaProyecto = new Respuesta(0, '', '', new ProyectoDetalladoDTO());
     this.roles = informacionUsuarioAutenticadoService.retornarRoles();
   }
 

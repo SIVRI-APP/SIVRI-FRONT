@@ -4,7 +4,7 @@ import { ProyectoListarConFiltroProyeccion } from '../model/proyecciones/proyect
 import { Paginacion } from '../../../common/model/paginacion';
 import { Respuesta } from '../../../common/model/respuesta';
 import { ProyectoAdapter } from '../../infraestructure/proyecto.adapter';
-import { ProyectoInformaciónDetalladaProyección } from '../model/proyecciones/proyectoInformaciónDetalladaProyección';
+import { ProyectoDetalladoDTO } from '../model/proyecciones/proyectoDetalladoDTO';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +12,7 @@ import { ProyectoInformaciónDetalladaProyección } from '../model/proyecciones/
 export class ProyectoObtenerService {
 
   // Variables para la informacion de un Proyecto
-  private _informacionDetalladaProyecto: Observable<Respuesta<ProyectoInformaciónDetalladaProyección>>;
+  private _informacionDetalladaProyecto: Observable<Respuesta<ProyectoDetalladoDTO>>;
 
   // Variables para listar con filtro Proyectos
   private _listarConFiltroProyectos: Observable<Respuesta<Paginacion<ProyectoListarConFiltroProyeccion>>>; 
@@ -49,7 +49,7 @@ export class ProyectoObtenerService {
   }
 
   // Getters
-  get informacionDetalladaProyecto(): Observable<Respuesta<ProyectoInformaciónDetalladaProyección>> {
+  get informacionDetalladaProyecto(): Observable<Respuesta<ProyectoDetalladoDTO>> {
     return this._informacionDetalladaProyecto;
   }
 

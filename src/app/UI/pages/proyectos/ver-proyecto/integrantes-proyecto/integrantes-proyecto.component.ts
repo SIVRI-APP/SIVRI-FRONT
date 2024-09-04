@@ -4,7 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatatableInput } from '../../../../../service/common/model/datatableInput';
 import { ProyectoObtenerService } from '../../../../../service/proyecto/domain/service/proyectoObtener.service';
 import { Paginacion } from '../../../../../service/common/model/paginacion';
-import { IntegrantesProyeccion } from '../../../../../service/proyecto/domain/model/proyecciones/proyectoInformaciónDetalladaProyección';
+import { Integrantes } from '../../../../../service/proyecto/domain/model/proyecciones/proyectoDetalladoDTO';
 import { DatatableInputAction } from '../../../../../service/common/model/datatableAction';
 import { IntegranteDataTable, IntegrantesDataTable } from '../../../../../service/proyecto/domain/model/proyecciones/integrantesDataTable';
 import { RolProyecto } from '../../../../../service/proyecto/domain/model/enum/rolProyecto';
@@ -21,7 +21,7 @@ export class IntegrantesProyectoComponent implements OnInit{
   private modalService = inject(NgbModal);
 
   // Informacion de la convocatoria asociada
-  protected proyectoInformacionIntegrante:IntegrantesProyeccion[] = [];
+  protected proyectoInformacionIntegrante: Integrantes[] = [];
 
   // Datatable para los documentos
   protected datatableInputsIntegrantes: DatatableInput;
@@ -52,16 +52,17 @@ export class IntegrantesProyectoComponent implements OnInit{
   ngOnInit(): void {
     this.proyectoObtenerService.informacionDetalladaProyecto.subscribe({
       next: (respuesta) => {
-        if (respuesta.data.integrantes != null) {
-          this.proyectoInformacionIntegrante = respuesta.data.integrantes;
+
+        if (respuesta.data.integrantesProyecto.integrantes != null) {
+          this.proyectoInformacionIntegrante = respuesta.data.integrantesProyecto.integrantes;
 
           let paginacionEjecucion = new Paginacion();
-          paginacionEjecucion.content = new IntegrantesDataTable(respuesta.data.integrantes).integrantes;
+          paginacionEjecucion.content = new IntegrantesDataTable(respuesta.data.integrantesProyecto.integrantes).integrantes;
 
           this.datatableInputsIntegrantes.paginacion = paginacionEjecucion;
           this.datatableInputsIntegrantes.searchPerformed = true;
         }
-        this.proyectoId = respuesta.data.id;          
+        this.proyectoId = respuesta.data.informacionDetalladaProyecto.id;          
       }
     })
   }

@@ -4,7 +4,27 @@ import { TipoFinanciacion } from "../../../../convocatoria/domain/model/enum/tip
 import { EstadoProyecto } from "../enum/estadoProyecto";
 import { RolProyecto } from "../enum/rolProyecto";
 
-export class ProyectoInformaciónDetalladaProyección {
+export class ProyectoDetalladoDTO {
+
+  informacionDetalladaProyecto: InformacionDetalladaProyecto
+  convocatoriaProyecto: ConvocatoriaProyecto
+  integrantesProyecto: IntegrantesProyecto; 
+  evidenciasDocumentosProyecto: EvidenciasDocumentosProyecto; 
+  enfoquesDiferenciales: any;
+  lineasDeInvestigacion: any;
+
+  constructor() {
+    this.informacionDetalladaProyecto = new InformacionDetalladaProyecto();
+    this.convocatoriaProyecto = new ConvocatoriaProyecto();
+    this.integrantesProyecto = new IntegrantesProyecto;
+    this.evidenciasDocumentosProyecto = new EvidenciasDocumentosProyecto();
+    this.enfoquesDiferenciales = [];
+    this.lineasDeInvestigacion = [];
+  }
+  
+}
+
+export class InformacionDetalladaProyecto{
   id: number;
   enfoqueMetodologico: string;
   objetivosEspecificos: string;  
@@ -12,19 +32,15 @@ export class ProyectoInformaciónDetalladaProyección {
   impactosResultadosEsperados: string;
   confidencialidadDeInformacion: string;
   nombre: string;
-  fechaFin: string; // O cambiar a tipo Date si prefieres manejar fechas directamente
-  fechaInicio: string; // O cambiar a tipo Date  
+  fechaFin: string;
+  fechaInicio: string; 
   consideraciones: string;
   justificacion: string;
   planteamiento: string;
   objetivoGeneral: string;
   eliminadoLogico: boolean;
   efectosAdversos: string;
-  estado: EstadoProyecto; // Podría ser un enum si tienes definido un conjunto fijo de estados
-  convocatoria: ProyectoInformacionConvocatoria
-  integrantes: IntegrantesProyeccion[]; // Define un tipo específico si es posible
-  enfoquesDiferenciales: any[]; // Similar a lineasDeInvestigacion, define un tipo específico si es posible
-  lineasDeInvestigacion: any[]; // Si conoces la estructura exacta podrías definir un tipo más específico
+  estado: EstadoProyecto;
 
   constructor() {
     this.id = 0;
@@ -43,15 +59,18 @@ export class ProyectoInformaciónDetalladaProyección {
     this.eliminadoLogico = false;
     this.efectosAdversos = '';
     this.estado = EstadoProyecto.FORMULADO; // Suponiendo que INDEFINIDO es un valor en el enum EstadoProyecto
-    this.convocatoria = new ProyectoInformacionConvocatoria();
-    this.integrantes = [];
-    this.enfoquesDiferenciales = [];
-    this.lineasDeInvestigacion = [];
   }
-  
 }
 
-export class ProyectoInformacionConvocatoria {
+export class ConvocatoriaProyecto {
+  convocatoria: Convocatoria;
+
+  constructor(){
+    this.convocatoria = new Convocatoria()
+  }
+}
+
+export class Convocatoria {
   id: number;
   tipoFinanciacion: TipoFinanciacion; // Puedes definir un enum si los tipos de financiación son limitados
   nombre: string;
@@ -72,8 +91,7 @@ export class ChecklistProyeccion {
   cantidad: number;
   obligatorio: boolean;
   completado: boolean;
-  url: string;
-  documentoConvocatoria: DocumentoProyeccion = new DocumentoProyeccion();
+  documentoConvocatoria: DocumentoConvocatoria = new DocumentoConvocatoria();
 
   constructor() {
     this.id = 0;
@@ -82,12 +100,11 @@ export class ChecklistProyeccion {
     this.cantidad = 0;
     this.obligatorio = false;
     this.completado = false;
-    this.url = '';
-    this.documentoConvocatoria = new DocumentoProyeccion();
+    this.documentoConvocatoria = new DocumentoConvocatoria();
   }
 }
 
-export class DocumentoProyeccion {
+export class DocumentoConvocatoria {
   id: number;
   nombre: string;
 
@@ -97,17 +114,27 @@ export class DocumentoProyeccion {
   }
 }
 
-export class IntegrantesProyeccion {
-  id: number;
-  usuario: UsuarioProyeccion = new UsuarioProyeccion();
-  rolProyecto: RolProyectoProyeccion = new RolProyectoProyeccion();
+export class IntegrantesProyecto {
+  integrantes: Integrantes[];
 
   constructor(){
-    this.id = 0
+    this.integrantes = [];
   }
 }
 
-export class UsuarioProyeccion {
+export class Integrantes {
+  id: number;
+  usuario: Usuario;
+  rolProyecto: RolProyectoProyeccion;
+
+  constructor(){
+    this.id = 0
+    this.usuario = new Usuario();
+    this.rolProyecto = new RolProyectoProyeccion();
+  }
+}
+
+export class Usuario {
   id: number;
   apellido: string;
   nombre: string;
@@ -128,3 +155,26 @@ export class RolProyectoProyeccion {
     this.nombre = RolProyecto.CO_INVESTIGADOR;
   }
 }
+
+export class EvidenciasDocumentosProyecto {
+  evidenciasDocumentosConvocatoria: EvidenciasDocumentosConvocatoria[];
+
+  constructor(){
+    this.evidenciasDocumentosConvocatoria = [];
+  }
+}
+
+export class EvidenciasDocumentosConvocatoria {
+  id: number;
+  nombre: string;
+  documentoConvocatoria: DocumentoConvocatoria;
+
+  constructor(){
+    this.id = 0
+    this.nombre = "";
+    this.documentoConvocatoria = new DocumentoConvocatoria();
+  }
+}
+
+
+
