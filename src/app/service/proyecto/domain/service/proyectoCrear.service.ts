@@ -44,7 +44,7 @@ export class ProyectoCrearService {
     return this.proyectoAdapter.cargarDocConvocatoria(formData);
   }
 
-  descargarDocConvocatoria(ruta: string): Observable<HttpResponse<Blob>> {
+  descargarDocConvocatoria(ruta: string): Observable<Blob> {
     return this.proyectoAdapter.descargarDocConvocatoria(ruta);
   }
 

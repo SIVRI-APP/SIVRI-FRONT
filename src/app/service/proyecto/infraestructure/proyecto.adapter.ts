@@ -84,10 +84,10 @@ export class ProyectoAdapter {
     return this.http.post<Respuesta<boolean>>(environment.urlApi + 'file/upload', formData);
   }
 
-  descargarDocConvocatoria(ruta: string): Observable<HttpResponse<Blob>> {
-    const url = `${environment.urlApi}/file/files/proyecto/${ruta}`;
+  descargarDocConvocatoria(ruta: string): Observable<Blob> {
+    const url = `${environment.urlApi}` +  `file/files/proyecto/${ruta}`;
   
-    return this.http.get<Blob>(url, { observe: 'response' });
+    return this.http.get(url, { responseType: 'blob' });
   }
 
 }
