@@ -29,6 +29,7 @@ export class DocumentosProyectoComponent implements OnInit{
   private proyectoId: string = '';
   
   private formularioSubscription: Subscription | null = null;
+  protected EvidenciasDocumentosConvocatoria: FormGroup | null = null;
   protected convocatoria: FormGroup | null = null;
 
   protected tipoFinanciacionEnum = TipoFinanciacion;
@@ -49,6 +50,7 @@ export class DocumentosProyectoComponent implements OnInit{
     this.formularioSubscription = this.verProyectoService.formularioListo.subscribe(formulario => {
       if (formulario) {
         this.proyectoId = formulario.get('informacionGeneral')?.get('id')?.getRawValue();
+        this.EvidenciasDocumentosConvocatoria = formulario.get('EvidenciasDocumentosConvocatoria') as FormGroup;
         this.convocatoria = formulario.get('convocatoria') as FormGroup;
         this.subscribeToFormChanges();
       }
@@ -62,8 +64,8 @@ export class DocumentosProyectoComponent implements OnInit{
   }
 
   private subscribeToFormChanges() {
-    if (this.convocatoria) {
-      const controls = this.convocatoria.controls;
+    if (this.EvidenciasDocumentosConvocatoria) {
+      const controls = this.EvidenciasDocumentosConvocatoria.controls;
       Object.keys(controls).forEach(key => {
         const control = controls[key] as FormControl;
         control.valueChanges.subscribe(() => {
@@ -85,9 +87,6 @@ export class DocumentosProyectoComponent implements OnInit{
   }
 
   accion(accion: any): void {    
-    if (accion.accion.accion == 'descargar') {  
-      alert("Descargar Doc")
-    }
     if (accion.accion.accion == 'agregar') { 
       this.agregarConvocatoria(accion);
     }

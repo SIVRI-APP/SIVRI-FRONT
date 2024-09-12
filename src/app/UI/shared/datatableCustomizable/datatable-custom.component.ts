@@ -89,4 +89,8 @@ export class DatatableCustomComponent{
   ejecutarAccion(accion: DatatableInputAction, data:any): void{
     this.accionEmitter.emit({accion, data});
   }
+
+  ejecutarAccionPrincipal(data:any): void{
+    this.accionEmitter.emit(data);
+  }
 }

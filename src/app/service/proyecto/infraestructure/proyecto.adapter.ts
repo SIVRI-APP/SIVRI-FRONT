@@ -90,4 +90,14 @@ export class ProyectoAdapter {
     return this.http.get(url, { responseType: 'blob' });
   }
 
+  agregarIntegrante(proyectoId: string, usuarioId: string, rol: string): Observable<Respuesta<boolean>> {
+  
+    let params = new HttpParams()
+    if (proyectoId !== undefined) params = params.set('proyectoId', proyectoId);
+    if (usuarioId !== undefined) params = params.set('usuarioId', usuarioId);
+    if (rol !== undefined) params = params.set('rolId', rol);
+
+    return this.http.post<Respuesta<boolean>>(this.apiUrl + 'agregarIntegrante', null, { params: params });
+  }
+
 }

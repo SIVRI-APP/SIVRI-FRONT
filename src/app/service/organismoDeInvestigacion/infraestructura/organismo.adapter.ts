@@ -45,4 +45,14 @@ export class OrganismoAdapter {
     return this.http.get<Respuesta<GrupoObtenerIntegrantesOrganismoParaAsociarDirProyectoProyeccion>>(this.apiUrl + 'listarIntegrantesDocenteOrganismo', { params: params });
   }
 
+  listarIntegrantesOrganismo(
+    organismoId: string = '1'
+  ): Observable<Respuesta<GrupoObtenerIntegrantesOrganismoParaAsociarDirProyectoProyeccion>> {
+
+    let params = new HttpParams()
+    .set('organismoId', organismoId)
+  
+    return this.http.get<Respuesta<GrupoObtenerIntegrantesOrganismoParaAsociarDirProyectoProyeccion>>(this.apiUrl + 'listarIntegrantesOrganismo', { params: params });
+  }
+
 }

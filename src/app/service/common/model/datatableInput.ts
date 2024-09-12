@@ -2,8 +2,11 @@ import { DatatableInputAction } from "./datatableAction";
 import { Paginacion } from "./paginacion";
 
 export class DatatableInput {
+    
     // Titulo Principal
     titulo: string;
+    // Boton de accion principal
+    acccionPrincipal: DatatableInputAction;
     // Mensaje cuando no hay Elementos encontrados de la busqueda
     mensajeNoHayElementos: string;
     // Mensaje cuando aun no se ha realizado un filtro para la busqueda
@@ -29,6 +32,7 @@ export class DatatableInput {
         paginacion: Paginacion<any> = null as any
     ) {
         this.titulo = '';
+        this.acccionPrincipal = new DatatableInputAction("", "", "");
         this.mensajeNoHayElementos = '';
         this.mensajeBusqueda = '';
         this.searchPerformed = false;

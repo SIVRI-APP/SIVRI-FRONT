@@ -126,7 +126,80 @@
     </h2>
     <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
       <div class="accordion-body">
-        <!-- <app-datatable-custom [datatableInputs]="datatableInputsDocEjecucion" (accionEmitter)="accion($event)"></app-datatable-custom> -->
+
+        @for (item of this.verProyectoService.checklistControls; track $index) {
+          @if (item.get('etapaDocumento')?.value == 'EJECUCION') {
+            <div class="card shadow datatable">
+              <div class="card-body">
+
+                <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
+                  <table class="table my-0 table-striped" id="dataTable">
+                    <thead>
+                      <tr>
+                        <th colspan="4">
+                          <h6 style="font-size: 15px; color: #006; text-align: center;">
+                            {{ item.get('documentoConvocatoria.nombre')?.value }}
+                          </h6>
+
+                          <!-- Contenedor de Cargar Documento -->
+                          <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <div style="display: flex; align-items: center;">
+                              <h6 style="font-size: 15px; color: #006; margin-right: 8px;">Cargar Documento:</h6>
+                              <input type="file" class="form-control" style="flex: 1;" multiple (change) = "agregarDoc($event, item.get('documentoConvocatoria.id')?.value)">
+                            </div>
+                          </div>
+
+                          <!-- Contenedor de Responsable -->
+                          <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <div style="display: flex; align-items: center;">
+                              <h6 style="font-size: 15px; color: #006; margin-right: 8px;">Responsable:</h6>
+                              <h6 style="font-size: 15px; font-weight: lighter;">
+                                {{ enumTranslationService.getEnumValueByKey(responsableDocumentoEnum,
+                                item.get('responsableDocumento')?.value) }}
+                              </h6>
+                            </div>
+                          </div>
+
+                          <!-- Contenedor de Cantidad -->
+                          <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div style="display: flex; align-items: center;">
+                              <h6 style="font-size: 15px; color: #006; margin-right: 8px;">Cantidad:</h6>
+                              <h6 style="font-size: 15px; font-weight: lighter;">
+                                {{ item.get('cantidad')?.value }}
+                              </h6>
+                            </div>
+                          </div>
+                        </th>
+                      </tr>
+                      <tr>
+                        <th>ID Doc</th>
+                        <th>Documento</th>
+                        <th>Acciones</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      @for (evidencia of this.verProyectoService.evidenciasDocumentosConvocatoriaControls; track $index) {
+                        @if (evidencia.get('documentoConvocatoria.id')?.value == item.get('documentoConvocatoria.id')?.value) {
+                          <tr>
+                            <td>{{evidencia.get('id')?.value}}</td>
+                            <td>{{evidencia.get('nombre')?.value}}</td>
+                            <td>
+                              <a (click)="manipularEvidencia(item, evidencia)" style="margin-right: 5px;"><span class="material-symbols-outlined dataTableActionBtn">download</span></a> 
+                            </td>
+                          </tr> 
+                        }                                                         
+                      }
+                    </tbody>
+
+                  </table>
+                </div>
+              </div>
+            </div>
+          }
+        }
       </div>
     </div>
   </div>
@@ -140,7 +213,79 @@
     </h2>
     <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
       <div class="accordion-body">
-        <!-- <app-datatable-custom [datatableInputs]="datatableInputsDocPostEjecucion" (accionEmitter)="accion($event)"></app-datatable-custom> -->
+        @for (item of this.verProyectoService.checklistControls; track $index) {
+          @if (item.get('etapaDocumento')?.value == 'POST_EJECUCION') {
+            <div class="card shadow datatable">
+              <div class="card-body">
+
+                <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
+                  <table class="table my-0 table-striped" id="dataTable">
+                    <thead>
+                      <tr>
+                        <th colspan="4">
+                          <h6 style="font-size: 15px; color: #006; text-align: center;">
+                            {{ item.get('documentoConvocatoria.nombre')?.value }}
+                          </h6>
+
+                          <!-- Contenedor de Cargar Documento -->
+                          <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <div style="display: flex; align-items: center;">
+                              <h6 style="font-size: 15px; color: #006; margin-right: 8px;">Cargar Documento:</h6>
+                              <input type="file" class="form-control" style="flex: 1;" multiple (change) = "agregarDoc($event, item.get('documentoConvocatoria.id')?.value)">
+                            </div>
+                          </div>
+
+                          <!-- Contenedor de Responsable -->
+                          <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <div style="display: flex; align-items: center;">
+                              <h6 style="font-size: 15px; color: #006; margin-right: 8px;">Responsable:</h6>
+                              <h6 style="font-size: 15px; font-weight: lighter;">
+                                {{ enumTranslationService.getEnumValueByKey(responsableDocumentoEnum,
+                                item.get('responsableDocumento')?.value) }}
+                              </h6>
+                            </div>
+                          </div>
+
+                          <!-- Contenedor de Cantidad -->
+                          <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div style="display: flex; align-items: center;">
+                              <h6 style="font-size: 15px; color: #006; margin-right: 8px;">Cantidad:</h6>
+                              <h6 style="font-size: 15px; font-weight: lighter;">
+                                {{ item.get('cantidad')?.value }}
+                              </h6>
+                            </div>
+                          </div>
+                        </th>
+                      </tr>
+                      <tr>
+                        <th>ID Doc</th>
+                        <th>Documento</th>
+                        <th>Acciones</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      @for (evidencia of this.verProyectoService.evidenciasDocumentosConvocatoriaControls; track $index) {
+                        @if (evidencia.get('documentoConvocatoria.id')?.value == item.get('documentoConvocatoria.id')?.value) {
+                          <tr>
+                            <td>{{evidencia.get('id')?.value}}</td>
+                            <td>{{evidencia.get('nombre')?.value}}</td>
+                            <td>
+                              <a (click)="manipularEvidencia(item, evidencia)" style="margin-right: 5px;"><span class="material-symbols-outlined dataTableActionBtn">download</span></a> 
+                            </td>
+                          </tr> 
+                        }                                                         
+                      }
+                    </tbody>
+
+                  </table>
+                </div>
+              </div>
+            </div>
+          }
+        }
       </div>
     </div>
   </div>

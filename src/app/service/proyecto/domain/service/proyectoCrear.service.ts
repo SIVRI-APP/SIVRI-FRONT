@@ -48,4 +48,8 @@ export class ProyectoCrearService {
     return this.proyectoAdapter.descargarDocConvocatoria(ruta);
   }
 
+  agregarIntegrante(proyectoId: string, usuarioId: string, rol: string): Observable<Respuesta<boolean>> {
+    return this.proyectoAdapter.agregarIntegrante(proyectoId, usuarioId, rol);
+  }
+
 }

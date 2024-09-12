@@ -50,10 +50,18 @@ export class OrganismoObtenerService {
     );
   }
 
-  obtenerInformaciónDetallada(
+  listarIntegrantesDocenteOrganismo(
     organismoId?: string
   ): void {
     this.registroInformacionDetallada = this.organismoAdapter.listarIntegrantesDocenteOrganismo(
+      organismoId
+    );
+  }
+
+  listarIntegrantesOrganismo(
+    organismoId?: string
+  ): Observable<Respuesta<GrupoObtenerIntegrantesOrganismoParaAsociarDirProyectoProyeccion>> {
+    return this.registroInformacionDetallada = this.organismoAdapter.listarIntegrantesOrganismo(
       organismoId
     );
   }

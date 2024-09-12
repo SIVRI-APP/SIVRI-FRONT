@@ -243,7 +243,7 @@ export class CrearProyectoComponent {
     this.visualizarOrganismos = false;
     // Si la accion es ver
     if (accion.accion.accion == 'agregar') {
-      this.organismoObtenerService.obtenerInformaciónDetallada(accion.data.id);
+      this.organismoObtenerService.listarIntegrantesDocenteOrganismo(accion.data.id);
 
       this.organismoObtenerService.getRegistroInformacionDetallada()
       .subscribe({

@@ -63,85 +63,83 @@
                 @if (visualizarOrganismos) {
                 <!-- Mostrar datatable con los organismos para filtrar -->
 
-                <form [formGroup]="formularioBuscarOrganismos" (ngSubmit)="buscarOrganismos()" method="get">
-                    <div class="">
+                    <form [formGroup]="formularioBuscarOrganismos" (ngSubmit)="buscarOrganismos()" method="get">
+                        <div class="">
 
-                        <div class="row">
-                            <!-- <div class="form-guide-line"></div> -->
-                            <div class="col-sm-3">
-                                <label for="tipoOrganismo" class="etiqueta-form"><strong>Tipo de
-                                        Organismo</strong></label>
-                                <select id="tipoOrganismo" name="tipoOrganismo" class="form-select"
-                                    formControlName="tipoOrganismo">
-                                    <option value="" disabled selected hidden>Vincular a un Grupo/Semillero</option>
-                                    @for (key of enumTranslationService.getEnumKeys(organismoDeInvestigacionEnum); track
-                                    $index) {
-                                    <option [value]="key">
-                                        {{enumTranslationService.getEnumValueByKey(organismoDeInvestigacionEnum, key)}}
-                                    </option>
-                                    }
-                                </select>
-                            </div>
-
-                            <div class="col-sm-2">
-                                <label for="organismoId" class="etiqueta-form"><strong>ID</strong></label>
-                                <input id="organismoId" name="organismoId" class="form-control" type="text"
-                                    placeholder="ID" formControlName="organismoId">
-                            </div>
-
-                            <div class="col-sm-3">
-                                <label for="nombreOrganismo" class="etiqueta-form"><strong>Nombre</strong></label>
-                                <input id="nombreOrganismo" name="nombreOrganismo" class="form-control" type="text"
-                                    placeholder="Nombre" formControlName="nombreOrganismo">
-                            </div>
-
-                        </div>
-
-                        <div class="row">
-                            <div class="col controls">
-                                <label class="form-label listar">Ver
-                                    <select class="form-select form-select-sm"
-                                        formControlName="buscarOrganismosPageSize">
-                                        <option value="10" selected>10</option>
-                                        <option value="25">25</option>
-                                        <option value="50">50</option>
-                                        <option value="100">100</option>
+                            <div class="row">
+                                <!-- <div class="form-guide-line"></div> -->
+                                <div class="col-sm-3">
+                                    <label for="tipoOrganismo" class="etiqueta-form"><strong>Tipo de
+                                            Organismo</strong></label>
+                                    <select id="tipoOrganismo" name="tipoOrganismo" class="form-select"
+                                        formControlName="tipoOrganismo">
+                                        <option value="" disabled selected hidden>Vincular a un Grupo/Semillero</option>
+                                        @for (key of enumTranslationService.getEnumKeys(organismoDeInvestigacionEnum); track
+                                        $index) {
+                                        <option [value]="key">
+                                            {{enumTranslationService.getEnumValueByKey(organismoDeInvestigacionEnum, key)}}
+                                        </option>
+                                        }
                                     </select>
-                                </label>
+                                </div>
 
-                                <button type="button" class="secondaryBTN" (click)="limpiarFiltroBusquedaOrganismo()">
-                                    <div class="button-content">
-                                        <span class="material-symbols-outlined secondaryBTN-icon">
-                                            filter_alt
-                                        </span>
-                                        <span class="text">Limpiar</span>
-                                    </div>
-                                </button>
+                                <div class="col-sm-2">
+                                    <label for="organismoId" class="etiqueta-form"><strong>ID</strong></label>
+                                    <input id="organismoId" name="organismoId" class="form-control" type="text"
+                                        placeholder="ID" formControlName="organismoId">
+                                </div>
 
-                                <button type="submit" class="primaryBTN">
-                                    <div class="button-content">
-                                        <span class="material-symbols-outlined primaryBTN-icon">
-                                            search
-                                        </span>
-                                        <span class="text">Buscar</span>
-                                    </div>
-                                </button>
+                                <div class="col-sm-3">
+                                    <label for="nombreOrganismo" class="etiqueta-form"><strong>Nombre</strong></label>
+                                    <input id="nombreOrganismo" name="nombreOrganismo" class="form-control" type="text"
+                                        placeholder="Nombre" formControlName="nombreOrganismo">
+                                </div>
 
                             </div>
+
+                            <div class="row">
+                                <div class="col controls">
+                                    <label class="form-label listar">Ver
+                                        <select class="form-select form-select-sm"
+                                            formControlName="buscarOrganismosPageSize">
+                                            <option value="10" selected>10</option>
+                                            <option value="25">25</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                        </select>
+                                    </label>
+
+                                    <button type="button" class="secondaryBTN" (click)="limpiarFiltroBusquedaOrganismo()">
+                                        <div class="button-content">
+                                            <span class="material-symbols-outlined secondaryBTN-icon">
+                                                filter_alt
+                                            </span>
+                                            <span class="text">Limpiar</span>
+                                        </div>
+                                    </button>
+
+                                    <button type="submit" class="primaryBTN">
+                                        <div class="button-content">
+                                            <span class="material-symbols-outlined primaryBTN-icon">
+                                                search
+                                            </span>
+                                            <span class="text">Buscar</span>
+                                        </div>
+                                    </button>
+
+                                </div>
+                            </div>
+
+                            <div class="form-guide-line"></div>
                         </div>
 
-                        <div class="form-guide-line"></div>
-                    </div>
-
-                    <!-- Tabla Paginada  -->
-                    <app-datatable-custom [datatableInputs]="datatableInputs"
-                        (accionEmitter)="accion($event)"></app-datatable-custom>
-                </form>
+                        <!-- Tabla Paginada  -->
+                        <app-datatable-custom [datatableInputs]="datatableInputs"
+                            (accionEmitter)="accion($event)"></app-datatable-custom>
+                    </form>
                 }
             </div>
-
         </div>
-
 
 
         <div class="row">
