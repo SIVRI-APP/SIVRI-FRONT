@@ -1,5 +1,5 @@
 import { LineaInvestigacion } from '../../../../../service/semilleros/domain/model/proyecciones/lineaInvestigacion';
-import { Component, NgModule, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, EventEmitter, NgModule, OnInit, Output, ViewChild, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { Respuesta } from '../../../../../service/common/model/respuesta';
@@ -22,6 +22,7 @@ import { ModalOkComponent } from '../../../../shared/modal-ok/modal-ok.component
 import { ModalBadComponent } from '../../../../shared/modal-bad/modal-bad.component';
 import { SemilleroProgramaObtenerService } from '../../../../../service/semilleros/domain/service/semillero-programa-obtener.service';
 import { NotificationAlertService } from '../../../../../service/common/notification-alert.service';
+import { CommunicationComponentsService } from '../../../../../service/common/communication-components.service';
 
 @Component({
   selector: 'app-descripcion-semillero',
@@ -38,6 +39,7 @@ export class DescripcionSemilleroComponent implements OnInit {
   // Inyeccion de Modal
   private modalService = inject(NgbModal);
 
+  nombreSemillero: string='';
   //campos que ayuda a la visualizacion
   protected id!: string;
   protected idgrupo!: number;
@@ -70,6 +72,7 @@ export class DescripcionSemilleroComponent implements OnInit {
     private grupoDisciplinaObtenerService: GrupoDisciplinaObtenerService,
     private semilleroActualizarService: SemilleroActualizarService,
     private notificationAlertService: NotificationAlertService,
+    private communicationComponentService: CommunicationComponentsService
   ) {
     this.respuesta = new Respuesta<false>();
     this.semillero = new Respuesta<SemilleroProyeccion>();
@@ -213,21 +216,27 @@ export class DescripcionSemilleroComponent implements OnInit {
       }).subscribe({
         // Manejar respuesta exitosa
         next: (respuesta) => {
-          // Captura la respuesta
+          const nuevoNombre= this.formulario.value.nombre;
+          console.log('nuevo nombre: '+nuevoNombre);
 
+          // Captura la respuesta
           this.respuesta = respuesta;
+          // Actualiza el nombre del semillero en el servicio
+          this.communicationComponentService.actualizarNombreSemillero(nuevoNombre);
           this.openModalOk(this.respuesta.userMessage)
+
         },
         // Manejar errores
         error: (errorData) => {
           // Verificar si el error es del tipo esperado
-          if (errorData.error && errorData.error.data) {
+          this.handlerError(errorData);
+         /* if (errorData.error && errorData.error.data) {
             let respuesta: Respuesta<ErrorData> = errorData.error;
             this.openModalBad(respuesta.data);
           } else {
             // Manejar errores inesperados
             this.openModalBad(new ErrorData({error: "Error inseperado, contactar a soporte"}));
-          }
+          }*/
         }
       });
     }else {
@@ -235,6 +244,16 @@ export class DescripcionSemilleroComponent implements OnInit {
       this.formulario.markAllAsTouched();
     }
 
+  }
+  handlerError(ErrorData:any){
+    const status= ErrorData.status;
+    if(ErrorData.error && ErrorData.error.data){
+      let respuesta: Respuesta<ErrorData> = ErrorData.error;
+      this.openModalBad(respuesta.data);
+    }else {
+      // Manejar errores inesperados
+      this.openModalBad(new ErrorData({error: "Error inseperado, contactar a soporte"}));
+    }
   }
   cancelar(){
     // Lógica para cancelar la acción

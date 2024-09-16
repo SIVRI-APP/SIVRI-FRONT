@@ -29,7 +29,7 @@
    @if (mostrarFormularioCrear==false) {
   <!--app-datatable-- [datatableInputs]="datatableInputs" (changePageEmitter)="changePage($event)"
   (movePageEmitter)="movePage($event)"></!--app-datatable-->
-  @if (datatableInputs.searchPerformed == true ) {
+  <!--@if (datatableInputs.searchPerformed == true ) {-->
     @if (datatableInputs.paginacion.content.length > 0) {
 
       <div class="card shadow datatable">
@@ -116,7 +116,7 @@
       <p class="file-description">No hay {{datatableInputs.domain}} disponibles asociados a esta busqueda.</p>
     </div>
     }
-  }<!--@else {
+  <!--}@else {
   <div class="icon-container">
     <span class="material-symbols-outlined giant-icon">
       description

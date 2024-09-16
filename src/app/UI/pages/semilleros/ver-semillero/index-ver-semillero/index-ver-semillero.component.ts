@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Respuesta } from '../../../../../service/common/model/respuesta';
 import { SemilleroProyeccion } from '../../../../../service/semilleros/domain/model/proyecciones/semilleroProyeccion';
 import { ActivatedRoute, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
@@ -17,7 +17,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 export class IndexVerSemilleroComponent implements OnInit {
   //campos de visualizacion del semillero
   protected id!: string;
-  protected nombre: string = '';
+  @Input() nombre: string = '';
   protected semillero: Respuesta<SemilleroProyeccion>
   constructor(
     private route: ActivatedRoute,

@@ -7,6 +7,7 @@
     </li>
   </ol>
 </nav>
+
 <h1 class="title">{{nombre}}</h1>
 
 <div class="nav-container">
@@ -36,6 +37,7 @@
     <a class="nav-link" routerLink="descripcion" routerLinkActive="active">Descripción</a>
   </li>
   <!--******** plan modificado-->
+  @if (mostrarListaPlanes) {
   <li class="nav-item dropdown" routerLinkActive="active"> <!-- Agregamos la clase dropdown para el submenú -->
     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
       aria-expanded="false">
@@ -46,11 +48,13 @@
       <li><a class="dropdown-item" routerLink="editar-plan" routerLinkActive="active">Editar</a></li>
     </ul>
   </li>
-
+  }
   <!--******** plan modificado-->
-  <!--li class="nav-item">
+  @if (mostrarPlanesMentor || mostrarPlanesDirector) {
+  <li class="nav-item">
       <a class="nav-link" routerLink="listar-plan" routerLinkActive="active">Plan</a>
-    </!--li-->
+    </li>
+  }
   <li class="nav-item">
     <a class="nav-link" routerLink="listar-integrantes" routerLinkActive="active">Integrantes</a>
   </li>

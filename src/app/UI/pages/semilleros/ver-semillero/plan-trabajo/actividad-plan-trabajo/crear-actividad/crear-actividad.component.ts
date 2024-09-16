@@ -8,7 +8,7 @@ import { SemilleroProyeccion } from '../../../../../../../service/semilleros/dom
 import { CompromisoSemillero } from '../../../../../../../service/planTrabajo/domain/model/proyecciones/compromisoSemillero';
 import { IntegrantesMentores } from '../../../../../../../service/grupos/domain/model/proyecciones/integrantesMentores';
 import { Observable } from 'rxjs';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
 import { ActividadPlanCrearService } from '../../../../../../../service/planTrabajo/domain/service/actividad-plan-crear.service';
 import { ErrorData } from '../../../../../../../service/common/model/errorData';
 import { ModalBadComponent } from '../../../../../../shared/modal-bad/modal-bad.component';
@@ -16,6 +16,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalOkComponent } from '../../../../../../shared/modal-ok/modal-ok.component';
 import { CommunicationComponentsService } from '../../../../../../../service/common/communication-components.service';
 import { NotificationAlertService } from '../../../../../../../service/common/notification-alert.service';
+
 
 @Component({
   selector: 'app-crear-actividad',
@@ -39,7 +40,7 @@ export class CrearActividadComponent implements OnInit {
   private modalService = inject(NgbModal);
   // Respuesta del Back
   protected respuesta: Respuesta<boolean>;
-  protected minDate: string; // Variable para almacenar la fecha mínima en formato YYYY-MM-DD
+  protected minDate: string=''; // Variable para almacenar la fecha mínima en formato YYYY-MM-DD
   @Output() mostrarCrear:boolean;
   constructor(
     private route: ActivatedRoute,
@@ -57,8 +58,10 @@ export class CrearActividadComponent implements OnInit {
       actividad: ['',[Validators.required]],
       compromiso: ['',[Validators.required]],
       responsable:['',[Validators.required]],
-      fechaInicio:['',[Validators.required]],
+      fechaInicio:['',[Validators.required, this.fechaInicioValidator()]],
       fechaFin:['',[Validators.required]]
+    },{
+      validators: this.fechaFinValidator // Aplica el validador a nivel de grupo
     });
     this.semillero=new Respuesta<SemilleroProyeccion>();
     this.respuesta= new Respuesta<false>();
@@ -74,6 +77,8 @@ export class CrearActividadComponent implements OnInit {
     this.route.parent?.params.subscribe(params=>{
       this.idSemillero=params['id'];
     });
+
+
     this.semilleroObtenerService.obtenerSemilleroInformacionDetallada(this.idSemillero).subscribe({
       next:(respuesta)=>{
 
@@ -155,5 +160,28 @@ export class CrearActividadComponent implements OnInit {
   openModalBad(data: ErrorData) {
     const modalRef = this.modalService.open(ModalBadComponent);
     modalRef.componentInstance.mensaje = data;
+  }
+  fechaInicioValidator(): ValidatorFn {
+    return (control: AbstractControl): {[key: string]: any} | null => {
+      const inputDate = new Date(control.value);
+      const min = new Date(this.minDate);
+      return inputDate >= min ? null : { 'fechaInicioInvalida': true };
+    };
+  }
+  fechaFinValidator(formGroup: FormGroup): {[key: string]:any } | null  {
+   // return (control: AbstractControl): {[key: string]: any} | null => {
+   const fechaInicio = new Date(formGroup.get('fechaInicio')?.value);
+    console.log('fecha inicio '+fechaInicio);
+
+    const fechaFin = new Date(formGroup.get('fechaFin')?.value);
+    console.log('fecha fin '+fechaFin);
+    if (!fechaInicio || !fechaFin) {
+      return null;  // Si uno de los dos no está definido, no hay validación
+    }
+    const inicio = new Date(fechaInicio);
+    const fin = new Date(fechaFin);
+
+    // Siempre debe retornar un valor, ya sea null o un objeto con el error
+    return fin <= inicio ? null : { 'fechaFinInvalida': true };
   }
 }
