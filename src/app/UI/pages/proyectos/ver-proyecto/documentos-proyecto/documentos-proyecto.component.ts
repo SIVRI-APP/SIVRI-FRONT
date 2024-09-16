@@ -94,7 +94,7 @@ export class DocumentosProyectoComponent implements OnInit{
 
   manipularEvidencia(accion: any, evidencia: any){
 
-    let ruta: string = this.proyectoId + "/" + evidencia.get('nombre')?.value;
+    let ruta: string = "proyecto/" + this.proyectoId + "/" + evidencia.get('id')?.value + "-" + evidencia.get('nombre')?.value;
     this.proyectoCrearService.descargarDocConvocatoria(ruta).subscribe((blob: Blob) => {
       // Crea un enlace para descargar el archivo
       const url = window.URL.createObjectURL(blob);

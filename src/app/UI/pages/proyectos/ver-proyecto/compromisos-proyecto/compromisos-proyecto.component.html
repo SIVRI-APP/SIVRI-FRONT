@@ -1,0 +1,118 @@
+<div class="row">
+    <div class="col controls">        
+        <button type="button" class="primaryBTN" (click)="agregarCompromiso()">
+            <div class="button-content">
+                <span class="material-symbols-outlined primaryBTN-icon">
+                    add
+                </span>
+                <span class="text">Agregar Compromiso</span>
+            </div>
+        </button>
+    </div>
+</div>
+
+<!-- Seleccion de un nuevo Compromiso -->
+@if (mostrarAgregarCompromiso) {
+    <div class="filter-box">
+        <div class="row">
+            <div class="col-sm">
+                <!-- Mostrar datatable con los organismos para filtrar -->
+                <form [formGroup]="formularioAgregarCompromiso" (ngSubmit)="prepararAgregarCompromiso()" method="post">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label for="rolProyecto" class="etiqueta-form"><strong>Compromiso</strong></label>
+                            <select id="rolProyecto" name="rolProyecto" class="form-select" formControlName="rolProyecto">
+                                <option value="" disabled selected hidden>Seleccione el Producto que emitirá el Proyecto</option>
+                                <!-- @for (key of enumTranslationService.getEnumKeys(rolProyectoEnum); track $index) {
+                                    <option [value]="key">
+                                        {{enumTranslationService.getEnumValueByKey(rolProyectoEnum, key)}}
+                                    </option>
+                                } -->
+                            </select>
+                            <!-- <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formularioBuscarIntegrante.get('rolProyecto')?.valid && this.formularioBuscarIntegrante.get('rolProyecto')?.touched ? 'block' : 'none'">
+                                Campo requerido
+                            </div> -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label for="usuarioProspecto" class="etiqueta-form"><strong>Responsable</strong></label>
+                            <select id="usuarioProspecto" name="usuarioProspecto" class="form-select" formControlName="usuarioProspecto">
+                                <option value="" disabled selected hidden>Selecciona el Usuario encargado de entregar el Producto</option>
+                                <!-- @for (usuario of this.listadoDeIntegrantes.data.integrantes; track $index) {
+                                    <option [value]="usuario.usuario.id">
+                                        {{enumTranslationService.getEnumValueByKey(tipoDocumentoEnum2, usuario.usuario.tipoDocumento)}}: {{usuario.usuario.numeroDocumento}} - {{usuario.usuario.nombre}} {{usuario.usuario.apellido}} - {{enumTranslationService.getEnumValueByKey(tipoUsuarioEnum, usuario.usuario.tipoUsuario)}}
+                                    </option>
+                                } -->
+                            </select>
+                            <!-- <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formularioBuscarIntegrante.get('usuarioProspecto')?.valid && this.formularioBuscarIntegrante.get('usuarioProspecto')?.touched ? 'block' : 'none'">
+                                Campo requerido
+                            </div> -->
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col controls">
+
+                            <button type="button" class="secondaryBTN" (click)="limpiarFiltroAgregarCompromiso()">
+                                <div class="button-content">
+                                    <span class="material-symbols-outlined secondaryBTN-icon">
+                                        filter_alt
+                                    </span>
+                                    <span class="text">Cancelar</span>
+                                </div>
+                            </button>
+
+                            <button type="submit" class="primaryBTN">
+                                <div class="button-content">
+                                    <span class="material-symbols-outlined primaryBTN-icon">
+                                        add
+                                    </span>
+                                    <span class="text">Agregar</span>
+                                </div>
+                            </button>
+
+                        </div>
+                    </div>
+
+                    <div class="form-guide-line"></div>
+
+                    <!-- Tabla Paginada  -->
+                    <!-- <app-datatable-custom [datatableInputs]="datatableInputsIntegrantesOrganismo"
+                        (accionEmitter)="accion($event)"></app-datatable-custom> -->
+
+                </form>
+            </div>
+        </div>
+    </div>
+}
+
+@for (compromiso of this.verProyectoService.compromisosControls; track $index) {
+    <div class="card shadow datatable">
+        <div class="card-body">
+            <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
+                <table class="table my-0 table-striped" id="dataTable">
+                    <thead>
+                        <tr>
+                            <th colspan="4">
+                                <h6 style="font-size: 15px; color: #006; text-align: center;">
+                                    {{ compromiso.get('producto.tipo')?.value }}
+                                </h6>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>ID Doc</th>
+                            <th>Documento</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+    </div>
+}

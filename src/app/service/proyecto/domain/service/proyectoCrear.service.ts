@@ -5,7 +5,6 @@ import { ProyectoAdapter } from '../../infraestructure/proyecto.adapter';
 import { CrearProyectoDTO } from '../model/DTO/crearProyectoDTO';
 import { FormalizarProyectoDTO } from '../model/DTO/formalizarProyectoDTO';
 import { GuardarProyectoDTO } from '../model/DTO/guardarProyectoDTO';
-import { HttpResponse } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',

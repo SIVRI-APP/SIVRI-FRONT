@@ -24,6 +24,10 @@ const verProyectoRoutes: Routes = [
         path: 'integrantes',
         loadComponent: () => import('./integrantes-proyecto/integrantes-proyecto.component').then((c) => c.IntegrantesProyectoComponent),
       },
+      {
+        path: 'compromisos',
+        loadComponent: () => import('./compromisos-proyecto/compromisos-proyecto.component').then((c) => c.CompromisosProyectoComponent),
+      },
 
     ],
   },

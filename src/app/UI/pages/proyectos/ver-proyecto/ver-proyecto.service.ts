@@ -113,6 +113,16 @@ export class VerProyectoService {
         }))
       ),
 
+      compromisosProyecto: this.formBuilder.array(
+        (informacion.compromisosProyecto.compromisos).map(compromiso => this.formBuilder.group({
+          id: [compromiso.id, Validators.required],
+          producto: this.formBuilder.group({
+            id: [compromiso.producto.id, Validators.required],
+            tipo: [compromiso.producto.tipo, Validators.required],
+          })
+        }))
+      ),
+
     });
 
     // Emitir el formulario cuando esté listo
@@ -135,6 +145,10 @@ export class VerProyectoService {
 
   get evidenciasDocumentosConvocatoriaControls() {
     return (this._formularioinformacionDetalladaProyecto.get('EvidenciasDocumentosConvocatoria') as FormArray).controls;
+  }
+
+  get compromisosControls() {
+    return (this._formularioinformacionDetalladaProyecto.get('compromisosProyecto') as FormArray).controls;
   }
 
 }

@@ -10,6 +10,7 @@ export class ProyectoDetalladoDTO {
   convocatoriaProyecto: ConvocatoriaProyecto
   integrantesProyecto: IntegrantesProyecto; 
   evidenciasDocumentosProyecto: EvidenciasDocumentosProyecto; 
+  compromisosProyecto: CompromisosProyecto; 
   enfoquesDiferenciales: any;
   lineasDeInvestigacion: any;
 
@@ -18,6 +19,7 @@ export class ProyectoDetalladoDTO {
     this.convocatoriaProyecto = new ConvocatoriaProyecto();
     this.integrantesProyecto = new IntegrantesProyecto;
     this.evidenciasDocumentosProyecto = new EvidenciasDocumentosProyecto();
+    this.compromisosProyecto = new CompromisosProyecto();
     this.enfoquesDiferenciales = [];
     this.lineasDeInvestigacion = [];
   }
@@ -177,4 +179,31 @@ export class EvidenciasDocumentosConvocatoria {
 }
 
 
+export class CompromisosProyecto {
+  compromisos: Compromisos[];
+
+  constructor(){
+    this.compromisos = [];
+  }
+}
+
+export class Compromisos {
+  id: number;
+  producto: Producto;
+
+  constructor(){
+    this.id = 0
+    this.producto = new Producto();
+  }
+}
+
+export class Producto {
+  id: number;
+  tipo: string;
+
+  constructor(){
+    this.id = 0
+    this.tipo = "";
+  }
+}
 
