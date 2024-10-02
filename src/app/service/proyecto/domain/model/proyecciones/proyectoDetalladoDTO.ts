@@ -31,8 +31,8 @@ export class InformacionDetalladaProyecto{
   enfoqueMetodologico: string;
   objetivosEspecificos: string;  
   aspectosEticosLegales: string;  
-  impactosResultadosEsperados: string;
-  confidencialidadDeInformacion: string;
+  impacResulEsperados: string;
+  confidencialidad: string;
   nombre: string;
   fechaFin: string;
   fechaInicio: string; 
@@ -49,8 +49,8 @@ export class InformacionDetalladaProyecto{
     this.enfoqueMetodologico = '';
     this.objetivosEspecificos = '';
     this.aspectosEticosLegales = '';
-    this.impactosResultadosEsperados = '';
-    this.confidencialidadDeInformacion = '';
+    this.impacResulEsperados = '';
+    this.confidencialidad = '';
     this.nombre = '';
     this.fechaFin = '';
     this.fechaInicio = '';
