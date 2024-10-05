@@ -173,10 +173,13 @@ export class CrearIntegranteComponent implements OnInit {
     const modalRef = this.modalService.open(ModalBadComponent);
     modalRef.componentInstance.mensaje = data;
   }
+
   cancelar() {
     this.notificationAlertService.showAlert('','Accion Cancelada',3000);
     this.actualizarListarService.notificarActualizarListar('cancelar');
     this.mostrarFormularioCrear=false;
+    }
+
     /*this.formularioCrear = this.formBuilder.group({
       idSemillero: [''],
       nombre: [''],
@@ -193,6 +196,6 @@ export class CrearIntegranteComponent implements OnInit {
       programa: ['']
     });
     this.formularioConsultar.get('nombre')?.disable();
-    this.formularioConsultar.get('programa')?.disable();*/
-  }
+    this.formularioConsultar.get('programa')?.disable();
+  }*/
 }

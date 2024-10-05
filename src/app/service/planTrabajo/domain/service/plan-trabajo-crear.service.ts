@@ -12,8 +12,8 @@ export class PlanTrabajoCrearService {
 
   crearPlanTrabajo(
     body:{
-      idSemillero:string,
-      nombrePlan:string,
+      id_Semillero:string,
+      nombre_Plan:string,
       anio:number,
       estado:string
     }

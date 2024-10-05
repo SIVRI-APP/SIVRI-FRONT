@@ -59,13 +59,13 @@ export class PlanTrabajoAdapter {
 
   crearPlanTrabajo(
     body: {
-      idSemillero: string,
-      nombrePlan: string,
+      id_Semillero: string,
+      nombre_Plan: string,
       anio: number,
       estado: string
     }
   ): Observable<Respuesta<boolean>> {
-    return this.http.post<Respuesta<boolean>>(this.apiUrl + 'crearPlanTrabajo', body);
+        return this.http.post<Respuesta<boolean>>(this.apiUrl + 'crearPlanTrabajo', body);
   }
   actualizarPlanTrabajo(idPlan:number,body:{
     nombrePlan: string,

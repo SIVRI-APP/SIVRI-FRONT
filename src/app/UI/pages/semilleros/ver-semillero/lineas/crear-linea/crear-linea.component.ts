@@ -54,7 +54,7 @@ export class CrearLineaComponent implements OnInit {
 
     if (this.formulario.valid) {
       this.lineaInvestigacionCrearService.crearLineaInvestigacion({
-        semilleroId: this.idSemillero,
+        semillero_Id: this.idSemillero,
         linea: this.formulario.value.linea
       }).subscribe({
         next: (respuesta) => {

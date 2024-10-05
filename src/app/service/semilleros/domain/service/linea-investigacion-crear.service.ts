@@ -11,7 +11,7 @@ export class LineaInvestigacionCrearService {
   constructor(private lineaInvestigacionAdapter: LineaInvestigacionAdapter) { }
   crearLineaInvestigacion(
     body: {
-      semilleroId: string,
+      semillero_Id: string,
       linea: string
     }
   ): Observable<Respuesta<boolean>> {

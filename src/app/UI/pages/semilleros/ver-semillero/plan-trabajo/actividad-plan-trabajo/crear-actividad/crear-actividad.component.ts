@@ -60,8 +60,6 @@ export class CrearActividadComponent implements OnInit {
       responsable:['',[Validators.required]],
       fechaInicio:['',[Validators.required, this.fechaInicioValidator()]],
       fechaFin:['',[Validators.required]]
-    },{
-      validators: this.fechaFinValidator // Aplica el validador a nivel de grupo
     });
     this.semillero=new Respuesta<SemilleroProyeccion>();
     this.respuesta= new Respuesta<false>();
@@ -105,6 +103,8 @@ export class CrearActividadComponent implements OnInit {
   onsubmit(){
 
     if(this.formulario.valid){
+      console.log('formulario datos de crear actividad ');
+      console.log(this.formulario);
 
       this.actividadPlanCrearService.crearActividad(this.idPlan,{
         objetivo:this.formulario.value.objetivo,
@@ -175,13 +175,14 @@ export class CrearActividadComponent implements OnInit {
 
     const fechaFin = new Date(formGroup.get('fechaFin')?.value);
     console.log('fecha fin '+fechaFin);
+    const fecIni = this.formulario.value.fechaInicio;
+    console.log('fecha desde el formulario'+fecIni);
+
     if (!fechaInicio || !fechaFin) {
       return null;  // Si uno de los dos no está definido, no hay validación
     }
-    const inicio = new Date(fechaInicio);
-    const fin = new Date(fechaFin);
 
-    // Siempre debe retornar un valor, ya sea null o un objeto con el error
-    return fin <= inicio ? null : { 'fechaFinInvalida': true };
+    // Verifica si la fecha de fin es menor o igual a la fecha de inicio
+    return fechaFin >= fechaInicio ? null : { 'fechaFinInvalida': true };
   }
 }
