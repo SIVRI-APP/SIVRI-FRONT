@@ -55,18 +55,20 @@ export class UsuarioSolicitudAdapter {
 
   crearSolicitudUsuario(
     body: {
-      tipoDocumento?: string,
-      numeroDocumento?: string,
-      sexo?: string,
-      tipoUsuario?: string,
-      nombre?: string,
-      apellido?: string,
-      telefono?: string,
+      correo: string,
+      tipoDocumento: string,
+      numeroDocumento: string,
+      sexo: string,
+      tipoUsuario: string,
+      nombre: string,
+      apellido: string,
+      telefono: string,
+      departamentoId?: number,
+      programaId?: number,
       cvLac?: string,
       nota?: string,
-      programaId?: number,
       organismoDeInvestigacionId?: number,
-      rolGrupoId?: number
+      rolId?: number
     }
   ): Observable<Respuesta<boolean>> {
     return this.http.post<Respuesta<boolean>>(this.apiUrl + 'crearSolicitudUsuario', body);

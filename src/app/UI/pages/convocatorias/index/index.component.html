@@ -12,9 +12,13 @@
         <li class="nav-item">
             <a class="nav-link" routerLink="listar" routerLinkActive="active">Listar Convocatorias</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" routerLink="crear" routerLinkActive="active">Crear Convocatoria</a>
-        </li>
+
+        @if (permitirCrearConvocatoria) {
+            <li class="nav-item">
+                <a class="nav-link" routerLink="crear" routerLinkActive="active">Crear Convocatoria</a>
+            </li>
+        }
+        
     </ul>
     <div class="guide-line"></div>
 </div>

@@ -7,46 +7,61 @@
         </div>
 
         <!-- Parte derecha -->
-        <div class="derecha d-flex justify-content-end">
+        <div class="d-flex justify-content-end flex-column">
+            <div class="">
+                <div class="container">
+                    <div class="row h-100">
+                        
+                        <div class="col-3 d-flex align-items-center justify-content-center">
+                            @if (notifications) {
+                            <span class="icon-notification material-symbols-outlined" data-bs-toggle="offcanvas"
+                                data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+                                notifications_active
+                                <span class="notification-badge"></span>
+                            </span>
+                            }@else {
+                            <span class="icon-notification material-symbols-outlined" data-bs-toggle="offcanvas"
+                                data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+                                notifications
+                            </span>
+                            }
+                        </div>
 
+                        <div class="col-2 d-flex align-items-center justify-content-center">
+                            <img src="../../../../../assets/img/profile.png" alt="User Profile" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">
+                        </div>
+                        
+                        <div class="col-7">
+                            <div class="dropdown">
+                                <a class="user-name dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown">                                                                        
+                                    <span style="font-size: 13px;">
+                                        {{enumTranslationService.getEnumValueByKey(this.tipoUsuarioEnum, this.tipoUsuario)}}
+                                    </span>
+                                    <br>
+                                    <span>
+                                        {{this.nombre}}
+                                    </span>
+                                </a>
+                                <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in">
+                                    <a class="dropdown-item" routerLink="/perfil">
+                                        &nbsp;Perfil
+                                    </a>
 
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="#">
+                                        &nbsp;Cerrar sesión
+                                    </a>
+                                </div>
+                            </div>
 
-            @if (notifications) {
-            <span class="icon-notification material-symbols-outlined" data-bs-toggle="offcanvas"
-                data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
-                notifications_active
-                <span class="notification-badge"></span>
-            </span>
-            }@else {
-            <span class="icon-notification material-symbols-outlined" data-bs-toggle="offcanvas"
-                data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
-                notifications
-            </span>
-            }
-
-            <div class="dropdown ">
-                <a class="user-name dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown" href="#">
-                    <span class="d-lg-inline">
-                        {{this.nombre}}
-                    </span>
-                </a>
-                <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in">
-                    <a class="dropdown-item" href="#">
-                        &nbsp;Perfil
-                    </a>
-
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">
-                        &nbsp;Cerrar sesión
-                    </a>
+                        </div>
+                        
+                    </div>
                 </div>
             </div>
-
         </div>
     </div>
 </nav>
-
-
 
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
     <div class="offcanvas-header">

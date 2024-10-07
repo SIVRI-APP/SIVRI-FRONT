@@ -9,6 +9,7 @@ import { ProyectoDetalladoDTO } from '../domain/model/proyecciones/proyectoDetal
 import { CrearProyectoDTO } from '../domain/model/DTO/crearProyectoDTO';
 import { FormalizarProyectoDTO } from '../domain/model/DTO/formalizarProyectoDTO';
 import { GuardarProyectoDTO } from '../domain/model/DTO/guardarProyectoDTO';
+import { ListarOrganismosParaAsociarProyectoProyeccion } from '../../organismoDeInvestigacion/domain/model/proyecciones/listarOrganismosParaAsociarProyectoProyeccion';
 
 
 @Injectable({
@@ -98,6 +99,22 @@ export class ProyectoAdapter {
     if (rol !== undefined) params = params.set('rolId', rol);
 
     return this.http.post<Respuesta<boolean>>(this.apiUrl + 'agregarIntegrante', null, { params: params });
+  }
+
+  listarSimpleConFiltro(
+    pageNo: number = 0,
+    pageSize: number = 10,
+    id?:string, 
+    nombre?:string)
+  {
+    let params = new HttpParams()
+    .set('pageNo', pageNo.toString())
+    .set('pageSize', pageSize.toString());
+    // Añade condicionalmente los otros parámetros si existen.
+    if (id !== undefined) params = params.set('id', id);
+    if (nombre !== undefined) params = params.set('nombre', nombre);
+
+    return this.http.get<Respuesta<Paginacion<ListarOrganismosParaAsociarProyectoProyeccion>>>(this.apiUrl + 'listarSimpleConFiltro', { params: params });
   }
 
 }

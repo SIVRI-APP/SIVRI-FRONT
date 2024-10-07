@@ -1,0 +1,8 @@
+<div class="container mt-5">
+    <h2 class="mb-4">Listado de Roles</h2>
+    <ul class="list-group">
+        @for (rol of this.informacionUsuarioAutenticadoService.retornarRoles(); track $index) {
+            <li class="list-group-item">{{rol.split(':')[0]}} - {{rol.split(':')[1]}}</li>
+        }
+    </ul>
+</div>

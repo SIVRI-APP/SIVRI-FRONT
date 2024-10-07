@@ -1,4 +1,4 @@
 export interface Facultad{
-idFacultad:number;
+id:number;
 nombre:string;
 }

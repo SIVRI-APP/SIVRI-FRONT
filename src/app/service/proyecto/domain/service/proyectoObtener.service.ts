@@ -5,6 +5,7 @@ import { Paginacion } from '../../../common/model/paginacion';
 import { Respuesta } from '../../../common/model/respuesta';
 import { ProyectoAdapter } from '../../infraestructure/proyecto.adapter';
 import { ProyectoDetalladoDTO } from '../model/proyecciones/proyectoDetalladoDTO';
+import { ListarOrganismosParaAsociarProyectoProyeccion } from '../../../organismoDeInvestigacion/domain/model/proyecciones/listarOrganismosParaAsociarProyectoProyeccion';
 
 @Injectable({
   providedIn: 'root',
@@ -55,6 +56,20 @@ export class ProyectoObtenerService {
 
   get listarConFiltroProyectos(): Observable<Respuesta<Paginacion<ProyectoListarConFiltroProyeccion>>> {
     return this._listarConFiltroProyectos;
+  }
+  
+  listarSimpleConFiltro(
+    pageNo?: number,
+    pageSize?: number,
+    id?: string,
+    nombre?: string
+  ): Observable<Respuesta<Paginacion<ListarOrganismosParaAsociarProyectoProyeccion>>>{
+    return this.proyectoAdapter.listarSimpleConFiltro(
+      pageNo,
+      pageSize,
+      id,
+      nombre
+    );
   }
 
 }

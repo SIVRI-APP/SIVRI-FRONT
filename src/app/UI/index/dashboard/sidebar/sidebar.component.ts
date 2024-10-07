@@ -12,21 +12,21 @@ import { NgIf } from '@angular/common';
 })
 export class SidebarComponent implements OnInit {
 
-  protected found:boolean=false;
+  protected found:boolean = false;
+  protected mostrarUsuario = false;
+  protected mostrarConvocatorias = false;
   
   roles: string[] = []
   
   constructor(
     protected informacionUsuarioAutenticadoService: InformacionUsuarioAutenticadoService
   ) {
-    
     this.roles = informacionUsuarioAutenticadoService.retornarRoles();
-    console.log(this.roles);
   }
 
   ngOnInit(){
     this.showSemillero();
-
+    this.showUsuarios();
   }
 
   showSemillero():boolean{
@@ -35,6 +35,18 @@ export class SidebarComponent implements OnInit {
         return this.found=true;
       }
     }
+    if (this.informacionUsuarioAutenticadoService.esFuncionario()) {
+      return this.found=true;
+    }
     return this.found=false;
   }
+
+  showUsuarios(){
+    if (this.informacionUsuarioAutenticadoService.esFuncionario() || this.informacionUsuarioAutenticadoService.esInvestigadorConPermisosAdmin()) {
+      this.mostrarUsuario = true;
+    }else{
+      this.mostrarUsuario = false;
+    }
+  }
+
 }

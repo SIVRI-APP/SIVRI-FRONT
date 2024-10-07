@@ -15,20 +15,22 @@
     </a>
     </li>
 
-    <li class="nav-item">
+    <!-- <li class="nav-item">
       <a class="nav-link" routerLink="grupos" routerLinkActive="active">
         <span class="nav-icon material-symbols-outlined">groups</span>
         <span class="nav-text">Grupos</span>
       </a>
-    </li>
+    </li> -->
+    
     @if (found==true) {
-    <li class="nav-item">
-      <a class="nav-link" routerLink="semilleros" routerLinkActive="active">
-        <span class="nav-icon material-symbols-outlined">experiment</span>
-        <span class="nav-text">Semilleros</span>
-      </a>
-    </li>
-  }
+      <li class="nav-item">
+        <a class="nav-link" routerLink="semilleros" routerLinkActive="active">
+          <span class="nav-icon material-symbols-outlined">experiment</span>
+          <span class="nav-text">Semilleros</span>
+        </a>
+      </li>
+    }
+
     <li class="nav-item">
       <a class="nav-link" routerLink="convocatorias" routerLinkActive="active">
         <span class="nav-icon material-symbols-outlined">campaign</span>
@@ -36,19 +38,23 @@
       </a>
     </li>
 
+    
     <li class="nav-item">
       <a class="nav-link" routerLink="proyectos" routerLinkActive="active">
         <span class="nav-icon material-symbols-outlined">rocket_launch</span>
         <span class="nav-text">Proyectos</span>
       </a>
     </li>
+      
 
-    <li class="nav-item">
-      <a class="nav-link" routerLink="usuarios" routerLinkActive="active">
-        <span class="nav-icon material-symbols-outlined">person_search</span>
-        <span class="nav-text">Usuarios</span>
-      </a>
-    </li>
+    @if (this.mostrarUsuario) {
+      <li class="nav-item">
+        <a class="nav-link" routerLink="usuarios" routerLinkActive="active">
+          <span class="nav-icon material-symbols-outlined">person_search</span>
+          <span class="nav-text">Usuarios</span>
+        </a>
+      </li>
+    }  
 
   </ul>
 </nav>

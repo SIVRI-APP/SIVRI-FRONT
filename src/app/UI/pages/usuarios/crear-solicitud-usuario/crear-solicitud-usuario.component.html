@@ -93,6 +93,68 @@
 
         <div class="row">
             <div class="col-sm">
+                <label for="departamentoId" class="etiqueta-form"><strong>Departamento</strong></label>
+                <select id="departamentoId" name="departamentoId" class="form-select" formControlName="departamentoId">
+                    <option value="" disabled selected hidden>Seleccione un Departamento</option>
+                    <option value="1">Artes Plásticas</option>
+                    <option value="2">Agroindustria</option>
+                    <option value="3">Biología</option>
+                    <option value="4">Ciencia Política</option>
+                    <option value="5">Ciencias Administrativas</option>
+                    <option value="6">Ciencias Agropecuarias</option>
+                    <option value="7">Ciencias Económicas</option>
+                    <option value="8">Ciencias Fisiológicas</option>
+                    <option value="9">Ciencias Quirúrgicas</option>
+                    <option value="10">Comunicación Social</option>
+                    <option value="11">Derecho Laboral</option>
+                    <option value="12">Derecho Privado</option>
+                    <option value="13">Diseño</option>
+                    <option value="14">Educación Física, Recreación y Deporte</option>
+                    <option value="15">Enfermería</option>
+                    <option value="16">Español y Literatura</option>
+                    <option value="17">Estudios Interculturales</option>
+                    <option value="18">Sistemas</option>
+                    <option value="19">Desarrollo de Vías y Estructuras</option>
+                </select>  
+                @if (this.formulario.get('departamentoId')?.enabled) {
+                    <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('departamentoId')?.valid && this.formulario.get('departamentoId')?.touched ? 'block' : 'none'"> 
+                        Debes seleccionar un Departamento.
+                    </div>
+                }                                
+            </div>
+
+            <div class="col-sm">
+                <label for="programaId" class="etiqueta-form"><strong>Programa</strong></label>
+                <select id="programaId" name="programaId" class="form-select" formControlName="programaId">
+                    <option value="" disabled selected hidden>Seleccione un Programa</option>
+                    <option value="1">Ingeniería de Sistemas</option>
+                    <option value="2">Ingeniería Civil</option>
+                    <option value="3">Ingeniería Electrónica</option>
+                    <option value="4">Artes Plásticas</option>
+                    <option value="5">Ingeniería Industrial</option>
+                    <option value="6">Ingeniería Mecánica</option>
+                    <option value="7">Ingeniería Eléctrica</option>
+                    <option value="8">Ingeniería Química</option>
+                    <option value="9">Ciencias de la Computación</option>
+                    <option value="10">Administración de Empresas</option>
+                    <option value="11">Contaduría Pública</option>
+                    <option value="12">Psicología</option>
+                    <option value="13">Medicina</option>
+                    <option value="14">Odontología</option>
+                    <option value="15">Farmacia</option>
+                    <option value="16">Ingeniería Ambiental</option>
+                    <option value="17">Ciencias Políticas</option>
+                    <option value="18">Derecho</option>
+                    <option value="19">Arquitectura</option>
+                </select>     
+                @if (this.formulario.get('programaId')?.enabled) {
+                    <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('programaId')?.valid && this.formulario.get('programaId')?.touched ? 'block' : 'none'"> 
+                        Debes seleccionar un Programa.
+                    </div>
+                }
+            </div>
+            
+            <div class="col-sm-6">
                 <label for="cvLac" class="etiqueta-form"><strong>cvLac</strong></label>
                 <input id="cvLac" name="cvLac" class="form-control" type="text" placeholder="cvLac"
                     formControlName="cvLac">
@@ -100,13 +162,6 @@
                     Los usuarios de tipo Docente deben estar registrados en cvLac
                 </div>
             </div>
-
-            <div class="col-sm">
-            </div>
-
-            <!-- TODO MIGUEL Select con la lista de programas -->
-            <!-- TODO MIGUEL Select con la lista de organismos de investigacion -->
-            <!-- TODO MIGUEL Select con la lista de roles disponibles de ese organismo de investigacion -->
         </div>
 
         <div class="row">
@@ -119,10 +174,130 @@
                 </div>
             </div>
 
-            <div class="col-sm">
-            </div>
+        </div>    
 
+        <div class="row">
+            @if (this.mostrarSeleccionarOrganismo) {                
+                <div class="col-sm-4">
+                    <div class="row">
+                        <div class="col-sm">
+                            <label for="tipoOrganismo" class="etiqueta-form"><strong>Tipo de Vinculación</strong></label>
+                            <select id="tipoOrganismo" name="tipoOrganismo" class="form-select" formControlName="tipoOrganismo"
+                                (change)="visualizarFiltroBusquedaOrganismo($event)">
+                                <option value="" disabled selected hidden>Organismo de Investigación</option>
+                                @for (key of enumTranslationService.getEnumKeys(organismoDeInvestigacionYProyectoEnum); track $index) {
+                                    <option [value]="key">{{enumTranslationService.getEnumValueByKey(organismoDeInvestigacionYProyectoEnum, key)}}</option>
+                                }                                
+                            </select>
+                        </div>
+                    </div>  
+                </div>
+            }
+
+            <div class="col-sm">
+                @if (visualizarOrganismos) {
+                <!-- Mostrar datatable con los organismos para filtrar -->
+
+                    <form [formGroup]="formularioBuscarOrganismos" (ngSubmit)="buscarOrganismos()" method="get">
+                        <div class="">
+
+                            <div class="row">
+                                <!-- <div class="form-guide-line"></div> -->
+                                <div class="col-sm-3">
+                                    <label for="tipoOrganismo" class="etiqueta-form"><strong>Tipo de Organismo</strong></label>
+                                    <select id="tipoOrganismo" name="tipoOrganismo" class="form-select" formControlName="tipoOrganismo">
+                                        <option value="" disabled selected hidden>Vincular a un Grupo/Semillero</option>
+                                        @for (key of enumTranslationService.getEnumKeys(organismoDeInvestigacionYProyectoEnum); track $index) {
+                                            <option [value]="key">{{enumTranslationService.getEnumValueByKey(organismoDeInvestigacionYProyectoEnum, key)}}</option>                                        
+                                        }
+                                    </select>
+                                </div>
+
+                                <div class="col-sm-2">
+                                    <label for="organismoId" class="etiqueta-form"><strong>ID</strong></label>
+                                    <input id="organismoId" name="organismoId" class="form-control" type="text"
+                                        placeholder="ID" formControlName="organismoId">
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <label for="nombreOrganismo" class="etiqueta-form"><strong>Nombre</strong></label>
+                                    <input id="nombreOrganismo" name="nombreOrganismo" class="form-control" type="text"
+                                        placeholder="Nombre" formControlName="nombreOrganismo">
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col controls">
+                                    <label class="form-label listar">Ver
+                                        <select class="form-select form-select-sm"
+                                            formControlName="buscarOrganismosPageSize">
+                                            <option value="10" selected>10</option>
+                                            <option value="25">25</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                        </select>
+                                    </label>
+
+                                    <button type="button" class="secondaryBTN" (click)="limpiarFiltroBusquedaOrganismo()">
+                                        <div class="button-content">
+                                            <span class="material-symbols-outlined secondaryBTN-icon">
+                                                filter_alt
+                                            </span>
+                                            <span class="text">Limpiar</span>
+                                        </div>
+                                    </button>
+
+                                    <button type="submit" class="primaryBTN">
+                                        <div class="button-content">
+                                            <span class="material-symbols-outlined primaryBTN-icon">
+                                                search
+                                            </span>
+                                            <span class="text">Buscar</span>
+                                        </div>
+                                    </button>
+
+                                </div>
+                            </div>
+
+                            <div class="form-guide-line"></div>
+                        </div>
+
+                        <!-- Tabla Paginada  -->
+                        <app-datatable-custom [datatableInputs]="datatableInputsBuscarOrganismos"
+                            (accionEmitter)="accion($event)" (changePageEmitter)="changePage($event)"
+                            (movePageEmitter)="movePage($event)"></app-datatable-custom>
+                    </form>
+                }
+            </div>
         </div>
+
+
+        @if (this.mostrarRoles) {    
+            <div class="row">
+                <div class="col-sm-6">
+                    <label for="organismoDeInvestigacionId" class="etiqueta-form"><strong>Organismo Seleccionado</strong></label>
+                    <select id="organismoDeInvestigacionId" name="organismoDeInvestigacionId" class="form-select" formControlName="organismoDeInvestigacionId">
+                        <option [value]="this.organismoSeleccionadoId">{{this.organismoSeleccionadoNombre}}</option>
+                    </select>
+                </div>                 
+            </div> 
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <label for="rolId" class="etiqueta-form"><strong>Rol de Proyecto</strong></label>
+                    <select id="rolId" name="rolId" class="form-select" formControlName="rolId">
+                        <option value="" disabled selected hidden>Seleccionar Rol</option>
+                        @for (roles of this.rolesDisponibles; track $index) {
+                        <option [value]="roles.id">{{enumTranslationService.getEnumValueByKey(rolProyectoEnum, roles.nombre)}}</option>
+                        }
+                    </select>
+                    <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('rolId')?.valid && this.formulario.get('rolId')?.touched ? 'block' : 'none'"> 
+                        Debe haber un Rol seleccionado
+                    </div>
+                </div>
+            </div>  
+        } 
 
         <div class="row">
             <div class="col controls">

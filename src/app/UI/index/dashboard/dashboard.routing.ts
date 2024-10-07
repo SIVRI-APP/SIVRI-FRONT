@@ -54,8 +54,15 @@ const adminRoutes: Routes = [
             (c) => c.ProyectosModule
           ),
       },
+      {
+        path: 'perfil',
+        loadChildren: () =>
+          import('../../pages/usuarios/perfil-usuario/perfil-usuario.module').then(
+            (c) => c.PerfilUsuarioModule
+          ),
+      },
     ],
-  },
+  }
 ];
 
 @NgModule({
