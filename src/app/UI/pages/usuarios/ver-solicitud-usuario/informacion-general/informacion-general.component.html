@@ -187,12 +187,12 @@
                     }
                 }@else{
                     @if ( this.formulario.value.estadoSolicitud != this.enumTranslationService.getKeyByValue(this.estadoSolicitudUsuarioEnum, this.estadoSolicitudUsuarioEnum.REVISION_VRI) ) {
-                        <button type="submit" class="primaryBTN">
+                        <button type="button" class="primaryBTN" (click)="enviarRevisionVRI()">
                             <div class="button-content">
                                 <span class="material-symbols-outlined primaryBTN-icon">
                                     check_circle 
                                 </span>
-                                <span class="text">Enviar a revision</span>
+                                <span class="text">Enviar a revisión</span>
                             </div>
                         </button>
                     }@else {

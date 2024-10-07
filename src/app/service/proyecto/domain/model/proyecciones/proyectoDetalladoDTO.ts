@@ -6,7 +6,8 @@ import { RolProyecto } from "../enum/rolProyecto";
 
 export class ProyectoDetalladoDTO {
 
-  informacionDetalladaProyecto: InformacionDetalladaProyecto
+  organismoPrincipal: OrganismoPrincipal;
+  informacionDetalladaProyecto: InformacionDetalladaProyecto;
   convocatoriaProyecto: ConvocatoriaProyecto
   integrantesProyecto: IntegrantesProyecto; 
   evidenciasDocumentosProyecto: EvidenciasDocumentosProyecto; 
@@ -15,6 +16,7 @@ export class ProyectoDetalladoDTO {
   lineasDeInvestigacion: any;
 
   constructor() {
+    this.organismoPrincipal = new OrganismoPrincipal();
     this.informacionDetalladaProyecto = new InformacionDetalladaProyecto();
     this.convocatoriaProyecto = new ConvocatoriaProyecto();
     this.integrantesProyecto = new IntegrantesProyecto;
@@ -24,6 +26,16 @@ export class ProyectoDetalladoDTO {
     this.lineasDeInvestigacion = [];
   }
   
+}
+
+export class OrganismoPrincipal{
+  id: string;
+  nombre: string;
+
+  constructor() {
+    this.id = '';
+    this.nombre = '';
+  }
 }
 
 export class InformacionDetalladaProyecto{

@@ -36,7 +36,7 @@ export class OrganismoAdapter {
   }
 
   listarIntegrantesDocenteOrganismo(
-    organismoId: string = '1'
+    organismoId: string
   ): Observable<Respuesta<GrupoObtenerIntegrantesOrganismoParaAsociarDirProyectoProyeccion>> {
 
     let params = new HttpParams()

@@ -40,7 +40,7 @@
                             <label for="usuarioProspecto" class="etiqueta-form"><strong>Usuario</strong></label>
                             <select id="usuarioProspecto" name="usuarioProspecto" class="form-select" formControlName="usuarioProspecto">
                                 <option value="" disabled selected hidden>Selecciona el Usuario para este Rol</option>
-                                @for (usuario of this.listadoDeIntegrantes.data.integrantes; track $index) {
+                                @for (usuario of this.listadoDeIntegrantesOrganismoPadreDelProyecto.data.integrantes; track $index) {
                                     <option [value]="usuario.usuario.id">
                                         {{enumTranslationService.getEnumValueByKey(tipoDocumentoEnum2, usuario.usuario.tipoDocumento)}}: {{usuario.usuario.numeroDocumento}} - {{usuario.usuario.nombre}} {{usuario.usuario.apellido}} - {{enumTranslationService.getEnumValueByKey(tipoUsuarioEnum, usuario.usuario.tipoUsuario)}}
                                     </option>

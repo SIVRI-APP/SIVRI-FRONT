@@ -27,7 +27,7 @@ export class InformacionUsuarioAutenticadoService {
 
   esInvestigadorConPermisosAdmin(){
     const roles = this.retornarRoles();
-    return roles.includes("PROYECTO:DIRECTOR") || roles.includes("GRUPO:DIRECTOR") || roles.includes("SEMILLEROS:MENTOR");
+    return roles.includes("PROYECTO:DIRECTOR") || roles.includes("GRUPO:DIRECTOR") || roles.includes("SEMILLERO:MENTOR");
   }
 
 }

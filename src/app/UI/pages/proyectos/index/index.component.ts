@@ -11,12 +11,9 @@ import { InformacionUsuarioAutenticadoService } from '../../../../service/auth/d
 })
 export class IndexComponent {
 
-  protected showCrearProyecto = false;
-
   constructor(
     protected informacionUsuarioAutenticadoService: InformacionUsuarioAutenticadoService
   ) {
-    console.log("Roles: " + informacionUsuarioAutenticadoService.retornarRoles());
   }
 
 

@@ -4,7 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatatableInput } from '../../../../../service/common/model/datatableInput';
 import { ProyectoObtenerService } from '../../../../../service/proyecto/domain/service/proyectoObtener.service';
 import { Paginacion } from '../../../../../service/common/model/paginacion';
-import { Integrantes } from '../../../../../service/proyecto/domain/model/proyecciones/proyectoDetalladoDTO';
+import { Integrantes, OrganismoPrincipal } from '../../../../../service/proyecto/domain/model/proyecciones/proyectoDetalladoDTO';
 import { DatatableInputAction } from '../../../../../service/common/model/datatableAction';
 import { IntegranteDataTable, IntegrantesDataTable } from '../../../../../service/proyecto/domain/model/proyecciones/integrantesDataTable';
 import { RolProyecto } from '../../../../../service/proyecto/domain/model/enum/rolProyecto';
@@ -34,10 +34,11 @@ export class IntegrantesProyectoComponent implements OnInit{
   private modalService = inject(NgbModal);
 
   // Variable para guardar la informacion de los integrantes
-  protected listadoDeIntegrantes: Respuesta<GrupoObtenerIntegrantesOrganismoParaAsociarDirProyectoProyeccion>;
+  protected listadoDeIntegrantesOrganismoPadreDelProyecto: Respuesta<GrupoObtenerIntegrantesOrganismoParaAsociarDirProyectoProyeccion>;
 
-  // Informacion de la convocatoria asociada
+  // Informacion asociada al Proyecto
   protected proyectoInformacionIntegrante: Integrantes[] = [];
+  protected proyectoInformacionOrganismo: OrganismoPrincipal = new OrganismoPrincipal();
 
   // Datatable para los documentos
   protected datatableInputsIntegrantes: DatatableInput;
@@ -62,7 +63,7 @@ export class IntegrantesProyectoComponent implements OnInit{
     protected verProyectoService: VerProyectoService,
     protected enumTranslationService: EnumTranslationService
   ){
-    this.listadoDeIntegrantes = new Respuesta();
+    this.listadoDeIntegrantesOrganismoPadreDelProyecto = new Respuesta();
     this.verProyectoService.setTituloInstruccion("Integrantes vinculados al Proyecto");
     this.verProyectoService.setInstruccion("En esta sección podrás gestionar los integrantes asociados al proyecto.");
 
@@ -99,6 +100,7 @@ export class IntegrantesProyectoComponent implements OnInit{
 
         if (respuesta.data.integrantesProyecto.integrantes != null) {
           this.proyectoInformacionIntegrante = respuesta.data.integrantesProyecto.integrantes;
+          this.proyectoInformacionOrganismo = respuesta.data.organismoPrincipal;
 
           let paginacionEjecucion = new Paginacion();
           paginacionEjecucion.content = new IntegrantesDataTable(respuesta.data.integrantesProyecto.integrantes).integrantes;
@@ -113,17 +115,19 @@ export class IntegrantesProyectoComponent implements OnInit{
 
   accion(accion: any): void {
     if (accion == "agregarIntegrante") {
-      this.buscarIntegrantes();      
+      this.buscarIntegrantesOrganismo();      
     }else if (accion.accion.accion == 'ver') {
       this.router.navigate(["/usuarios/listar-usuarios/"+accion.data.usuarioId]);
     }
   }
 
-  buscarIntegrantes(){
-    this.organismoObtenerService.listarIntegrantesOrganismo("1")
+  buscarIntegrantesOrganismo(){
+    // todo miguel Aquie hay que mandar el id del organismo padre
+    this.organismoObtenerService.listarIntegrantesOrganismo(this.proyectoInformacionOrganismo.id)
       .subscribe({
         next: (respuesta) => {      
-          this.listadoDeIntegrantes = respuesta
+          console.log(respuesta)
+          this.listadoDeIntegrantesOrganismoPadreDelProyecto = respuesta
           this.buscarEstudiante = !this.buscarEstudiante;
         },
         error: (errorData) => {

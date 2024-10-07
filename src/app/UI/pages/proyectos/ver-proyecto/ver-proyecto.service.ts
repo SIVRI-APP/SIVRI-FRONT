@@ -48,6 +48,11 @@ export class VerProyectoService {
   construirFormulario(informacion: ProyectoDetalladoDTO) {
     this._formularioinformacionDetalladaProyecto = this.formBuilder.group({
 
+      organismoPrincipal: this.formBuilder.group({
+        id: [{value: informacion.organismoPrincipal.id, disabled: true}, Validators.required],
+        nombre: [{value: informacion.organismoPrincipal.nombre, disabled: true}, Validators.required],       
+      }), 
+
       informacionGeneral: this.formBuilder.group({
         id: [{value: informacion.informacionDetalladaProyecto.id, disabled: true}, Validators.required],
         estado: [informacion.informacionDetalladaProyecto.estado, Validators.required],

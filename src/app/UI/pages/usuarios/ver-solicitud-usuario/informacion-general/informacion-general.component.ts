@@ -169,6 +169,44 @@ export class InformacionGeneralComponent implements OnInit{
     });
   }
 
+  enviarRevisionVRI(){
+    //Preparar la ULR donde enviaremos al usuario
+    let pathActual = this.router.url; 
+    const segmentos = pathActual.split('/');
+    segmentos.pop();
+    pathActual = segmentos.join('/');
+    const nuevaUrl = `${pathActual}/observaciones`;
+
+    const modalRef = this.modalService.open(ModalGetObservacionComponent);
+    modalRef.componentInstance.mensaje = '¿Estas seguro de que corrigieron las observaciones?';
+    modalRef.componentInstance.restriccion = 'La Observación debe contener (10 - 1000 caracteres)';
+
+    // Esperara a la Modal
+    modalRef.componentInstance.enviarInformacion.subscribe((informacion: string) => {
+      this.usuarioSolicitudCrearService.enviarRevisionVRI({
+        usuarioSolicitudId: this.formulario.value.id,
+        observacion: informacion,
+      })
+      .subscribe({
+        // Manejar respuesta exitosa
+        next: (respuesta) => {
+          this.openModalOk(respuesta.userMessage, nuevaUrl)
+        },
+        // Manejar errores
+        error: (errorData) => {
+          // Verificar si el error es del tipo esperado
+          if (errorData.error && errorData.error.data) {
+            let respuesta: Respuesta<ErrorData> = errorData.error;
+            this.openModalBad(respuesta.data);
+          } else {
+            // Manejar errores inesperados
+            this.openModalBad(new ErrorData({error: "Error inseperado, contactar a soporte"}));
+          }
+        }
+      });
+    });
+  }
+
   onSubmit(): void {
     //Preparar la ULR donde enviaremos al usuario
     let pathActual = this.router.url; 

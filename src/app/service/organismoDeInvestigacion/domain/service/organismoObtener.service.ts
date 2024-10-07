@@ -51,7 +51,7 @@ export class OrganismoObtenerService {
   }
 
   listarIntegrantesDocenteOrganismo(
-    organismoId?: string
+    organismoId: string
   ): void {
     this.registroInformacionDetallada = this.organismoAdapter.listarIntegrantesDocenteOrganismo(
       organismoId

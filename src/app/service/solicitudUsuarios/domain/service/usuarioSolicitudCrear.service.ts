@@ -54,4 +54,13 @@ export class UsuarioSolicitudCrearService {
   ): Observable<Respuesta<boolean>> {
     return this.usuarioSolicitudAdapter.rechazarSolicitudUsuario(body);
   }
+
+  enviarRevisionVRI(
+    body: {
+      usuarioSolicitudId?: string,
+      observacion?: string,
+    }
+  ): Observable<Respuesta<boolean>> {
+    return this.usuarioSolicitudAdapter.enviarRevisionVRI(body);
+  }
 }

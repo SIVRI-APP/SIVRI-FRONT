@@ -103,4 +103,13 @@ export class UsuarioSolicitudAdapter {
   ): Observable<Respuesta<boolean>> {
     return this.http.post<Respuesta<boolean>>(this.apiUrl + 'rechazar', body);
   }
+
+  enviarRevisionVRI(
+    body: {
+      usuarioSolicitudId?: string,
+      observacion?: string
+    }
+  ): Observable<Respuesta<boolean>> {
+    return this.http.post<Respuesta<boolean>>(this.apiUrl + 'enviarParaRevision', body);
+  }
 }
