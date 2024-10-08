@@ -32,6 +32,7 @@
             }
           </select>
         </label>
+        @if (!mostrarBtnCrearPlan) {
         <button type="button" class="secondaryBTN" (click)="toggleFormulario()">
           <div class="button-content">
             <span class="material-symbols-outlined primaryBTN-icon">
@@ -40,6 +41,7 @@
             <span class="text">Plan</span>
           </div>
         </button>
+      }
         <button type="button" class="secondaryBTN" (click)="limpiarCampos()">
           <div class="button-content">
             <span class="material-symbols-outlined secondaryBTN-icon">

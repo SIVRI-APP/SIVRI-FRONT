@@ -5,17 +5,21 @@
       <div class="col-sm">
         <label for="nombre" class="etiqueta-form"><strong>Nombre</strong><span class="text-red-500">*</span></label>
         <input id="nombre" name="nombre" class="form-control" type="text" placeholder="nombre" formControlName="nombre">
+        @if (!mostrarBtnActualizarSemillero) {
         <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('nombre')?.valid && this.formulario.get('nombre')?.touched ? 'block' : 'none'">
           Digita un Nombre valido (1 - 100 caracteres)
-      </div>
+        </div>
+        }
       </div>
       <div class="col-sm">
         <label for="correo" class="etiqueta-form"><strong>Correo</strong><span class="text-red-500">*</span></label>
-        <input id="correo" name="correo" class="form-control" type="email" placeholder="Correo"
-          formControlName="correo">
-          <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('correo')?.valid && this.formulario.get('correo')?.touched ? 'block' : 'none'">
-            Digita un Correo valido (8 - 100 caracteres)
+        <input id="correo" name="correo" class="form-control" type="email" placeholder="Correo" formControlName="correo">
+        @if (!mostrarBtnActualizarSemillero) {
+        <div id="badFeedback" class="invalid-feedback"
+          [style.display]="!this.formulario.get('correo')?.valid && this.formulario.get('correo')?.touched ? 'block' : 'none'">
+          Digita un Correo valido (8 - 100 caracteres)
         </div>
+      }
       </div>
 
       <div class="col-sm">
@@ -40,7 +44,8 @@
     <div class="row">
       <div class="col-sm">
         <label for="nombreGrupo" class="etiqueta-form"><strong>Grupo Principal </strong></label>
-        <input id="nombreGrupo" name="nombreGrupo" class="form-control" type="text" placeholder="Grupo" formControlName="nombreGrupo">
+        <input id="nombreGrupo" name="nombreGrupo" class="form-control" type="text" placeholder="Grupo"
+          formControlName="nombreGrupo">
       </div>
 
       <div class="col-sm">
@@ -82,9 +87,12 @@
         <label for="objetivo" class="etiqueta-form"><strong>Objetivo</strong><span class="text-red-500">*</span></label>
         <textarea id="objetivo" name="objetivo" class="form-control" type="text" placeholder="Objetivo"
           formControlName="objetivo"></textarea>
-          <div id="badFeedback" class="invalid-feedback" [style.display]="!formulario.get('objetivo')?.valid && formulario.get('objetivo')?.touched ? 'block' : 'none'">
-            Digita un objetivo valido (1 - 1325 caracteres)
-          </div>
+          @if (!mostrarBtnActualizarSemillero) {
+        <div id="badFeedback" class="invalid-feedback"
+          [style.display]="!formulario.get('objetivo')?.valid && formulario.get('objetivo')?.touched ? 'block' : 'none'">
+          Digita un objetivo valido (1 - 1325 caracteres)
+        </div>
+      }
       </div>
 
     </div>
@@ -93,26 +101,32 @@
         <label for="mision" class="etiqueta-form"><strong>Misión</strong><span class="text-red-500">*</span></label>
         <textarea id="mision" name="mision" class="form-control" type="text" placeholder="Misión"
           formControlName="mision"></textarea>
-          <div id="badFeedback" class="invalid-feedback" [style.display]="!formulario.get('mision')?.valid && formulario.get('mision')?.touched ? 'block' : 'none'">
-            Digita un misión valido (1 - 1325 caracteres)
-          </div>
+          @if (!mostrarBtnActualizarSemillero) {
+        <div id="badFeedback" class="invalid-feedback"
+          [style.display]="!formulario.get('mision')?.valid && formulario.get('mision')?.touched ? 'block' : 'none'">
+          Digita un misión valido (1 - 1325 caracteres)
+        </div>
+      }
       </div>
 
       <div class="col-sm">
         <label for="vision" class="etiqueta-form"><strong>Visión</strong><span class="text-red-500">*</span></label>
         <textarea id="vision" name="vision" class="form-control" type="text" placeholder="Visión"
           formControlName="vision"></textarea>
-          <div id="badFeedback" class="invalid-feedback" [style.display]="!formulario.get('vision')?.valid && formulario.get('vision')?.touched ? 'block' : 'none'">
-            Digita un visión valido (1 - 1325 caracteres)
-          </div>
+          @if (!mostrarBtnActualizarSemillero) {
+        <div id="badFeedback" class="invalid-feedback"
+          [style.display]="!formulario.get('vision')?.valid && formulario.get('vision')?.touched ? 'block' : 'none'">
+          Digita un visión valido (1 - 1325 caracteres)
+        </div>
+      }
       </div>
 
 
     </div>
-
+    @if (!mostrarBtnActualizarSemillero) {
     <div class="row">
       <div class="col controls">
-        <button type="button" class="secondaryBTN" (click)="cancelar()" >
+        <button type="button" class="secondaryBTN" (click)="cancelar()">
           <div class="button-content">
             <span class="material-symbols-outlined secondaryBTN-icon">
               cleaning_services
@@ -121,21 +135,31 @@
             <span class="text">Restablecer</span>
           </div>
         </button>
+        @if (mostrarBtnFuncionarioActualizar) {
+          <button type="button" class="primaryBTN" (click)="actualizarSemilleroxFuncionario()">
+            <div class="button-content">
+              <span class="material-symbols-outlined primaryBTN-icon">
+                check_circle
+              </span>
+              <span class="text">Actualizar</span>
+            </div>
+          </button>
+        }@else {
+          <button type="submit" class="primaryBTN">
+            <div class="button-content">
+              <span class="material-symbols-outlined primaryBTN-icon">
+                check_circle
+              </span>
+              <span class="text">Actualizar</span>
+            </div>
+          </button>
+        }
 
-        <button type="submit" class="primaryBTN">
-          <div class="button-content">
-            <span class="material-symbols-outlined primaryBTN-icon">
-              check_circle
-            </span>
-            <span class="text">Actualizar</span>
-          </div>
-        </button>
 
       </div>
     </div>
+  }
     <div class="form-guide-line"></div>
 
   </div>
 </form>
-
-

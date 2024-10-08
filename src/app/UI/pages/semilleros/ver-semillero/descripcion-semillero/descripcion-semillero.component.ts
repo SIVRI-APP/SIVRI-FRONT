@@ -23,6 +23,7 @@ import { ModalBadComponent } from '../../../../shared/modal-bad/modal-bad.compon
 import { SemilleroProgramaObtenerService } from '../../../../../service/semilleros/domain/service/semillero-programa-obtener.service';
 import { NotificationAlertService } from '../../../../../service/common/notification-alert.service';
 import { CommunicationComponentsService } from '../../../../../service/common/communication-components.service';
+import { InformacionUsuarioAutenticadoService } from '../../../../../service/auth/domain/service/informacionUsuarioAutenticado.service';
 
 @Component({
   selector: 'app-descripcion-semillero',
@@ -59,7 +60,9 @@ export class DescripcionSemilleroComponent implements OnInit {
   protected sedeEnum = Sede;
   // Respuesta del Back
   protected respuesta: Respuesta<boolean>;
-
+  protected mostrarBtnActualizarSemillero: boolean=false;
+  protected mostrarBtnFuncionarioActualizar: boolean=false;
+  private roles: string[]=[];
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -72,7 +75,8 @@ export class DescripcionSemilleroComponent implements OnInit {
     private grupoDisciplinaObtenerService: GrupoDisciplinaObtenerService,
     private semilleroActualizarService: SemilleroActualizarService,
     private notificationAlertService: NotificationAlertService,
-    private communicationComponentService: CommunicationComponentsService
+    private communicationComponentService: CommunicationComponentsService,
+    protected informacionUsuarioAutenticadoService: InformacionUsuarioAutenticadoService
   ) {
     this.respuesta = new Respuesta<false>();
     this.semillero = new Respuesta<SemilleroProyeccion>();
@@ -80,6 +84,9 @@ export class DescripcionSemilleroComponent implements OnInit {
     this.programas = new Respuesta<Paginacion<ListarProgramas>>();
     this.lineas = new Respuesta<LineaInvestigacion[]>;
     this.disciplinas = new Respuesta<ListarDisciplinaxGrupoIdProyeccion[]>
+    this.roles= informacionUsuarioAutenticadoService.retornarRoles();
+    this.mostrarBtnActualizarSemillero=this.roles.includes('GRUPO:DIRECTOR');
+    this.mostrarBtnFuncionarioActualizar=this.roles.includes('FUNCIONARIO:SEMILLEROS');
     this.formulario = this.formBuilder.group({
       semilleroId: [''],
       nombre: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(200)]],
@@ -95,7 +102,18 @@ export class DescripcionSemilleroComponent implements OnInit {
       objetivo: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(1325)]],
       mision: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(1325)]],
       vision: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(1325)]],
-    })
+    });
+
+    if(this.mostrarBtnActualizarSemillero){
+      this.formulario.get('nombre')?.disable();
+      this.formulario.get('correo')?.disable();
+      this.formulario.get('nombreGrupo')?.disable();
+      this.formulario.get('sede')?.disable();
+      this.formulario.get('nombreFacultad')?.disable();
+      this.formulario.get('objetivo')?.disable();
+      this.formulario.get('mision')?.disable();
+      this.formulario.get('vision')?.disable();
+    }
   }
 
   ngOnInit(): void {
@@ -111,7 +129,9 @@ export class DescripcionSemilleroComponent implements OnInit {
           this.formulario.get('fechaCreacion')?.setValue(this.semillero.data.fechaCreacion);
           this.formulario.get('fechaCreacion')?.disable();
           this.formulario.get('estadoSemillero')?.setValue(this.semillero.data.estado);
+          if(!this.mostrarBtnFuncionarioActualizar){
           this.formulario.get('estadoSemillero')?.disable();
+          }
           this.formulario.get('sede')?.setValue(this.semillero.data.sede);
           this.formulario.get('objetivo')?.setValue(this.semillero.data.objetivo);
           this.formulario.get('mision')?.setValue(this.semillero.data.mision);
@@ -205,7 +225,7 @@ export class DescripcionSemilleroComponent implements OnInit {
 
       //realiza la solicitud para actualizar los datos
       this.semilleroActualizarService.actualizarSemilleroxMentor({
-        semilleroId:this.id,
+        semillero_Id:this.id,
         nombre:this.formulario.value.nombre,
         correo:this.formulario.value.correo,
         objetivo:this.formulario.value.objetivo,
@@ -217,14 +237,52 @@ export class DescripcionSemilleroComponent implements OnInit {
         // Manejar respuesta exitosa
         next: (respuesta) => {
           const nuevoNombre= this.formulario.value.nombre;
-          console.log('nuevo nombre: '+nuevoNombre);
-
           // Captura la respuesta
           this.respuesta = respuesta;
           // Actualiza el nombre del semillero en el servicio
           this.communicationComponentService.actualizarNombreSemillero(nuevoNombre);
-          this.openModalOk(this.respuesta.userMessage)
+          this.openModalOk(this.respuesta.userMessage);
 
+        },
+        // Manejar errores
+        error: (errorData) => {
+          // Verificar si el error es del tipo esperado
+          this.handlerError(errorData);
+         /* if (errorData.error && errorData.error.data) {
+            let respuesta: Respuesta<ErrorData> = errorData.error;
+            this.openModalBad(respuesta.data);
+          } else {
+            // Manejar errores inesperados
+            this.openModalBad(new ErrorData({error: "Error inseperado, contactar a soporte"}));
+          }*/
+        }
+      });
+    }else {
+      // Marcar todos los campos del formulario como tocados si el formulario no es válido
+      this.formulario.markAllAsTouched();
+    }
+
+  }
+  actualizarSemilleroxFuncionario(){
+    if(this.formulario.valid){
+        this.semilleroActualizarService.actualizarSemilleroxFuncionario({
+        semillero_Id: this.id,
+        nombre:this.formulario.value.nombre,
+        correo:this.formulario.value.correo,
+        objetivo:this.formulario.value.objetivo,
+        mision:this.formulario.value.mision,
+        vision:this.formulario.value.vision,
+        estado: this.formulario.value.estadoSemillero,
+        sede: this.formulario.value.sede,
+        grupoId: this.idgrupo
+      }).subscribe({
+        next:(respuesta)=>{
+          const nuevoNombre= this.formulario.value.nombre;
+          // Captura la respuesta
+          this.respuesta = respuesta;
+          // Actualiza el nombre del semillero en el servicio
+          this.communicationComponentService.actualizarNombreSemillero(nuevoNombre);
+          this.openModalOk(this.respuesta.userMessage);
         },
         // Manejar errores
         error: (errorData) => {

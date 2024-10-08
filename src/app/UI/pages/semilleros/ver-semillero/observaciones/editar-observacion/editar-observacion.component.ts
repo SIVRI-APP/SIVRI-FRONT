@@ -10,6 +10,7 @@ import { ModalOkComponent } from '../../../../../shared/modal-ok/modal-ok.compon
 import { ErrorData } from '../../../../../../service/common/model/errorData';
 import { ModalBadComponent } from '../../../../../shared/modal-bad/modal-bad.component';
 import { NotificationAlertService } from '../../../../../../service/common/notification-alert.service';
+import { InformacionUsuarioAutenticadoService } from '../../../../../../service/auth/domain/service/informacionUsuarioAutenticado.service';
 
 @Component({
   selector: 'app-editar-observacion',
@@ -26,8 +27,10 @@ export class EditarObservacionComponent implements OnInit {
   protected idSemillero!: string;
   protected respuestaConsulta!: ObservacionSemillero;
   protected respuesta: Respuesta<boolean>;
+  protected mostrarEditarObservacion: boolean=false;
   // Inyeccion de Modal
   private modalService = inject(NgbModal);
+  private roles: string[]=[];
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -35,11 +38,14 @@ export class EditarObservacionComponent implements OnInit {
     private observacionSemilleroObtenerService: SemilleroObservacionObtenerService,
     private semilleroObservacionCrearService:SemilleroObservacionCrearService,
     private notificationAlertService: NotificationAlertService,
+    protected informacionUsuarioAutenticadoService: InformacionUsuarioAutenticadoService
   ){
     this.formulario = this.formBuilder.group({
       idObservacion: [''],
       observacion: ['',[Validators.required,Validators.minLength(1),Validators.maxLength(1445)]],
     });
+    this.roles=informacionUsuarioAutenticadoService.retornarRoles();
+    this.mostrarEditarObservacion=this.roles.includes('FUNCIONARIO:SEMILLEROS');
     this.respuesta= new Respuesta<false>();
   }
   ngOnInit(): void {
@@ -84,6 +90,10 @@ export class EditarObservacionComponent implements OnInit {
   cancelar(){
     this.formulario.get('observacion')?.setValue(this.respuestaConsulta.observacion);
     this.notificationAlertService.showAlert('','Observación no actualizada',3000);
+    this.router.navigate([`semilleros/listar-semilleros/${this.idSemillero}/listar-observaciones`]);
+  }
+  atras(){
+
     this.router.navigate([`semilleros/listar-semilleros/${this.idSemillero}/listar-observaciones`]);
   }
   openModalOk(message: string) {

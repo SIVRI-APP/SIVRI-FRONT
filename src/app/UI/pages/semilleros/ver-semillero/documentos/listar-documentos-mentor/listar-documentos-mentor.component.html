@@ -85,6 +85,7 @@
           </table>
 
       </div>
+      @if (!mostrarBtnDocumento) {
       <div>
         <span>Botón para finalizar el registro del semillero de Investigación </span>
           <button  class="primaryBTN" (click)="enviarEmailRevisionVri()">
@@ -96,7 +97,7 @@
             </div>
           </button>
       </div>
-
+    }
   </div>
 </div>
 <!-- Modal para Observación -->

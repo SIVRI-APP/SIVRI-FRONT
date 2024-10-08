@@ -45,7 +45,7 @@
             }
           </select>
         </label>
-
+        @if (!mostrarBtnCrearIntegrante) {
         <button type="button" class="secondaryBTN" (click)="toggleFormulario()">
           <div class="button-content">
             <span class="material-symbols-outlined secondaryBTN-icon">
@@ -54,7 +54,7 @@
             <span class="text">Integrante</span>
           </div>
         </button>
-
+      }
         <button type="button" class="secondaryBTN" (click)="limpiarCampos()">
           <div class="button-content">
             <span class="material-symbols-outlined secondaryBTN-icon">

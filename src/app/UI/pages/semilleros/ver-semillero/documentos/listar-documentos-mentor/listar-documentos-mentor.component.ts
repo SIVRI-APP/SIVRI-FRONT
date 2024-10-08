@@ -12,6 +12,7 @@ import { SemilleroProyeccion } from '../../../../../../service/semilleros/domain
 import { SemilleroEstado } from '../../../../../../service/semilleros/domain/model/enum/semilleroEstado';
 import { ListarDocumentoSemilleroProyeccion } from '../../../../../../service/semilleros/domain/model/proyecciones/ListarDocumentoSemilleroProyeccion';
 import { EstadoDocumentoSemillero } from '../../../../../../service/semilleros/domain/model/enum/estadoDocumentoSemillero';
+import { InformacionUsuarioAutenticadoService } from '../../../../../../service/auth/domain/service/informacionUsuarioAutenticado.service';
 // Declara Bootstrap si no está tipado
 declare var bootstrap: any;
 @Component({
@@ -38,13 +39,17 @@ export class ListarDocumentosMentorComponent implements OnInit {
   // Variables para manejar el modal de observación
   currentObservacion: string = 'Sin observación';
   modalInstance: any;
+  protected mostrarBtnDocumento: boolean=false;
+  private roles: string[]=[];
   constructor(
     private route: ActivatedRoute,
     private documentoSemilleroService: DocumentoSemilleroService,
     private semilleroObtenerService: SemilleroObtenerService,
+    protected informacionUsuarioAutenticadoService: InformacionUsuarioAutenticadoService
   ){
     this.respuestaDocumento= new Respuesta<false>();
-
+    this.roles= informacionUsuarioAutenticadoService.retornarRoles();
+    this.mostrarBtnDocumento=this.roles.includes('GRUPO:DIRECTOR');
   }
   ngOnInit(): void {
     this.route.parent?.params.subscribe(params => {
@@ -57,7 +62,9 @@ export class ListarDocumentosMentorComponent implements OnInit {
     const tipoAval='AVAL_DEPARTAMENTO';
     this.documentoSemilleroService.obtenerDocumentoSemilleroxsemilleroIdyTipo(this.idSemillero,tipoAval).subscribe({
       next:(respuesta)=>{
-        console.log(respuesta.data.estado);
+        console.log('datos de los documentos de la bd');
+
+        console.log(respuesta);
         this.respuestaInfoDocuemntoSemilleroAval=respuesta;
         console.log("estado por defecto "+this.estadoDocumentoAval);
         if(this.respuestaInfoDocuemntoSemilleroAval.status!=400){
@@ -163,6 +170,7 @@ export class ListarDocumentosMentorComponent implements OnInit {
       this.selectedFileAval = input.files[0];
       if (this.selectedFileAval.type === 'application/pdf') {
        this.fileContent(this.selectedFileAval,this.idSemillero,tipo);
+
       } else {
         alert('El archivo debe ser un PDF.');
       }
@@ -175,6 +183,7 @@ export class ListarDocumentosMentorComponent implements OnInit {
       this.selectedFileOtro = input.files[0];
       if (this.selectedFileOtro.type === 'application/pdf') {
        this.fileContent(this.selectedFileOtro,this.idSemillero,tipo);
+
       } else {
         alert('El archivo debe ser un PDF.');
       }
@@ -193,6 +202,12 @@ export class ListarDocumentosMentorComponent implements OnInit {
         console.log('respuesta');
         console.log(respuesta);
         this.respuestaDocumento= respuesta;
+        if(tipoDocumento === 'AVAL_DEPARTAMENTO'){
+          this.estadoDocumentoAval= EstadoDocumentoSemillero.REVISION;
+        }else if(tipoDocumento === 'OTROS'){
+          this.estadoDocumentoOtro = EstadoDocumentoSemillero.REVISION;
+        }
+        //this.obtenerInfoDocumentoSemillero();
         this.openModalOk(this.respuestaDocumento.userMessage);
 
       },

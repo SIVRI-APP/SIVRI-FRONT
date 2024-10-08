@@ -104,8 +104,6 @@ export class CrearIntegranteComponent implements OnInit {
         this.formularioConsultar.get('nombre')?.setValue(this.integranteConsultado.data.nombre+' '+this.integranteConsultado.data.apellido);
         this.formularioConsultar.get('usuarioId')?.setValue(this.integranteConsultado.data.id);
         this.formularioConsultar.get('programa')?.setValue(this.integranteConsultado.data.programaNombre);
-
-        console.log(this.formularioConsultar);
       },
       // Manejar errores
       error: (errorData) => {

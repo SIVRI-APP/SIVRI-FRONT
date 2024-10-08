@@ -46,6 +46,9 @@ export class SemilleroAdapter {
     if (idSemillero != null) params = params.set('semilleroId', idSemillero);
     if (nombre !== undefined) params = params.set('nombre', nombre);
     if (estado !== undefined) params = params.set('estado', estado);
+    console.log('paraametros');
+    console.log(params);
+
     return this.http.get<Respuesta<Paginacion<SemilleroListarConFiltroxMentorProyeccion>>>(this.apiUrl+'listarSemilleroConFiltroPorIdDirector', { params: params });
   }
   listarConFiltroFuncionario(
@@ -77,7 +80,7 @@ export class SemilleroAdapter {
   }
   actualizarSemilleroxMentor(
     body: {
-      semilleroId: string,
+      semillero_Id: string,
       nombre: string,
       correo: string,
       objetivo: string,
@@ -88,6 +91,21 @@ export class SemilleroAdapter {
     }
   ): Observable<Respuesta<boolean>> {
     return this.http.patch<Respuesta<boolean>>(this.apiUrl + 'actualizarSemilleroxMentor', body);
+  }
+  actualizarSemilleroxFuncionario(
+    body: {
+      semillero_Id: string,
+      nombre: string,
+      correo: string,
+      objetivo: string,
+      mision: string,
+      vision: string,
+      estado: string,
+      sede: string,
+      grupoId: number
+    }
+  ): Observable<Respuesta<boolean>> {
+      return this.http.patch<Respuesta<boolean>>(this.apiUrl + 'semilleroPorApoyo', body);
   }
   crearSemillero(body: {
     nombre: string,

@@ -12,14 +12,17 @@
             }
           </select>
         </label>
-        <button type="button" class="secondaryBTN" (click)="toggleFormulario()">
-          <div class="button-content">
-            <span class="material-symbols-outlined secondaryBTN-icon">
-              add
-            </span>
-            <span class="text">Observación</span>
-          </div>
-        </button>
+        <!--si el usuario es un funcionario se debe mostrar el button-->
+        @if(mostrarCrearObservacion){
+          <button type="button" class="secondaryBTN" (click)="toggleFormulario()">
+            <div class="button-content">
+              <span class="material-symbols-outlined secondaryBTN-icon">
+                add
+              </span>
+              <span class="text">Observación</span>
+            </div>
+          </button>
+        }
       </div>
     </div>
 

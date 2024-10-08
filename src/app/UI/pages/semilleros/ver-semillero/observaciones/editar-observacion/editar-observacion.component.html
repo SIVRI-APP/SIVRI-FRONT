@@ -17,7 +17,7 @@
         </div>
 
       </div>
-
+  @if (mostrarEditarObservacion) {
     <div class="row">
       <div class="col controls">
         <button type="button" class="secondaryBTN"  (click)="cancelar()" >
@@ -39,6 +39,21 @@
         </button>
       </div>
     </div>
+  }@else {
+    <div class="row">
+      <div class="col controls">
+        <button type="button" class="secondaryBTN"  (click)="atras()" >
+          <div class="button-content">
+            <span class="material-symbols-outlined secondaryBTN-icon">
+              keyboard_return
+            </span>
+            <span class="text">Atras</span>
+          </div>
+        </button>
 
+
+      </div>
+    </div>
+  }
   </div>
 </form>

@@ -103,8 +103,6 @@ export class CrearActividadComponent implements OnInit {
   onsubmit(){
 
     if(this.formulario.valid){
-      console.log('formulario datos de crear actividad ');
-      console.log(this.formulario);
 
       this.actividadPlanCrearService.crearActividad(this.idPlan,{
         objetivo:this.formulario.value.objetivo,

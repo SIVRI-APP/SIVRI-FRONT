@@ -17,6 +17,7 @@ import { ModalBadComponent } from '../../../../../../shared/modal-bad/modal-bad.
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalOkComponent } from '../../../../../../shared/modal-ok/modal-ok.component';
 import { FileUploaderComponent } from '../../../../../../shared/file-uploader/file-uploader.component';
+import { InformacionUsuarioAutenticadoService } from '../../../../../../../service/auth/domain/service/informacionUsuarioAutenticado.service';
 
 @Component({
   selector: 'app-listar-actividades',
@@ -47,12 +48,16 @@ export class ListarActividadesComponent implements OnInit,OnDestroy {
   selectedFile!: File;
   // Inyeccion de Modal
   private modalService = inject(NgbModal);
+  protected mostrarBtnCrearActividad: boolean=false;
+  protected mostrarBtnActividad: boolean=false;
+  private roles: string[]=[];
   constructor(
     private actualizarListarService: CommunicationComponentsService,
     private formBuilder: FormBuilder,
     private actividadPlanObtenerService: ActividadPlanObtenerService,
     protected enumTranslationService: EnumTranslationService,
     private evidenciaActividadCrearService: EvidenciaActividadCrearService,
+    protected informacionUsuarioAutenticadoService: InformacionUsuarioAutenticadoService
   ){
 
     this.formularioActividad = this.formBuilder.group({
@@ -61,7 +66,9 @@ export class ListarActividadesComponent implements OnInit,OnDestroy {
       fechaInicio: [null],
       fechaFin: [null]
     });
-
+    this.roles= informacionUsuarioAutenticadoService.retornarRoles();
+    this.mostrarBtnCrearActividad=this.roles.includes('GRUPO:DIRECTOR');
+    this.mostrarBtnActividad=this.roles.includes('GRUPO:DIRECTOR');
     this.respuesta= new Respuesta<Paginacion<ListarActividadPlan>>();
     this.respuestaEvidencia = new Respuesta<false>();
     this.datatableInputs = new DatatableInput('Actividad del plan de trabajo',

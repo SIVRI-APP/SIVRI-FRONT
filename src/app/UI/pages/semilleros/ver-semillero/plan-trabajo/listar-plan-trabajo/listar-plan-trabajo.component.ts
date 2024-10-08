@@ -16,6 +16,7 @@ import { ListarPlanTrabajo } from '../../../../../../service/planTrabajo/domain/
 import { ListarActividadesComponent } from '../actividad-plan-trabajo/listar-actividades/listar-actividades.component';
 import { Subscription } from 'rxjs';
 import { CommunicationComponentsService } from '../../../../../../service/common/communication-components.service';
+import { InformacionUsuarioAutenticadoService } from '../../../../../../service/auth/domain/service/informacionUsuarioAutenticado.service';
 
 @Component({
   selector: 'app-listar-plan-trabajo',
@@ -39,19 +40,22 @@ export class ListarPlanTrabajoComponent implements OnInit, OnDestroy {
   paginas: number[] = [2, 3, 5];
   private suscripciones: Subscription[] = [];
   protected formulario: FormGroup;
-  protected searchPerformed:boolean=false;
+  protected searchPerformed: boolean = false;
   protected respuesta: Respuesta<Paginacion<ListarPlanTrabajo>>;
   protected datatableInputs: DatatableInput;
   protected datosPlan: Respuesta<PlanTrabajo>
   protected mostrarCreaPlan: boolean = false;
   protected estadoPlanEnum = EstadoPlantrabajo;
   @Output() movePageEmitter = new EventEmitter<number>();
+  protected mostrarBtnCrearPlan: boolean=false;
+  private roles: string[]=[];
   constructor(
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     protected enumTranslationService: EnumTranslationService,
     private planTrabajoObtenerService: PlanTrabajoObtenerService,
     private actualizarListarService: CommunicationComponentsService,
+    protected informacionUsuarioAutenticadoService: InformacionUsuarioAutenticadoService
   ) {
     this.respuesta = new Respuesta<Paginacion<ListarPlanTrabajo>>();
     this.datatableInputs = new DatatableInput('Plan de trabajo',
@@ -63,11 +67,13 @@ export class ListarPlanTrabajoComponent implements OnInit, OnDestroy {
       anio: ['',],
       estado: ['']
     });
+    this.roles= informacionUsuarioAutenticadoService.retornarRoles();
+    this.mostrarBtnCrearPlan=this.roles.includes('GRUPO:DIRECTOR');
     this.datosPlan = new Respuesta<PlanTrabajo>
   }
   ngOnDestroy(): void {
-   // Liberar la suscripción para evitar memory leaks
-   this.suscripciones.forEach(subscription => subscription.unsubscribe());
+    // Liberar la suscripción para evitar memory leaks
+    this.suscripciones.forEach(subscription => subscription.unsubscribe());
   }
 
   ngOnInit(): void {
@@ -76,10 +82,10 @@ export class ListarPlanTrabajoComponent implements OnInit, OnDestroy {
       this.formulario.get('idSemillero')?.setValue(this.idSemillero);
     });
     // Suscribirse al evento para actualizar la lista
-  this.movePageEmitter.subscribe(() => {
-    this.listarPlanesTrabajo();
-  });
-  this.suscribirseALasActualizaciones();
+    this.movePageEmitter.subscribe(() => {
+      this.listarPlanesTrabajo();
+    });
+    this.suscribirseALasActualizaciones();
   }
   suscribirseALasActualizaciones() {
     // Suscribirse a las notificaciones de actualización para cada tipo
@@ -89,10 +95,10 @@ export class ListarPlanTrabajoComponent implements OnInit, OnDestroy {
 
           this.mostrarCreaPlan = false;
           this.listarPlanesTrabajo();
-        } else if ('actualizar') {
+        } else if (tipo == 'actualizar') {
 
 
-        } else if('cancelar'){
+        } else if (tipo == 'cancelar') {
           this.mostrarCreaPlan = false;
           this.listarPlanesTrabajo();
         }
@@ -109,16 +115,16 @@ export class ListarPlanTrabajoComponent implements OnInit, OnDestroy {
   toggleFormulario() {
     this.mostrarCreaPlan = !this.mostrarCreaPlan;
   }
-  listarPlanesTrabajo(){
+  listarPlanesTrabajo() {
     //realiza la peticion para obtener los datos filtrados
     this.planTrabajoObtenerService.listarPlanTrabajo(
       this.formulario.value.pageNo, this.formulario.value.pageSize,
       this.formulario.value.anio, this.formulario.value.idSemillero,
       this.formulario.value.estado).subscribe({
         next: (respuesta) => {
-          this.respuesta=respuesta;
+          this.respuesta = respuesta;
 
-          this.searchPerformed=true;
+          this.searchPerformed = true;
         },
         // Manejar errores
         error: (errorData) => {
@@ -126,7 +132,7 @@ export class ListarPlanTrabajoComponent implements OnInit, OnDestroy {
         },
       });
   }
-  editar(){
+  editar() {
     console.log('entra al editar')
   }
   onsubmit() {
@@ -230,52 +236,52 @@ export class ListarPlanTrabajoComponent implements OnInit, OnDestroy {
 
 
 //**********************************************************
-      /*this.planTrabajoObtenerService.obtenerPlanTrabajoxAnio(
-        this.formulario.value.pageNo,
-        this.formulario.value.pageSize,
-        this.formulario.value.anio,
-        this.idSemillero,
-        this.formulario.value.fechaInicio,
-        this.formulario.value.fechaFin
-      ).subscribe({
-        // Manejar respuesta exitosa
+/*this.planTrabajoObtenerService.obtenerPlanTrabajoxAnio(
+  this.formulario.value.pageNo,
+  this.formulario.value.pageSize,
+  this.formulario.value.anio,
+  this.idSemillero,
+  this.formulario.value.fechaInicio,
+  this.formulario.value.fechaFin
+).subscribe({
+  // Manejar respuesta exitosa
+  next: (respuesta) => {
+
+    this.idPlan = respuesta.data.content.length > 0 ? respuesta.data.content[0].idPlan : undefined;
+    if (this.idPlan != undefined) {
+      this.planTrabajoObtenerService.ObtenerPlanTrabajoxId(this.idPlan).subscribe({
         next: (respuesta) => {
 
-          this.idPlan = respuesta.data.content.length > 0 ? respuesta.data.content[0].idPlan : undefined;
-          if (this.idPlan != undefined) {
-            this.planTrabajoObtenerService.ObtenerPlanTrabajoxId(this.idPlan).subscribe({
-              next: (respuesta) => {
-
-                this.datosPlan= respuesta;
-              },
-              // Manejar errores
-              error: (errorData) => {
-                console.error(errorData);
-              }
-            });
-          }
-
-            // Actualizar la lista de actividades del plan con los datos obtenidos
-            this.respuesta = respuesta;
-
-          //actualiza el input del datatable
-          this.datatableInputs.searchPerformed = true;
-          this.datatableInputs.paginacion = respuesta.data;
-          this.datatableInputs.tableHeaders = ['ID', 'Actividad', 'Producto', 'Fecha Inicio', 'Fecha Fin', 'Responsable'];
-          this.datatableInputs.dataAttributes = [
-            { name: 'id', type: Number },
-            { name: 'actividad', type: String },
-            { name: 'compromiso', type: String },
-            { name: 'fechaInicio', type: String },
-            { name: 'fechaFin', type: String },
-            { name: 'responsable', type: String },
-          ]
-
+          this.datosPlan= respuesta;
         },
         // Manejar errores
         error: (errorData) => {
           console.error(errorData);
-        },
-        // Ejecutar acciones al completar la solicitud
-        complete: () => { },
-      });*/
+        }
+      });
+    }
+
+      // Actualizar la lista de actividades del plan con los datos obtenidos
+      this.respuesta = respuesta;
+
+    //actualiza el input del datatable
+    this.datatableInputs.searchPerformed = true;
+    this.datatableInputs.paginacion = respuesta.data;
+    this.datatableInputs.tableHeaders = ['ID', 'Actividad', 'Producto', 'Fecha Inicio', 'Fecha Fin', 'Responsable'];
+    this.datatableInputs.dataAttributes = [
+      { name: 'id', type: Number },
+      { name: 'actividad', type: String },
+      { name: 'compromiso', type: String },
+      { name: 'fechaInicio', type: String },
+      { name: 'fechaFin', type: String },
+      { name: 'responsable', type: String },
+    ]
+
+  },
+  // Manejar errores
+  error: (errorData) => {
+    console.error(errorData);
+  },
+  // Ejecutar acciones al completar la solicitud
+  complete: () => { },
+});*/

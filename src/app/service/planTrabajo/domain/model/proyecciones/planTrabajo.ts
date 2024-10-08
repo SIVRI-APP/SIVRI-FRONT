@@ -3,7 +3,7 @@ import { EstadoPlantrabajo } from "../enum/EstadoPlanTrabajo";
 
 export interface PlanTrabajo{
   id:number;
-  nombrePlan:string;
+  nombre_Plan:string;
   estado:EstadoPlantrabajo;
   idSemillero:number;
   anio:number;

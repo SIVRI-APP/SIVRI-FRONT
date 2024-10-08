@@ -56,8 +56,10 @@ export class EditarPlanComponent implements OnInit {
     //consulta el plan por id y lo muestra en el formulario
     this.planTrabajoObtenerService.ObtenerPlanTrabajoxId(this.formularioConsultar.value.idPlan).subscribe({
       next:(respuesta)=>{
+        console.log(respuesta);
+
         this.formularioEditar.get('idPlan')?.setValue(respuesta.data.id);
-        this.formularioEditar.get('nombrePlan')?.setValue(respuesta.data.nombrePlan);
+        this.formularioEditar.get('nombrePlan')?.setValue(respuesta.data.nombre_Plan);
         this.formularioEditar.get('anio')?.setValue(respuesta.data.anio);
         this.formularioEditar.get('estado')?.setValue(respuesta.data.estado);
 

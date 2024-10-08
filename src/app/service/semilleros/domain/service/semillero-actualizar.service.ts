@@ -12,7 +12,7 @@ export class SemilleroActualizarService {
 
   actualizarSemilleroxMentor(
     body:{
-      semilleroId: string,
+      semillero_Id: string,
       nombre: string,
       correo: string,
       objetivo:string,
@@ -23,5 +23,20 @@ export class SemilleroActualizarService {
     }
   ):Observable<Respuesta<boolean>>{
     return this.semilleroAdapter.actualizarSemilleroxMentor(body);
+  }
+  actualizarSemilleroxFuncionario(
+    body: {
+      semillero_Id: string,
+      nombre: string,
+      correo: string,
+      objetivo: string,
+      mision: string,
+      vision: string,
+      estado: string,
+      sede: string,
+      grupoId: number
+    }
+  ): Observable<Respuesta<boolean>> {
+    return this.semilleroAdapter.actualizarSemilleroxFuncionario(body);
   }
 }

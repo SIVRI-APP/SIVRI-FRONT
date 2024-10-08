@@ -13,6 +13,7 @@ import { CrearProgramaComponent } from '../crear-programa/crear-programa.compone
 import { Subscription } from 'rxjs';
 import { CommunicationComponentsService } from '../../../../../../service/common/communication-components.service';
 import { SemilleroProgramaObtenerService } from '../../../../../../service/semilleros/domain/service/semillero-programa-obtener.service';
+import { InformacionUsuarioAutenticadoService } from '../../../../../../service/auth/domain/service/informacionUsuarioAutenticado.service';
 
 @Component({
   selector: 'app-listar-programas',
@@ -32,9 +33,11 @@ export class ListarProgramasComponent implements OnInit,OnDestroy {
   private suscripciones: Subscription []=[];
   protected formulario: FormGroup;
   protected mostrarCreaPrograma: boolean = false;
+  protected mostrarBtnCrearPrograma: boolean=false;
   protected datatableInputs: DatatableInput;
   // Inyeccion de Modal
   private modalService = inject(NgbModal);
+  private roles: string[]=[];
   constructor(
     private actualizarListarService: CommunicationComponentsService,
     private route: ActivatedRoute,
@@ -42,12 +45,15 @@ export class ListarProgramasComponent implements OnInit,OnDestroy {
     private semillleroProgramaAdapter: SemilleroProgramasAdapter,
     private semilleroProgramaService: SemilleroProgramaObtenerService,
     protected enumTranslationService: EnumTranslationService,
+    protected informacionUsuarioAutenticadoService: InformacionUsuarioAutenticadoService
   ) {
     this.formulario = this.formBuilder.group({
       pageNo: [0],
       pageSize: [2],
       semilleroId: ['']
     });
+    this.roles= informacionUsuarioAutenticadoService.retornarRoles();
+    this.mostrarBtnCrearPrograma=this.roles.includes('GRUPO:DIRECTOR');
     this.respuesta = new Respuesta<Paginacion<SemilleroProgramaProyeccion>>();
     this.datatableInputs = new DatatableInput('Programas',
       new Paginacion<SemilleroProgramaProyeccion>());

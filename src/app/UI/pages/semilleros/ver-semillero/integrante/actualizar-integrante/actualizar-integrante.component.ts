@@ -16,6 +16,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalOkComponent } from '../../../../../shared/modal-ok/modal-ok.component';
 import { CommunicationComponentsService } from '../../../../../../service/common/communication-components.service';
 import { NotificationAlertService } from '../../../../../../service/common/notification-alert.service';
+import { InformacionUsuarioAutenticadoService } from '../../../../../../service/auth/domain/service/informacionUsuarioAutenticado.service';
 
 @Component({
   selector: 'app-actualizar-integrante',
@@ -38,6 +39,8 @@ export class ActualizarIntegranteComponent implements OnInit {
   protected formulario: FormGroup;
   protected integranteDatos: Respuesta<IntegranteSemillero>;
   protected respuesta: Respuesta<boolean>;
+  protected mostrarBtnIntegrante: boolean=false;
+  private roles: string[]=[];
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -49,6 +52,7 @@ export class ActualizarIntegranteComponent implements OnInit {
     private integranteSemilleroObtenerService: IntegranteSemilleroObtenerService,
     private integranteSemilleroCrearService: IntegranteSemilleroCrearService,
     private notificationAlertService: NotificationAlertService,
+    protected informacionUsuarioAutenticadoService: InformacionUsuarioAutenticadoService
   ) {
     this.respuesta = new Respuesta<false>();
     this.integranteDatos = new Respuesta<IntegranteSemillero>();
@@ -61,9 +65,16 @@ export class ActualizarIntegranteComponent implements OnInit {
       fechaIngreso: [''],
       fechaRetiro: [this.datePipe.transform(new Date(), 'yyyy-MM-dd')]
     });
+    this.roles= informacionUsuarioAutenticadoService.retornarRoles();
+    this.mostrarBtnIntegrante=this.roles.includes('GRUPO:DIRECTOR');
     this.formulario.get('numeroDocumento')?.disable();
     this.formulario.get('nombre')?.disable();
     this.formulario.get('fechaIngreso')?.disable();
+    if(this.mostrarBtnIntegrante){
+      this.formulario.get('rolSemilleroId')?.disable();
+      this.formulario.get('estadoIntegrante')?.disable();
+      this.formulario.get('fechaRetiro')?.disable();
+    }
   }
   ngOnInit(): void {
 
@@ -139,6 +150,9 @@ export class ActualizarIntegranteComponent implements OnInit {
     this.formulario.get('fechaIngreso')?.setValue(this.integranteDatos.data.fechaIngreso);
     this.formulario.get('fechaRetiro')?.setValue(this.integranteDatos.data.fechaRetiro);
     this.notificationAlertService.showAlert('','integrante no actualizado',3000);
+    this.router.navigate([`/semilleros/listar-semilleros/${this.idSemillero}/listar-integrantes`]);
+  }
+  atras(){
     this.router.navigate([`/semilleros/listar-semilleros/${this.idSemillero}/listar-integrantes`]);
   }
   openModalOk(message: string) {

@@ -14,6 +14,7 @@ import { DatatableComponent } from '../../../../../shared/datatable/datatable.co
 import { CrearIntegranteComponent } from '../crear-integrante/crear-integrante.component';
 import { Subscription } from 'rxjs';
 import { CommunicationComponentsService } from '../../../../../../service/common/communication-components.service';
+import { InformacionUsuarioAutenticadoService } from '../../../../../../service/auth/domain/service/informacionUsuarioAutenticado.service';
 
 @Component({
   selector: 'app-listar-integrantes',
@@ -38,6 +39,8 @@ export class ListarIntegrantesComponent implements OnInit, OnDestroy {
   protected rolIntegranteSemillero: RolIntegranteSemillero[] = [];
   protected datatableInputs: DatatableInput;
   protected mostrarFormularioCrear: boolean = false;
+  protected mostrarBtnCrearIntegrante: boolean=false;
+  private roles: string[]=[];
   constructor(
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
@@ -45,6 +48,7 @@ export class ListarIntegrantesComponent implements OnInit, OnDestroy {
     protected enumTranslationService: EnumTranslationService,
     private rolSemilleroObtenerService: RolSemilleroObtenerService,
     private integranteSemilleroObtenerService: IntegranteSemilleroObtenerService,
+    protected informacionUsuarioAutenticadoService: InformacionUsuarioAutenticadoService
   ) {
     this.respuesta = new Respuesta<Paginacion<IntegranteSemilleroListar>>();
     this.datatableInputs = new DatatableInput('Integrantes', new Paginacion<IntegranteSemilleroListar>());
@@ -55,7 +59,9 @@ export class ListarIntegrantesComponent implements OnInit, OnDestroy {
       numeroDocumento: [''],
       estado: [''],
       rolSemillero: ['']
-    })
+    });
+    this.roles= informacionUsuarioAutenticadoService.retornarRoles();
+    this.mostrarBtnCrearIntegrante=this.roles.includes('GRUPO:DIRECTOR');
   }
   ngOnDestroy(): void {
     // Liberar la suscripción para evitar memory leaks
@@ -173,6 +179,7 @@ export class ListarIntegrantesComponent implements OnInit, OnDestroy {
       ?.setValue((this.formulario.get('pageNo')?.value ?? 0) + newPage);
 
     // Enviar el formulario para cargar los datos de la nueva página
-    this.onsubmit();
+    //this.onsubmit();
+    this.listarIntegrantes();
   }
 }

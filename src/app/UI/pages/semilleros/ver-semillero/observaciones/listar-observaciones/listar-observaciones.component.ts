@@ -11,6 +11,7 @@ import { CrearObservacionComponent } from '../crear-observacion/crear-observacio
 import { Subscription } from 'rxjs';
 import { CommunicationComponentsService } from '../../../../../../service/common/communication-components.service';
 import { EnumTranslationService } from '../../../../../../service/common/enum-translation.service';
+import { InformacionUsuarioAutenticadoService } from '../../../../../../service/auth/domain/service/informacionUsuarioAutenticado.service';
 
 @Component({
   selector: 'app-listar-observaciones',
@@ -26,19 +27,23 @@ import { EnumTranslationService } from '../../../../../../service/common/enum-tr
 })
 export class ListarObservacionesComponent implements OnInit,OnDestroy {
   @Output() movePageEmitter = new EventEmitter<number>();
+  private changePageEmitter = new EventEmitter<number>();
   paginas: number[] = [2, 3, 5];
   protected idSemillero!: string;
   protected formulario: FormGroup;
   protected datatableInputs: DatatableInput;
   protected respuesta: Respuesta<Paginacion<ListarObservacionSemilleroProyeccion>>;
   protected mostrarFormularioCrear: boolean = false;
+  protected mostrarCrearObservacion: boolean=false;
   private suscripciones: Subscription[]=[];
+  private roles: string[]=[];
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private semilleroObservacionObtenerService: SemilleroObservacionObtenerService,
     private actualizarListarService: CommunicationComponentsService,
     protected enumTranslationService: EnumTranslationService,
+    protected informacionUsuarioAutenticadoService: InformacionUsuarioAutenticadoService
   ){
     this.formulario = this.formBuilder.group({
       pageNo: [0],
@@ -46,6 +51,8 @@ export class ListarObservacionesComponent implements OnInit,OnDestroy {
       idSemillero: [''],
 
     });
+    this.roles=informacionUsuarioAutenticadoService.retornarRoles();
+    this.mostrarCrearObservacion=this.roles.includes('FUNCIONARIO:SEMILLEROS');
     this.respuesta = new Respuesta<Paginacion<ListarObservacionSemilleroProyeccion>>();
     this.datatableInputs = new DatatableInput('Observaciones',new Paginacion<ListarObservacionSemilleroProyeccion>);
   }
@@ -112,12 +119,23 @@ export class ListarObservacionesComponent implements OnInit,OnDestroy {
    * @param pageNumber El número de página al que se debe cambiar.
    */
   changePage(pageNumber: number): void {
+    // Asegurarse de que newPage no sea menor que 0
+    const nextPage = Math.max(pageNumber - 1, 0);
+
+    // Enviar el valor de la nueva pagina al componente padre
+    this.changePageEmitter.emit(nextPage);
+    this.changePageNew(nextPage);
+  }
+  /**
+   * Cambia la página de resultados de acuerdo al número de página especificado.
+   * @param pageNumber El número de página al que se debe cambiar.
+   */
+  changePageNew(pageNumber: number): void {
     // Actualizar el valor de pageNo en el formulario
     this.formulario.get('pageNo')?.setValue(pageNumber);
 
     // Enviar el formulario para cargar los datos de la nueva página
     this.listarObservaciones();
-    //this.onsubmit();
   }
   /**
    * Mueve la página de resultados hacia adelante o hacia atrás según la dirección especificada.
@@ -146,7 +164,6 @@ export class ListarObservacionesComponent implements OnInit,OnDestroy {
 
     // Enviar el formulario para cargar los datos de la nueva página
     this.listarObservaciones();
-    //this.listarLineas();
   }
   /**
    * Calcula el texto que indica qué elementos se están visualizando actualmente.
