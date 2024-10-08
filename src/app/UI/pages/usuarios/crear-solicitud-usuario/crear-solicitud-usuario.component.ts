@@ -364,7 +364,8 @@ export class CrearSolicitudUsuarioComponent implements OnInit{
 
       this.formulario.get('organismoDeInvestigacionId')?.setValue(accion.data.id);
 
-      this.rolProyectoService.listarRoles(this.formulario.get('tipoUsuario')?.value, this.formulario.get('organismoDeInvestigacionId')?.value).subscribe({
+      // TODO cambiar esta monda
+      this.organismoObtenerService.obtenesRolesParaAsignarRolProyecto(this.formulario.get('organismoDeInvestigacionId')?.value, this.formulario.get('tipoUsuario')?.value).subscribe({
         // Manejar Respuesta
         next: (respuesta) => {
           const campoRolId = this.formulario.get('rolId');

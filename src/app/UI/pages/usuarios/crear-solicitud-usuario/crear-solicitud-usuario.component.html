@@ -289,7 +289,8 @@
                     <select id="rolId" name="rolId" class="form-select" formControlName="rolId">
                         <option value="" disabled selected hidden>Seleccionar Rol</option>
                         @for (roles of this.rolesDisponibles; track $index) {
-                        <option [value]="roles.id">{{enumTranslationService.getEnumValueByKey(rolProyectoEnum, roles.nombre)}}</option>
+                        <!-- <option [value]="roles.id">{{enumTranslationService.getEnumValueByKey(rolProyectoEnum, roles.nombre)}}</option> -->
+                        <option [value]="roles.id">{{roles.nombre}}</option>
                         }
                     </select>
                     <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('rolId')?.valid && this.formulario.get('rolId')?.touched ? 'block' : 'none'"> 

@@ -6,6 +6,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { ListarOrganismosParaAsociarProyectoProyeccion } from '../model/proyecciones/listarOrganismosParaAsociarProyectoProyeccion';
 import { GrupoObtenerIntegrantesOrganismoParaAsociarDirProyectoProyeccion } from '../model/proyecciones/obtenerIntegrantesOrganismoParaAsociarDirProyectoProyeccion';
 import { OrganismoAdapter } from '../../infraestructura/organismo.adapter';
+import { RolProyectoProyeccion } from '../../../proyecto/domain/model/proyecciones/rolProyectoProyeccion';
+import { TipoUsuario } from '../../../solicitudUsuarios/domain/model/enum/tipoUsuario';
 
 @Injectable({
   providedIn: 'root',
@@ -65,6 +67,16 @@ export class OrganismoObtenerService {
     return this.registroInformacionDetallada = this.organismoAdapter.listarIntegrantesOrganismo(
       organismoId,
       proyectoId
+    );
+  }
+
+  obtenesRolesParaAsignarRolProyecto(
+    organismoId: number,
+    TipoUsuario: TipoUsuario    
+  ): Observable<Respuesta<RolProyectoProyeccion[]>> {
+    return this.organismoAdapter.obtenerRolesDeUnOrganismo(
+      organismoId,
+      TipoUsuario
     );
   }
 

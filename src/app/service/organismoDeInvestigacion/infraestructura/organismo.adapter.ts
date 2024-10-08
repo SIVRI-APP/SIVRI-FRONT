@@ -6,6 +6,8 @@ import { Respuesta } from '../../common/model/respuesta';
 import { Paginacion } from '../../common/model/paginacion';
 import { ListarOrganismosParaAsociarProyectoProyeccion } from '../domain/model/proyecciones/listarOrganismosParaAsociarProyectoProyeccion';
 import { GrupoObtenerIntegrantesOrganismoParaAsociarDirProyectoProyeccion } from '../domain/model/proyecciones/obtenerIntegrantesOrganismoParaAsociarDirProyectoProyeccion';
+import { TipoUsuario } from '../../solicitudUsuarios/domain/model/enum/tipoUsuario';
+import { RolProyectoProyeccion } from '../../proyecto/domain/model/proyecciones/rolProyectoProyeccion';
 
 @Injectable({
   providedIn: 'root',
@@ -55,6 +57,18 @@ export class OrganismoAdapter {
     .set('proyectoId', proyectoId.toString())
   
     return this.http.get<Respuesta<GrupoObtenerIntegrantesOrganismoParaAsociarDirProyectoProyeccion>>(this.apiUrl + 'listarIntegrantesOrganismo', { params: params });
+  }
+
+  obtenerRolesDeUnOrganismo(
+    organismoId: number,
+    tipoUsuario: TipoUsuario
+  ): Observable<Respuesta<RolProyectoProyeccion[]>> {
+
+    let params = new HttpParams()
+    .set('organismoId', organismoId.toString())
+    .set('tipoUsuario', tipoUsuario.toString())
+  
+    return this.http.get<Respuesta<RolProyectoProyeccion[]>>(this.apiUrl + 'obtenerRolesDeUnOrganismo', { params: params });
   }
 
 }
