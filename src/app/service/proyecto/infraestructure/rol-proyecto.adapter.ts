@@ -16,13 +16,27 @@ export class RolProyectoAdapter {
   constructor(private http: HttpClient) { }
 
   listarRoles(
-    tipoUsuario: TipoUsuario
+    tipoUsuario: TipoUsuario,
+    proyectoId: number
   ): Observable<Respuesta<RolProyectoProyeccion[]>> {
 
     let params = new HttpParams()
     .set('tipoUsuario', tipoUsuario.toString())
+    .set('proyectoId', proyectoId.toString())
   
     return this.http.get<Respuesta<RolProyectoProyeccion[]>>(this.apiUrl + 'listarRoles', { params: params });
+  }
+
+  obtenesRolesParaAsignarRolProyecto(
+    usuarioId: string,
+    proyectoId: number
+  ): Observable<Respuesta<RolProyectoProyeccion[]>> {
+
+    let params = new HttpParams()
+    .set('usuarioId', usuarioId)
+    .set('proyectoId', proyectoId.toString())
+
+    return this.http.get<Respuesta<RolProyectoProyeccion[]>>(this.apiUrl + 'obtenesRolesParaAsignarRolProyecto', { params: params });
   }
 
 }

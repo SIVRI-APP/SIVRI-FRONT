@@ -46,11 +46,13 @@ export class OrganismoAdapter {
   }
 
   listarIntegrantesOrganismo(
-    organismoId: string = '1'
+    organismoId: string,
+    proyectoId: number
   ): Observable<Respuesta<GrupoObtenerIntegrantesOrganismoParaAsociarDirProyectoProyeccion>> {
 
     let params = new HttpParams()
     .set('organismoId', organismoId)
+    .set('proyectoId', proyectoId.toString())
   
     return this.http.get<Respuesta<GrupoObtenerIntegrantesOrganismoParaAsociarDirProyectoProyeccion>>(this.apiUrl + 'listarIntegrantesOrganismo', { params: params });
   }

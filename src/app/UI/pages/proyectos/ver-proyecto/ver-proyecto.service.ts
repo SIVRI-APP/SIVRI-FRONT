@@ -49,8 +49,8 @@ export class VerProyectoService {
     this._formularioinformacionDetalladaProyecto = this.formBuilder.group({
 
       organismoPrincipal: this.formBuilder.group({
-        id: [{value: informacion.organismoPrincipal.id, disabled: true}, Validators.required],
-        nombre: [{value: informacion.organismoPrincipal.nombre, disabled: true}, Validators.required],       
+        id: [{value: informacion.organismoPrincipal?.id, disabled: true}, Validators.required],
+        nombre: [{value: informacion.organismoPrincipal?.nombre, disabled: true}, Validators.required],       
       }), 
 
       informacionGeneral: this.formBuilder.group({

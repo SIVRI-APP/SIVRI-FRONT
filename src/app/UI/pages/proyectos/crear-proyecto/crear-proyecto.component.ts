@@ -54,6 +54,7 @@ export class CrearProyectoComponent {
   protected visualizarOrganismos: boolean;
   protected tipoOrganismo: String = '';
   protected mostrarIntegrantes: boolean;
+  protected mostrarOrganismo = false;
 
   constructor(
     private router: Router,
@@ -215,6 +216,7 @@ export class CrearProyectoComponent {
     this.datatableInputs.paginacion = new Paginacion();
 
     this.mostrarIntegrantes = false;
+    this.mostrarOrganismo = false;
   }
 
   buscarOrganismos(){
@@ -251,8 +253,11 @@ export class CrearProyectoComponent {
         // Manejar respuesta exitosa
         next: (respuesta) => {      
           this.integrantesOrganismo = respuesta.data
-          this.mostrarIntegrantes = true;
-          console.log(this.integrantesOrganismo);
+          this.mostrarOrganismo = true;
+
+          if (this.integrantesOrganismo.integrantes.length > 0) {
+            this.mostrarIntegrantes = true;
+          }
         },
         // Manejar errores
         error: (errorData) => {

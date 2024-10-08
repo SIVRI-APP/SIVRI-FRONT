@@ -59,10 +59,12 @@ export class OrganismoObtenerService {
   }
 
   listarIntegrantesOrganismo(
-    organismoId?: string
+    organismoId: string,
+    proyectoId: number
   ): Observable<Respuesta<GrupoObtenerIntegrantesOrganismoParaAsociarDirProyectoProyeccion>> {
     return this.registroInformacionDetallada = this.organismoAdapter.listarIntegrantesOrganismo(
-      organismoId
+      organismoId,
+      proyectoId
     );
   }
 

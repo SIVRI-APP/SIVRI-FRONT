@@ -66,7 +66,7 @@ export class ObservacionesComponent implements OnInit{
 
     // Depues de recibir la confirmacion
     modalRef.result.then((result) => {
-      this.usuarioSolicitudCrearService.resolverObservacion(this.id)
+      this.usuarioSolicitudCrearService.resolverObservacion(this.solicitudUsuario.data.observaciones.id)
         .subscribe({
           // Manejar respuesta exitosa
           next: (respuesta) => {

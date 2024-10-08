@@ -23,6 +23,7 @@ import { RolProyectoService } from '../../../../service/proyecto/domain/service/
 import { RolProyectoProyeccion } from '../../../../service/proyecto/domain/model/proyecciones/rolProyectoProyeccion';
 import { RolProyecto } from '../../../../service/proyecto/domain/model/enum/rolProyecto';
 import { OrganismoDeInvestigacionYProyectoEnum } from '../../../../service/organismoDeInvestigacion/domain/model/enum/OrganismoDeInvestigacionYProyecto';
+import { OrganismoDeInvestigacionEnum } from '../../../../service/organismoDeInvestigacion/domain/model/enum/OrganismoDeInvestigacion';
 
 @Component({
   selector: 'app-crear-solicitud-usuario',
@@ -39,7 +40,8 @@ export class CrearSolicitudUsuarioComponent implements OnInit{
   protected tipoDocumentoEnum = TipoDocumento;
   protected sexoEnum = Sexo;
   protected tipoUsuarioEnum = TipoUsuario;
-  protected organismoDeInvestigacionYProyectoEnum = OrganismoDeInvestigacionYProyectoEnum;
+  // protected organismoDeInvestigacionYProyectoEnum = OrganismoDeInvestigacionYProyectoEnum;
+  protected organismoDeInvestigacionYProyectoEnum = OrganismoDeInvestigacionEnum
   protected rolProyectoEnum = RolProyecto;
 
   // Formulario reactivo
@@ -362,10 +364,9 @@ export class CrearSolicitudUsuarioComponent implements OnInit{
 
       this.formulario.get('organismoDeInvestigacionId')?.setValue(accion.data.id);
 
-      this.rolProyectoService.listarRoles(this.formulario.get('tipoUsuario')?.value).subscribe({
+      this.rolProyectoService.listarRoles(this.formulario.get('tipoUsuario')?.value, this.formulario.get('organismoDeInvestigacionId')?.value).subscribe({
         // Manejar Respuesta
         next: (respuesta) => {
-          console.log(respuesta)
           const campoRolId = this.formulario.get('rolId');
           if (campoRolId) {
             campoRolId.setValidators([Validators.required]);  

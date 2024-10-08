@@ -17,7 +17,6 @@
 
         <div class="row">
             <div class="col-sm-4">
-
                 <div class="row">
                     <div class="col-sm">
                         <label for="organismo" class="etiqueta-form"><strong>Vincular Proyecto</strong></label>
@@ -32,28 +31,32 @@
                     </div>
                 </div>  
                 
-                @if (this.mostrarIntegrantes) {    
-                <div class="row">
-                    <div class="col-sm">
-                        <label for="organismoSeleccionado" class="etiqueta-form"><strong>Organismo Seleccionado</strong></label>
-                        <input id="organismoSeleccionado" class="form-control" type="text" [value]="this.integrantesOrganismo?.nombre" [disabled]="true">
-                    </div>                    
-                </div> 
+                @if (this.mostrarOrganismo) {    
+                    <div class="row" style="margin-top: 15px;">
+                        <div class="col-sm">
+                            <label for="organismoSeleccionado" class="etiqueta-form"><strong>Organismo Seleccionado</strong></label>
+                            <input id="organismoSeleccionado" class="form-control" type="text" [value]="this.integrantesOrganismo?.nombre" [disabled]="true">
+                        </div>                    
+                    </div> 
 
-                <div class="row">
-                    <div class="col-sm">
-                        <label for="directorDeProyectoId" class="etiqueta-form"><strong>Director de Proyecto</strong></label>
-                        <select id="directorDeProyectoId" name="directorDeProyectoId" class="form-select" formControlName="directorDeProyectoId">
-                            <option value="" disabled selected hidden>Seleccionar Director</option>
-                            @for (usuario of this.integrantesOrganismo?.integrantes; track $index) {
-                            <option [value]="usuario.usuario.id">{{usuario.usuario.nombre}} {{usuario.usuario.apellido}}</option>
-                            }
-                        </select>
-                        <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('directorDeProyectoId')?.valid && this.formulario.get('directorDeProyectoId')?.touched ? 'block' : 'none'"> 
-                            Debe haber un Director de Proyecto seleccionado
+                    @if (mostrarIntegrantes) {
+                        <div class="row" style="margin-top: 15px;">
+                            <div class="col-sm">
+                                <label for="directorDeProyectoId" class="etiqueta-form"><strong>Director de Proyecto</strong></label>
+                                <select id="directorDeProyectoId" name="directorDeProyectoId" class="form-select" formControlName="directorDeProyectoId">
+                                    <option value="" disabled selected hidden>Seleccionar Director</option>
+                                    @for (usuario of this.integrantesOrganismo?.integrantes; track $index) {
+                                    <option [value]="usuario.usuario.id">{{usuario.usuario.nombre}} {{usuario.usuario.apellido}}</option>
+                                    }
+                                </select>
+                                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('directorDeProyectoId')?.valid && this.formulario.get('directorDeProyectoId')?.touched ? 'block' : 'none'"> 
+                                    Debe haber un Director de Proyecto seleccionado
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>  
+                    }@else {
+                        <label for="nombre" class="etiqueta-form"><strong style="color: red;">No hay usuarios de tipo Docente en este organismo que puedan actuar como Director de Proyecto</strong></label>
+                    }                  
                 } 
 
             </div>

@@ -15,9 +15,17 @@ export class RolProyectoService {
   ){}
 
   listarRoles(
-    tipoUsuario: TipoUsuario
+    tipoUsuario: TipoUsuario, 
+    proyectoId: number
   ): Observable<Respuesta<RolProyectoProyeccion[]>>{
-    return this.rolProyectoAdapter.listarRoles(tipoUsuario);
+    return this.rolProyectoAdapter.listarRoles(tipoUsuario, proyectoId);
+  }
+
+  obtenesRolesParaAsignarRolProyecto(
+    usuarioId: string,
+    proyectoId: number
+  ): Observable<Respuesta<RolProyectoProyeccion[]>> {  
+    return this.rolProyectoAdapter.obtenesRolesParaAsignarRolProyecto(usuarioId, proyectoId);
   }
 
 }

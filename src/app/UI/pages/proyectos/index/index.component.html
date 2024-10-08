@@ -13,7 +13,7 @@
             <a class="nav-link" routerLink="listar" routerLinkActive="active">Listar Proyectos</a>
         </li>
 
-        @if (this.informacionUsuarioAutenticadoService.esFuncionario() || this.informacionUsuarioAutenticadoService.esInvestigadorConPermisosAdmin()) {
+        @if (this.informacionUsuarioAutenticadoService.esFuncionario() || this.informacionUsuarioAutenticadoService.esInvestigadorConPermisosAdminYNoEsDirectorProyecto()) {
             <li class="nav-item">
                 <a class="nav-link" routerLink="crear" routerLinkActive="active">Crear Proyecto</a>
             </li>

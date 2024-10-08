@@ -19,26 +19,11 @@
             <div class="col-sm">
                 <!-- Mostrar datatable con los organismos para filtrar -->
                 <form [formGroup]="formularioBuscarIntegrante" (ngSubmit)="onSubmit()" method="post">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <label for="rolProyecto" class="etiqueta-form"><strong>Rol Proyecto</strong></label>
-                            <select id="rolProyecto" name="rolProyecto" class="form-select" formControlName="rolProyecto">
-                                <option value="" disabled selected hidden>Selecciona el Rol que tendra el usuario</option>
-                                @for (key of enumTranslationService.getEnumKeys(rolProyectoEnum); track $index) {
-                                    <option [value]="key">
-                                        {{enumTranslationService.getEnumValueByKey(rolProyectoEnum, key)}}
-                                    </option>
-                                }
-                            </select>
-                            <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formularioBuscarIntegrante.get('rolProyecto')?.valid && this.formularioBuscarIntegrante.get('rolProyecto')?.touched ? 'block' : 'none'">
-                                Campo requerido
-                            </div>
-                        </div>
-                    </div>
+
                     <div class="row">
                         <div class="col-sm-6">
                             <label for="usuarioProspecto" class="etiqueta-form"><strong>Usuario</strong></label>
-                            <select id="usuarioProspecto" name="usuarioProspecto" class="form-select" formControlName="usuarioProspecto">
+                            <select id="usuarioProspecto" name="usuarioProspecto" class="form-select" formControlName="usuarioProspecto" (change)="buscarRol($event)">
                                 <option value="" disabled selected hidden>Selecciona el Usuario para este Rol</option>
                                 @for (usuario of this.listadoDeIntegrantesOrganismoPadreDelProyecto.data.integrantes; track $index) {
                                     <option [value]="usuario.usuario.id">
@@ -51,6 +36,25 @@
                             </div>
                         </div>
                     </div>
+
+                    @if (this.habilitarSeleccionarRol) {
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label for="rolProyecto" class="etiqueta-form"><strong>Rol Proyecto</strong></label>
+                                <select id="rolProyecto" name="rolProyecto" class="form-select" formControlName="rolProyecto">
+                                    <option value="" disabled selected hidden>Selecciona el Rol que tendra el usuario</option>
+                                    @for (key of this.listadoDeRolesDisponibles ; track $index) {
+                                        <option [value]="key.id">
+                                            {{enumTranslationService.getEnumValueByKey(rolProyectoEnum, key.nombre)}}
+                                        </option>
+                                    }
+                                </select>
+                                <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formularioBuscarIntegrante.get('rolProyecto')?.valid && this.formularioBuscarIntegrante.get('rolProyecto')?.touched ? 'block' : 'none'">
+                                    Campo requerido
+                                </div>
+                            </div>
+                        </div> 
+                    }                                       
 
                     <div class="row">
                         <div class="col controls">

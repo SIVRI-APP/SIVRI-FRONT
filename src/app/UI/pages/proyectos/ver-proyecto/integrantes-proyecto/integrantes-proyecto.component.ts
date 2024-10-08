@@ -21,6 +21,8 @@ import { ProyectoCrearService } from '../../../../../service/proyecto/domain/ser
 import { ErrorData } from '../../../../../service/common/model/errorData';
 import { ModalOkComponent } from '../../../../shared/modal-ok/modal-ok.component';
 import { ModalBadComponent } from '../../../../shared/modal-bad/modal-bad.component';
+import { RolProyectoService } from '../../../../../service/proyecto/domain/service/rol-proyecto.service';
+import { RolProyectoProyeccion } from '../../../../../service/proyecto/domain/model/proyecciones/rolProyectoProyeccion';
 
 @Component({
   selector: 'app-integrantes-proyecto',
@@ -30,6 +32,7 @@ import { ModalBadComponent } from '../../../../shared/modal-bad/modal-bad.compon
   styleUrl: './integrantes-proyecto.component.css'
 })
 export class IntegrantesProyectoComponent implements OnInit{
+
   // Inyeccion de Modal
   private modalService = inject(NgbModal);
 
@@ -47,6 +50,7 @@ export class IntegrantesProyectoComponent implements OnInit{
   private proyectoId:number = 0;
 
   protected buscarEstudiante: boolean = false; // El div está oculto por defecto
+  protected habilitarSeleccionarRol = false;
 
   protected formularioBuscarIntegrante: FormGroup;
 
@@ -54,12 +58,15 @@ export class IntegrantesProyectoComponent implements OnInit{
   protected rolProyectoEnum = RolProyecto
   protected tipoDocumentoEnum2 = TipoDocumentoEnum2
 
+  protected listadoDeRolesDisponibles: RolProyectoProyeccion[] = [];
+  
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
     private organismoObtenerService: OrganismoObtenerService,
     protected proyectoObtenerService: ProyectoObtenerService,
     protected proyectoCrearService: ProyectoCrearService,
+    protected rolProyectoService: RolProyectoService,
     protected verProyectoService: VerProyectoService,
     protected enumTranslationService: EnumTranslationService
   ){
@@ -115,7 +122,11 @@ export class IntegrantesProyectoComponent implements OnInit{
 
   accion(accion: any): void {
     if (accion == "agregarIntegrante") {
-      this.buscarIntegrantesOrganismo();      
+      if (this.proyectoInformacionOrganismo) {
+        this.buscarIntegrantesOrganismo();         
+      }else{
+        alert("Error no se pudo obtener el organismo")
+      }           
     }else if (accion.accion.accion == 'ver') {
       this.router.navigate(["/usuarios/listar-usuarios/"+accion.data.usuarioId]);
     }
@@ -123,10 +134,9 @@ export class IntegrantesProyectoComponent implements OnInit{
 
   buscarIntegrantesOrganismo(){
     // todo miguel Aquie hay que mandar el id del organismo padre
-    this.organismoObtenerService.listarIntegrantesOrganismo(this.proyectoInformacionOrganismo.id)
+    this.organismoObtenerService.listarIntegrantesOrganismo(this.proyectoInformacionOrganismo.id, this.proyectoId)
       .subscribe({
         next: (respuesta) => {      
-          console.log(respuesta)
           this.listadoDeIntegrantesOrganismoPadreDelProyecto = respuesta
           this.buscarEstudiante = !this.buscarEstudiante;
         },
@@ -153,8 +163,7 @@ export class IntegrantesProyectoComponent implements OnInit{
   onSubmit(): void {
     // Verificar si el formulario es válido
     if (this.formularioBuscarIntegrante.valid) {
-      
-      // Realizar solicitud para obtener los datos filtrados
+     
       this.proyectoCrearService.agregarIntegrante(this.verProyectoService.formularioInformacionDetalladaProyecto.get("informacionGeneral.id")?.value, this.formularioBuscarIntegrante.get("usuarioProspecto")?.value, this.formularioBuscarIntegrante.get("rolProyecto")?.value).subscribe({
         next: (respuesta) => {
           this.openModalOk(respuesta.userMessage, "/proyectos/listar");
@@ -176,6 +185,29 @@ export class IntegrantesProyectoComponent implements OnInit{
       // Marcar todos los campos del formulario como tocados si el formulario no es válido
       this.formularioBuscarIntegrante.markAllAsTouched();
     }
+  }
+
+  buscarRol(event: any) {
+    this.rolProyectoService.obtenesRolesParaAsignarRolProyecto(this.formularioBuscarIntegrante.get('usuarioProspecto')?.value, this.proyectoId).subscribe({
+      next: (respuesta) => {
+
+        this.listadoDeRolesDisponibles = respuesta.data
+
+        this.habilitarSeleccionarRol = true;
+      },
+      error: (errorData) => {
+        if (errorData.error && errorData.error.data) {
+          let respuesta: Respuesta<ErrorData> = errorData.error;
+          this.openModalBad(respuesta.data);
+        } else {
+          this.openModalBad(
+            new ErrorData({
+              error: 'Error inseperado, contactar a soporte',
+            })
+          );
+        }
+      },
+    });
   }
 
   openModalOk(message: string, nuevaUrl: any) {
