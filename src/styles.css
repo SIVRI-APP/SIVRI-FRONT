@@ -385,12 +385,29 @@
 
 /* Mensaje Feedback de formulario */
 .ng-valid:not(form).ng-touched {
-  border-left: 5px solid #59A640;
+ /* border-left: 5px solid #59A640;*/
+  border: 1px solid #59A640;
   background-color: light-dark(rgb(232, 240, 254), rgba(70, 90, 126, 0.4)) !important;
+  box-shadow: none;
+
+  background-image: url('./assets/img/SIVRI/check_circle.svg');
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+  background-size: 15px 15px;
+  padding-right: 40px;
 }
 
+
 .ng-invalid:not(form).ng-touched {
-  border-left: 5px solid #ED7D31;
+ /* border-left: 5px solid #ED7D31;*/
+  border: 1px solid #ED7D31;
+  box-shadow: none;
+
+  background-image: url('./assets/img/SIVRI/info.svg');
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+  background-size: 15px 15px;
+  padding-right: 40px;
 }
 
 #badFeedback {

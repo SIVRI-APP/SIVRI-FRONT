@@ -34,6 +34,7 @@ export class ListarProgramasComponent implements OnInit,OnDestroy {
   protected formulario: FormGroup;
   protected mostrarCreaPrograma: boolean = false;
   protected mostrarBtnCrearPrograma: boolean=false;
+  protected funcionarioSemillero: boolean=false;
   protected datatableInputs: DatatableInput;
   // Inyeccion de Modal
   private modalService = inject(NgbModal);
@@ -54,6 +55,7 @@ export class ListarProgramasComponent implements OnInit,OnDestroy {
     });
     this.roles= informacionUsuarioAutenticadoService.retornarRoles();
     this.mostrarBtnCrearPrograma=this.roles.includes('GRUPO:DIRECTOR');
+    this.funcionarioSemillero=this.roles.includes('FUNCIONARIO:SEMILLEROS')
     this.respuesta = new Respuesta<Paginacion<SemilleroProgramaProyeccion>>();
     this.datatableInputs = new DatatableInput('Programas',
       new Paginacion<SemilleroProgramaProyeccion>());

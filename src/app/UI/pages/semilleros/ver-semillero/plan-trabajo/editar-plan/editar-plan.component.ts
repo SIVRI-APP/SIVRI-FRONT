@@ -59,7 +59,7 @@ export class EditarPlanComponent implements OnInit {
         console.log(respuesta);
 
         this.formularioEditar.get('idPlan')?.setValue(respuesta.data.id);
-        this.formularioEditar.get('nombrePlan')?.setValue(respuesta.data.nombre_Plan);
+        this.formularioEditar.get('nombrePlan')?.setValue(respuesta.data.nombrePlan);
         this.formularioEditar.get('anio')?.setValue(respuesta.data.anio);
         this.formularioEditar.get('estado')?.setValue(respuesta.data.estado);
 

@@ -37,6 +37,7 @@ export class ListarLineasComponent implements OnInit,OnDestroy {
   protected formulario: FormGroup;
   protected mostrarCreaLinea: boolean = false;
   protected mostrarBtnCrearLinea: boolean=false;
+  protected funcionarioSemillero: boolean=false;
   // Inyeccion de Modal
   private modalService = inject(NgbModal);
   private roles: string[]=[];
@@ -55,6 +56,7 @@ export class ListarLineasComponent implements OnInit,OnDestroy {
     });
     this.roles= informacionUsuarioAutenticadoService.retornarRoles();
     this.mostrarBtnCrearLinea=this.roles.includes('GRUPO:DIRECTOR');
+    this.funcionarioSemillero=this.roles.includes('FUNCIONARIO:SEMILLEROS');
     this.respuesta=new Respuesta<Paginacion<LineaInvestigacionProyeccion>>();
     this.datatableInputs = new DatatableInput('Lineas',
       new Paginacion<LineaInvestigacionProyeccion>());

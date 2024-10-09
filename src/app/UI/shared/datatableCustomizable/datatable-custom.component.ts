@@ -69,7 +69,7 @@ export class DatatableCustomComponent{
     const nextPage = Math.max(pageNumber - 1, 0);
 
     // Enviar el valor de la nueva pagina al componente padre
-    this.changePageEmitter.emit(pageNumber);
+    this.changePageEmitter.emit(nextPage);
   }
 
   /**

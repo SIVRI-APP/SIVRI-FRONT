@@ -11,7 +11,7 @@
             }
           </select>
         </label>
-        @if (!mostrarBtnCrearLinea) {
+        @if (!mostrarBtnCrearLinea && !funcionarioSemillero) {
         <button type="button" class="secondaryBTN" (click)="toggleFormulario()">
           <div class="button-content">
             <span class="material-symbols-outlined primaryBTN-icon">
