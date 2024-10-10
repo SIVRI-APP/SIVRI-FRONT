@@ -62,14 +62,9 @@
         </div>
         <div class="col-sm">
           <label for="programa" class="etiqueta-form"><strong>Programa</strong></label>
-          <select id="programa" name="programa" class="form-select" formControlName="programa">
-            <option value="" disabled selected hidden>Programa del Integrante</option>
-            <option value="">No Aplica</option>
-            <!--TODO SE PUEDE TRAER EL PROGRAMA AL QUE PERTENECE EL USUARIO -->
-            <!--@for (key of enumTranslationService.getEnumKeys(estadoIntegranteEnum); track $index) {
-        <option [value]="key">{{enumTranslationService.getEnumValueByKey(estadoIntegranteEnum,key)}}</option>
-        }-->
-          </select>
+          <input id="programa" name="programa" class="form-control" type="text" placeholder="programa"
+            formControlName="programaNombre">
+
         </div>
       </div>
     </form>
@@ -83,16 +78,7 @@
               <option [value]="key.id">{{key.rolSemillero}}</option>
               }
             </select>
-        <!--select id="rolSemillero" name="rolSemillero" class="form-select" formControlName="rolSemillero">
-          <option value="" disabled selected hidden>Rol del semillero</option>
-          <option value="1">Coordinador</option>
-          <option value="2">Mentor</option>
-          <option value="3">Miembro activo profesor</option>
-          <option value="4">Miembro activo estudiante posgrado</option>
-          <option value="5">Miembro activo egresado</option>
-          <option value="6">Semillas</option>
 
-        </!--select-->
         <div id="badFeedback" class="invalid-feedback"
         [style.display]="!this.formularioCrear.get('rolSemillero')?.valid && this.formularioCrear.get('rolSemillero')?.touched ? 'block' : 'none'">
         Seleccione un rol de semillero valido

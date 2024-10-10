@@ -52,6 +52,7 @@ export class CrearIntegranteComponent implements OnInit {
     private usuarioObtenerPorDocService: UsuarioObtenerPorDocService,
     protected enumTranslationService: EnumTranslationService,
     private notificationAlertService: NotificationAlertService,
+
   ) {
     this.integranteConsultado= new Respuesta<UsuarioInformaciónDetalladaProyección>();
     this.mostrarFormularioCrear=true;
@@ -68,17 +69,18 @@ export class CrearIntegranteComponent implements OnInit {
       tipoDocumento: ['', [Validators.required]],
       numeroDocumento: [null, [Validators.required]],
       nombre: [''],
-      programa: [''],
+      programaNombre: [''],
       usuarioId:[null]
     });
     this.formularioConsultar.get('nombre')?.disable();
-    this.formularioConsultar.get('programa')?.disable();
+    this.formularioConsultar.get('programaNombre')?.disable();
   }
   ngOnInit(): void {
    // this.rolIntegranteSemillero = this.integranteSemilleroObtenerService.getRolIntegranteSemillero();
     this.route.parent?.params.subscribe(params => {
       this.idSemillero = params['id'];
     });
+
     this.obtenerRolesSemillero();
   }
   obtenerRolesSemillero(){
@@ -94,16 +96,19 @@ export class CrearIntegranteComponent implements OnInit {
       },
     });
   }
+
   onsubmitConsultar() {
 
     this.usuarioObtenerPorDocService.obtenerUsuarioInformaciónDetallada(this.formularioConsultar.value.numeroDocumento,
       this.formularioConsultar.value.tipoDocumento
     ).subscribe({
       next:(respuestaConsultar)=>{
+        console.log(respuestaConsultar);
+
         this.integranteConsultado= respuestaConsultar;
         this.formularioConsultar.get('nombre')?.setValue(this.integranteConsultado.data.nombre+' '+this.integranteConsultado.data.apellido);
         this.formularioConsultar.get('usuarioId')?.setValue(this.integranteConsultado.data.id);
-        this.formularioConsultar.get('programa')?.setValue(this.integranteConsultado.data.programaNombre);
+        this.formularioConsultar.get('programaNombre')?.setValue(this.integranteConsultado.data.programaNombre);
       },
       // Manejar errores
       error: (errorData) => {

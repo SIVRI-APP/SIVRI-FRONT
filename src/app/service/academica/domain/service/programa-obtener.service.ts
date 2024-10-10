@@ -3,6 +3,7 @@ import { ProgramaAdapter } from '../../infraestructure/programa.adapter';
 import { ListarProgramas } from '../model/proyecciones/listarProgramas';
 import { Respuesta } from '../../../common/model/respuesta';
 import { Observable } from 'rxjs';
+import { Programa } from '../model/proyecciones/programa';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,9 @@ export class ProgramaObtenerService {
   constructor(private programaAdapter: ProgramaAdapter) {
     this.programasxdepartamento= new Observable;
    }
-
+   obtenerProgramas():Observable<Respuesta<Programa[]>>{
+    return this.programaAdapter.obtenerProgramas();
+   }
   obtenerProgramasxdepartamento(
     semilleroId?: string,
   ):Observable<Respuesta<ListarProgramas[]>>{
