@@ -40,6 +40,7 @@ export class ListarIntegrantesComponent implements OnInit, OnDestroy {
   protected datatableInputs: DatatableInput;
   protected mostrarFormularioCrear: boolean = false;
   protected mostrarBtnCrearIntegrante: boolean=false;
+  protected rolFuncionario: boolean=false;
   private roles: string[]=[];
   constructor(
     private route: ActivatedRoute,
@@ -62,6 +63,7 @@ export class ListarIntegrantesComponent implements OnInit, OnDestroy {
     });
     this.roles= informacionUsuarioAutenticadoService.retornarRoles();
     this.mostrarBtnCrearIntegrante=this.roles.includes('GRUPO:DIRECTOR');
+    this.rolFuncionario=this.roles.includes('FUNCIONARIO:SEMILLEROS');
   }
   ngOnDestroy(): void {
     // Liberar la suscripción para evitar memory leaks

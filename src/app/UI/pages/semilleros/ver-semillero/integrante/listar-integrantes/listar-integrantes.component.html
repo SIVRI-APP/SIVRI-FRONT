@@ -45,7 +45,7 @@
             }
           </select>
         </label>
-        @if (!mostrarBtnCrearIntegrante) {
+        @if (!mostrarBtnCrearIntegrante && !rolFuncionario) {
         <button type="button" class="secondaryBTN" (click)="toggleFormulario()">
           <div class="button-content">
             <span class="material-symbols-outlined secondaryBTN-icon">

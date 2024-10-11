@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, EventEmitter } from '@angular/core';
 import { RolIntegranteSemillero } from '../../../../../../service/semilleros/domain/model/proyecciones/rolIntegranteSemillero';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IntegranteSemilleroObtenerService } from '../../../../../../service/semilleros/domain/service/integrante-semillero-obtener.service';
@@ -17,6 +17,8 @@ import { ModalOkComponent } from '../../../../../shared/modal-ok/modal-ok.compon
 import { CommunicationComponentsService } from '../../../../../../service/common/communication-components.service';
 import { NotificationAlertService } from '../../../../../../service/common/notification-alert.service';
 import { InformacionUsuarioAutenticadoService } from '../../../../../../service/auth/domain/service/informacionUsuarioAutenticado.service';
+import { Programa } from '../../../../../../service/academica/domain/model/proyecciones/programa';
+import { ProgramaObtenerService } from '../../../../../../service/academica/domain/service/programa-obtener.service';
 
 @Component({
   selector: 'app-actualizar-integrante',
@@ -34,12 +36,15 @@ export class ActualizarIntegranteComponent implements OnInit {
   private idSemillero!: string;
   private idIntegrante!: string;
   protected rolIntegranteSemillero: RolIntegranteSemillero[] = [];
+  protected programas: Programa[]=[];
   protected estadoIntegranteEnum = IntegranteSemilleroEstado;
   //formulario reactivo
   protected formulario: FormGroup;
   protected integranteDatos: Respuesta<IntegranteSemillero>;
   protected respuesta: Respuesta<boolean>;
   protected mostrarBtnIntegrante: boolean=false;
+  protected rolMentorBtn: boolean=false;
+  protected btnMentorUsuario: boolean=false;
   private roles: string[]=[];
   constructor(
     private router: Router,
@@ -52,6 +57,7 @@ export class ActualizarIntegranteComponent implements OnInit {
     private integranteSemilleroObtenerService: IntegranteSemilleroObtenerService,
     private integranteSemilleroCrearService: IntegranteSemilleroCrearService,
     private notificationAlertService: NotificationAlertService,
+    private programaObtenerService: ProgramaObtenerService,
     protected informacionUsuarioAutenticadoService: InformacionUsuarioAutenticadoService
   ) {
     this.respuesta = new Respuesta<false>();
@@ -62,14 +68,17 @@ export class ActualizarIntegranteComponent implements OnInit {
       nombre: [''],
       rolSemilleroId: [''],
       estadoIntegrante: [''],
+      programaId:[''],
       fechaIngreso: [''],
       fechaRetiro: [this.datePipe.transform(new Date(), 'yyyy-MM-dd')]
     });
     this.roles= informacionUsuarioAutenticadoService.retornarRoles();
     this.mostrarBtnIntegrante=this.roles.includes('GRUPO:DIRECTOR');
+    this.rolMentorBtn=this.roles.includes('SEMILLERO:MENTOR');
     this.formulario.get('numeroDocumento')?.disable();
     this.formulario.get('nombre')?.disable();
     this.formulario.get('fechaIngreso')?.disable();
+    this.formulario.get('programaId')?.disable();
     if(this.mostrarBtnIntegrante){
       this.formulario.get('rolSemilleroId')?.disable();
       this.formulario.get('estadoIntegrante')?.disable();
@@ -77,17 +86,33 @@ export class ActualizarIntegranteComponent implements OnInit {
     }
   }
   ngOnInit(): void {
-
     this.route.parent?.params.subscribe(params => {
       this.idSemillero = params['id']
     });
-
     this.route.params.subscribe(params => {
       this.idIntegrante = params['idIntegrante']
     });
+    this.rolIntegrante.obtenerRolesSemillero().subscribe({
+      next: (respuesta) => {
+        this.rolIntegranteSemillero = respuesta.data;
+      }
+    });
+    this.obtenerProgramas();
+    this.obtenerIntegrantexId();
 
+  }
+  obtenerProgramas(){
+    this.programaObtenerService.obtenerProgramas().subscribe({
+      next:(respuesta)=>{
+        this.programas=respuesta.data;
+      }
+    });
+  }
+  obtenerIntegrantexId(){
     this.integranteSemilleroObtenerService.obtenerIntegrantexId(this.idIntegrante).subscribe({
       next: (respuesta) => {
+        console.log('respuesta que se recibe del back');
+        console.log(respuesta);
 
         this.integranteDatos = respuesta;
         this.integranteDatos.data.usuario.nombre = respuesta.data.usuario.nombre;
@@ -95,7 +120,18 @@ export class ActualizarIntegranteComponent implements OnInit {
         this.formulario.get('numeroDocumento')?.setValue(this.integranteDatos.data.usuario.numeroDocumento);
         let nombreCompleto = this.integranteDatos.data.usuario.nombre + ' ' + this.integranteDatos.data.usuario.apellido;
         this.formulario.get('nombre')?.setValue(nombreCompleto);
-        this.formulario.get('estadoIntegrante')?.setValue(this.integranteDatos.data.fechaRetiro);
+
+        this.formulario.get('programaId')?.setValue(this.integranteDatos.data.usuario.programaId);
+        this.formulario.get('programaId')?.valueChanges.subscribe((prog)=>{
+          console.log('programa seleccionado: ', prog);
+          if (!prog && prog === 0){
+            this.formulario.get('programaId')?.setValue('sin programa');
+          }
+        });
+        console.log('programaid ',this.formulario);
+
+
+        this.formulario.get('estadoIntegrante')?.setValue(this.integranteDatos.data.estado);
         this.formulario.get('estadoIntegrante')?.valueChanges.subscribe((estad) => {
           if (estad == 'INACTIVO') {
             // Si es "inactivo", actualiza la fecha al valor actual del sistema
@@ -106,14 +142,17 @@ export class ActualizarIntegranteComponent implements OnInit {
           }
         });
 
-        this.formulario.get('rolSemillero')?.setValue(this.integranteDatos.data.rolSemillero.rolSemillero);
+        this.formulario.get('rolSemilleroId')?.setValue(this.integranteDatos.data.rolSemillero.id);
         this.formulario.get('fechaIngreso')?.setValue(this.integranteDatos.data.fechaIngreso);
         this.formulario.get('fechaRetiro')?.setValue(this.integranteDatos.data.fechaRetiro);
-      }
-    });
-    this.rolIntegrante.obtenerRolesSemillero().subscribe({
-      next: (respuesta) => {
-        this.rolIntegranteSemillero = respuesta.data;
+        console.log('rol semillero '+this.formulario.value.rolSemilleroId);
+
+        if(this.rolMentorBtn && this.formulario.get('rolSemilleroId')?.value== 2){
+          this.formulario.get('rolSemilleroId')?.disable();
+          this.formulario.get('estadoIntegrante')?.disable();
+          this.formulario.get('fechaRetiro')?.disable();
+          this.btnMentorUsuario=true;
+        }
       }
     });
   }

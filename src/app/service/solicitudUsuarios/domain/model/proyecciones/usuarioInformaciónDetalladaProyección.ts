@@ -16,4 +16,5 @@ export interface UsuarioInformaciónDetalladaProyección {
   sexo: Sexo;
   departamentoNombre: string;
   programaNombre: string;
+  programaId: number;
 }
