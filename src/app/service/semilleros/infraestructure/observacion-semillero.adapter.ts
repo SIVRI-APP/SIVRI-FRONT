@@ -23,7 +23,7 @@ export class ObservacionSemilleroAdapter {
   obtenerObservacionesxSemilleroId(
     semilleroId: string = '',
     pageNo: number = 0,
-    pageSize: number = 2,
+    pageSize: number = 10,
   ): Observable<Respuesta<Paginacion<ListarObservacionSemilleroProyeccion>>> {
     let params = new HttpParams()
       .set('pageNo', pageNo.toString())

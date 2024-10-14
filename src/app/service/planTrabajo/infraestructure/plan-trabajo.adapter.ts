@@ -24,7 +24,7 @@ export class PlanTrabajoAdapter {
   }
   listarPlanTrabajoxFiltro(
     pageNo: number = 0,
-    pageSize: number = 2,
+    pageSize: number = 10,
     anio: string,
     idSemillero: string,
     estado: string
@@ -39,7 +39,7 @@ export class PlanTrabajoAdapter {
   }
   obtenerPlanTrabajoxAnio(
     pageNo: number = 0,
-    pageSize: number = 2,
+    pageSize: number = 10,
     anio: Number,
     idSemillero: string,
     fechaInicio?: Date,

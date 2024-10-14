@@ -33,7 +33,7 @@ import { InformacionUsuarioAutenticadoService } from '../../../../../../../servi
   styleUrl: './listar-actividades.component.css'
 })
 export class ListarActividadesComponent implements OnInit,OnDestroy {
-  paginas: number[] = [2, 3, 5];
+  paginas: number[] = [10,25,50,100];
   private changePageEmitter = new EventEmitter<number>();
   @Input() idPlan!: number;
   protected idActividad!: number;
@@ -62,7 +62,7 @@ export class ListarActividadesComponent implements OnInit,OnDestroy {
 
     this.formularioActividad = this.formBuilder.group({
       pageNo: [0],
-      pageSize: ['2'],
+      pageSize: ['10'],
       fechaInicio: [null],
       fechaFin: [null]
     });
@@ -137,7 +137,7 @@ export class ListarActividadesComponent implements OnInit,OnDestroy {
   limpiarFormulario(){
     this.formularioActividad = this.formBuilder.group({
       pageNo: [0],
-      pageSize: ['2'],
+      pageSize: ['10'],
       fechaInicio: [null],
       fechaFin: [null]
     });

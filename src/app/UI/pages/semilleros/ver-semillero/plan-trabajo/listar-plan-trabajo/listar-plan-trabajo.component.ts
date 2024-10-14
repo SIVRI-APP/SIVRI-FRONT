@@ -37,7 +37,7 @@ export class ListarPlanTrabajoComponent implements OnInit, OnDestroy {
   //campos que ayuda a la visualizacion
   protected idSemillero!: string;
   protected idPlan?: number;
-  paginas: number[] = [2, 3, 5];
+  paginas: number[] = [10,25,50,100];
   private suscripciones: Subscription[] = [];
   protected formulario: FormGroup;
   protected searchPerformed: boolean = false;
@@ -47,6 +47,7 @@ export class ListarPlanTrabajoComponent implements OnInit, OnDestroy {
   protected mostrarCreaPlan: boolean = false;
   protected estadoPlanEnum = EstadoPlantrabajo;
   @Output() movePageEmitter = new EventEmitter<number>();
+  private changePageEmitter = new EventEmitter<number>();
   protected mostrarBtnCrearPlan: boolean=false;
   private roles: string[]=[];
   constructor(
@@ -62,7 +63,7 @@ export class ListarPlanTrabajoComponent implements OnInit, OnDestroy {
       new Paginacion<any>());
     this.formulario = this.formBuilder.group({
       pageNo: [0],
-      pageSize: ['2'],
+      pageSize: ['10'],
       idSemillero: [null],
       anio: ['',],
       estado: ['']
@@ -122,6 +123,8 @@ export class ListarPlanTrabajoComponent implements OnInit, OnDestroy {
       this.formulario.value.anio, this.formulario.value.idSemillero,
       this.formulario.value.estado).subscribe({
         next: (respuesta) => {
+          console.log(respuesta);
+
           this.respuesta = respuesta;
 
           this.searchPerformed = true;
@@ -153,48 +156,11 @@ export class ListarPlanTrabajoComponent implements OnInit, OnDestroy {
   limpiarCampos(): void {
     this.formulario = this.formBuilder.group({
       pageNo: [0],
-      pageSize: ['2'],
+      pageSize: ['10'],
       idSemillero: [this.idSemillero],
       anio: [''],
       estado: ['']
     });
-  }
-  /**
-     * Cambia la página de resultados de acuerdo al número de página especificado.
-     * @param pageNumber El número de página al que se debe cambiar.
-     */
-  changePage(pageNumber: number): void {
-    // Actualizar el valor de pageNo en el formulario
-    this.formulario.get('pageNo')?.setValue(pageNumber);
-
-    // Enviar el formulario para cargar los datos de la nueva página
-    this.onsubmit();
-  }
-  /**
-     * Mueve la página de resultados hacia adelante o hacia atrás según la dirección especificada.
-     * @param newPage La dirección hacia la que se debe mover la página ('adelante' o 'atras').
-     */
-  movePage(newPage: number): void {
-    // Realizar incremento o decremento de la Pagina
-    this.formulario
-      .get('pageNo')
-      ?.setValue((this.formulario.get('pageNo')?.value ?? 0) + newPage);
-
-    // Enviar el formulario para cargar los datos de la nueva página
-    this.onsubmit();
-  }
-  /**
-   * Mueve la página de resultados hacia adelante o hacia atrás según la dirección especificada.
-   * @param newPage La dirección hacia la que se debe mover la página ('adelante' o 'atras').
-   */
-  movePageTable(newPage: string): void {
-    if (newPage === 'atras') {
-      // Enviar la disminucion del valor de la pagina al componente padre
-      this.movePageEmitter.emit(-1);
-    } else {
-      // Enviar el incremento del valor de la pagina al componente padre
-      this.movePageEmitter.emit(1);
-    }
   }
   /**
    * Calcula el texto que indica qué elementos se están visualizando actualmente.
@@ -232,6 +198,59 @@ export class ListarPlanTrabajoComponent implements OnInit, OnDestroy {
     const totalPages = this.datatableInputs.paginacion.totalPages;
     return Array.from({ length: totalPages }, (_, index) => index + 1);
   }
+  /**
+     * Cambia la página de resultados de acuerdo al número de página especificado.
+     * @param pageNumber El número de página al que se debe cambiar.
+     */
+  changePage(pageNumber: number): void {
+    // Asegurarse de que newPage no sea menor que 0
+    const nextPage = Math.max(pageNumber - 1, 0);
+
+    // Enviar el valor de la nueva pagina al componente padre
+    this.changePageEmitter.emit(nextPage);
+    this.changePageNew(nextPage);
+  }
+  /**
+   * Cambia la página de resultados de acuerdo al número de página especificado.
+   * @param pageNumber El número de página al que se debe cambiar.
+   */
+  changePageNew(pageNumber: number): void {
+    // Actualizar el valor de pageNo en el formulario
+    this.formulario.get('pageNo')?.setValue(pageNumber);
+
+    // Enviar el formulario para cargar los datos de la nueva página
+    this.listarPlanesTrabajo();
+  }
+  /**
+   * Mueve la página de resultados hacia adelante o hacia atrás según la dirección especificada.
+   * @param newPage La dirección hacia la que se debe mover la página ('adelante' o 'atras').
+   */
+  movePage(newPage: string): void {
+    if (newPage === 'atras') {
+        // Enviar la disminucion del valor de la pagina al componente padre
+        this.movePageEmitter.emit(-1);
+        this.movePageNew(-1);
+    } else {
+      // Enviar el incremento del valor de la pagina al componente padre
+      this.movePageEmitter.emit(1);
+      this.movePageNew(1);
+    }
+  }
+  /**
+   * Mueve la página de resultados hacia adelante o hacia atrás según la dirección especificada.
+   * @param newPage La dirección hacia la que se debe mover la página ('adelante' o 'atras').
+   */
+  movePageNew(newPage: number): void {
+    // Realizar incremento o decremento de la Pagina
+    this.formulario
+      .get('pageNo')
+      ?.setValue((this.formulario.get('pageNo')?.value ?? 0) + newPage);
+
+    // Enviar el formulario para cargar los datos de la nueva página
+    this.listarPlanesTrabajo();
+  }
+
+
 }
 
 

@@ -19,7 +19,7 @@ export class SemilleroAdapter {
   listarConFiltro(
     idSemillero: number | null,
     pageNo: number = 0,
-    pageSize: number = 2,
+    pageSize: number =10,
     nombre?: string,
     estado?: string
   ): Observable<Respuesta<Paginacion<SemilleroListarConFiltroxMentorProyeccion>>> {
@@ -35,7 +35,7 @@ export class SemilleroAdapter {
   listarConFiltroDirector(
     idSemillero: number | null,
     pageNo: number = 0,
-    pageSize: number = 2,
+    pageSize: number = 10,
     nombre?: string,
     estado?: string
   ): Observable<Respuesta<Paginacion<SemilleroListarConFiltroxMentorProyeccion>>>{
@@ -53,7 +53,7 @@ export class SemilleroAdapter {
   }
   listarConFiltroFuncionario(
     pageNo: number = 0,
-    pageSize: number = 2,
+    pageSize: number = 10,
     nombre?: string,
     correo?: string,
     estado?: string

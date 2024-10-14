@@ -33,7 +33,7 @@ export class ListarLineasComponent implements OnInit,OnDestroy {
   protected idLinea!:number;
   protected datatableInputs: DatatableInput;
   private respuesta: Respuesta<Paginacion<LineaInvestigacionProyeccion>>;
-  paginas: number[] = [2, 3, 5];
+  paginas: number[] = [10,25,50,100];
   protected formulario: FormGroup;
   protected mostrarCreaLinea: boolean = false;
   protected mostrarBtnCrearLinea: boolean=false;
@@ -51,7 +51,7 @@ export class ListarLineasComponent implements OnInit,OnDestroy {
   ){
     this.formulario = this.formBuilder.group({
       pageNo: [0],
-      pageSize: [2],
+      pageSize: [10],
       semilleroId:['']
     });
     this.roles= informacionUsuarioAutenticadoService.retornarRoles();

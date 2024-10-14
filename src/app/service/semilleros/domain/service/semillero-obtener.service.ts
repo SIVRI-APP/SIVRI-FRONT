@@ -16,7 +16,7 @@ export class SemilleroObtenerService {
 
   listarConFiltroFuncionario(
     pageNo: number = 0,
-    pageSize: number = 2,
+    pageSize: number = 10,
     nombre?: string,
     correo?: string,
     estado?: string

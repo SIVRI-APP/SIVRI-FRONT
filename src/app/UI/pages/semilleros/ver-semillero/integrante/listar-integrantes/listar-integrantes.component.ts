@@ -33,7 +33,7 @@ export class ListarIntegrantesComponent implements OnInit, OnDestroy {
   private idSemillero!: string;
   protected formulario: FormGroup;
   private suscripciones: Subscription[] = [];
-  paginas: number[] = [2, 3, 5];
+  paginas: number[] = [10,25, 50,100];
   protected respuesta: Respuesta<Paginacion<IntegranteSemilleroListar>>
   protected estadoIntegranteEnum = IntegranteSemilleroEstado;
   protected rolIntegranteSemillero: RolIntegranteSemillero[] = [];
@@ -55,7 +55,7 @@ export class ListarIntegrantesComponent implements OnInit, OnDestroy {
     this.datatableInputs = new DatatableInput('Integrantes', new Paginacion<IntegranteSemilleroListar>());
     this.formulario = this.formBuilder.group({
       pageNo: [0],
-      pageSize: ['2'],
+      pageSize: ['10'],
       idSemillero: [null],
       numeroDocumento: [''],
       estado: [''],
@@ -151,7 +151,7 @@ export class ListarIntegrantesComponent implements OnInit, OnDestroy {
   limpiarCampos(): void {
     this.formulario = this.formBuilder.group({
       pageNo: [0],
-      pageSize: ['2'],
+      pageSize: ['10'],
       idSemillero: [null],
       numeroDocumento: [''],
       estado: [''],

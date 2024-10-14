@@ -18,7 +18,7 @@ export class SemilleroProgramasAdapter {
   obtenerProgramasxSemilleroId(
     semilleroId: string = '',
     pageNo: number = 0,
-    pageSize: number = 100,
+    pageSize: number = 10,
   ): Observable<Respuesta<Paginacion<ListarProgramas>>> {
     let params = new HttpParams()
       .set('pageNo', pageNo.toString())

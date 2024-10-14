@@ -26,7 +26,7 @@ import { CambiarEstadoSemilleroModalComponent } from '../cambiar-estado-semiller
 export class ListarTodosSemillerosComponent {
   @Output() movePageEmitter = new EventEmitter<number>();
   private changePageEmitter = new EventEmitter<number>();
-  paginas: number[] = [2, 3, 5];
+  paginas: number[] = [10,25, 50, 100];
   protected formulario: FormGroup;
   protected datatableInputs: DatatableInput;
   protected estadoSemilleroEnum = SemilleroEstado;
@@ -45,7 +45,7 @@ export class ListarTodosSemillerosComponent {
       new Paginacion<ListarSemilleroosFuncionarioProyeccion>());
     this.formulario = this.formBuilder.group({
       pageNo: [0],
-      pageSize: ['2'],
+      pageSize: ['10'],
       nombre: [''],
       correo: [''],
       estado: ['']
@@ -106,7 +106,7 @@ export class ListarTodosSemillerosComponent {
   limpiarCampos(){
     this.formulario = this.formBuilder.group({
       pageNo: [0],
-      pageSize: ['2'],
+      pageSize: ['10'],
       nombre: [''],
       correo: [''],
       estado: ['']

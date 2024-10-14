@@ -28,7 +28,7 @@ import { InformacionUsuarioAutenticadoService } from '../../../../../../service/
 export class ListarObservacionesComponent implements OnInit,OnDestroy {
   @Output() movePageEmitter = new EventEmitter<number>();
   private changePageEmitter = new EventEmitter<number>();
-  paginas: number[] = [2, 3, 5];
+  paginas: number[] = [10,25,50,100];
   protected idSemillero!: string;
   protected formulario: FormGroup;
   protected datatableInputs: DatatableInput;
@@ -47,7 +47,7 @@ export class ListarObservacionesComponent implements OnInit,OnDestroy {
   ){
     this.formulario = this.formBuilder.group({
       pageNo: [0],
-      pageSize: ['2'],
+      pageSize: ['10'],
       idSemillero: [''],
 
     });

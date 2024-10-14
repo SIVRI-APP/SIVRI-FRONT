@@ -29,7 +29,7 @@ export class ListarProgramasComponent implements OnInit,OnDestroy {
   protected idSemillero!: string;
   protected idLinea!: number;
   private respuesta: Respuesta<Paginacion<SemilleroProgramaProyeccion>>;
-  paginas: number[] = [2, 3, 5];
+  paginas: number[] = [10,25, 50,100];
   private suscripciones: Subscription []=[];
   protected formulario: FormGroup;
   protected mostrarCreaPrograma: boolean = false;
@@ -50,7 +50,7 @@ export class ListarProgramasComponent implements OnInit,OnDestroy {
   ) {
     this.formulario = this.formBuilder.group({
       pageNo: [0],
-      pageSize: [2],
+      pageSize: [10],
       semilleroId: ['']
     });
     this.roles= informacionUsuarioAutenticadoService.retornarRoles();

@@ -22,7 +22,7 @@ export class PlanTrabajoObtenerService {
 
   listarPlanTrabajo(
     pageNo: number = 0,
-    pageSize: number = 2,
+    pageSize: number = 10,
     anio: string,
     idSemillero: string,
     estado: string
