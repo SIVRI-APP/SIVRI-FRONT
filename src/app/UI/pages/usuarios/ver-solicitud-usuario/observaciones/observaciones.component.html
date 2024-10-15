@@ -1,80 +1,83 @@
 @if (this.solicitudUsuario.status == 200) {
 
-    @if (this.solicitudUsuario.data.observaciones !== undefined && this.solicitudUsuario.data.observaciones !== null) {
+@if (this.solicitudUsuario.data.observaciones !== undefined && this.solicitudUsuario.data.observaciones !== null) {
 
-        @if (!this.solicitudUsuario.data.observaciones.resuelta) {
-            <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-                <button type="submit" class="primaryBTN" (click)="resolverObservaciones()">
-                    <div class="button-content">
-                        <span class="material-symbols-outlined primaryBTN-icon">
-                            checklist
-                        </span>
-                        <span class="text">Marcar las Observaciones como resueltas</span>
-                    </div>
-                </button>
-            </div>
-        }@else {
-            <div class="d-flex align-items-center">
-                <span class="material-symbols-outlined inl" style="color: #59A640;">
-                    recommend
-                </span>
-                <p class="d-inline ml-2 mb-0">Las observaciones a continuación ya se encuentran resueltas. No se requiere ninguna acción</p>
-            </div>
-        }
-    
-
-        <div class="accordion" id="accordionExample">
-            <div class="accordion-item">
-                <h2 class="accordion-header">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                        [attr.data-bs-target]="'#P'+this.solicitudUsuario.data.observaciones.id" aria-expanded="true"
-                        [attr.aria-controls]="'P'+this.solicitudUsuario.data.observaciones.id">
-                        #1 {{this.solicitudUsuario.data.observaciones.funcionario.usuario.nombre}}
-                    </button>
-                </h2>
-                <div [id]="'P'+this.solicitudUsuario.data.observaciones.id" class="accordion-collapse collapse show"
-                    data-bs-parent="#accordionExample">
-                    <div class="accordion-body">
-                        <strong>
-                            {{this.solicitudUsuario.data.observaciones.funcionario.usuario.nombre}}
-                            {{this.solicitudUsuario.data.observaciones.funcionario.usuario.apellido}}
-                            <code>{{this.solicitudUsuario.data.observaciones.fechaObservacion | date:'d-MMM-y'}}</code>
-                        </strong>
-                        <p>{{this.solicitudUsuario.data.observaciones.observacion}}</p>
-                    </div>
-                </div>
-            </div>
-
-            @if (this.solicitudUsuario.data.observaciones.conversacion.length > 0) {
-                @for (item of this.solicitudUsuario.data.observaciones.conversacion; track $index) {
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                [attr.data-bs-target]="'#'+item.id" aria-expanded="false" [attr.aria-controls]="item.id">
-                                #{{$index+2}} {{item.autor}}
-                            </button>
-                        </h2>
-                        <div [id]="item.id" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                            <div class="accordion-body">
-                                <strong>
-                                    {{item.autor}}
-                                    <code>{{item.fechaMensaje | date:'d-MMM-y h:mm:ss a'}}</code>
-                                </strong>
-                                <p>{{item.mensaje}}</p>
-                            </div>
-                        </div>
-                    </div>
-                }
-            }
-        </div>
-    }@else {
-        <div class="d-flex align-items-center">
-            <span class="material-symbols-outlined inl" style="color: #59A640;">
-                recommend
+@if (!this.solicitudUsuario.data.observaciones.resuelta) {
+@if (informacionUsuarioAutenticadoService.esFuncionarioUsuarios()) {
+<div class="d-grid gap-2 d-md-flex justify-content-md-start">
+    <button type="submit" class="primaryBTN" (click)="resolverObservaciones()">
+        <div class="button-content">
+            <span class="material-symbols-outlined primaryBTN-icon">
+                checklist
             </span>
-            <p class="d-inline ml-2 mb-0">No existen registros de Observaciones para esta solicitud</p>
+            <span class="text">Marcar las Observaciones como resueltas</span>
         </div>
-    }
+    </button>
+</div>
+}
 }@else {
-    <p>No se pudieron cargar las Observaciones</p>
+<div class="d-flex align-items-center">
+    <span class="material-symbols-outlined inl" style="color: #59A640;">
+        recommend
+    </span>
+    <p class="d-inline ml-2 mb-0">Las observaciones a continuación ya se encuentran resueltas. No se requiere ninguna
+        acción</p>
+</div>
+}
+
+
+<div class="accordion" id="accordionExample">
+    <div class="accordion-item">
+        <h2 class="accordion-header">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                [attr.data-bs-target]="'#P'+this.solicitudUsuario.data.observaciones.id" aria-expanded="true"
+                [attr.aria-controls]="'P'+this.solicitudUsuario.data.observaciones.id">
+                #1 {{this.solicitudUsuario.data.observaciones.funcionario.usuario.nombre}}
+            </button>
+        </h2>
+        <div [id]="'P'+this.solicitudUsuario.data.observaciones.id" class="accordion-collapse collapse show"
+            data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+                <strong>
+                    {{this.solicitudUsuario.data.observaciones.funcionario.usuario.nombre}}
+                    {{this.solicitudUsuario.data.observaciones.funcionario.usuario.apellido}}
+                    <code>{{this.solicitudUsuario.data.observaciones.fechaObservacion | date:'d-MMM-y'}}</code>
+                </strong>
+                <p>{{this.solicitudUsuario.data.observaciones.observacion}}</p>
+            </div>
+        </div>
+    </div>
+
+    @if (this.solicitudUsuario.data.observaciones.conversacion.length > 0) {
+    @for (item of this.solicitudUsuario.data.observaciones.conversacion; track $index) {
+    <div class="accordion-item">
+        <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                [attr.data-bs-target]="'#'+item.id" aria-expanded="false" [attr.aria-controls]="item.id">
+                #{{$index+2}} {{item.autor}}
+            </button>
+        </h2>
+        <div [id]="item.id" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+                <strong>
+                    {{item.autor}}
+                    <code>{{item.fechaMensaje | date:'d-MMM-y h:mm:ss a'}}</code>
+                </strong>
+                <p>{{item.mensaje}}</p>
+            </div>
+        </div>
+    </div>
+    }
+    }
+</div>
+}@else {
+<div class="d-flex align-items-center">
+    <span class="material-symbols-outlined inl" style="color: #59A640;">
+        recommend
+    </span>
+    <p class="d-inline ml-2 mb-0">No existen registros de Observaciones para esta solicitud</p>
+</div>
+}
+}@else {
+<p>No se pudieron cargar las Observaciones</p>
 }

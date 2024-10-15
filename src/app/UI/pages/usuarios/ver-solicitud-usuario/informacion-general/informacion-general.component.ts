@@ -16,6 +16,7 @@ import { EnumTranslationService } from '../../../../../service/common/enum-trans
 import { ModalGetObservacionComponent } from '../../../../shared/modal-get-observacion/modal-get-observacion.component';
 import { AuthService } from '../../../../../service/auth/domain/service/auth.service';
 import { UsuarioSolicitudObtenerService } from '../../../../../service/solicitudUsuarios/domain/service/usuarioSolicitudObtener.service';
+import { InformacionUsuarioAutenticadoService } from '../../../../../service/auth/domain/service/informacionUsuarioAutenticado.service';
 
 @Component({
   selector: 'app-informacion-general',
@@ -48,7 +49,8 @@ export class InformacionGeneralComponent implements OnInit{
     private usuarioSolicitudCrearService: UsuarioSolicitudCrearService,
     private usuarioSolicitudObtenerService: UsuarioSolicitudObtenerService,
     protected enumTranslationService: EnumTranslationService,
-    protected authService: AuthService
+    protected authService: AuthService,
+    protected informacionUsuarioAutenticadoService: InformacionUsuarioAutenticadoService
   ){
     this.respuesta = new Respuesta<false>;
     this.solicitudUsuario = new Respuesta<UsuarioSolicitudInformaciónDetalladaProyección>;
@@ -79,37 +81,53 @@ export class InformacionGeneralComponent implements OnInit{
 
           this.id = this.solicitudUsuario?.data.id;
           this.formulario?.get('id')?.setValue(this.solicitudUsuario?.data.id);
-          this.formulario?.get('id')?.disable()
-          
-          this.formulario?.get('correo')?.setValue(this.solicitudUsuario?.data.correo);
-          this.formulario?.get('correo')?.disable()
-          this.formulario?.get('tipoDocumento')?.setValue(this.solicitudUsuario?.data.tipoDocumento);
-          this.formulario?.get('tipoDocumento')?.disable()
-          this.formulario?.get('numeroDocumento')?.setValue(this.solicitudUsuario?.data.numeroDocumento);
-          this.formulario?.get('numeroDocumento')?.disable()
-          this.formulario?.get('sexo')?.setValue(this.solicitudUsuario?.data.sexo);
-          this.formulario?.get('sexo')?.disable()
-          this.formulario?.get('tipoUsuario')?.setValue(this.solicitudUsuario?.data.tipoUsuario);
-          this.formulario?.get('tipoUsuario')?.disable()
-          this.formulario?.get('nombre')?.setValue(this.solicitudUsuario?.data.nombre);
-          this.formulario?.get('nombre')?.disable()
-          this.formulario?.get('apellido')?.setValue(this.solicitudUsuario?.data.apellido);
-          this.formulario?.get('apellido')?.disable(),
-          this.formulario?.get('telefono')?.setValue(this.solicitudUsuario?.data.telefono);
-          this.formulario?.get('telefono')?.disable()
-          this.formulario?.get('cvLac')?.setValue(this.solicitudUsuario?.data.cvLac);
-          this.formulario?.get('cvLac')?.disable()
-          this.formulario?.get('nota')?.setValue(this.solicitudUsuario?.data.nota);
-          this.formulario?.get('nota')?.disable()
-          this.formulario?.get('estadoSolicitud')?.setValue(this.solicitudUsuario?.data.estado);
-          this.formulario?.get('estadoSolicitud')?.disable()
+          this.formulario?.get('id')?.disable()          
 
+          this.formulario?.get('correo')?.setValue(this.solicitudUsuario?.data.correo);          
+          this.formulario?.get('tipoDocumento')?.setValue(this.solicitudUsuario?.data.tipoDocumento);          
+          this.formulario?.get('numeroDocumento')?.setValue(this.solicitudUsuario?.data.numeroDocumento);          
+          this.formulario?.get('sexo')?.setValue(this.solicitudUsuario?.data.sexo);          
+          this.formulario?.get('tipoUsuario')?.setValue(this.solicitudUsuario?.data.tipoUsuario);          
+          this.formulario?.get('nombre')?.setValue(this.solicitudUsuario?.data.nombre);          
+          this.formulario?.get('apellido')?.setValue(this.solicitudUsuario?.data.apellido);          
+          this.formulario?.get('telefono')?.setValue(this.solicitudUsuario?.data.telefono);          
+          this.formulario?.get('cvLac')?.setValue(this.solicitudUsuario?.data.cvLac);          
+          this.formulario?.get('nota')?.setValue(this.solicitudUsuario?.data.nota);          
+          this.formulario?.get('estadoSolicitud')?.setValue(this.solicitudUsuario?.data.estado);
+          
+
+          if (this.informacionUsuarioAutenticadoService.esFuncionario()) {
+            if (this.informacionUsuarioAutenticadoService.esFuncionarioUsuarios() && respuesta.data.estado == this.enumTranslationService.getKeyByValue(EstadoSolicitudUsuario, EstadoSolicitudUsuario.FORMULADO_OBSERVACIONES)) {
+              console.log("Es USUARIOS")
+              this.deshabilitarCamposDelFormulario();
+            }else if (!this.informacionUsuarioAutenticadoService.esFuncionarioUsuarios()) {
+              console.log("NO Es USUARIOS")
+              this.deshabilitarCamposDelFormulario();
+            }            
+          }else if(respuesta.data.estado == this.enumTranslationService.getKeyByValue(EstadoSolicitudUsuario, EstadoSolicitudUsuario.REVISION_VRI)){
+            this.deshabilitarCamposDelFormulario();
+          }
+          
         },
         // Manejar errores
         error: (errorData) => {
           console.error(errorData);
         }
       });
+  }
+
+  deshabilitarCamposDelFormulario(){
+    this.formulario?.get('correo')?.disable()
+    this.formulario?.get('tipoDocumento')?.disable()
+    this.formulario?.get('numeroDocumento')?.disable()
+    this.formulario?.get('sexo')?.disable()
+    this.formulario?.get('tipoUsuario')?.disable()
+    this.formulario?.get('nombre')?.disable()
+    this.formulario?.get('apellido')?.disable()
+    this.formulario?.get('telefono')?.disable()
+    this.formulario?.get('cvLac')?.disable()
+    this.formulario?.get('nota')?.disable()
+    this.formulario?.get('estadoSolicitud')?.disable()
   }
 
   // Esta funcion hace el campo CVLAC obligatorio si el tipo de usuario a crear es DOCENTE
@@ -184,7 +202,7 @@ export class InformacionGeneralComponent implements OnInit{
     // Esperara a la Modal
     modalRef.componentInstance.enviarInformacion.subscribe((informacion: string) => {
       this.usuarioSolicitudCrearService.enviarRevisionVRI({
-        usuarioSolicitudId: this.formulario.value.id,
+        usuarioSolicitudId: this.formulario.getRawValue().id,
         observacion: informacion,
       })
       .subscribe({

@@ -35,4 +35,9 @@ export class InformacionUsuarioAutenticadoService {
     return roles.includes("GRUPO:DIRECTOR") || roles.includes("SEMILLERO:MENTOR");
   }
 
+  esFuncionarioUsuarios(){
+    const roles = this.retornarRoles();
+    return roles.includes("FUNCIONARIO:SUPER_ADMIN") || roles.includes("FUNCIONARIO:USUARIOS");
+  }
+
 }

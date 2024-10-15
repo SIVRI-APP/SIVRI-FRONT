@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { ModalInterroganteComponent } from '../../../../shared/modal-interrogante/modal-interrogante.component';
 import { UsuarioSolicitudCrearService } from '../../../../../service/solicitudUsuarios/domain/service/usuarioSolicitudCrear.service';
 import { UsuarioSolicitudObtenerService } from '../../../../../service/solicitudUsuarios/domain/service/usuarioSolicitudObtener.service';
+import { InformacionUsuarioAutenticadoService } from '../../../../../service/auth/domain/service/informacionUsuarioAutenticado.service';
 
 @Component({
   selector: 'app-observaciones',
@@ -32,7 +33,8 @@ export class ObservacionesComponent implements OnInit{
   constructor(
     private router: Router,
     private usuarioSolicitudObtenerService: UsuarioSolicitudObtenerService,
-    private usuarioSolicitudCrearService: UsuarioSolicitudCrearService
+    private usuarioSolicitudCrearService: UsuarioSolicitudCrearService,
+    protected informacionUsuarioAutenticadoService: InformacionUsuarioAutenticadoService
   ){
     this.solicitudUsuario = new Respuesta<UsuarioSolicitudInformaciónDetalladaProyección>;
     this.resolverObservacionesRta = new Respuesta<Boolean>;
