@@ -1,0 +1,76 @@
+.alert-container {
+  display: flex;
+  align-items: center;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  max-width: 400px;
+  z-index: 1000;
+}
+
+.alert-icon {
+  color: #FF554C; /* Color del icono de advertencia */
+  font-size: 33px;
+  margin-right: 10px;
+}
+
+.alert-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.alert-title {
+  font-weight: bold;
+  color: #FF554C; /* Color del título "Solicitud no guardada" */
+  font-size: 16px;
+}
+
+.alert-message {
+  color: #3C3B3F; /* Color del texto del mensaje */
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.alert-success {
+  border-left: 5px solid #5BAE40;
+  background-color: #5BAE40;
+}
+
+.alert-warning {
+  border-left: 5px solid #FFB000;
+  background-color: #FFB000;
+}
+
+.alert-error {
+  border-left: 12px solid #FF554C;
+
+}
+/*.alert-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 15px;
+  border-radius: 5px;
+  color: white;
+  font-size: 14px;
+  z-index: 1000;
+}
+
+.alert-success {
+  border-left: 5px solid #5BAE40;
+  background-color: #5BAE40;
+}
+
+.alert-warning {
+  border-left: 5px solid #FFB000;
+  background-color: #FFB000;
+}
+
+.alert-error {
+  border-left: 5px solid #FF554C;
+  background-color: #FF554C;
+}*/

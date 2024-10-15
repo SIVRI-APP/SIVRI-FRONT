@@ -13,12 +13,16 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TipoDocumentoSemillero } from '../../../../../../service/semilleros/domain/model/enum/tipoDocumentoSemillero';
 import { NotificationAlertService } from '../../../../../../service/common/notification-alert.service';
+import { NotificacionErrorComponent } from '../../../../../shared/notificacion-error/notificacion-error.component';
+import { NotificacionOkComponent } from '../../../../../shared/notificacion-ok/notificacion-ok.component';
 // Declara Bootstrap si no está tipado
 declare var bootstrap: any;
 @Component({
   selector: 'app-listar-documentos',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule,
+    NotificacionOkComponent
+  ],
   templateUrl: './listar-documentos.component.html',
   styleUrl: './listar-documentos.component.css'
 })
@@ -30,6 +34,7 @@ export class ListarDocumentosComponent implements OnInit{
   protected formulario: FormGroup;
   // Inyeccion de Modal
   private modalService = inject(NgbModal);
+  protected showWarning = false;
   protected respuestaSemilleroInfo?: SemilleroProyeccion;
   protected respuestaDocumento: Respuesta<boolean>;
   protected respuestaInfoDocuemntoSemilleroAval!:Respuesta<ListarDocumentoSemilleroProyeccion>;
@@ -111,7 +116,8 @@ export class ListarDocumentosComponent implements OnInit{
             if (this.modalInstance) {
               this.modalInstance.hide();
             }
-            this.notificationAlertService.showAlert('',respuesta.userMessage,3000);
+            this.showWarning=true;
+            //this.notificationAlertService.showAlert('',respuesta.userMessage,3000);
           }
         });
     }
@@ -127,11 +133,15 @@ export class ListarDocumentosComponent implements OnInit{
             if (this.modalInstance) {
               this.modalInstance.hide();
             }
-            this.notificationAlertService.showAlert('','Actualización Exitosa',3000);
+            this.showWarning=true;
+            //this.notificationAlertService.showAlert('','Actualización Exitosa',3000);
           }
         });
     }
 
+  }
+  onAlertClosed() {
+    this.showWarning = false; // Reseteamos la variable cuando se cierra la alerta
   }
   cancelar(){
     if (this.modalInstance) {

@@ -63,7 +63,7 @@ export class ActualizarActividadComponent  implements OnInit {
       objetivo: ['',[Validators.required,Validators.minLength(2),Validators.maxLength(1450)]],
       actividad: ['',[Validators.required]],
       compromiso: ['',[Validators.required]],
-      responsable:['',[Validators.required]],
+      responsableId:['',[Validators.required]],
       fechaInicio:['',[Validators.required]],
       fechaFin:['',[Validators.required]]
     });
@@ -81,7 +81,7 @@ export class ActualizarActividadComponent  implements OnInit {
       this.formulario.get('objetivo')?.disable();
       this.formulario.get('actividad')?.disable();
       this.formulario.get('compromiso')?.disable();
-      this.formulario.get('responsable')?.disable();
+      this.formulario.get('responsableId')?.disable();
       this.formulario.get('fechaInicio')?.disable();
       this.formulario.get('fechaFin')?.disable();
     }
@@ -93,13 +93,9 @@ export class ActualizarActividadComponent  implements OnInit {
     this.semilleroObtenerService.obtenerSemilleroInformacionDetallada(this.idSemillero).subscribe({
       next:(respuesta)=>{
         this.semillero=respuesta;
-        this.idGrupo= this.semillero.data.grupoId;
-        this.integrantesGrupoObtenerService.obtenerMentoresxgrupo(this.idGrupo).subscribe({
-          next:(respuesta)=>{
-          this.integrantesMentores= respuesta.data;
 
-          }
-        });
+        this.idGrupo= this.semillero.data.grupoId;
+        this.obtenerMentoresxGrupoId();
       }
     });
     this.compromisosObtenerService.obtenerCompromisosSemilleros().subscribe({
@@ -111,17 +107,28 @@ export class ActualizarActividadComponent  implements OnInit {
       }
     });
     this.obtenerActividadxId();
+
+  }
+
+  obtenerMentoresxGrupoId(){
+    this.integrantesGrupoObtenerService.obtenerMentoresxgrupo(this.idGrupo).subscribe({
+      next:(respuesta)=>{
+      this.integrantesMentores= respuesta.data;
+      }
+    });
   }
   obtenerActividadxId(){
     this.actividadObtenerService.obtenerActividadxId(this.idActividad).subscribe({
       next:(respuesta)=>{
+
         this.actividadxid=respuesta;
         this.formulario.get('objetivo')?.setValue(this.actividadxid.data.objetivo);
         this.formulario.get('actividad')?.setValue(this.actividadxid.data.actividad);
         this.formulario.get('compromiso')?.setValue(this.actividadxid.data.compromiso.id);
-        this.formulario.get('responsable')?.setValue(this.actividadxid.data.responsableUsuarioId);
+        this.formulario.get('responsableId')?.setValue(this.actividadxid.data.responsableUsuarioId);
        this.formulario.get('fechaInicio')?.setValue(this.actividadxid.data.fechaInicio);
        this.formulario.get('fechaFin')?.setValue(this.actividadxid.data.fechaFin);
+
       }
     });
 
@@ -135,7 +142,7 @@ export class ActualizarActividadComponent  implements OnInit {
         fechaInicio: this.formulario.value.fechaInicio,
         fechaFin: this.formulario.value.fechaFin,
         idCompromiso: this.formulario.value.compromiso,
-        responsableUsuarioId: this.formulario.value.responsable
+        responsableUsuarioId: this.formulario.value.responsableId
       }).subscribe({
         next:(respuesta)=>{
           this.respuesta=respuesta;

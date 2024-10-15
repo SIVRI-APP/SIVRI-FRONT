@@ -202,3 +202,7 @@
 </div>
 
 </form>
+@if (showWarning) {
+  <app-notificacion-ok [title]="'Solicitud guardada'" [message]="'Acción Realizada'" (alertClosed)="onAlertClosed()" ></app-notificacion-ok>
+
+}

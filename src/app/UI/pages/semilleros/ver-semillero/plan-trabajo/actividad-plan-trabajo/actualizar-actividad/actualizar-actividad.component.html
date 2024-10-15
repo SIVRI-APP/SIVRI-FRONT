@@ -40,13 +40,13 @@
     <div class="row">
       <div class="col-sm">
         <label for="responsable" class="etiqueta-form"><strong>Responsable </strong><span class="text-red-500">*</span></label>
-        <select id="responsable" name="responsable" class="form-select" formControlName="responsable">
+        <select id="responsable" name="responsable" class="form-select" formControlName="responsableId">
           <!-- TODO falta traer los responsables desde la bd -->
           @for (mentor of integrantesMentores; track $index) {
           <option [value]="mentor.id">{{mentor.nombres}}</option>
           }
         </select>
-        <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('responsable')?.valid && this.formulario.get('responsable')?.touched ? 'block' : 'none'">
+        <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('responsableId')?.valid && this.formulario.get('responsableId')?.touched ? 'block' : 'none'">
           Selecciona un Responsable valido
       </div>
       </div>

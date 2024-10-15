@@ -61,8 +61,8 @@
       </div>
       <div class="col-sm"></div>
     </div>
-    {{btnMentorUsuario}}
-    @if (!mostrarBtnIntegrante || btnMentorUsuario != true) {
+
+    @if (!mostrarBtnIntegrante ) {
     <div class="row">
       <div class="col controls">
         <button type="button" class="secondaryBTN" (click)="cancelar()">

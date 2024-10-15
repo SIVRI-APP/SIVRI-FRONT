@@ -146,13 +146,13 @@ export class ActualizarIntegranteComponent implements OnInit {
         this.formulario.get('fechaIngreso')?.setValue(this.integranteDatos.data.fechaIngreso);
         this.formulario.get('fechaRetiro')?.setValue(this.integranteDatos.data.fechaRetiro);
         console.log('rol semillero '+this.formulario.value.rolSemilleroId);
-
-        if(this.rolMentorBtn && this.formulario.get('rolSemilleroId')?.value== 2){
+//TODO no se porque me sigue mostrando los botones de camcelar y editar si no deberia
+     /*   if(this.rolMentorBtn && this.formulario.get('rolSemilleroId')?.value== 2){
           this.formulario.get('rolSemilleroId')?.disable();
           this.formulario.get('estadoIntegrante')?.disable();
           this.formulario.get('fechaRetiro')?.disable();
           this.btnMentorUsuario=true;
-        }
+        }*/
       }
     });
   }
