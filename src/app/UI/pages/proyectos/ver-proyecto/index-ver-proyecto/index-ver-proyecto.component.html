@@ -2,7 +2,9 @@
     <ol class="breadcrumb">
         <li class="breadcrumb-item" routerLink="/inicio"><a>Inicio</a></li>
         <li class="breadcrumb-item" routerLink="/proyectos/listar"><a>Proyectos</a></li>
-        <li class="breadcrumb-item" routerLink="/proyectos/listar/{{this.informacionDetalladaProyecto.data.informacionDetalladaProyecto.id}}"><a>Proyectos ID:{{this.informacionDetalladaProyecto.data.informacionDetalladaProyecto.id}}</a>
+        <li class="breadcrumb-item"
+            routerLink="/proyectos/listar/{{this.informacionDetalladaProyecto.data.informacionDetalladaProyecto.id}}">
+            <a>Proyectos ID:{{this.informacionDetalladaProyecto.data.informacionDetalladaProyecto.id}}</a>
         </li>
     </ol>
 </nav>
@@ -45,7 +47,7 @@
     <div class="col-sm-6">
         <div class="card proyecto-card-sivri">
             <div class="row g-0 align-items-center">
-                
+
                 <div class="col-sm-2 d-flex justify-content-center align-items-center">
                     <span class="material-symbols-outlined" style="font-size: 36px; color: #006;">experiment</span>
                 </div>
@@ -55,29 +57,41 @@
                         <!-- Primera fila: Proyecto ID y valor -->
                         <div class="d-flex align-items-center mb-2">
                             <h6 class="mb-0" style="font-size: 15px; color: #006; font-weight: bold;">Proyecto ID:</h6>
-                            <h6 class="mb-0 ms-2" style="font-size: 15px;">{{this.informacionDetalladaProyecto.data.informacionDetalladaProyecto.id}}</h6>
+                            <h6 class="mb-0 ms-2" style="font-size: 15px;">
+                                {{this.informacionDetalladaProyecto.data.informacionDetalladaProyecto.id}}</h6>
                         </div>
                         <!-- Segunda fila: Estado y valor -->
                         <div class="d-flex align-items-center">
                             <h6 class="mb-0" style="font-size: 15px; color: #006; font-weight: bold;">Estado:</h6>
-                            <h6 class="mb-0 ms-2" style="font-size: 15px;">{{enumTranslationService.getEnumValueByKey(this.estadoProyectoEnum, this.informacionDetalladaProyecto.data.informacionDetalladaProyecto.estado)}}</h6>
+                            <h6 class="mb-0 ms-2" style="font-size: 15px;">
+                                {{enumTranslationService.getEnumValueByKey(this.estadoProyectoEnum,
+                                this.informacionDetalladaProyecto.data.informacionDetalladaProyecto.estado)}}</h6>
                         </div>
                     </div>
                 </div>
 
                 <div class="col-sm-4 d-flex justify-content-center align-items-center">
-                    <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-sivri" data-bs-toggle="dropdown" aria-expanded="false">
-                        Cambiar Estado
+                    <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-sivri"
+                        data-bs-toggle="dropdown" aria-expanded="false" [disabled]="btnGuardarCambios">
+                        Guardar/Enviar
                     </button>
                     <ul class="dropdown-menu">
+                        @if (this.aprobado) {
                         <li><a class="dropdown-item" href="#">Aprobado</a></li>
-                        <li><a class="dropdown-item" href="#">Ejecución</a></li>
-                        <li><a class="dropdown-item" href="#">Formulado</a></li>
+                        }
+                        @if (this.formuladoConObservaciones) {
                         <li><a class="dropdown-item" href="#">Formulado con Observaciones</a></li>
+                        }
+                        @if (this.revisionVri) {
                         <li><a class="dropdown-item" href="#">Revisión VRI</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li>                            
-                            <a class="dropdown-item d-flex align-items-center" (click)="guardarCambios()"><span class="material-symbols-outlined" style="margin-right: 5px;">save</span>Guardar Cambios</a>
+                        }
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center" (click)="guardarCambios()"><span
+                                    class="material-symbols-outlined" style="margin-right: 5px;">save</span>Guardar
+                                Cambios</a>
                         </li>
                     </ul>
                 </div>

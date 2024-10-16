@@ -1,27 +1,36 @@
-a:hover{
+a:hover {
   cursor: pointer;
 }
+
 /*----------------- biñeta de campo obligatorio-----*/
 .text-red-500 {
   /* Color del texto */
-  color: var(--NARANJA-WARNING, #F26500); /* Si --NARANJA-WARNING no está definido, el color será #F26500 (naranja) */
+  color: var(--NARANJA-WARNING, #F26500);
+  /* Si --NARANJA-WARNING no está definido, el color será #F26500 (naranja) */
   /* Fuente */
-  font-family: "Titillium Web"; /* Usar la fuente Titillium Web */
+  font-family: "Titillium Web";
+  /* Usar la fuente Titillium Web */
   /* Tamaño y estilo de la fuente */
-  font-size: 18px; /* Tamaño de la fuente de 20 píxeles */
-  font-style: normal; /* Estilo de fuente normal */
-  font-weight: 600; /* Peso de la fuente 600 (semi-negrita) */
+  font-size: 18px;
+  /* Tamaño de la fuente de 20 píxeles */
+  font-style: normal;
+  /* Estilo de fuente normal */
+  font-weight: 600;
+  /* Peso de la fuente 600 (semi-negrita) */
   /* Espaciado de línea */
-  line-height: normal; /* Espaciado de línea normal */
+  line-height: normal;
+  /* Espaciado de línea normal */
 }
+
 /* -------------icono de la tarjeta-------------*/
-.icon-card{
+.icon-card {
   color: var(--azul-principal, #006);
   /* Color del texto del título */
   font-size: 40px;
 }
+
 /* -------------- estilo de alerta notificacion-----------*/
-.alerta-warning{
+.alerta-warning {
   position: fixed;
   max-width: 5000px;
   max-height: 1000px;
@@ -29,26 +38,28 @@ a:hover{
   right: 30px;
   background: #F6F6F6;
   border-radius: 7px;
-  border: 1px solid var( #E4E1EC);
-    /* Color del texto del enlace */
+  border: 1px solid var(#E4E1EC);
+  /* Color del texto del enlace */
   font-size: 15px;
-    /* Tamaño de fuente */
+  /* Tamaño de fuente */
   font-style: normal;
-    /* Estilo de fuente */
+  /* Estilo de fuente */
   font-weight: 400;
-    /* Peso de la fuente */
+  /* Peso de la fuente */
   line-height: normal;
   margin-bottom: 5px;
   border-left: 5px solid #FF554C;
 }
-.alert-title{
+
+.alert-title {
   color: #FF554C;
 }
-.alert-icon-warning{
+
+.alert-icon-warning {
   color: #FF554C;
-  width:"33";
-   height:"30";
-    fill:"none";
+  width: "33";
+  height: "30";
+  fill: "none";
 }
 
 /* ---------------- Miga de Pan ---------------- */
@@ -89,24 +100,25 @@ a:hover{
 
 /* ---------------- Titulo ---------------- */
 /* Estilos para el sub titulo */
-.sub-title{
+.sub-title {
   color: var(--azul-principal, #006);
   /* Color del texto del título */
   font-size: 16px;
   /* Tamaño de fuente */
   font-style: normal;
-   /* Estilo de fuente */
-   font-weight: 700;
-   /* Peso de la fuente */
-   line-height: normal;
-   /* Altura de línea */
-   text-transform: capitalize;
-   /* Transformación de texto */
-   position: relative;
-   /* Posición relativa */
-   display: inline;
-   /* Visualización en línea */
+  /* Estilo de fuente */
+  font-weight: 700;
+  /* Peso de la fuente */
+  line-height: normal;
+  /* Altura de línea */
+  text-transform: capitalize;
+  /* Transformación de texto */
+  position: relative;
+  /* Posición relativa */
+  display: inline;
+  /* Visualización en línea */
 }
+
 /* Estilos para el título */
 .title {
   color: var(--azul-principal, #006);
@@ -184,8 +196,9 @@ a:hover{
   border-bottom-width: 2px;
   /* Ancho del borde inferior */
 }
+
 /* estilos para el enlace activo del submenu de la navegacion horizontal*/
-.nav-item.dropdown.active > .nav-link {
+.nav-item.dropdown.active>.nav-link {
   font-weight: 700;
   /* Peso de la fuente */
   border-bottom-color: #C00;
@@ -194,6 +207,7 @@ a:hover{
   /* Ancho del borde inferior */
 
 }
+
 /* Estilos para los enlaces de la navegación horizontal al pasar el mouse */
 .nav-underline .nav-item:hover .nav-link:not(.active) {
   border-bottom-width: 2px;
@@ -300,6 +314,23 @@ a:hover{
   border-color: transparent !important;
 }
 
+.btn.disabled,
+.btn:disabled,
+fieldset:disabled .btn {
+  background-color: #777680;
+  /* Cambia el color de fondo */
+  cursor: pointer !important;
+  /* Cambia el cursor a 'no permitido' */
+  opacity: 0.6;
+  /* Ajusta la opacidad */
+  box-shadow: none !important;
+  /* Elimina sombras */
+  outline: none !important;
+  /* Elimina el contorno */
+  border-color: transparent !important;
+  /* Hace la frontera transparente */
+}
+
 .secondaryBTN {
   display: inline-flex;
   align-items: center;
@@ -368,22 +399,22 @@ a:hover{
 }
 
 .form-control {
-    border-radius: 7px;
-    border: 1px solid var(--gris-deshabilitado, #E4E1EC);
-    /* Color del texto del enlace */
-    font-size: 15px;
-    /* Tamaño de fuente */
-    font-style: normal;
-    /* Estilo de fuente */
-    font-weight: 400;
-    /* Peso de la fuente */
-    line-height: normal;
-    margin-bottom: 5px;
+  border-radius: 7px;
+  border: 1px solid var(--gris-deshabilitado, #E4E1EC);
+  /* Color del texto del enlace */
+  font-size: 15px;
+  /* Tamaño de fuente */
+  font-style: normal;
+  /* Estilo de fuente */
+  font-weight: 400;
+  /* Peso de la fuente */
+  line-height: normal;
+  margin-bottom: 5px;
 }
 
-.form-check-input{
-    margin-bottom: 5px;
-    margin-right: 5px;
+.form-check-input {
+  margin-bottom: 5px;
+  margin-right: 5px;
 }
 
 /* Mensaje Feedback de formulario */
@@ -416,8 +447,8 @@ a:hover{
 }
 
 .giant-icon {
-    padding-top: 30px;
-    font-size: 6em;
+  padding-top: 30px;
+  font-size: 6em;
 }
 
 .file-description {
@@ -464,18 +495,18 @@ a:hover{
 
 /* Acordeon */
 .accordion-button:not(.collapsed) {
-    background-color: #828AE3;
-    box-shadow: none;
-    color: #fff;
-    font-weight: 400;
+  background-color: #828AE3;
+  box-shadow: none;
+  color: #fff;
+  font-weight: 400;
 }
 
-.accordion{
-    margin-top: 20px;
+.accordion {
+  margin-top: 20px;
 }
 
 .row {
-    box-shadow: none !important
+  box-shadow: none !important
 }
 
 .dropdown-toggle-sivri {
@@ -488,34 +519,40 @@ a:hover{
 /* Opcional: Cambia el color del botón cuando está en el estado hover o focus */
 .btn-primary.dropdown-toggle-sivri:hover,
 .btn-primary.dropdown-toggle-sivri:focus {
-  background: #5056AC; /* Cambia el color de fondo cuando el mouse pasa sobre el botón */
+  background: #5056AC;
+  /* Cambia el color de fondo cuando el mouse pasa sobre el botón */
   box-shadow: none !important;
   outline: none !important;
   border-color: transparent !important;
 }
 
 .btn-primary.dropdown-toggle-sivri.show {
-  background: #5056AC; /* Cambia el color de fondo cuando el dropdown está abierto */
+  background: #5056AC;
+  /* Cambia el color de fondo cuando el dropdown está abierto */
   box-shadow: none !important;
   outline: none !important;
   border-color: transparent !important;
 }
 
-.proyecto-card-sivri{
+.proyecto-card-sivri {
   border-radius: 13px;
   box-shadow: 2px 4px 4px 0px rgba(10, 10, 105, 0.22);
 }
 
 @media (max-width: 1300px) {
+
   /* Oculta el texto original del botón */
   .btn.btn-primary.dropdown-toggle.dropdown-toggle-sivri {
-      font-size: 0; /* Oculta el texto original reduciendo el tamaño de fuente a 0 */
+    font-size: 0;
+    /* Oculta el texto original reduciendo el tamaño de fuente a 0 */
   }
 
   /* Muestra el nuevo texto */
   .btn.btn-primary.dropdown-toggle.dropdown-toggle-sivri::before {
-      content: "Guardar ↓"; /* Texto más corto */
-      font-size: 14px; /* Ajusta el tamaño de la fuente para el nuevo texto */
-      display: inline-block;
+    content: "Guardar ↓";
+    /* Texto más corto */
+    font-size: 14px;
+    /* Ajusta el tamaño de la fuente para el nuevo texto */
+    display: inline-block;
   }
 }

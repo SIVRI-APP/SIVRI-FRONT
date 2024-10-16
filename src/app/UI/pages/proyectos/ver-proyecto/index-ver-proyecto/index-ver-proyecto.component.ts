@@ -34,6 +34,12 @@ export class IndexVerProyectoComponent implements OnInit{
   protected informacionDetalladaProyecto: Respuesta<ProyectoDetalladoDTO>;
   protected estadoProyectoEnum = EstadoProyecto;
 
+  //Estados Proyecto
+  protected aprobado = false;
+  protected formuladoConObservaciones = false;
+  protected revisionVri = false;
+  protected btnGuardarCambios = true;
+
   constructor(
     private cdr: ChangeDetectorRef,
     private router: Router,
@@ -56,6 +62,7 @@ export class IndexVerProyectoComponent implements OnInit{
         next: (respuesta) => {
           this.informacionDetalladaProyecto = respuesta;
           this.verProyectoService.construirFormulario(this.informacionDetalladaProyecto.data);
+          this.estadosVisibles(respuesta.data.informacionDetalladaProyecto.estado);
         }
       });
 
@@ -70,6 +77,24 @@ export class IndexVerProyectoComponent implements OnInit{
       this.instruccion = instruccion;
       this.cdr.detectChanges(); // Forzar detección de cambios
     });
+  }
+
+  estadosVisibles(estadoProyecto: EstadoProyecto){
+    if (this.informacionUsuarioAutenticadoService.esFuncionarioProyectos() && estadoProyecto == this.enumTranslationService.getKeyByValue(EstadoProyecto, EstadoProyecto.REVISION_VRI)) {
+      this.formuladoConObservaciones = true;
+      this.btnGuardarCambios = false;
+    }
+    
+    if (this.informacionUsuarioAutenticadoService.esFuncionarioProyectos() && estadoProyecto == this.enumTranslationService.getKeyByValue(EstadoProyecto, EstadoProyecto.REVISION_VRI)) {
+      this.aprobado = true;
+      this.btnGuardarCambios = false;
+    }
+
+    console.log(this.informacionUsuarioAutenticadoService.retornarRoles())
+    if (this.informacionUsuarioAutenticadoService.esInvestigadorProyectos()) {
+      this.revisionVri = true;
+      this.btnGuardarCambios = false;
+    }
   }
 
   guardarCambios() {

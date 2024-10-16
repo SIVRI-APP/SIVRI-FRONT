@@ -133,7 +133,6 @@ export class IntegrantesProyectoComponent implements OnInit{
   }
 
   buscarIntegrantesOrganismo(){
-    // todo miguel Aquie hay que mandar el id del organismo padre
     this.organismoObtenerService.listarIntegrantesOrganismo(this.proyectoInformacionOrganismo.id, this.proyectoId)
       .subscribe({
         next: (respuesta) => {      

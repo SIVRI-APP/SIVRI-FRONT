@@ -40,4 +40,14 @@ export class InformacionUsuarioAutenticadoService {
     return roles.includes("FUNCIONARIO:SUPER_ADMIN") || roles.includes("FUNCIONARIO:USUARIOS");
   }
 
+  esFuncionarioProyectos(){
+    const roles = this.retornarRoles();
+    return roles.includes("FUNCIONARIO:SUPER_ADMIN") || roles.includes("FUNCIONARIO:PROYECTOS_INTERNOS") || roles.includes("FUNCIONARIO:PROYECTOS_EXTERNOS");
+  }
+
+  esInvestigadorProyectos(){
+    const roles = this.retornarRoles();
+    return roles.includes("PROYECTO:DIRECTOR");
+  }
+
 }
