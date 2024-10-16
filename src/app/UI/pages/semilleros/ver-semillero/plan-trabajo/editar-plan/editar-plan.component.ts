@@ -10,11 +10,13 @@ import { ErrorData } from '../../../../../../service/common/model/errorData';
 import { ModalBadComponent } from '../../../../../shared/modal-bad/modal-bad.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalOkComponent } from '../../../../../shared/modal-ok/modal-ok.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-editar-plan',
   standalone: true,
   imports: [
+    CommonModule,
     ReactiveFormsModule,
   ],
   templateUrl: './editar-plan.component.html',

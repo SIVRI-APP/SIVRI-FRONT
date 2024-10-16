@@ -11,7 +11,7 @@
       </div>
       <div class="col-sm">
         <label for="estado" class="etiqueta-form"><strong>Estado</strong></label>
-        <select id="estado" name="estado" class="form-select" formControlName="estado">
+        <select id="estado" name="estado" class="form-select" formControlName="estado" [ngClass]="{'default-selected': formulario.get('estado')?.value==''}">
           <option value="" disabled hidden>Estado del plan</option>
           @for (key of enumTranslationService.getEnumKeys(estadoPlanEnum); track $index) {
           <option [value]="key">{{enumTranslationService.getEnumValueByKey(estadoPlanEnum,key)}}</option>
@@ -70,25 +70,67 @@
   @if (searchPerformed == true) {
     @if (respuesta.status == 200) {
       @if (respuesta.data.content.length > 0) {
-        <div class="accordion" id="accordionPlanes">
-          @for (item of respuesta.data.content; track $index) {
-            <div class="accordion-item">
-              <h2 class="accordion-header">
-                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                      [attr.data-bs-target]="'#'+item.id" aria-expanded="false" [attr.aria-controls]="item.id">
-                      {{item.id}}  {{item.nombrePlan}} {{item.anio}}   -      {{item.estado}}
-                  </button>
-              </h2>
-              <div [id]="item.id" class="accordion-collapse collapse" data-bs-parent="#accordionPlanes">
-                  <div class="accordion-body">
-                    <app-listar-actividades [idPlan]="item.id"></app-listar-actividades>
-                  </div>
+        <div class="card shadow datatable">
+        <div class="card-body">
+          <div class="accordion" id="accordionPlanes">
+            @for (item of respuesta.data.content; track $index) {
+              <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        [attr.data-bs-target]="'#'+item.id" aria-expanded="false" [attr.aria-controls]="item.id">
+                        {{item.id}}  {{item.nombrePlan}} {{item.anio}}   -      {{item.estado}}
+                    </button>
+                </h2>
+                <div [id]="item.id" class="accordion-collapse collapse" data-bs-parent="#accordionPlanes">
+                    <div class="accordion-body">
+                      <app-listar-actividades [idPlan]="item.id"></app-listar-actividades>
+                    </div>
+                </div>
+
               </div>
+            }
 
+          </div>
+          <!--div-- class="row">
+            <div class="col-md-6 align-self-center">
+              <p id="dataTable_info" class="dataTables_info" role="status" aria-live="polite">{{calcularTextoVisualizacion()}}
+              </p>
             </div>
+            <div class="col-md-6">
+              <nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
+                <ul class="pagination">
 
-          }
+                  <!-- Atras -->
+               <!--   @if (datatableInputs.paginacion.first) {
+                  <li class="page-item disabled"><a class="page-link" aria-label="Previous"
+                      (click)="movePage('atras')"><span aria-hidden="true">«</span></a></li>
+                  }@else {
+                  <li class="page-item"><a class="page-link" aria-label="Previous" (click)="movePage('atras')"><span
+                        aria-hidden="true">«</span></a></li>
+                  }
+
+                  <!-- Paginas -->
+
+           <!--       @for (pageNumber of getPageNumbers(); track $index) {
+                  <li class="page-item pagina" [class.active]="pageNumber === datatableInputs.paginacion.number + 1"><a
+                      class="page-link" (click)="changePage(pageNumber)">{{ pageNumber }}</a></li>
+                  }
+
+                  <!-- Adelante -->
+             <!--     @if (datatableInputs.paginacion.last) {
+                  <li class="page-item disabled"><a class="page-link" aria-label="Next"
+                      (click)="movePage('adelante')"><span aria-hidden="true">»</span></a></li>
+                  }@else {
+                  <li class="page-item"><a class="page-link" aria-label="Next" (click)="movePage('adelante')"><span
+                        aria-hidden="true">»</span></a></li>
+                  }
+
+                </ul>
+              </nav>
+            </div>
+          </!--div-->
         </div>
+      </div>
       }@else {
         <!--no hay registros-->
         <div class="icon-container">

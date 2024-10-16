@@ -10,11 +10,13 @@ import { Paginacion } from '../../../../service/common/model/paginacion';
 import { ListarTodosIntegranteSemilleroconFiltroProyeccion } from '../../../../service/semilleros/domain/model/proyecciones/listarIntegranteSemilleroconFiltroProyeccion';
 import { Respuesta } from '../../../../service/common/model/respuesta';
 import { DatatableCustomComponent } from '../../../shared/datatableCustomizable/datatable-custom.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-listar-todos-integrantes-semillero',
   standalone: true,
   imports: [
+    CommonModule,
     ReactiveFormsModule,
     DatatableCustomComponent
   ],

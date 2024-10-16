@@ -17,11 +17,13 @@ import { ListarActividadesComponent } from '../actividad-plan-trabajo/listar-act
 import { Subscription } from 'rxjs';
 import { CommunicationComponentsService } from '../../../../../../service/common/communication-components.service';
 import { InformacionUsuarioAutenticadoService } from '../../../../../../service/auth/domain/service/informacionUsuarioAutenticado.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-listar-plan-trabajo',
   standalone: true,
   imports: [
+    CommonModule,
     DatatableComponent,
     ReactiveFormsModule,
     RouterLink,

@@ -15,11 +15,13 @@ import { CrearIntegranteComponent } from '../crear-integrante/crear-integrante.c
 import { Subscription } from 'rxjs';
 import { CommunicationComponentsService } from '../../../../../../service/common/communication-components.service';
 import { InformacionUsuarioAutenticadoService } from '../../../../../../service/auth/domain/service/informacionUsuarioAutenticado.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-listar-integrantes',
   standalone: true,
   imports: [
+    CommonModule,
     RouterLink,
     ReactiveFormsModule,
     RouterLinkActive,

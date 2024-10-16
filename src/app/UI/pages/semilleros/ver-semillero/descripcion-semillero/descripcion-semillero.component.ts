@@ -24,22 +24,23 @@ import { SemilleroProgramaObtenerService } from '../../../../../service/semiller
 import { NotificationAlertService } from '../../../../../service/common/notification-alert.service';
 import { CommunicationComponentsService } from '../../../../../service/common/communication-components.service';
 import { InformacionUsuarioAutenticadoService } from '../../../../../service/auth/domain/service/informacionUsuarioAutenticado.service';
+import { NotificacionErrorComponent } from "../../../../shared/notificacion-error/notificacion-error.component";
 
 @Component({
   selector: 'app-descripcion-semillero',
   standalone: true,
   imports: [
-    RouterOutlet,RouterLink,
-    ReactiveFormsModule,RouterLinkActive,
-
-  ],
+    RouterOutlet, RouterLink,
+    ReactiveFormsModule, RouterLinkActive,
+    NotificacionErrorComponent
+],
   templateUrl: './descripcion-semillero.component.html',
   styleUrl: './descripcion-semillero.component.css'
 })
 export class DescripcionSemilleroComponent implements OnInit {
   // Inyeccion de Modal
   private modalService = inject(NgbModal);
-
+  protected showWarning = false;
   nombreSemillero: string='';
   //campos que ayuda a la visualizacion
   protected id!: string;
@@ -314,6 +315,7 @@ export class DescripcionSemilleroComponent implements OnInit {
     }
   }
   cancelar(){
+
     // Lógica para cancelar la acción
     this.formulario.get('nombre')?.setValue(this.semillero.data.nombre);
     this.formulario.get('correo')?.setValue(this.semillero.data.correo);
@@ -321,11 +323,12 @@ export class DescripcionSemilleroComponent implements OnInit {
     this.formulario.get('objetivo')?.setValue(this.semillero.data.objetivo);
     this.formulario.get('mision')?.setValue(this.semillero.data.mision);
     this.formulario.get('vision')?.setValue(this.semillero.data.vision);
-    this.notificationAlertService.showAlert('titulo','Accion Cancelada',3000);
-
-
+    this.showWarning=true;
+    //this.notificationAlertService.showAlert('titulo','Accion Cancelada',3000);
   }
-
+  onAlertClosed() {
+    this.showWarning = false; // Reseteamos la variable cuando se cierra la alerta
+  }
   openModalOk(message: string) {
 		const modalRef = this.modalService.open(ModalOkComponent);
 		modalRef.componentInstance.name = message;

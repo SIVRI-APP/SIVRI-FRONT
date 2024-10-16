@@ -9,11 +9,13 @@ import { DatatableInput } from '../../../../service/common/model/datatableInput'
 import { SemilleroObtenerService } from '../../../../service/semilleros/domain/service/semillero-obtener.service';
 import { DatatableComponent } from '../../../shared/datatable/datatable.component';
 import { EnumTranslationService } from '../../../../service/common/enum-translation.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-listar-semilleros',
   standalone: true,
   imports: [
+    CommonModule,
     RouterLink,
     ReactiveFormsModule,
     DatatableComponent

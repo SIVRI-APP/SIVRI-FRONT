@@ -11,11 +11,13 @@ import { DatatableComponent } from '../../../shared/datatable/datatable.componen
 import { RouterLink } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CambiarEstadoSemilleroModalComponent } from '../cambiar-estado-semillero-modal/cambiar-estado-semillero-modal.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-listar-todos-semilleros',
   standalone: true,
   imports: [
+    CommonModule,
     RouterLink,
     ReactiveFormsModule,
     DatatableComponent

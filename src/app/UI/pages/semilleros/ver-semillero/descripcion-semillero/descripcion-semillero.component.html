@@ -163,3 +163,7 @@
 
   </div>
 </form>
+@if (showWarning) {
+  <app-notificacion-error [title]="'Solicitud no guardada'" [message]="'Acción Cancelada'" (alertClosed)="onAlertClosed()" ></app-notificacion-error>
+
+}

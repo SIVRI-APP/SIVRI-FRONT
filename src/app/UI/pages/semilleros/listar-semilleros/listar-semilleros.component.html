@@ -16,7 +16,7 @@
 
       <div class="col-sm">
         <label for="estado" class="etiqueta-form"><strong>Estado</strong></label>
-        <select id="estado" name="estado" class="form-select" formControlName="estado">
+        <select id="estado" name="estado" class="form-select" formControlName="estado" [ngClass]="{'default-selected': formulario.get('estado')?.value==''}">
           <option value="" disabled selected hidden>Estado Semillero</option>
           @for (key of enumTranslationService.getEnumKeys(estadoSemilleroEnum); track $index) {
           <option [value]="key">{{enumTranslationService.getEnumValueByKey(estadoSemilleroEnum,key)}}</option>
