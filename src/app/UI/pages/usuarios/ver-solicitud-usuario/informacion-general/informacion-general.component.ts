@@ -164,7 +164,7 @@ export class InformacionGeneralComponent implements OnInit{
     // Esperara a la Modal
     modalRef.componentInstance.enviarInformacion.subscribe((informacion: string) => {
       this.usuarioSolicitudCrearService.rechazarSolicitudUsuario({
-        usuarioSolicitudId: this.formulario.value.id,
+        usuarioSolicitudId: this.formulario.getRawValue().id,
         observacion: informacion,
       })
       .subscribe({

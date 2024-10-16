@@ -102,7 +102,7 @@ export class IndexVerProyectoComponent implements OnInit{
   guardarCambios() {
     this.proyectoCrearService.  guardar(this.verProyectoService.formularioInformacionDetalladaProyecto.getRawValue()).subscribe({
           next: (respuesta) => {
-            this.modalService.openModalOk(respuesta.userMessage)
+            this.modalService.openModalOk(respuesta.userMessage, "/proyectos/listar")
           },
           error: (errorData) => {
             if (errorData.error && errorData.error.data) {
