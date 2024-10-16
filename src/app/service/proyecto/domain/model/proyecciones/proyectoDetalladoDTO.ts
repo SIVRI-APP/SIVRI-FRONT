@@ -202,20 +202,50 @@ export class CompromisosProyecto {
 export class Compromisos {
   id: number;
   producto: Producto;
+  responsable: Responsable;
+  evidencias: Evidencias[];
 
   constructor(){
     this.id = 0
     this.producto = new Producto();
+    this.responsable = new Responsable();
+    this.evidencias = [];
   }
 }
 
 export class Producto {
   id: number;
   tipo: string;
+  categoria: string;
+  descripcion: string;
 
   constructor(){
     this.id = 0
     this.tipo = "";
+    this.categoria = "";
+    this.descripcion = "";
+  }
+}
+
+export class Responsable {
+  id: number;
+  usuario: Usuario;;
+
+  constructor(){
+    this.id = 0
+    this.usuario = new Usuario();
+  }
+}
+
+export class Evidencias {
+  id: number;
+  estado: string;
+  rutaAlmacenamiento: string;
+
+  constructor(){
+    this.id = 0
+    this.estado = "";
+    this.rutaAlmacenamiento = "";
   }
 }
 

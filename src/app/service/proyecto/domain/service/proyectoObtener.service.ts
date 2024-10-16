@@ -48,15 +48,6 @@ export class ProyectoObtenerService {
       proyectoId
     );
   }
-
-  // Getters
-  get informacionDetalladaProyecto(): Observable<Respuesta<ProyectoDetalladoDTO>> {
-    return this._informacionDetalladaProyecto;
-  }
-
-  get listarConFiltroProyectos(): Observable<Respuesta<Paginacion<ProyectoListarConFiltroProyeccion>>> {
-    return this._listarConFiltroProyectos;
-  }
   
   listarSimpleConFiltro(
     pageNo?: number,
@@ -70,6 +61,15 @@ export class ProyectoObtenerService {
       id,
       nombre
     );
+  }
+
+  // Getters
+  get informacionDetalladaProyecto(): Observable<Respuesta<ProyectoDetalladoDTO>> {
+    return this._informacionDetalladaProyecto;
+  }
+
+  get listarConFiltroProyectos(): Observable<Respuesta<Paginacion<ProyectoListarConFiltroProyeccion>>> {
+    return this._listarConFiltroProyectos;
   }
 
 }

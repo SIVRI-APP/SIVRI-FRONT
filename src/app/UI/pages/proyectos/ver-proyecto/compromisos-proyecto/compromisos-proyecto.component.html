@@ -1,6 +1,6 @@
 <div class="row">
-    <div class="col controls">        
-        <button type="button" class="primaryBTN" (click)="agregarCompromiso()">
+    <div class="col controls">
+        <button type="button" class="primaryBTN" (click)="prepararAgregarCompromiso()">
             <div class="button-content">
                 <span class="material-symbols-outlined primaryBTN-icon">
                     add
@@ -13,106 +13,157 @@
 
 <!-- Seleccion de un nuevo Compromiso -->
 @if (mostrarAgregarCompromiso) {
-    <div class="filter-box">
-        <div class="row">
-            <div class="col-sm">
-                <!-- Mostrar datatable con los organismos para filtrar -->
-                <form [formGroup]="formularioAgregarCompromiso" (ngSubmit)="prepararAgregarCompromiso()" method="post">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <label for="rolProyecto" class="etiqueta-form"><strong>Compromiso</strong></label>
-                            <select id="rolProyecto" name="rolProyecto" class="form-select" formControlName="rolProyecto">
-                                <option value="" disabled selected hidden>Seleccione el Producto que emitirá el Proyecto</option>
-                                <!-- @for (key of enumTranslationService.getEnumKeys(rolProyectoEnum); track $index) {
-                                    <option [value]="key">
-                                        {{enumTranslationService.getEnumValueByKey(rolProyectoEnum, key)}}
-                                    </option>
-                                } -->
-                            </select>
-                            <!-- <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formularioBuscarIntegrante.get('rolProyecto')?.valid && this.formularioBuscarIntegrante.get('rolProyecto')?.touched ? 'block' : 'none'">
+<div class="filter-box">
+    <div class="row">
+        <div class="col-sm">
+            <!-- Mostrar datatable con los organismos para filtrar -->
+            <form [formGroup]="formularioAgregarCompromiso" (ngSubmit)="agregarCompromiso()" method="post">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label for="compromisoProyecto" class="etiqueta-form"><strong>Compromiso</strong></label>
+                        <select id="compromisoProyecto" name="compromisoProyecto" class="form-select" formControlName="compromisoProyecto" (change)="seleccionarProducto($event)">
+                            <option value="" disabled selected hidden>Seleccione el Producto que emitirá el Proyecto </option>
+                            @for (producto of this.prepararAgregarCompromisoRespuesta.productos; track $index) {
+                                <option [value]="producto.id">
+                                    {{producto.tipo}}
+                                </option>
+                            }                            
+                        </select>
+                        @if(this.productoSeleccionado){
+                            <p><strong>Categoria:</strong> {{productoSeleccionado.categoria}}</p>
+                            <p><strong>Descripcion:</strong> {{productoSeleccionado.descripcion}}</p>
+                        }
+                        <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formularioAgregarCompromiso.get('compromisoProyecto')?.valid && this.formularioAgregarCompromiso.get('compromisoProyecto')?.touched ? 'block' : 'none'">
                                 Campo requerido
-                            </div> -->
-                        </div>
+                            </div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <label for="usuarioProspecto" class="etiqueta-form"><strong>Responsable</strong></label>
-                            <select id="usuarioProspecto" name="usuarioProspecto" class="form-select" formControlName="usuarioProspecto">
-                                <option value="" disabled selected hidden>Selecciona el Usuario encargado de entregar el Producto</option>
-                                <!-- @for (usuario of this.listadoDeIntegrantes.data.integrantes; track $index) {
-                                    <option [value]="usuario.usuario.id">
-                                        {{enumTranslationService.getEnumValueByKey(tipoDocumentoEnum2, usuario.usuario.tipoDocumento)}}: {{usuario.usuario.numeroDocumento}} - {{usuario.usuario.nombre}} {{usuario.usuario.apellido}} - {{enumTranslationService.getEnumValueByKey(tipoUsuarioEnum, usuario.usuario.tipoUsuario)}}
-                                    </option>
-                                } -->
-                            </select>
-                            <!-- <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formularioBuscarIntegrante.get('usuarioProspecto')?.valid && this.formularioBuscarIntegrante.get('usuarioProspecto')?.touched ? 'block' : 'none'">
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label for="responsableCompromiso" class="etiqueta-form"><strong>Responsable</strong></label>
+                        <select id="responsableCompromiso" name="responsableCompromiso" class="form-select"
+                            formControlName="responsableCompromiso">
+                            <option value="" disabled selected hidden>Selecciona el Usuario encargado de entregar el
+                                Producto</option>
+                            @for (integrante of this.prepararAgregarCompromisoRespuesta.integrantesProyecto.integrantes; track $index) {
+                                <option [value]="integrante.id">
+                                    {{integrante.usuario.nombre}} {{integrante.usuario.apellido}} - {{integrante.rolProyecto.nombre}}
+                                </option>
+                            }
+                        </select>
+                        <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formularioAgregarCompromiso.get('responsableCompromiso')?.valid && this.formularioAgregarCompromiso.get('responsableCompromiso')?.touched ? 'block' : 'none'">
                                 Campo requerido
-                            </div> -->
-                        </div>
+                        </div>  
                     </div>
+                </div>
 
-                    <div class="row">
-                        <div class="col controls">
+                <div class="row">
+                    <div class="col controls">
 
-                            <button type="button" class="secondaryBTN" (click)="limpiarFiltroAgregarCompromiso()">
-                                <div class="button-content">
-                                    <span class="material-symbols-outlined secondaryBTN-icon">
-                                        filter_alt
-                                    </span>
-                                    <span class="text">Cancelar</span>
-                                </div>
-                            </button>
+                        <button type="button" class="secondaryBTN" (click)="limpiarFiltroAgregarCompromiso()">
+                            <div class="button-content">
+                                <span class="material-symbols-outlined secondaryBTN-icon">
+                                    filter_alt
+                                </span>
+                                <span class="text">Cancelar</span>
+                            </div>
+                        </button>
 
-                            <button type="submit" class="primaryBTN">
-                                <div class="button-content">
-                                    <span class="material-symbols-outlined primaryBTN-icon">
-                                        add
-                                    </span>
-                                    <span class="text">Agregar</span>
-                                </div>
-                            </button>
+                        <button type="submit" class="primaryBTN">
+                            <div class="button-content">
+                                <span class="material-symbols-outlined primaryBTN-icon">
+                                    add
+                                </span>
+                                <span class="text">Agregar</span>
+                            </div>
+                        </button>
 
-                        </div>
                     </div>
+                </div>
 
-                    <div class="form-guide-line"></div>
+                <div class="form-guide-line"></div>
 
-                    <!-- Tabla Paginada  -->
-                    <!-- <app-datatable-custom [datatableInputs]="datatableInputsIntegrantesOrganismo"
+                <!-- Tabla Paginada  -->
+                <!-- <app-datatable-custom [datatableInputs]="datatableInputsIntegrantesOrganismo"
                         (accionEmitter)="accion($event)"></app-datatable-custom> -->
 
-                </form>
-            </div>
+            </form>
         </div>
     </div>
+</div>
 }
 
-@for (compromiso of this.verProyectoService.compromisosControls; track $index) {
-    <div class="card shadow datatable">
-        <div class="card-body">
-            <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
-                <table class="table my-0 table-striped" id="dataTable">
-                    <thead>
-                        <tr>
-                            <th colspan="4">
-                                <h6 style="font-size: 15px; color: #006; text-align: center;">
-                                    {{ compromiso.get('producto.tipo')?.value }}
+@for (compromiso of this.proyecto.compromisosProyecto.compromisos; track $index) {
+<div class="card shadow datatable">
+    <div class="card-body">
+        <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
+            <table class="table my-0 table-striped" id="dataTable">
+                <thead>
+                    <tr>
+                        <th colspan="4">
+                            <h6 style="font-size: 15px; color: #006; text-align: center;">
+                                {{ compromiso.producto.tipo }}
+                            </h6>
+
+                            <!-- Contenedor de Cargar Documento -->
+                          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <div style="display: flex; align-items: center;">
+                                <h6 style="font-size: 15px; color: #006; margin-right: 8px;">Cargar Documento:</h6>
+                                <input type="file" class="form-control" style="flex: 1;" multiple (change) = "agregarDoc($event, compromiso.id)">
+                            </div>
+                            </div>
+
+                            <!-- Contenedor de Responsable -->
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <div style="display: flex; align-items: center;">
+                                <h6 style="font-size: 15px; color: #006; margin-right: 8px;">Categoria:</h6>
+                                <h6 style="font-size: 15px; font-weight: lighter;">
+                                    {{compromiso.producto.categoria}}
                                 </h6>
-                            </th>
-                        </tr>
+                            </div>
+                            </div>
+
+                            <!-- Contenedor de Cantidad -->
+                            <div style="display: flex; align-items: center;">
+                                <h6 style="font-size: 15px; color: #006; margin-right: 8px;">Descripción:</h6>
+                                <h6 style="font-size: 15px; font-weight: lighter; text-align: left;">
+                                    {{compromiso.producto.descripcion}}
+                                </h6>
+                            </div>
+
+                            <!-- Contenedor de Responsable -->
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                <div style="display: flex; align-items: center;">
+                                    <h6 style="font-size: 15px; color: #006; margin-right: 8px;">Responsable:</h6>
+                                    <h6 style="font-size: 15px; font-weight: lighter;">
+                                        {{compromiso.responsable.usuario.nombre}} {{compromiso.responsable.usuario.apellido}}
+                                    </h6>
+                                </div>
+                            </div>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>ID Doc</th>
+                        <th>Documento</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @for (evidencia of compromiso.evidencias; track $index) {
                         <tr>
-                            <th>ID Doc</th>
-                            <th>Documento</th>
-                            <th>Acciones</th>
+                            <td>{{evidencia.id}}</td>
+                            <td>{{evidencia.rutaAlmacenamiento}}</td>
+                            <td>
+                                <a (click)="accion('descargar', evidencia)" style="margin-right: 5px;"><span class="material-symbols-outlined dataTableActionBtn">download</span></a>
+                                <a (click)="accion('eliminar', evidencia)" style="margin-right: 5px;"><span class="material-symbols-outlined dataTableActionBtn">delete</span></a>
+                            </td>
                         </tr>
-                    </thead>
+                    }                    
+                </tbody>
 
-                    <tbody>
-
-                    </tbody>
-
-                </table>
-            </div>
+            </table>
         </div>
     </div>
+</div>
 }
