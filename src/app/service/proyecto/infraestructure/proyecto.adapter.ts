@@ -117,4 +117,17 @@ export class ProyectoAdapter {
     return this.http.get<Respuesta<Paginacion<ListarOrganismosParaAsociarProyectoProyeccion>>>(this.apiUrl + 'listarSimpleConFiltro', { params: params });
   }
 
+  cambiarEstado(
+    proyectoId: string,
+    estado: string,
+  ): Observable<Respuesta<boolean>> {
+
+    let params = new HttpParams()
+    // Añade condicionalmente los otros parámetros si existen.
+    if (proyectoId !== undefined) params = params.set('proyectoId', proyectoId);
+    if (estado !== undefined) params = params.set('estado', estado);
+  
+    return this.http.post<Respuesta<boolean>>(this.apiUrl + 'cambiarEstado', null, { params: params });
+  }
+
 }

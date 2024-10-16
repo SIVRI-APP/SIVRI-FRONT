@@ -51,4 +51,11 @@ export class ProyectoCrearService {
     return this.proyectoAdapter.agregarIntegrante(proyectoId, usuarioId, rol);
   }
 
+  cambiarEstado(
+    proyectoId: string,
+    estado: string
+  ): Observable<Respuesta<boolean>>{
+    return this.proyectoAdapter.cambiarEstado(proyectoId, estado);
+  }
+
 }

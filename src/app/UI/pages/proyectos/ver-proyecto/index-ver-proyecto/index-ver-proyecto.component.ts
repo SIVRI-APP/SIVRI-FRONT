@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { ProyectoObtenerService } from '../../../../../service/proyecto/domain/service/proyectoObtener.service';
 import { ProyectoDetalladoDTO } from '../../../../../service/proyecto/domain/model/proyecciones/proyectoDetalladoDTO';
@@ -8,10 +8,8 @@ import { EstadoProyecto } from '../../../../../service/proyecto/domain/model/enu
 import { VerProyectoService } from '../ver-proyecto.service';
 import { ProyectoCrearService } from '../../../../../service/proyecto/domain/service/proyectoCrear.service';
 import { ErrorData } from '../../../../../service/common/model/errorData';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ModalOkComponent } from '../../../../shared/modal-ok/modal-ok.component';
-import { ModalBadComponent } from '../../../../shared/modal-bad/modal-bad.component';
 import { InformacionUsuarioAutenticadoService } from '../../../../../service/auth/domain/service/informacionUsuarioAutenticado.service';
+import { ModalService } from '../../../../../service/common/modalService';
 
 @Component({
   selector: 'app-index-ver-proyecto',
@@ -21,10 +19,9 @@ import { InformacionUsuarioAutenticadoService } from '../../../../../service/aut
   styleUrl: './index-ver-proyecto.component.css'
 })
 export class IndexVerProyectoComponent implements OnInit{
+
   roles: string[] = [];
 
-  // Inyeccion de Modal
-  private modalService = inject(NgbModal);
 
   // Mensaje al usuario
   public tituloInstruccion: string = '';
@@ -48,7 +45,8 @@ export class IndexVerProyectoComponent implements OnInit{
     private proyectoObtenerService: ProyectoObtenerService,
     private proyectoCrearService: ProyectoCrearService,
     protected enumTranslationService: EnumTranslationService,
-    protected informacionUsuarioAutenticadoService: InformacionUsuarioAutenticadoService
+    protected informacionUsuarioAutenticadoService: InformacionUsuarioAutenticadoService,
+    protected modalService: ModalService
   ){
     this.informacionDetalladaProyecto = new Respuesta(0, '', '', new ProyectoDetalladoDTO());
     this.roles = informacionUsuarioAutenticadoService.retornarRoles();
@@ -90,46 +88,109 @@ export class IndexVerProyectoComponent implements OnInit{
       this.btnGuardarCambios = false;
     }
 
-    console.log(this.informacionUsuarioAutenticadoService.retornarRoles())
-    if (this.informacionUsuarioAutenticadoService.esInvestigadorProyectos()) {
+    if (this.informacionUsuarioAutenticadoService.esInvestigadorProyectos() && estadoProyecto == this.enumTranslationService.getKeyByValue(EstadoProyecto, EstadoProyecto.FORMULADO)) {
+      this.revisionVri = true;
+      this.btnGuardarCambios = false;
+    }
+
+    if (this.informacionUsuarioAutenticadoService.esInvestigadorProyectos() && estadoProyecto == this.enumTranslationService.getKeyByValue(EstadoProyecto, EstadoProyecto.FORMULADO_OBSERVACIONES)) {
       this.revisionVri = true;
       this.btnGuardarCambios = false;
     }
   }
 
   guardarCambios() {
-    console.log(this.verProyectoService.formularioInformacionDetalladaProyecto)
-
     this.proyectoCrearService.  guardar(this.verProyectoService.formularioInformacionDetalladaProyecto.getRawValue()).subscribe({
           next: (respuesta) => {
-            this.openModalOk(respuesta.userMessage)
+            this.modalService.openModalOk(respuesta.userMessage)
           },
           error: (errorData) => {
             if (errorData.error && errorData.error.data) {
               let respuesta: Respuesta<ErrorData> = errorData.error;
-              this.openModalBad(respuesta.data);
+              this.modalService.openModalBad(respuesta.data);
             } else {
-              this.openModalBad(new ErrorData({error: "Error inseperado, contactar a soporte"}));
+              this.modalService.openModalBad(
+                new ErrorData({
+                  error: 'Error inseperado, contactar a soporte',
+                })
+              );
             }
           }
     });
   }
 
-  openModalOk(message: string) {
-		const modalRef = this.modalService.open(ModalOkComponent);
-		modalRef.componentInstance.name = message;
+  enviarProyectoRevisionVRI() {
+    const proyectoId = this.informacionDetalladaProyecto.data.informacionDetalladaProyecto.id?.toString();
+    const estado = this.enumTranslationService.getKeyByValue(EstadoProyecto, EstadoProyecto.REVISION_VRI);
 
-    modalRef.result.then((result) => {
-      // Este bloque se ejecutará cuando se cierre la modal
-      if (result === 'navegar') {
-        // Recargar el componente actual
-        this.router.navigate([this.router.url]);
-      }
-    });
-	}
+    if (proyectoId && estado) {
+      this.proyectoCrearService.cambiarEstado(proyectoId, estado).subscribe({
+        next: (respuesta) => {
+          this.modalService.openModalOk(respuesta.userMessage, "/proyectos/listar");
+        },
+        error: (errorData) => {
+          if (errorData.error && errorData.error.data) {
+            let respuesta: Respuesta<ErrorData> = errorData.error;
+            this.modalService.openModalBad(respuesta.data);
+          } else {
+            this.modalService.openModalBad(
+              new ErrorData({
+                error: 'Error inseperado, contactar a soporte',
+              })
+            );
+          }
+        }
+      })
+    }
+  }
 
-  openModalBad(data: ErrorData) {
-		const modalRef = this.modalService.open(ModalBadComponent);
-		modalRef.componentInstance.mensaje = data;
-	}
+  aprobarProyecto() {
+    const proyectoId = this.informacionDetalladaProyecto.data.informacionDetalladaProyecto.id?.toString();
+    const estado = this.enumTranslationService.getKeyByValue(EstadoProyecto, EstadoProyecto.APROBADO);
+
+    if (proyectoId && estado) {
+      this.proyectoCrearService.cambiarEstado(proyectoId, estado).subscribe({
+        next: (respuesta) => {
+          this.modalService.openModalOk(respuesta.userMessage, "/proyectos/listar");
+        },
+        error: (errorData) => {
+          if (errorData.error && errorData.error.data) {
+            let respuesta: Respuesta<ErrorData> = errorData.error;
+            this.modalService.openModalBad(respuesta.data);
+          } else {
+            this.modalService.openModalBad(
+              new ErrorData({
+                error: 'Error inseperado, contactar a soporte',
+              })
+            );
+          }
+        }
+      })
+    }
+  }
+    
+  formularProyectoConObservaciones() {
+    const proyectoId = this.informacionDetalladaProyecto.data.informacionDetalladaProyecto.id?.toString();
+    const estado = this.enumTranslationService.getKeyByValue(EstadoProyecto, EstadoProyecto.FORMULADO_OBSERVACIONES);
+
+    if (proyectoId && estado) {
+      this.proyectoCrearService.cambiarEstado(proyectoId, estado).subscribe({
+        next: (respuesta) => {
+          this.modalService.openModalOk(respuesta.userMessage, "/proyectos/listar");
+        },
+        error: (errorData) => {
+          if (errorData.error && errorData.error.data) {
+            let respuesta: Respuesta<ErrorData> = errorData.error;
+            this.modalService.openModalBad(respuesta.data);
+          } else {
+            this.modalService.openModalBad(
+              new ErrorData({
+                error: 'Error inseperado, contactar a soporte',
+              })
+            );
+          }
+        }
+      })
+    }
+  }
 }

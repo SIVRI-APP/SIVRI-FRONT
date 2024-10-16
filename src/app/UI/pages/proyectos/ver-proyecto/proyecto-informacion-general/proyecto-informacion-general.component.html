@@ -1,4 +1,15 @@
 @if (informacionGeneral) {
+
+    <div class="col-sm-6">
+        <div class="d-flex flex-column ">
+            <div class="d-flex align-items-center mb-2">
+                <h6 class="mb-0" style="font-size: 15px; color: #006;">Proyecto asociado a:</h6>
+                <h6 class="mb-0 ms-2" style="font-size: 15px; font-weight: lighter;">{{proyecto.organismoPrincipal.nombre}}</h6>
+            </div>
+        </div>
+    </div>
+
+
     <form [formGroup]="informacionGeneral">
         <div class="filter-box">
 

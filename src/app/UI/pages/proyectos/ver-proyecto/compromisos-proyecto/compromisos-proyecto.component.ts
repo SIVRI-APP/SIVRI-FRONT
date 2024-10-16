@@ -79,12 +79,19 @@ export class CompromisosProyectoComponent implements OnInit{
       ).subscribe({
         next: (respuesta) => {
           this.limpiarFiltroAgregarCompromiso();
-          this.modalService.openModalOk(respuesta.userMessage);
-          window.location.reload();
+          this.modalService.openModalOk(respuesta.userMessage, "/proyectos/listar");
         },
         error: (errorData) => {
-          const errorResponse = errorData.error?.data ? errorData.error : new ErrorData({error: 'Error inseperado, contactar a soporte'});
-          this.modalService.openModalBad(errorResponse);
+          if (errorData.error && errorData.error.data) {
+            let respuesta: Respuesta<ErrorData> = errorData.error;
+            this.modalService.openModalBad(respuesta.data);
+          } else {
+            this.modalService.openModalBad(
+              new ErrorData({
+                error: 'Error inseperado, contactar a soporte',
+              })
+            );
+          }
         }
       })
     }else{
@@ -115,11 +122,19 @@ export class CompromisosProyectoComponent implements OnInit{
 
       this.compromisosService.cargarDocCompromiso(formData).subscribe({
         next: (respuesta) => {
-          this.modalService.openModalOk(respuesta.userMessage);
+          this.modalService.openModalOk(respuesta.userMessage, "/proyectos/listar");
         },
         error: (errorData) => {
-          const errorResponse = errorData.error?.data ? errorData.error : new ErrorData({error: 'Error inseperado, contactar a soporte'});
-          this.modalService.openModalBad(errorResponse);
+          if (errorData.error && errorData.error.data) {
+            let respuesta: Respuesta<ErrorData> = errorData.error;
+            this.modalService.openModalBad(respuesta.data);
+          } else {
+            this.modalService.openModalBad(
+              new ErrorData({
+                error: 'Error inseperado, contactar a soporte',
+              })
+            );
+          }
         }
       });
     }

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { VerProyectoService } from '../ver-proyecto.service';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, Subscription } from 'rxjs';
+import { ProyectoObtenerService } from '../../../../../service/proyecto/domain/service/proyectoObtener.service';
+import { ProyectoDetalladoDTO } from '../../../../../service/proyecto/domain/model/proyecciones/proyectoDetalladoDTO';
 
 @Component({
   selector: 'app-proyecto-informacion-general',
@@ -12,11 +14,14 @@ import { debounceTime, Subscription } from 'rxjs';
 })
 export class ProyectoInformacionGeneralComponent implements OnInit {
 
+  protected proyecto = new ProyectoDetalladoDTO
+
   private formularioSubscription: Subscription | null = null;
   protected informacionGeneral: FormGroup | null = null;
 
   constructor(
     private verProyectoService: VerProyectoService,
+    private proyectoObtenerService: ProyectoObtenerService,
   ) {}
 
   ngOnInit() {    
@@ -29,6 +34,12 @@ export class ProyectoInformacionGeneralComponent implements OnInit {
         this.subscribeToFormChanges();
       }
     });
+
+    this.proyectoObtenerService.informacionDetalladaProyecto.subscribe({
+      next: (respuesta) => {
+        this.proyecto = respuesta.data
+      }
+    })
   }
 
   ngOnDestroy() {

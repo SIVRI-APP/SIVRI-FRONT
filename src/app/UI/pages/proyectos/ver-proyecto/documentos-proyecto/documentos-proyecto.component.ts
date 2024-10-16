@@ -124,7 +124,7 @@ export class DocumentosProyectoComponent implements OnInit{
 
       this.proyectoCrearService.cargarDocConvocatoria(formData).subscribe({
         next: (respuesta) => {
-          this.openModalOk(respuesta.userMessage, "/proyectos/listar/"+ this.proyectoId +"/informacion-general");
+          this.openModalOk(respuesta.userMessage, "/proyectos/listar");
         },
         error: (errorData) => {
           if (errorData.error && errorData.error.data) {
@@ -145,7 +145,7 @@ export class DocumentosProyectoComponent implements OnInit{
   private agregarConvocatoria(accion: any): void{
     this.proyectoCrearService.asociarConvocatoria(this.proyectoId, accion.data.id).subscribe({
       next: (respuesta) => {
-        this.openModalOk(respuesta.userMessage, "/proyectos/listar/"+ this.proyectoId +"/informacion-general");
+        this.openModalOk(respuesta.userMessage, "/proyectos/listar");
       },
       error: (errorData) => {
         if (errorData.error && errorData.error.data) {

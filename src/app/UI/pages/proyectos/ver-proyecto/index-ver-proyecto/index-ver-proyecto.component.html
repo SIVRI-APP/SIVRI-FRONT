@@ -77,13 +77,13 @@
                     </button>
                     <ul class="dropdown-menu">
                         @if (this.aprobado) {
-                        <li><a class="dropdown-item" href="#">Aprobado</a></li>
+                        <li><a class="dropdown-item" (click)="aprobarProyecto()">Aprobado</a></li>
                         }
                         @if (this.formuladoConObservaciones) {
-                        <li><a class="dropdown-item" href="#">Formulado con Observaciones</a></li>
+                        <li><a class="dropdown-item" (click)="formularProyectoConObservaciones()">Formulado con Observaciones</a></li>
                         }
                         @if (this.revisionVri) {
-                        <li><a class="dropdown-item" href="#">Revisión VRI</a></li>
+                        <li><a class="dropdown-item" (click)="enviarProyectoRevisionVRI()">Revisión VRI</a></li>
                         }
                         <li>
                             <hr class="dropdown-divider">
