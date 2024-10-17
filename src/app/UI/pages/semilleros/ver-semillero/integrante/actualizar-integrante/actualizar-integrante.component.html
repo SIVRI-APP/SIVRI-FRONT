@@ -1,11 +1,11 @@
 <form [formGroup]="formulario" (ngSubmit)="onsubmit()" method="get">
   <div class="filter-box">
     <!--formulario de editar semillero -->
-    <div class=" d-flex justify-content-center">
+    <div class=" d-flex ">
       @if (!mostrarBtnIntegrante || !btnMentorUsuario) {
-      <h5 class="etiqueta-form"><strong>Actualizar Integrante </strong></h5>
+      <h5 class="sub-title">Actualizar Integrante </h5>
       }@else {
-        <h5 class="etiqueta-form"><strong>Integrante </strong></h5>
+        <h5 class="sub-title">Integrante </h5>
       }
     </div>
     <div class="row">
