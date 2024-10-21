@@ -19,10 +19,10 @@ export class LineaInvestigacionAdapter {
 
   crearLineaInvestigacion(
     body: {
-      semilleroId: string,
+      semillero_Id: string,
       linea: string
     }): Observable<Respuesta<boolean>> {
-    return this.http.post<Respuesta<boolean>>(this.apiUrl + 'asociarLinea', body);
+      return this.http.post<Respuesta<boolean>>(this.apiUrl + 'asociarLinea', body);
   }
 
   actualizarLineaInvestigacion(
@@ -42,7 +42,7 @@ export class LineaInvestigacionAdapter {
   obtenerLineasPaginadoxSemilleroId(
     semilleroId: string = '',
     pageNo: number = 0,
-    pageSize: number = 2,
+    pageSize: number = 10,
   ): Observable<Respuesta<Paginacion<LineaInvestigacionProyeccion>>> {
     let params = new HttpParams()
       .set('pageNo', pageNo.toString())

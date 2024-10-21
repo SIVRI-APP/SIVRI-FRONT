@@ -2,6 +2,8 @@
     width: 100%;
     height: 100%;
     background-image: url('../../../../../assets/img/SIVRI/vri.jpg');
-    background-size: cover; /* Asegura que la imagen cubra todo el contenedor */
-    background-position: center; /* Centra la imagen dentro del contenedor */
+    background-size: cover;
+    /* Asegura que la imagen cubra todo el contenedor */
+    background-position: center;
+    /* Centra la imagen dentro del contenedor */
 }

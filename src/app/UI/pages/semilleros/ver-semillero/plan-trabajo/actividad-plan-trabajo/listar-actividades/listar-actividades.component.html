@@ -27,6 +27,7 @@
             }
           </select>
         </label>
+        @if (!mostrarBtnCrearActividad) {
         <button type="button" class="secondaryBTN" (click)="toggleFormulario()">
           <div class="button-content">
             <span class="material-symbols-outlined primaryBTN-icon">
@@ -35,6 +36,7 @@
             <span class="text">Actividad</span>
           </div>
         </button>
+      }
         <button type="button" class="secondaryBTN" (click)="limpiarFormulario()">
           <div class="button-content">
             <span class="material-symbols-outlined secondaryBTN-icon">
@@ -91,8 +93,10 @@
                                     }
                                     <!--[routerLink]="[data[datatableInputs.dataAttributes[0].name]]"-->
                                     <td><a (click)="editarActividad(data[datatableInputs.dataAttributes[0].name])"><span class="material-symbols-outlined dataTableActionBtn">visibility</span></a>
-                                      <a><span class="material-symbols-outlined dataTableActionBtn">download</span></a>
+                                      <a (click)="download(data[datatableInputs.dataAttributes[0].name])"><span class="material-symbols-outlined dataTableActionBtn">download</span></a>
+                                      @if (!mostrarBtnActividad) {
                                       <a (click)="triggerFileUpload(fileInput)"><span class="material-symbols-outlined dataTableActionBtn">upload</span></a>
+                                    }
                                       <!-- Input oculto para cargar archivos -->
                                       <input type="file" (change)="onFileSelected($event, data[datatableInputs.dataAttributes[0].name])" #fileInput style="display: none;" />
                                       <!--app-file-uploader  [accept]="'pdf/*'" (fileContent)="fileContent($event,data[datatableInputs.dataAttributes[0].name])" ></!--app-file-uploader-->

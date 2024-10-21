@@ -1,7 +1,10 @@
 <form [formGroup]="formulario" (ngSubmit)="onsubmit()" method="get">
   <div class=" d-flex justify-content-center">
+    @if (!mostrarBtnActividad) {
     <h5 class="etiqueta-form"><strong>Actualizar Actividad del plan de trabajo</strong></h5>
-
+    }@else {
+      <h5 class="etiqueta-form"><strong>Actividad del plan de trabajo</strong></h5>
+    }
   </div>
   <div class="filter-box">
     <!--formulario de editar semillero -->
@@ -37,13 +40,13 @@
     <div class="row">
       <div class="col-sm">
         <label for="responsable" class="etiqueta-form"><strong>Responsable </strong><span class="text-red-500">*</span></label>
-        <select id="responsable" name="responsable" class="form-select" formControlName="responsable">
+        <select id="responsable" name="responsable" class="form-select" formControlName="responsableId">
           <!-- TODO falta traer los responsables desde la bd -->
           @for (mentor of integrantesMentores; track $index) {
           <option [value]="mentor.id">{{mentor.nombres}}</option>
           }
         </select>
-        <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('responsable')?.valid && this.formulario.get('responsable')?.touched ? 'block' : 'none'">
+        <div id="badFeedback" class="invalid-feedback" [style.display]="!this.formulario.get('responsableId')?.valid && this.formulario.get('responsableId')?.touched ? 'block' : 'none'">
           Selecciona un Responsable valido
       </div>
       </div>
@@ -64,14 +67,14 @@
         </div>
       </div>
     </div>
-
+    @if (!mostrarBtnActividad) {
     <div class="row">
       <div class="col controls">
 
         <button type="button" class="secondaryBTN" (click)="cancelar()">
           <div class="button-content">
             <span class="material-symbols-outlined secondaryBTN-icon">
-              filter_alt
+              cancel
             </span>
             <span class="text">Cancelar</span>
           </div>
@@ -86,6 +89,22 @@
         </button>
       </div>
     </div>
+  }@else {
+    <div class="row">
+      <div class="col controls">
+
+        <button type="button" class="secondaryBTN" (click)="atras()">
+          <div class="button-content">
+            <span class="material-symbols-outlined secondaryBTN-icon">
+              keyboard_return
+            </span>
+            <span class="text">Atras</span>
+          </div>
+        </button>
+
+      </div>
+    </div>
+  }
     <div class="form-guide-line"></div>
 
   </div>

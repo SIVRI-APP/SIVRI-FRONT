@@ -11,6 +11,7 @@
             }
           </select>
         </label>
+        @if (!mostrarBtnCrearPrograma && !funcionarioSemillero) {
         <button type="button" class="secondaryBTN" (click)="toggleFormulario()">
           <div class="button-content">
             <span class="material-symbols-outlined primaryBTN-icon">
@@ -19,13 +20,13 @@
             <span class="text">Programa</span>
           </div>
         </button>
-
+      }
       </div>
     </div>
   </div>
 </form>
 <!--tabla de visualizar programas-->
-<!--@if (datatableInputs.searchPerformed == true ) {-->
+
 @if (mostrarCreaPrograma==false) {
   @if (datatableInputs.paginacion.content.length > 0) {
 
@@ -41,7 +42,9 @@
                               @for (tableHeader of datatableInputs.tableHeaders; track $index) {
                                   <th>{{tableHeader}}</th>
                               }
+                              @if (!mostrarBtnCrearPrograma) {
                               <th>Acciones</th>
+                              }
                           </tr>
                       </thead>
 
@@ -55,8 +58,10 @@
                                           <td>{{data[attribute.name]}}</td>
                                       }
                                   }
+                                  @if (!mostrarBtnCrearPrograma) {
                                   <td><a (click)="eliminarPrograma([data[datatableInputs.dataAttributes[0].name]])"><span class="material-symbols-outlined dataTableActionBtn">delete</span></a></td>
-                              </tr>
+                                }
+                                </tr>
                           }
                       </tbody>
 
@@ -114,12 +119,3 @@
 }@else {
   <app-crear-programa></app-crear-programa>
 }
-<!--}@else {
-  <div class="icon-container">
-      <span class="material-symbols-outlined giant-icon">
-          description
-      </span>
-      <p class="file-description">Visualiza registros de {{datatableInputs.domain}} llenando los campos del formulario.</p>
-  </div>
-}-->
-

@@ -17,6 +17,7 @@ import { ModalBadComponent } from '../../../../../../shared/modal-bad/modal-bad.
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalOkComponent } from '../../../../../../shared/modal-ok/modal-ok.component';
 import { FileUploaderComponent } from '../../../../../../shared/file-uploader/file-uploader.component';
+import { InformacionUsuarioAutenticadoService } from '../../../../../../../service/auth/domain/service/informacionUsuarioAutenticado.service';
 
 @Component({
   selector: 'app-listar-actividades',
@@ -32,7 +33,7 @@ import { FileUploaderComponent } from '../../../../../../shared/file-uploader/fi
   styleUrl: './listar-actividades.component.css'
 })
 export class ListarActividadesComponent implements OnInit,OnDestroy {
-  paginas: number[] = [2, 3, 5];
+  paginas: number[] = [10,25,50,100];
   private changePageEmitter = new EventEmitter<number>();
   @Input() idPlan!: number;
   protected idActividad!: number;
@@ -47,21 +48,27 @@ export class ListarActividadesComponent implements OnInit,OnDestroy {
   selectedFile!: File;
   // Inyeccion de Modal
   private modalService = inject(NgbModal);
+  protected mostrarBtnCrearActividad: boolean=false;
+  protected mostrarBtnActividad: boolean=false;
+  private roles: string[]=[];
   constructor(
     private actualizarListarService: CommunicationComponentsService,
     private formBuilder: FormBuilder,
     private actividadPlanObtenerService: ActividadPlanObtenerService,
     protected enumTranslationService: EnumTranslationService,
     private evidenciaActividadCrearService: EvidenciaActividadCrearService,
+    protected informacionUsuarioAutenticadoService: InformacionUsuarioAutenticadoService
   ){
 
     this.formularioActividad = this.formBuilder.group({
       pageNo: [0],
-      pageSize: ['2'],
+      pageSize: ['10'],
       fechaInicio: [null],
       fechaFin: [null]
     });
-
+    this.roles= informacionUsuarioAutenticadoService.retornarRoles();
+    this.mostrarBtnCrearActividad=this.roles.includes('GRUPO:DIRECTOR');
+    this.mostrarBtnActividad=this.roles.includes('GRUPO:DIRECTOR');
     this.respuesta= new Respuesta<Paginacion<ListarActividadPlan>>();
     this.respuestaEvidencia = new Respuesta<false>();
     this.datatableInputs = new DatatableInput('Actividad del plan de trabajo',
@@ -93,7 +100,6 @@ export class ListarActividadesComponent implements OnInit,OnDestroy {
       this.formularioActividad.value.fechaFin
     ).subscribe({
       next:(respuesta)=>{
-
         // Actualizar la lista de actividades del plan con los datos obtenidos
         this.respuesta=respuesta;
         this.datatableInputs.searchPerformed = true;
@@ -115,10 +121,23 @@ export class ListarActividadesComponent implements OnInit,OnDestroy {
       },
     });
   }
+  download(idActividad: number){
+    console.log('id de la actividad '+idActividad);
+    this.evidenciaActividadCrearService.descargarArchivo(idActividad).subscribe(blob=>{
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `archivo_${idActividad}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+    });
+  }
   limpiarFormulario(){
     this.formularioActividad = this.formBuilder.group({
       pageNo: [0],
-      pageSize: ['2'],
+      pageSize: ['10'],
       fechaInicio: [null],
       fechaFin: [null]
     });
@@ -133,6 +152,7 @@ export class ListarActividadesComponent implements OnInit,OnDestroy {
           this.mostrarEditarActividad=false;
         } else if(tipo=='cancelado'){
           this.mostrarEditarActividad=false;
+          this.mostrarCreaActividad=false;
         }
         this.listarActividadesxplan();
       })
@@ -189,7 +209,6 @@ export class ListarActividadesComponent implements OnInit,OnDestroy {
       });
     };
     }
-
 
   openModalOk(message: string) {
     const modalRef = this.modalService.open(ModalOkComponent);

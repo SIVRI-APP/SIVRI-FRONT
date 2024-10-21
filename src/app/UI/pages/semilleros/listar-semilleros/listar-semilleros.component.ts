@@ -9,11 +9,13 @@ import { DatatableInput } from '../../../../service/common/model/datatableInput'
 import { SemilleroObtenerService } from '../../../../service/semilleros/domain/service/semillero-obtener.service';
 import { DatatableComponent } from '../../../shared/datatable/datatable.component';
 import { EnumTranslationService } from '../../../../service/common/enum-translation.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-listar-semilleros',
   standalone: true,
   imports: [
+    CommonModule,
     RouterLink,
     ReactiveFormsModule,
     DatatableComponent
@@ -23,7 +25,7 @@ import { EnumTranslationService } from '../../../../service/common/enum-translat
 })
 export class ListarSemillerosComponent {
 
-  paginas: number[] = [2, 3, 5];
+  paginas: number[] = [10, 25, 50, 100];
   protected formulario: FormGroup;
   protected respuesta: Respuesta<Paginacion<SemilleroListarConFiltroxMentorProyeccion>>;
   protected datatableInputs: DatatableInput;
@@ -41,7 +43,7 @@ export class ListarSemillerosComponent {
 
     this.formulario = this.formBuilder.group({
       pageNo: [0],
-      pageSize: ['2'],
+      pageSize: ['10'],
       idSemillero: [null],
       nombre: [''],
       estado: ['']
@@ -97,7 +99,7 @@ export class ListarSemillerosComponent {
   limpiarCampos(): void {
     this.formulario = this.formBuilder.group({
       pageNo: [0],
-      pageSize: ['2'],
+      pageSize: ['10'],
       idSemillero: [null],
       nombre: [''],
       estado: ['']

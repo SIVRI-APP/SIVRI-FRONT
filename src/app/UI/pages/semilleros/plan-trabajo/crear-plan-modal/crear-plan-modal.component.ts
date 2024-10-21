@@ -55,8 +55,8 @@ export class CrearPlanModalComponent {
     if (this.formulario.valid) {
       const estado = 'FORMULADO';
       this.planTrabajoCrearService.crearPlanTrabajo({
-        idSemillero: this.idSemillero,
-        nombrePlan: this.formulario.value.nombrePlan,
+        id_Semillero: this.idSemillero,
+        nombre_Plan: this.formulario.value.nombrePlan,
         anio: this.formulario.value.anio,
         estado: estado
       }).subscribe({

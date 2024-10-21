@@ -18,7 +18,7 @@ export class GrupoAdapter {
   obtenerGrupoInformacionDetallada(
     grupoId: number
   ): Observable<Respuesta<GrupoProyeccion>> {
-    let params = new HttpParams().set('idgrupo', grupoId)
+    let params = new HttpParams().set('idgrupo', grupoId);
     return this.http.get<Respuesta<GrupoProyeccion>>(this.apiUrl + 'obtenerxid', { params: params });
   }
   //obtiene los grupos del usuario que este logeado en el sistema

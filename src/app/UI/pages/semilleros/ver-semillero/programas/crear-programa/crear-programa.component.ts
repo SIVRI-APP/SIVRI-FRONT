@@ -10,6 +10,7 @@ import { ListarProgramas } from '../../../../../../service/academica/domain/mode
 import { SemilleroProgramaCrearService } from '../../../../../../service/semilleros/domain/service/semillero-programa-crear.service';
 import { ModalOkComponent } from '../../../../../shared/modal-ok/modal-ok.component';
 import { CommunicationComponentsService } from '../../../../../../service/common/communication-components.service';
+import { NotificationAlertService } from '../../../../../../service/common/notification-alert.service';
 
 @Component({
   selector: 'app-crear-programa',
@@ -34,6 +35,7 @@ export class CrearProgramaComponent implements OnInit {
     private programaObtenerService: ProgramaObtenerService,
     private actualizarListarService: CommunicationComponentsService,
     private programaSemilleroCrearService:SemilleroProgramaCrearService,
+    private notificationAlertService: NotificationAlertService,
   ) {
     this.mostrarCreaPrograma = true;
     this.respuesta = new Respuesta<false>();
@@ -86,11 +88,10 @@ export class CrearProgramaComponent implements OnInit {
       this.formulario.markAllAsTouched();
     }
   }
-  limpiarCampos() {
-    this.formulario = this.formBuilder.group({
-      idSemillero: [''],
-      programa: ['', Validators.required],
-    });
+  cancelar() {
+    this.mostrarCreaPrograma=false;
+    this.actualizarListarService.notificarActualizarListar('cancelar');
+    this.notificationAlertService.showAlert('','Acción Cancelada',3000);
   }
   openModalOk(message: string) {
     const modalRef = this.modalService.open(ModalOkComponent);

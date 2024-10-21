@@ -14,11 +14,14 @@ import { DatatableComponent } from '../../../../../shared/datatable/datatable.co
 import { CrearIntegranteComponent } from '../crear-integrante/crear-integrante.component';
 import { Subscription } from 'rxjs';
 import { CommunicationComponentsService } from '../../../../../../service/common/communication-components.service';
+import { InformacionUsuarioAutenticadoService } from '../../../../../../service/auth/domain/service/informacionUsuarioAutenticado.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-listar-integrantes',
   standalone: true,
   imports: [
+    CommonModule,
     RouterLink,
     ReactiveFormsModule,
     RouterLinkActive,
@@ -32,12 +35,15 @@ export class ListarIntegrantesComponent implements OnInit, OnDestroy {
   private idSemillero!: string;
   protected formulario: FormGroup;
   private suscripciones: Subscription[] = [];
-  paginas: number[] = [2, 3, 5];
+  paginas: number[] = [10,25, 50,100];
   protected respuesta: Respuesta<Paginacion<IntegranteSemilleroListar>>
   protected estadoIntegranteEnum = IntegranteSemilleroEstado;
   protected rolIntegranteSemillero: RolIntegranteSemillero[] = [];
   protected datatableInputs: DatatableInput;
   protected mostrarFormularioCrear: boolean = false;
+  protected mostrarBtnCrearIntegrante: boolean=false;
+  protected rolFuncionario: boolean=false;
+  private roles: string[]=[];
   constructor(
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
@@ -45,17 +51,21 @@ export class ListarIntegrantesComponent implements OnInit, OnDestroy {
     protected enumTranslationService: EnumTranslationService,
     private rolSemilleroObtenerService: RolSemilleroObtenerService,
     private integranteSemilleroObtenerService: IntegranteSemilleroObtenerService,
+    protected informacionUsuarioAutenticadoService: InformacionUsuarioAutenticadoService
   ) {
     this.respuesta = new Respuesta<Paginacion<IntegranteSemilleroListar>>();
     this.datatableInputs = new DatatableInput('Integrantes', new Paginacion<IntegranteSemilleroListar>());
     this.formulario = this.formBuilder.group({
       pageNo: [0],
-      pageSize: ['2'],
+      pageSize: ['10'],
       idSemillero: [null],
       numeroDocumento: [''],
       estado: [''],
       rolSemillero: ['']
-    })
+    });
+    this.roles= informacionUsuarioAutenticadoService.retornarRoles();
+    this.mostrarBtnCrearIntegrante=this.roles.includes('GRUPO:DIRECTOR');
+    this.rolFuncionario=this.roles.includes('FUNCIONARIO:SEMILLEROS');
   }
   ngOnDestroy(): void {
     // Liberar la suscripción para evitar memory leaks
@@ -125,9 +135,12 @@ export class ListarIntegrantesComponent implements OnInit, OnDestroy {
 
         if (tipo == 'agregar') {
            this.mostrarFormularioCrear = false;
-        } else if ('actualizar') {
+        } else if (tipo == 'actualizar') {
 
 
+        }else if(tipo == 'cancelar'){
+          this.mostrarFormularioCrear=false;
+          this.listarIntegrantes();
         }
          this.listarIntegrantes();
       })
@@ -140,7 +153,7 @@ export class ListarIntegrantesComponent implements OnInit, OnDestroy {
   limpiarCampos(): void {
     this.formulario = this.formBuilder.group({
       pageNo: [0],
-      pageSize: ['2'],
+      pageSize: ['10'],
       idSemillero: [null],
       numeroDocumento: [''],
       estado: [''],
@@ -169,6 +182,7 @@ export class ListarIntegrantesComponent implements OnInit, OnDestroy {
       ?.setValue((this.formulario.get('pageNo')?.value ?? 0) + newPage);
 
     // Enviar el formulario para cargar los datos de la nueva página
-    this.onsubmit();
+    //this.onsubmit();
+    this.listarIntegrantes();
   }
 }

@@ -17,6 +17,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalOkComponent } from '../../../../../../shared/modal-ok/modal-ok.component';
 import { CommunicationComponentsService } from '../../../../../../../service/common/communication-components.service';
 import { NotificationAlertService } from '../../../../../../../service/common/notification-alert.service';
+import { InformacionUsuarioAutenticadoService } from '../../../../../../../service/auth/domain/service/informacionUsuarioAutenticado.service';
 
 @Component({
   selector: 'app-actualizar-actividad',
@@ -42,6 +43,8 @@ export class ActualizarActividadComponent  implements OnInit {
   protected minDate: string;
   protected actividadxid: Respuesta<ListarActividadxId>;
   protected respuesta: Respuesta<boolean>;
+  protected mostrarBtnActividad: boolean=false;
+  private roles: string[]=[];
   constructor(
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
@@ -52,6 +55,7 @@ export class ActualizarActividadComponent  implements OnInit {
     private actividadCrearService: ActividadPlanCrearService,
     private actualizarListarService: CommunicationComponentsService,
     private notificationAlertService: NotificationAlertService,
+    protected informacionUsuarioAutenticadoService: InformacionUsuarioAutenticadoService
   ){
     this.mostrarEditar=true;
     this.respuesta = new Respuesta<false>();
@@ -59,10 +63,12 @@ export class ActualizarActividadComponent  implements OnInit {
       objetivo: ['',[Validators.required,Validators.minLength(2),Validators.maxLength(1450)]],
       actividad: ['',[Validators.required]],
       compromiso: ['',[Validators.required]],
-      responsable:['',[Validators.required]],
+      responsableId:['',[Validators.required]],
       fechaInicio:['',[Validators.required]],
       fechaFin:['',[Validators.required]]
     });
+    this.roles= informacionUsuarioAutenticadoService.retornarRoles();
+    this.mostrarBtnActividad=this.roles.includes('GRUPO:DIRECTOR');
     this.semillero=new Respuesta<SemilleroProyeccion>();
     this.actividadxid= new Respuesta<ListarActividadxId>();
     // Obtener la fecha actual en formato YYYY-MM-DD
@@ -71,6 +77,14 @@ export class ActualizarActividadComponent  implements OnInit {
     const mm = String(hoy.getMonth() + 1).padStart(2, '0');
     const dd = String(hoy.getDate()).padStart(2, '0');
     this.minDate = `${yyyy}-${mm}-${dd}`;
+    if(this.mostrarBtnActividad){
+      this.formulario.get('objetivo')?.disable();
+      this.formulario.get('actividad')?.disable();
+      this.formulario.get('compromiso')?.disable();
+      this.formulario.get('responsableId')?.disable();
+      this.formulario.get('fechaInicio')?.disable();
+      this.formulario.get('fechaFin')?.disable();
+    }
   }
   ngOnInit(): void {
     this.route.parent?.params.subscribe(params=>{
@@ -79,13 +93,9 @@ export class ActualizarActividadComponent  implements OnInit {
     this.semilleroObtenerService.obtenerSemilleroInformacionDetallada(this.idSemillero).subscribe({
       next:(respuesta)=>{
         this.semillero=respuesta;
-        this.idGrupo= this.semillero.data.grupoId;
-        this.integrantesGrupoObtenerService.obtenerMentoresxgrupo(this.idGrupo).subscribe({
-          next:(respuesta)=>{
-          this.integrantesMentores= respuesta.data;
 
-          }
-        });
+        this.idGrupo= this.semillero.data.grupoId;
+        this.obtenerMentoresxGrupoId();
       }
     });
     this.compromisosObtenerService.obtenerCompromisosSemilleros().subscribe({
@@ -97,17 +107,28 @@ export class ActualizarActividadComponent  implements OnInit {
       }
     });
     this.obtenerActividadxId();
+
+  }
+
+  obtenerMentoresxGrupoId(){
+    this.integrantesGrupoObtenerService.obtenerMentoresxgrupo(this.idGrupo).subscribe({
+      next:(respuesta)=>{
+      this.integrantesMentores= respuesta.data;
+      }
+    });
   }
   obtenerActividadxId(){
     this.actividadObtenerService.obtenerActividadxId(this.idActividad).subscribe({
       next:(respuesta)=>{
+
         this.actividadxid=respuesta;
         this.formulario.get('objetivo')?.setValue(this.actividadxid.data.objetivo);
         this.formulario.get('actividad')?.setValue(this.actividadxid.data.actividad);
         this.formulario.get('compromiso')?.setValue(this.actividadxid.data.compromiso.id);
-        this.formulario.get('responsable')?.setValue(this.actividadxid.data.responsableUsuarioId);
+        this.formulario.get('responsableId')?.setValue(this.actividadxid.data.responsableUsuarioId);
        this.formulario.get('fechaInicio')?.setValue(this.actividadxid.data.fechaInicio);
        this.formulario.get('fechaFin')?.setValue(this.actividadxid.data.fechaFin);
+
       }
     });
 
@@ -121,7 +142,7 @@ export class ActualizarActividadComponent  implements OnInit {
         fechaInicio: this.formulario.value.fechaInicio,
         fechaFin: this.formulario.value.fechaFin,
         idCompromiso: this.formulario.value.compromiso,
-        responsableUsuarioId: this.formulario.value.responsable
+        responsableUsuarioId: this.formulario.value.responsableId
       }).subscribe({
         next:(respuesta)=>{
           this.respuesta=respuesta;
@@ -149,6 +170,11 @@ export class ActualizarActividadComponent  implements OnInit {
 
   cancelar(){
     this.notificationAlertService.showAlert('','Actividad no actualizada',3000);
+    this.actualizarListarService.notificarActualizarListar('cancelado');
+    this.mostrarEditar=false;
+  }
+  atras(){
+   // this.notificationAlertService.showAlert('','Actividad no actualizada',3000);
     this.actualizarListarService.notificarActualizarListar('cancelado');
     this.mostrarEditar=false;
   }

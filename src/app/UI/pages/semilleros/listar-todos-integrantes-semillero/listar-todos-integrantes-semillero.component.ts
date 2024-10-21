@@ -10,11 +10,13 @@ import { Paginacion } from '../../../../service/common/model/paginacion';
 import { ListarTodosIntegranteSemilleroconFiltroProyeccion } from '../../../../service/semilleros/domain/model/proyecciones/listarIntegranteSemilleroconFiltroProyeccion';
 import { Respuesta } from '../../../../service/common/model/respuesta';
 import { DatatableCustomComponent } from '../../../shared/datatableCustomizable/datatable-custom.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-listar-todos-integrantes-semillero',
   standalone: true,
   imports: [
+    CommonModule,
     ReactiveFormsModule,
     DatatableCustomComponent
   ],
@@ -22,7 +24,7 @@ import { DatatableCustomComponent } from '../../../shared/datatableCustomizable/
   styleUrl: './listar-todos-integrantes-semillero.component.css'
 })
 export class ListarTodosIntegrantesSemilleroComponent implements OnInit {
-  paginas: number[] = [2, 3, 5];
+  paginas: number[] = [10,25, 50, 100];
   protected formulario: FormGroup;
   protected estadoIntegranteSemilleroEnum = IntegranteSemilleroEstado;
   protected rolIntegranteSemillero: RolIntegranteSemillero[]=[];
@@ -36,7 +38,7 @@ export class ListarTodosIntegrantesSemilleroComponent implements OnInit {
   ){
     this.formulario = this.formBuilder.group({
       pageNo: [0],
-      pageSize: [2],
+      pageSize: [10],
       numeroDocumento:[''],
       nombres:[''],
       idSemillero:[''],
@@ -95,7 +97,7 @@ export class ListarTodosIntegrantesSemilleroComponent implements OnInit {
   limpiarCampos(){
     this.formulario = this.formBuilder.group({
       pageNo: [0],
-      pageSize: [2],
+      pageSize: [10],
       numeroDocumento:[''],
       nombres:[''],
       idSemillero:[''],

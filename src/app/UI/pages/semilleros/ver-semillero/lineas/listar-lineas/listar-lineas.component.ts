@@ -12,6 +12,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EliminarLineaModalComponent } from '../eliminar-linea-modal/eliminar-linea-modal.component';
 import { Subscription } from 'rxjs';
 import { CommunicationComponentsService } from '../../../../../../service/common/communication-components.service';
+import { InformacionUsuarioAutenticadoService } from '../../../../../../service/auth/domain/service/informacionUsuarioAutenticado.service';
 
 @Component({
   selector: 'app-listar-lineas',
@@ -32,23 +33,30 @@ export class ListarLineasComponent implements OnInit,OnDestroy {
   protected idLinea!:number;
   protected datatableInputs: DatatableInput;
   private respuesta: Respuesta<Paginacion<LineaInvestigacionProyeccion>>;
-  paginas: number[] = [2, 3, 5];
+  paginas: number[] = [10,25,50,100];
   protected formulario: FormGroup;
   protected mostrarCreaLinea: boolean = false;
+  protected mostrarBtnCrearLinea: boolean=false;
+  protected funcionarioSemillero: boolean=false;
   // Inyeccion de Modal
   private modalService = inject(NgbModal);
+  private roles: string[]=[];
   constructor(
     private actualizarListarService: CommunicationComponentsService,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private lineaInvestigacionObtenerService: LineaInvestigacionObtenerService,
     protected enumTranslationService: EnumTranslationService,
+    protected informacionUsuarioAutenticadoService: InformacionUsuarioAutenticadoService
   ){
     this.formulario = this.formBuilder.group({
       pageNo: [0],
-      pageSize: [2],
+      pageSize: [10],
       semilleroId:['']
     });
+    this.roles= informacionUsuarioAutenticadoService.retornarRoles();
+    this.mostrarBtnCrearLinea=this.roles.includes('GRUPO:DIRECTOR');
+    this.funcionarioSemillero=this.roles.includes('FUNCIONARIO:SEMILLEROS');
     this.respuesta=new Respuesta<Paginacion<LineaInvestigacionProyeccion>>();
     this.datatableInputs = new DatatableInput('Lineas',
       new Paginacion<LineaInvestigacionProyeccion>());
@@ -100,6 +108,8 @@ export class ListarLineasComponent implements OnInit,OnDestroy {
     this.suscripciones.push(
       this.actualizarListarService.actualizarListar$.subscribe((tipo:string)=>{
         if(tipo=='agregar'){
+          this.mostrarCreaLinea=false;
+        }else if(tipo=='cancelar'){
           this.mostrarCreaLinea=false;
         }
         this.listarLineas( );

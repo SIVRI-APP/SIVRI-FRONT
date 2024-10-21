@@ -18,12 +18,13 @@ export class SemilleroProgramasAdapter {
   obtenerProgramasxSemilleroId(
     semilleroId: string = '',
     pageNo: number = 0,
-    pageSize: number = 100,
+    pageSize: number = 10,
   ): Observable<Respuesta<Paginacion<ListarProgramas>>> {
     let params = new HttpParams()
       .set('pageNo', pageNo.toString())
       .set('pageSize', pageSize.toString())
       .set('semilleroId', semilleroId);
+
      return this.http.get<Respuesta<Paginacion<ListarProgramas>>>(this.apiUrl + 'obtenerProgramasPorSemilleroId', { params: params });
   }
   crearProgramaSemillero(

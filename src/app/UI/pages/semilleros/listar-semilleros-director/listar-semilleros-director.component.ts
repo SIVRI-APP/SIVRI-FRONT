@@ -22,7 +22,7 @@ import { DatatableComponent } from '../../../shared/datatable/datatable.componen
   styleUrl: './listar-semilleros-director.component.css'
 })
 export class ListarSemillerosDirectorComponent {
-  paginas: number[] = [2, 3, 5];
+  paginas: number[] = [10,25, 50, 100];
   protected formulario: FormGroup;
   protected respuesta: Respuesta<Paginacion<SemilleroListarConFiltroxMentorProyeccion>>;
   protected datatableInputs: DatatableInput;
@@ -40,7 +40,7 @@ export class ListarSemillerosDirectorComponent {
 
     this.formulario = this.formBuilder.group({
       pageNo: [0],
-      pageSize: ['2'],
+      pageSize: ['10'],
       idSemillero: [null],
       nombre: [''],
       estado: ['']
@@ -96,7 +96,7 @@ export class ListarSemillerosDirectorComponent {
   limpiarCampos(): void {
     this.formulario = this.formBuilder.group({
       pageNo: [0],
-      pageSize: ['2'],
+      pageSize: ['10'],
       idSemillero: [null],
       nombre: [''],
       estado: ['']

@@ -14,4 +14,7 @@ export interface UsuarioInformaciónDetalladaProyección {
   tipoDocumento: TipoDocumento;
   cvLac: string | null;
   sexo: Sexo;
+  departamentoNombre: string;
+  programaNombre: string;
+  programaId: number;
 }

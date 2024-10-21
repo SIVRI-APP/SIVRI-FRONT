@@ -1,8 +1,12 @@
 <form [formGroup]="formulario" (ngSubmit)="onsubmit()" method="get">
   <div class="filter-box">
     <!--formulario de editar semillero -->
-    <div class=" d-flex justify-content-center">
-      <h5 class="etiqueta-form"><strong>Actualizar Integrante </strong></h5>
+    <div class=" d-flex ">
+      @if (!mostrarBtnIntegrante || !btnMentorUsuario) {
+      <h5 class="sub-title">Actualizar Integrante </h5>
+      }@else {
+        <h5 class="sub-title">Integrante </h5>
+      }
     </div>
     <div class="row">
       <div class="col-sm">
@@ -18,43 +22,47 @@
     </div>
     <div class="row">
       <div class="col-sm">
-        <label for="rolSemillero" class="etiqueta-form"><strong>Rol Semillero</strong></label>
-        <select id="rolSemillero" name="rolSemillero" class="form-select" formControlName="rolSemilleroId">
-
-          <option value="1">Coordinador</option>
-          <option value="2">Mentor</option>
-          <option value="3">Miembro activo profesor</option>
-          <option value="4">Miembro activo estudiante posgrado</option>
-          <option value="5">Miembro activo egresado</option>
-          <option value="6">Semillas</option>
-          <!-- @for (key of rolIntegranteSemillero; track $index) {
-          <option [value]="key.id">{{key.rolSemillero}}</option>
-          }-->
+        <label for="programa" class="etiqueta-form"><strong>Programa</strong></label>
+        <select id="programa" name="programa" class="form-select" formControlName="programaId">
+           @for (key of programas; track $index) {
+          <option [value]="key.id">{{key.nombre}}</option>
+          }
         </select>
       </div>
+      <div class="col-sm">
+        <label for="rolSemillero" class="etiqueta-form"><strong>Rol Semillero</strong></label>
+        <select id="rolSemillero" name="rolSemillero" class="form-select" formControlName="rolSemilleroId">
+           @for (key of rolIntegranteSemillero; track $index) {
+          <option [value]="key.id">{{key.rolSemillero}}</option>
+          }
+        </select>
+      </div>
+    </div>
+    <div class="row">
       <div class="col-sm">
         <label for="estadoIntegrante" class="etiqueta-form"><strong>Estado</strong></label>
         <select id="estadoIntegrante" name="estadoIntegrante" class="form-select" formControlName="estadoIntegrante">
           <option value="" disabled selected hidden>Estado del integrante</option>
           <option value="ACTIVO">Activo</option>
           <option value="INACTIVO">Inactivo</option>
-
         </select>
       </div>
-    </div>
-    <div class="row">
       <div class="col-sm">
         <label for="fechaIngreso" class="etiqueta-form"><strong>Fecha Ingreso</strong></label>
         <input id="fechaIngreso" name="fechaIngreso" class="form-control" type="date" placeholder=""
           formControlName="fechaIngreso">
       </div>
+    </div>
+    <div class="row">
       <div class="col-sm">
         <label for="fechaRetiro" class="etiqueta-form"><strong>Fecha Retiro</strong></label>
         <input id="fechaRetiro" name="fechaRetiro" class="form-control" type="date" placeholder=""
           formControlName="fechaRetiro">
       </div>
-
+      <div class="col-sm"></div>
     </div>
+
+    @if (!mostrarBtnIntegrante ) {
     <div class="row">
       <div class="col controls">
         <button type="button" class="secondaryBTN" (click)="cancelar()">
@@ -62,7 +70,7 @@
             <span class="material-symbols-outlined secondaryBTN-icon">
               cancel
             </span>
-            <span class="text">Rechazar</span>
+            <span class="text">Cancelar</span>
           </div>
         </button>
 
@@ -77,5 +85,19 @@
 
       </div>
     </div>
+  }@else {
+    <div class="row">
+      <div class="col controls">
+        <button type="button" class="secondaryBTN" (click)="atras()">
+          <div class="button-content">
+            <span class="material-symbols-outlined secondaryBTN-icon">
+              keyboard_return
+            </span>
+            <span class="text">Atras</span>
+          </div>
+        </button>
+         </div>
+    </div>
+  }
   </div>
 </form>

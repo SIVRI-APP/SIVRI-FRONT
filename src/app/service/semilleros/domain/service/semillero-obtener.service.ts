@@ -16,7 +16,7 @@ export class SemilleroObtenerService {
 
   listarConFiltroFuncionario(
     pageNo: number = 0,
-    pageSize: number = 2,
+    pageSize: number = 10,
     nombre?: string,
     correo?: string,
     estado?: string
@@ -48,5 +48,10 @@ export class SemilleroObtenerService {
     semilleroId?: string
   ):Observable<Respuesta<SemilleroProyeccion>>{
     return this.semilleroAdapter.obtenerSemilleroInformacionDetallada(semilleroId);
+  }
+
+  envioEmailRevisionVri(semilleroId:string
+    ):Observable<Respuesta<boolean>>{
+      return this.semilleroAdapter.enviarEmailRevisionVri(semilleroId);
   }
 }

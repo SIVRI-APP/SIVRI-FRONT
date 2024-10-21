@@ -8,6 +8,7 @@ import { Respuesta } from '../../../../../../service/common/model/respuesta';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LineaInvestigacionCrearService } from '../../../../../../service/semilleros/domain/service/linea-investigacion-crear.service';
 import { CommunicationComponentsService } from '../../../../../../service/common/communication-components.service';
+import { NotificationAlertService } from '../../../../../../service/common/notification-alert.service';
 
 @Component({
   selector: 'app-crear-linea',
@@ -30,7 +31,8 @@ export class CrearLineaComponent implements OnInit {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private actualizarListarService: CommunicationComponentsService,
-    private lineaInvestigacionCrearService: LineaInvestigacionCrearService
+    private lineaInvestigacionCrearService: LineaInvestigacionCrearService,
+    private notificationAlertService: NotificationAlertService,
   ) {
     this.mostrarCreaLinea = true;
     this.respuesta = new Respuesta<false>();
@@ -52,7 +54,7 @@ export class CrearLineaComponent implements OnInit {
 
     if (this.formulario.valid) {
       this.lineaInvestigacionCrearService.crearLineaInvestigacion({
-        semilleroId: this.idSemillero,
+        semillero_Id: this.idSemillero,
         linea: this.formulario.value.linea
       }).subscribe({
         next: (respuesta) => {
@@ -79,12 +81,10 @@ export class CrearLineaComponent implements OnInit {
     }
   }
 
-  limpiarCampos() {
-    this.formulario = this.formBuilder.group({
-      idSemillero: [''],
-      linea: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(200)]],
-
-    });
+  cancelar() {
+    this.mostrarCreaLinea= false;
+    this.actualizarListarService.notificarActualizarListar('cancelar');
+    this.notificationAlertService.showAlert('','Accion Cancelada',3000);
   }
 
   openModalOk(message: string) {

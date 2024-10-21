@@ -41,7 +41,7 @@
               <span class="text">Consultar</span>
             </div>
           </button>
-          <button type="button" class="secondaryBTN">
+          <button type="button" (click)="crearUsuario()" class="secondaryBTN">
             <div class="button-content">
               <span class="material-symbols-outlined secondaryBTN-icon">
                 person_add
@@ -62,14 +62,9 @@
         </div>
         <div class="col-sm">
           <label for="programa" class="etiqueta-form"><strong>Programa</strong></label>
-          <select id="programa" name="programa" class="form-select" formControlName="programa">
-            <option value="" disabled selected hidden>Programa del Integrante</option>
-            <option value="">No Aplica</option>
-            <!--TODO SE PUEDE TRAER EL PROGRAMA AL QUE PERTENECE EL USUARIO -->
-            <!--@for (key of enumTranslationService.getEnumKeys(estadoIntegranteEnum); track $index) {
-        <option [value]="key">{{enumTranslationService.getEnumValueByKey(estadoIntegranteEnum,key)}}</option>
-        }-->
-          </select>
+          <input id="programa" name="programa" class="form-control" type="text" placeholder="programa"
+            formControlName="programaNombre">
+
         </div>
       </div>
     </form>
@@ -77,16 +72,13 @@
       <div class="col-sm">
         <label for="rolSemillero" class="etiqueta-form"><strong>Rol Semillero</strong><span
             class="text-red-500">*</span></label>
-        <select id="rolSemillero" name="rolSemillero" class="form-select" formControlName="rolSemillero">
-          <option value="" disabled selected hidden>Rol del semillero</option>
-          <option value="1">Coordinador</option>
-          <option value="2">Mentor</option>
-          <option value="3">Miembro activo profesor</option>
-          <option value="4">Miembro activo estudiante posgrado</option>
-          <option value="5">Miembro activo egresado</option>
-          <option value="6">Semillas</option>
+            <select id="rolSemillero" name="rolSemillero" class="form-select" formControlName="rolSemillero">
+              <option value="" disabled selected hidden>Rol Integrante</option>
+              @for (key of rolIntegranteSemillero; track $index) {
+              <option [value]="key.id">{{key.rolSemillero}}</option>
+              }
+            </select>
 
-        </select>
         <div id="badFeedback" class="invalid-feedback"
         [style.display]="!this.formularioCrear.get('rolSemillero')?.valid && this.formularioCrear.get('rolSemillero')?.touched ? 'block' : 'none'">
         Seleccione un rol de semillero valido
@@ -105,12 +97,12 @@
     </div>
     <div class="row">
       <div class="col controls">
-        <button type="button" class="secondaryBTN" (click)="limpiarCampos()">
+        <button type="button" class="secondaryBTN" (click)="cancelar()">
           <div class="button-content">
             <span class="material-symbols-outlined secondaryBTN-icon">
-              filter_alt
+              cancel
             </span>
-            <span class="text">Limpiar</span>
+            <span class="text">Cancelar</span>
           </div>
         </button>
 

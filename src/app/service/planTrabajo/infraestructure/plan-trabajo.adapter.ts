@@ -24,7 +24,7 @@ export class PlanTrabajoAdapter {
   }
   listarPlanTrabajoxFiltro(
     pageNo: number = 0,
-    pageSize: number = 2,
+    pageSize: number = 10,
     anio: string,
     idSemillero: string,
     estado: string
@@ -39,7 +39,7 @@ export class PlanTrabajoAdapter {
   }
   obtenerPlanTrabajoxAnio(
     pageNo: number = 0,
-    pageSize: number = 2,
+    pageSize: number = 10,
     anio: Number,
     idSemillero: string,
     fechaInicio?: Date,
@@ -59,13 +59,13 @@ export class PlanTrabajoAdapter {
 
   crearPlanTrabajo(
     body: {
-      idSemillero: string,
-      nombrePlan: string,
+      id_Semillero: string,
+      nombre_Plan: string,
       anio: number,
       estado: string
     }
   ): Observable<Respuesta<boolean>> {
-    return this.http.post<Respuesta<boolean>>(this.apiUrl + 'crearPlanTrabajo', body);
+        return this.http.post<Respuesta<boolean>>(this.apiUrl + 'crearPlanTrabajo', body);
   }
   actualizarPlanTrabajo(idPlan:number,body:{
     nombrePlan: string,

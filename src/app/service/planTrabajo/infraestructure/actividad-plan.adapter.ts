@@ -17,7 +17,7 @@ export class ActividadPlanAdapter {
   obtenerActividadesPlanPaginado(
     idPlan: number,
     pageNo: number = 0,
-    pageSize: number = 2,
+    pageSize: number = 10,
     fechaInicio: string,
     fechaFin: string
   ): Observable<Respuesta<Paginacion<ListarActividadPlan>>> {

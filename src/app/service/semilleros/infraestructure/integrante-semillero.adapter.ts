@@ -21,7 +21,7 @@ export class IntegranteSemilleroAdapter {
     rolSemillero:string,
     estado:string,
     pageNo: number = 0,
-    pageSize: number = 2,
+    pageSize: number = 10,
   ):Observable<Respuesta<Paginacion<IntegranteSemilleroListar>>>{
     let params=new HttpParams()
     .set('pageNo', pageNo.toString())
@@ -42,7 +42,7 @@ export class IntegranteSemilleroAdapter {
     rolSemillero: string,
     estado: string,
     pageNo:number = 0,
-    pageSize: number = 2,
+    pageSize: number = 10,
   ): Observable<Respuesta<Paginacion<ListarTodosIntegranteSemilleroconFiltroProyeccion>>>{
     let params=new HttpParams()
     .set('pageNo', pageNo.toString())

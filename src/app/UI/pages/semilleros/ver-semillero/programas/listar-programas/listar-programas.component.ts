@@ -12,6 +12,8 @@ import { EliminarProgramaComponent } from '../eliminar-programa/eliminar-program
 import { CrearProgramaComponent } from '../crear-programa/crear-programa.component';
 import { Subscription } from 'rxjs';
 import { CommunicationComponentsService } from '../../../../../../service/common/communication-components.service';
+import { SemilleroProgramaObtenerService } from '../../../../../../service/semilleros/domain/service/semillero-programa-obtener.service';
+import { InformacionUsuarioAutenticadoService } from '../../../../../../service/auth/domain/service/informacionUsuarioAutenticado.service';
 
 @Component({
   selector: 'app-listar-programas',
@@ -27,25 +29,33 @@ export class ListarProgramasComponent implements OnInit,OnDestroy {
   protected idSemillero!: string;
   protected idLinea!: number;
   private respuesta: Respuesta<Paginacion<SemilleroProgramaProyeccion>>;
-  paginas: number[] = [2, 3, 5];
+  paginas: number[] = [10,25, 50,100];
   private suscripciones: Subscription []=[];
   protected formulario: FormGroup;
   protected mostrarCreaPrograma: boolean = false;
+  protected mostrarBtnCrearPrograma: boolean=false;
+  protected funcionarioSemillero: boolean=false;
   protected datatableInputs: DatatableInput;
   // Inyeccion de Modal
   private modalService = inject(NgbModal);
+  private roles: string[]=[];
   constructor(
     private actualizarListarService: CommunicationComponentsService,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private semillleroProgramaAdapter: SemilleroProgramasAdapter,
+    private semilleroProgramaService: SemilleroProgramaObtenerService,
     protected enumTranslationService: EnumTranslationService,
+    protected informacionUsuarioAutenticadoService: InformacionUsuarioAutenticadoService
   ) {
     this.formulario = this.formBuilder.group({
       pageNo: [0],
-      pageSize: [2],
+      pageSize: [10],
       semilleroId: ['']
     });
+    this.roles= informacionUsuarioAutenticadoService.retornarRoles();
+    this.mostrarBtnCrearPrograma=this.roles.includes('GRUPO:DIRECTOR');
+    this.funcionarioSemillero=this.roles.includes('FUNCIONARIO:SEMILLEROS')
     this.respuesta = new Respuesta<Paginacion<SemilleroProgramaProyeccion>>();
     this.datatableInputs = new DatatableInput('Programas',
       new Paginacion<SemilleroProgramaProyeccion>());
@@ -59,7 +69,7 @@ export class ListarProgramasComponent implements OnInit,OnDestroy {
     this.suscribirseALasActualizaciones();
     //obtener el id del semillero
     this.route.parent?.params.subscribe(params => {
-      this.idSemillero = params['id']
+      this.idSemillero = params['id'];
     });
     this.formulario.get('semilleroId')?.setValue(this.idSemillero);
 
@@ -67,11 +77,33 @@ export class ListarProgramasComponent implements OnInit,OnDestroy {
 
   }
   listarProgramas() {
+
+   /* this.semilleroProgramaService.obtenerProgramasxSemilleroId(this.formulario.value.semilleroId, this.formulario.value.pageNo, this.formulario.value.pageSize).subscribe({
+      next:(respuesta1)=>{
+        console.log('respuesta 1 ');
+        console.log(respuesta1);
+
+        // Actualizar la lista de programas con los datos obtenidos
+        respuesta1=this.respuesta;
+        console.log(this.respuesta.data.content);
+
+        //actualiza el input del datatable
+        this.datatableInputs.searchPerformed = true;
+        this.datatableInputs.paginacion = respuesta1.data;
+        this.datatableInputs.tableHeaders = ['ID', 'Programa'];
+        this.datatableInputs.dataAttributes = [
+          { name: 'id', type: Number },
+          { name: 'nombre', type: String },
+        ];
+      },
+      // Manejar errores
+      error: (errorData) => {
+        console.error(errorData);
+      }
+    });*/
     this.semillleroProgramaAdapter.obtenerProgramasxSemilleroId(this.formulario.value.semilleroId, this.formulario.value.pageNo, this.formulario.value.pageSize
     ).subscribe({
       next: (respuesta) => {
-
-
         // Actualizar la lista de programas con los datos obtenidos
         this.respuesta = respuesta;
         //actualiza el input del datatable
@@ -115,9 +147,10 @@ export class ListarProgramasComponent implements OnInit,OnDestroy {
       this.actualizarListarService.actualizarListar$.subscribe((tipo:string)=>{
         if(tipo=='agregar'){
           this.mostrarCreaPrograma=false;
-        }
-        if(tipo=='eliminar'){
-          this.listarProgramas();
+        }/*else if(tipo=='eliminar'){
+          //this.listarProgramas();
+        }*/else if(tipo=='cancelar'){
+          this.mostrarCreaPrograma=false;
         }
         this.listarProgramas();
 

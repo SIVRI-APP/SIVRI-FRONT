@@ -1,103 +1,132 @@
-<div class="row">
-  <div class="col-sm">
-    <span class="sub-title">Documentación del semillero</span><br>
-    <span>Visualice en la tabla los documentos adjuntos por el semillero</span>
-  </div>
-  <div class="col-sm">
-    <div class="card">
-      <div class="row g-0 align-items-center">
-        <div class="col-md-2 card-title text-center" >
-          <span class="nav-icon  icon-card card-title material-symbols-outlined">experiment</span>
-        </div>
-        <div class="col-md-6">
-          <div class="card-body">
-            <h6 class="card-title  sub-title">ID </h6>
-            <h6 class="card-title  sub-title">12345 </h6>
-            <p class="card-text">Fecha de creación: </p>
+<form [formGroup]="formulario" method="get">
+  <div class="row">
+    <div class="col-sm">
+      <span class="sub-title">Documentación del semillero</span><br>
+      <span>Visualice en la tabla los documentos adjuntos por el semillero</span>
+    </div>
+    <div class="col-sm">
+      <div class="card">
+        <div class="row g-0 align-items-center">
+          <div class="col-md-2 card-title text-center">
+            <span class="nav-icon  icon-card card-title material-symbols-outlined">experiment</span>
+          </div>
+          <div class="col-md-6">
+            <div class="card-body">
+              <h6 class="card-title  sub-title">ID {{respuestaSemilleroInfo?.semilleroId}}</h6>
+              <p class="card-text">Fecha de creación: <br> {{respuestaSemilleroInfo?.fechaCreacion}}</p>
             </div>
-        </div>
-        <div class="col-md-4 card-title  text-center">
-            <p >estado </p>
+          </div>
+          <div class="col-md-4 card-title  text-center">
+            <p>{{respuestaSemilleroInfo?.estado}} </p>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-<div class="form-guide-line"></div>
-<div class="row">
-  <div class="col controls">
+  <div class="form-guide-line"></div>
+  <div class="row">
+    <div class="col controls">
 
-    <button type="submit" class="primaryBTN">
-      <div class="button-content">
-        <span class="material-symbols-outlined primaryBTN-icon">
-          history_edu
-        </span>
-        <span class="text">Historial   de archivos</span>
-      </div>
-    </button>
+      <button type="submit" class="primaryBTN">
+        <div class="button-content">
+          <span class="material-symbols-outlined primaryBTN-icon">
+            history_edu
+          </span>
+          <span class="text">Historial de archivos</span>
+        </div>
+      </button>
+    </div>
   </div>
-</div>
-<div class="form-guide-line"></div>
+  <div class="form-guide-line"></div>
 
-<!-- tabla de la visualizacion de los archivos del semillero  -->
- <div class="card shadow datatable">
+  <!-- tabla de la visualizacion de los archivos del semillero  -->
+  <div class="card shadow datatable">
 
-  <div class="card-body">
+    <div class="card-body">
 
       <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
-          <table class="table my-0 table-striped" id="dataTable">
+        <table class="table my-0 table-striped" id="dataTable">
 
-              <thead>
-                  <tr>
-                    <th>Documentos</th>
-                    <th>Estado</th>
-                    <th>Revisar VRI</th>
-                    <th>Acciones</th>
-                  </tr>
-              </thead>
+          <thead>
+            <tr>
+              <th>Documentos</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
 
-              <tbody>
-                <tr>
-                  <td>Aval Departamento <br>
-                    <span >Validada y suscrita por el departamento</span>
-                  </td>
-                  <td>
-                    <select class="form-select" name="" id="">
-                      <option value="" hidden selected>Estado </option>
-                      <option value="AJUSTES">Ajustes</option>
-                      <option value="APROBADO">Aprobado</option>
-                      <option value="REVISION">Revisión</option>
-                      <option value="NO_ANEXADO">No anexado</option>
-                    </select>
-                  </td>
-                  <td>
-                    <input type="checkbox" id="vehicle1" name="vehicle1" value="">
-                  </td>
-                  <td>
-                    <a href=""><span class="material-symbols-outlined dataTableActionBtn"> chat_bubble </span></a>
-                    <a href=""><span class="material-symbols-outlined  dataTableActionBtn"> more_vert </span></a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Otros</td>
-                  <td>
-                    <select class="form-select" name="" id="">
-                      <option value="" hidden selected>Estado </option>
-                      <option value="AJUSTES">Ajustes</option>
-                      <option value="APROBADO">Aprobado</option>
-                      <option value="REVISION">Revisión</option>
-                      <option value="NO_ANEXADO">No anexado</option>
-                    </select>
-                  </td>
-                  <td>
-                    <input type="checkbox" id="vehicle1" name="vehicle1" value="">
-                  </td>
-                  <td>
-                    <a href=""><span class="material-symbols-outlined dataTableActionBtn"> chat_bubble </span></a>
-                    <a href=""><span class="material-symbols-outlined  dataTableActionBtn"> more_vert </span></a>
-                  </td>
-                </tr>
-                  <!--@for (data of datatableInputs.paginacion.content; track data[datatableInputs.dataAttributes[0].name]) {
+          <tbody>
+            <tr>
+              <td>Aval Departamento <br>
+                <span>Validada y suscrita por el departamento</span>
+              </td>
+              <td>
+                <!--todo falta editar el estado para que muestre el estado actual-->
+                <select class="form-select" name="estado" id="estado" (change)="actualizarDocumentoSemillero()"
+                  formControlName="estadoAval">
+                  <option value="AJUSTES">Ajustes</option>
+                  <option value="APROBADO">Aprobado</option>
+                  <option value="REVISION">Revisión</option>
+                  <option value="NO_ANEXADO" selected>No anexado</option>
+                </select>
+              </td>
+
+              <td>
+                <div class="dropdown">
+                  <a (click)="openObservacionAval(respuestaInfoDocuemntoSemilleroAval.data.observacion)"
+                    class="dropdown-item"><span class="material-symbols-outlined dataTableActionBtn"> chat_bubble
+                    </span></a>
+                  <a href="#" data-bs-toggle="dropdown"><span class="material-symbols-outlined  dataTableActionBtn">
+                      more_vert </span></a>
+                  <ul class="dropdown-menu">
+                    <li>
+                      <a (click)="triggerFileUpload(fileInputAval)" class="dropdown-item "><span
+                          class="material-symbols-outlined dataTableActionBtn">upload</span>Cargar documento</a>
+                    </li>
+                    <input type="file" (change)="onFileSelectedAval($event)" #fileInputAval style="display: none;" />
+                    <li>
+                      <a class="dropdown-item" (click)="downloadAval()"><span
+                          class="material-symbols-outlined dataTableActionBtn">download</span>Descargar documento</a>
+                    </li>
+                  </ul>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>Otros</td>
+              <td>
+                <select class="form-select" name="estado" id="estado" (change)="actualizarDocumentoSemillero()"
+                  formControlName="estadoOtro">
+
+                  <option value="AJUSTES">Ajustes</option>
+                  <option value="APROBADO">Aprobado</option>
+                  <option value="REVISION">Revisión</option>
+                  <option value="NO_ANEXADO" selected>No anexado</option>
+                </select>
+              </td>
+
+              <td>
+                <div class="dropdown">
+                  <a (click)="openObservacionOtro(respuestaInfoDocuemntoSemilleroOtros.data.observacion)"
+                    class="dropdown-item"><span class="material-symbols-outlined dataTableActionBtn"> chat_bubble
+                    </span></a>
+                  <a href="#" data-bs-toggle="dropdown"><span class="material-symbols-outlined  dataTableActionBtn">
+                      more_vert </span></a>
+                  <ul class="dropdown-menu">
+                    <li>
+                      <a class="dropdown-item " (click)="triggerFileUpload(fileInputOtro)"><span
+                          class="material-symbols-outlined dataTableActionBtn">upload</span>Cargar documento</a>
+                    </li>
+                    <input type="file" (change)="onFileSelectedOtro($event)" #fileInputOtro style="display: none;" />
+                    <li>
+                      <a class="dropdown-item" (click)="downloadOtro()"><span
+                          class="material-symbols-outlined dataTableActionBtn">download</span>Descargar documento</a>
+                    </li>
+                  </ul>
+                </div>
+              </td>
+            </tr>
+            <!--@for (data of datatableInputs.paginacion.content; track data[datatableInputs.dataAttributes[0].name]) {
                       <tr>
                           @for (attribute of datatableInputs.dataAttributes; track $index) {
                               @if (enumTranslationService.isEnumType(attribute.type)) {
@@ -109,11 +138,90 @@
                           <td><a [routerLink]="[data[datatableInputs.dataAttributes[0].name]]"><span class="material-symbols-outlined dataTableActionBtn">visibility</span></a></td>
                       </tr>
                     }-->
-              </tbody>
+          </tbody>
 
-          </table>
+        </table>
       </div>
 
 
+    </div>
   </div>
-</div>
+  <!-- Modal para Observación aval-->
+  <div class="modal fade" id="observacionModalAval" tabindex="-1" aria-labelledby="observacionModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="observacionModalLabel">Observación aval</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <textarea class="form-control" formControlName="observacionAval" rows="5"></textarea>
+        </div>
+        <div class="modal-footer">
+          <div class="col controls">
+            <button type="button" class="secondaryBTN" (click)="cancelar()">
+              <div class="button-content">
+                <span class="material-symbols-outlined secondaryBTN-icon">
+                  cancel
+                </span>
+                <span class="text">Cancelar</span>
+              </div>
+            </button>
+
+            <button type="submit" class="primaryBTN" (click)="actualizarDocumentoSemillero()">
+              <div class="button-content">
+                <span class="material-symbols-outlined primaryBTN-icon">
+                  check_circle
+                </span>
+                <span class="text">Actualizar</span>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal para Observación otro-->
+  <div class="modal fade" id="observacionModalOtro" tabindex="-1" aria-labelledby="observacionModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="observacionModalLabel">Observación otro</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <textarea class="form-control" formControlName="observacionOtro" rows="5"></textarea>
+        </div>
+        <div class="modal-footer">
+          <div class="col controls">
+            <button type="button" class="secondaryBTN" (click)="cancelar()">
+              <div class="button-content">
+                <span class="material-symbols-outlined secondaryBTN-icon">
+                  cancel
+                </span>
+                <span class="text">Cancelar</span>
+              </div>
+            </button>
+
+            <button type="submit" class="primaryBTN" (click)="actualizarDocumentoSemillero()">
+              <div class="button-content">
+                <span class="material-symbols-outlined primaryBTN-icon">
+                  check_circle
+                </span>
+                <span class="text">Actualizar</span>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</form>
+@if (showWarning) {
+<app-notificacion-ok [title]="'Solicitud guardada'" [message]="'Acción Realizada'"
+  (alertClosed)="onAlertClosed()"></app-notificacion-ok>
+
+}

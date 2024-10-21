@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -16,5 +16,15 @@ export class CommunicationComponentsService {
   **manejar con: agregar, actualizar, eliminar */
   notificarActualizarListar(tipo: string){
     this.actualizarListarSubject.next(tipo);
+  }
+
+  //comunicar el cambio del nombre del semillero
+  // El BehaviorSubject almacena el último valor emitido y lo comparte con los suscriptores.
+  private nombreSemilleroSubject = new BehaviorSubject<string>('');
+  // Este observable será accesible para otros componentes.
+  nombreSemillero$ = this.nombreSemilleroSubject.asObservable();
+  // Este método permite cambiar el nombre del semillero.
+  actualizarNombreSemillero(nombre: string){
+    this.nombreSemilleroSubject.next(nombre);
   }
 }

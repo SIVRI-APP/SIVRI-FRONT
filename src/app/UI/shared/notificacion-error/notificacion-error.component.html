@@ -1,0 +1,33 @@
+
+<div *ngIf="visible" class="alert-container alert-error">
+  <div class="alert-content">
+    <div class="alert-header">
+
+      <div class="alert-title">
+        {{ title }} <!-- Título de la alerta, como "Solicitud no guardada" -->
+      </div>
+      <button type="button" class="close-btn" (click)="closeNotification()">&times;</button>
+    </div>
+    <div class="alert-message">
+      {{ message }} <!-- Mensaje de la alerta, como "Error en el servidor. Intente más tarde." -->
+    </div>
+  </div>
+</div>
+
+<!--
+<div *ngIf="visible" class="alert-container alert-error">
+  <div class="alert-icon " style="width: 33px; top: 19px; left: 12px;">
+
+    <span class="material-symbols-outlined">warning</span>
+  </div>
+  <div class="alert-content">
+    <div class="alert-title">
+      {{ title }}
+    </div>
+    <div class="alert-message">
+      {{ message }}
+    </div>
+  </div>
+</div>
+
+-->

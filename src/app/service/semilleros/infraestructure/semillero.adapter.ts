@@ -19,7 +19,7 @@ export class SemilleroAdapter {
   listarConFiltro(
     idSemillero: number | null,
     pageNo: number = 0,
-    pageSize: number = 2,
+    pageSize: number =10,
     nombre?: string,
     estado?: string
   ): Observable<Respuesta<Paginacion<SemilleroListarConFiltroxMentorProyeccion>>> {
@@ -35,7 +35,7 @@ export class SemilleroAdapter {
   listarConFiltroDirector(
     idSemillero: number | null,
     pageNo: number = 0,
-    pageSize: number = 2,
+    pageSize: number = 10,
     nombre?: string,
     estado?: string
   ): Observable<Respuesta<Paginacion<SemilleroListarConFiltroxMentorProyeccion>>>{
@@ -46,11 +46,14 @@ export class SemilleroAdapter {
     if (idSemillero != null) params = params.set('semilleroId', idSemillero);
     if (nombre !== undefined) params = params.set('nombre', nombre);
     if (estado !== undefined) params = params.set('estado', estado);
+    console.log('paraametros');
+    console.log(params);
+
     return this.http.get<Respuesta<Paginacion<SemilleroListarConFiltroxMentorProyeccion>>>(this.apiUrl+'listarSemilleroConFiltroPorIdDirector', { params: params });
   }
   listarConFiltroFuncionario(
     pageNo: number = 0,
-    pageSize: number = 2,
+    pageSize: number = 10,
     nombre?: string,
     correo?: string,
     estado?: string
@@ -77,7 +80,7 @@ export class SemilleroAdapter {
   }
   actualizarSemilleroxMentor(
     body: {
-      semilleroId: string,
+      semillero_Id: string,
       nombre: string,
       correo: string,
       objetivo: string,
@@ -89,6 +92,21 @@ export class SemilleroAdapter {
   ): Observable<Respuesta<boolean>> {
     return this.http.patch<Respuesta<boolean>>(this.apiUrl + 'actualizarSemilleroxMentor', body);
   }
+  actualizarSemilleroxFuncionario(
+    body: {
+      semillero_Id: string,
+      nombre: string,
+      correo: string,
+      objetivo: string,
+      mision: string,
+      vision: string,
+      estado: string,
+      sede: string,
+      grupoId: number
+    }
+  ): Observable<Respuesta<boolean>> {
+      return this.http.patch<Respuesta<boolean>>(this.apiUrl + 'semilleroPorApoyo', body);
+  }
   crearSemillero(body: {
     nombre: string,
     grupoId: number,
@@ -96,4 +114,9 @@ export class SemilleroAdapter {
   }): Observable<Respuesta<boolean>> {
     return this.http.post<Respuesta<boolean>>(this.apiUrl + 'crearSemillero', body);
   }
+  enviarEmailRevisionVri(semilleroId:string
+   ):Observable<Respuesta<boolean>>{
+      return this.http.get<Respuesta<boolean>>(this.apiUrl+`emailRevisionVri?semilleroId=${semilleroId}`)
+  }
+
 }
