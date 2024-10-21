@@ -19,33 +19,39 @@
 }
 /* -------------- estilo de alerta notificacion-----------*/
 .alerta-warning{
+  display: flex;
+  align-items: center;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 15px;
   position: fixed;
-  max-width: 5000px;
-  max-height: 1000px;
-  top: 80px;
-  right: 30px;
-  background: #F6F6F6;
-  border-radius: 7px;
-  border: 1px solid var( #E4E1EC);
+  top: 20px;
+  right: 20px;
+  max-width: 400px;
+  z-index: 1000;
+  flex-direction: column;
+
     /* Color del texto del enlace */
   font-size: 15px;
     /* Tamaño de fuente */
   font-style: normal;
     /* Estilo de fuente */
-  font-weight: 400;
+
     /* Peso de la fuente */
-  line-height: normal;
+
   margin-bottom: 5px;
-  border-left: 5px solid #FF554C;
+  border-left: 10px solid #FF554C;
 }
 .alert-title{
-  color: #FF554C;
+  font-weight: bold;
+  color: #FF554C; /* Color del título "Solicitud no guardada" */
+  font-size: 16px;
 }
 .alert-icon-warning{
-  color: #FF554C;
-  width:"33";
-   height:"30";
-    fill:"none";
+  color: #FF554C; /* Color del icono de advertencia */
+  font-size: 33px;
+  margin-right: 10px;
 }
 
 /* ---------------- Miga de Pan ---------------- */
@@ -103,6 +109,9 @@
    /* Posición relativa */
    display: inline;
    /* Visualización en línea */
+}
+.d-flex{
+  padding-top: 10px;
 }
 /* Estilos para el título */
 .title {
@@ -276,6 +285,7 @@
   background: #006;
   height: 34px;
   margin-top: 12px;
+
 }
 
 .primaryBTN .button-content {
@@ -303,7 +313,7 @@
   justify-content: center;
   border-radius: 100px;
   border: var(--2, 2px) solid #006;
-  background: #F6F6F6;
+  background: rgba(80, 86, 172, 0.00);
   height: 34px;
   margin-top: 12px;
 }
@@ -325,8 +335,22 @@
   border: var(--2, 2px) solid #006;
   background: rgba(80, 86, 172, 0.20);
 }
-
-
+.tertiaryBTN {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  border: none;
+  background: rgba(80, 86, 172, 0.00);
+  height: 34px;
+  margin-top: 12px;
+  color: #006;
+}
+.tertiaryBTN:hover {
+  color: #006;
+  border: none;
+  background: rgba(80, 86, 172, 0.20);
+}
 
 .etiqueta-form {
   color: var(--azul-principal, #006);
@@ -362,8 +386,11 @@
   font-weight: 400;
   /* Peso de la fuente */
   line-height: normal;
+  color: #3B3B43;
 }
-
+.default-selected {
+  color: #5E5D67; /* Color cuando se selecciona la opción por defecto */
+}
 .form-control {
     border-radius: 7px;
     border: 1px solid var(--gris-deshabilitado, #E4E1EC);
@@ -376,6 +403,10 @@
     /* Peso de la fuente */
     line-height: normal;
     margin-bottom: 5px;
+    color: #3B3B43;
+}
+::placeholder{
+  color: #5E5D67;
 }
 
 .form-check-input{

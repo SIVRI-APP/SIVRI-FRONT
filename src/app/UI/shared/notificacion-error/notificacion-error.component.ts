@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-notificacion-error',
@@ -27,4 +28,7 @@ export class NotificacionErrorComponent implements OnInit {
       this.alertClosed.emit();
     }, this.duration);
   }
+  closeNotification() {
+    this.visible = false;
+}
 }

@@ -16,14 +16,14 @@ img {
 
 .nav-link {
     display: inline-flex;
-    align-items: center; 
-    text-decoration: none; 
-    width: 100%; 
+    align-items: center;
+    text-decoration: none;
+    width: 100%;
 }
 
 .nav-text {
-    display: inline-block; 
-    vertical-align: middle; 
+    display: inline-block;
+    vertical-align: middle;
     color: #fff;
     font-weight: 400;
     font-size: 16px;
@@ -33,8 +33,8 @@ img {
 }
 
 .nav-icon {
-    display: inline-block; 
-    vertical-align: middle; 
+    display: inline-block;
+    vertical-align: middle;
     color: #fff;
     font-size: 22px;
     margin-left: 10px;
@@ -52,12 +52,12 @@ img {
 
 .nav-pills .nav-link.active{
     --bs-nav-pills-border-radius: 0;
-    --bs-nav-pills-link-active-bg: #828AE3;
+    --bs-nav-pills-link-active-bg: #5056AC;
 }
 
 .nav-pills .nav-item:hover .nav-link:not(.active) {
     --bs-nav-pills-border-radius: 0;
-    background-color: #5056AC; /* Cambia el color de fondo cuando el mouse está sobre el enlace, excepto cuando está activo */
+    background-color: #828AE3; /* Cambia el color de fondo cuando el mouse está sobre el enlace, excepto cuando está activo */
 }
 
 .nav-pills .nav-link i {

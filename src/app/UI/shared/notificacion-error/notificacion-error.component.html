@@ -1,34 +1,33 @@
 
-<!--div class=" alerta-warning ">
-  <table>
-    <tr>
-      <td rowspan="2">
-        <span class="material-symbols-outlined  alert-icon-warning" >
-        warning
-      </span></td>
-      <td>
-        <span class="alert-title"><strong>{{titleMessage}} Solicitud no guardada  </strong></span>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <span>{{message}}</span>
-      </td>
-    </tr>
-  </table>
-</!--div-->
-
 <div *ngIf="visible" class="alert-container alert-error">
-  <div class="alert-icon " style="width: 33px; top: 19px; left: 12px;">
-    <!-- Icono de advertencia (puedes usar un SVG o una imagen de icono) -->
-    <span class="material-symbols-outlined">warning</span> <!-- Aquí podrías incluir el icono que prefieras -->
-  </div>
   <div class="alert-content">
-    <div class="alert-title">
-      {{ title }} <!-- Título de la alerta, como "Solicitud no guardada" -->
+    <div class="alert-header">
+
+      <div class="alert-title">
+        {{ title }} <!-- Título de la alerta, como "Solicitud no guardada" -->
+      </div>
+      <button type="button" class="close-btn" (click)="closeNotification()">&times;</button>
     </div>
     <div class="alert-message">
       {{ message }} <!-- Mensaje de la alerta, como "Error en el servidor. Intente más tarde." -->
     </div>
   </div>
 </div>
+
+<!--
+<div *ngIf="visible" class="alert-container alert-error">
+  <div class="alert-icon " style="width: 33px; top: 19px; left: 12px;">
+
+    <span class="material-symbols-outlined">warning</span>
+  </div>
+  <div class="alert-content">
+    <div class="alert-title">
+      {{ title }}
+    </div>
+    <div class="alert-message">
+      {{ message }}
+    </div>
+  </div>
+</div>
+
+-->
