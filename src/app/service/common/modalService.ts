@@ -4,6 +4,8 @@ import { ModalOkComponent } from "../../UI/shared/modal-ok/modal-ok.component";
 import { Router } from "@angular/router";
 import { ModalBadComponent } from "../../UI/shared/modal-bad/modal-bad.component";
 import { ErrorData } from "./model/errorData";
+import { ModalConfirmacionComponent } from "../../UI/shared/modal-confirmacion/modal-confirmacion.component";
+import { Observable } from "rxjs";
 
 @Injectable({
     providedIn: 'root'
@@ -30,5 +32,14 @@ export class ModalService {
     openModalBad(data: ErrorData) {
         const modalRef = this.modalService.open(ModalBadComponent);
         modalRef.componentInstance.mensaje = data;
+    }
+
+    openModalConfirmacion(titulo: string, mensaje: string): Observable<boolean>{
+        const modalRef = this.modalService.open(ModalConfirmacionComponent);
+        modalRef.componentInstance.titulo = titulo;
+        modalRef.componentInstance.mensaje = mensaje;
+
+        // Capture the emitted response
+        return modalRef.componentInstance.aceptar;
     }
 }

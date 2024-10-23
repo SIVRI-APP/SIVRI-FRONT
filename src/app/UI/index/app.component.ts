@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-root',
@@ -10,4 +11,11 @@ import { RouterOutlet } from '@angular/router';
 })
 export class AppComponent {
   title = 'angular-router-auth';
+
+  constructor(
+		config: NgbModalConfig,
+	) {
+		config.backdrop = 'static';
+		config.keyboard = false;
+	}
 }

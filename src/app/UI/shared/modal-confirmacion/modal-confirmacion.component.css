@@ -1,0 +1,35 @@
+.modal-footer {
+    border-top: none !important;
+}
+
+.modal-title {
+    color: var(--blue-primary, #006);
+    font-size: 23px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.material-symbols-outlined {
+    transition: color 0.3s, transform 0.3s;
+}
+
+.material-symbols-outlined:hover {
+    color: #ff0000;
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+.modal-body p {
+    color: #006;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
